@@ -47,12 +47,11 @@ SRVRecord(Name name, int dclass, long ttl, int priority,
 	this.target = checkName("target", target);
 }
 
-void
-rrFromWire(DNSInput in) throws IOException {
-	priority = in.readU16();
-	weight = in.readU16();
-	port = in.readU16();
-	target = new Name(in);
+void rrFromWire(DNSInput dnsin) throws IOException {
+	priority = dnsin.readU16();
+	weight = dnsin.readU16();
+	port = dnsin.readU16();
+	target = new Name(dnsin);
 }
 
 void

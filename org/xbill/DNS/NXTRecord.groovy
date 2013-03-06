@@ -40,13 +40,12 @@ NXTRecord(Name name, int dclass, long ttl, Name next, BitSet bitmap) {
 	this.bitmap = bitmap;
 }
 
-void
-rrFromWire(DNSInput in) throws IOException {
-	next = new Name(in);
+void rrFromWire(DNSInput dnsin) throws IOException {
+	next = new Name(dnsin);
 	bitmap = new BitSet();
-	int bitmapLength = in.remaining();
+	int bitmapLength = dnsin.remaining();
 	for (int i = 0; i < bitmapLength; i++) {
-		int t = in.readU8();
+		int t = dnsin.readU8();
 		for (int j = 0; j < 8; j++)
 			if ((t & (1 << (7 - j))) != 0)
 				bitmap.set(i * 8 + j);

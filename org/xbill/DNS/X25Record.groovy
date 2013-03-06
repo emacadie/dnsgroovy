@@ -52,9 +52,8 @@ X25Record(Name name, int dclass, long ttl, String address) {
 	}
 }
 
-void
-rrFromWire(DNSInput in) throws IOException {
-	address = in.readCountedString();
+void rrFromWire(DNSInput dnsin) throws IOException {
+	address = dnsin.readCountedString();
 }
 
 void

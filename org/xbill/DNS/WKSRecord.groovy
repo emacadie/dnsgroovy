@@ -608,11 +608,10 @@ WKSRecord(Name name, int dclass, long ttl, InetAddress address, int protocol,
 	Arrays.sort(this.services);
 }
 
-void
-rrFromWire(DNSInput in) throws IOException {
-	address = in.readByteArray(4);
-	protocol = in.readU8();
-	byte [] array = in.readByteArray();
+void rrFromWire(DNSInput dnsinput) throws IOException {
+	address = dnsinput.readByteArray(4);
+	protocol = dnsinput.readU8();
+	byte [] array = dnsinput.readByteArray();
 	List list = new ArrayList();
 	for (int i = 0; i < array.length; i++) {
 		for (int j = 0; j < 8; j++) {

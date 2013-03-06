@@ -99,20 +99,20 @@ fromString(String str) {
 		if (!Character.isWhitespace((char)raw[i]))
 			bs.write(raw[i]);
 	}
-	byte [] in = bs.toByteArray();
-	if (in.length % 4 != 0) {
+	byte [] bytein = bs.toByteArray();
+	if (bytein.length % 4 != 0) {
 		return null;
 	}
 
 	bs.reset();
 	DataOutputStream ds = new DataOutputStream(bs);
 
-	for (int i = 0; i < (in.length + 3) / 4; i++) {
+	for (int i = 0; i < (bytein.length + 3) / 4; i++) {
 		short [] s = new short[4];
 		short [] t = new short[3];
 
 		for (int j = 0; j < 4; j++)
-			s[j] = (short) Base64.indexOf(in[i*4+j]);
+			s[j] = (short) Base64.indexOf(bytein[i*4+j]);
 
 		t[0] = (short) ((s[0] << 2) + (s[1] >> 4));
 		if (s[2] == 64) {

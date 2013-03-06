@@ -49,16 +49,16 @@ SIGBase(Name name, int type, int dclass, long ttl, int covered, int alg,
 }
 
 void
-rrFromWire(DNSInput in) throws IOException {
-	covered = in.readU16();
-	alg = in.readU8();
-	labels = in.readU8();
-	origttl = in.readU32();
-	expire = new Date(1000 * in.readU32());
-	timeSigned = new Date(1000 * in.readU32());
-	footprint = in.readU16();
-	signer = new Name(in);
-	signature = in.readByteArray();
+rrFromWire(DNSInput dnsin) throws IOException {
+	covered = dnsin.readU16();
+	alg = dnsin.readU8();
+	labels = dnsin.readU8();
+	origttl = dnsin.readU32();
+	expire = new Date(1000 * dnsin.readU32());
+	timeSigned = new Date(1000 * dnsin.readU32());
+	footprint = dnsin.readU16();
+	signer = new Name(dnsin);
+	signature = dnsin.readByteArray();
 }
 
 void

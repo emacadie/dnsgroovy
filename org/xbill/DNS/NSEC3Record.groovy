@@ -100,21 +100,20 @@ public NSEC3Record(Name name, int dclass, long ttl, int hashAlg,
 	this.types = new TypeBitmap(types);
 }
 
-void
-rrFromWire(DNSInput in) throws IOException {
-	hashAlg = in.readU8();
-	flags = in.readU8();
-	iterations = in.readU16();
+void rrFromWire(DNSInput dnsin) throws IOException {
+	hashAlg = dnsin.readU8();
+	flags = dnsin.readU8();
+	iterations = dnsin.readU16();
 
-	int salt_length = in.readU8();
+	int salt_length = dnsin.readU8();
 	if (salt_length > 0)
-		salt = in.readByteArray(salt_length);
+		salt = dnsin.readByteArray(salt_length);
 	else
 		salt = null;
 
-	int next_length = in.readU8();
-	next = in.readByteArray(next_length);
-	types = new TypeBitmap(in);
+	int next_length = dnsin.readU8();
+	next = dnsin.readByteArray(next_length);
+	types = new TypeBitmap(dnsin);
 }
 
 void

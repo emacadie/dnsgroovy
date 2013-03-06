@@ -50,15 +50,14 @@ SOARecord(Name name, int dclass, long ttl, Name host, Name admin,
 	this.minimum = checkU32("minimum", minimum);
 }
 
-void
-rrFromWire(DNSInput in) throws IOException {
-	host = new Name(in);
-	admin = new Name(in);
-	serial = in.readU32();
-	refresh = in.readU32();
-	retry = in.readU32();
-	expire = in.readU32();
-	minimum = in.readU32();
+void rrFromWire(DNSInput dnsin) throws IOException {
+	host = new Name(dnsin);
+	admin = new Name(dnsin);
+	serial = dnsin.readU32();
+	refresh = dnsin.readU32();
+	retry = dnsin.readU32();
+	expire = dnsin.readU32();
+	minimum = dnsin.readU32();
 }
 
 void

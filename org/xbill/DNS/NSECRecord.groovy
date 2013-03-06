@@ -45,10 +45,9 @@ NSECRecord(Name name, int dclass, long ttl, Name next, int [] types) {
 	this.types = new TypeBitmap(types);
 }
 
-void
-rrFromWire(DNSInput in) throws IOException {
-	next = new Name(in);
-	types = new TypeBitmap(in);
+void rrFromWire(DNSInput dnsin) throws IOException {
+	next = new Name(dnsin);
+	types = new TypeBitmap(dnsin);
 }
 
 void

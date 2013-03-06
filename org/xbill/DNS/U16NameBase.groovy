@@ -35,10 +35,9 @@ U16NameBase(Name name, int type, int dclass, long ttl, int u16Field,
 	this.nameField = checkName(nameDescription, nameField);
 }
 
-void
-rrFromWire(DNSInput in) throws IOException {
-	u16Field = in.readU16();
-	nameField = new Name(in);
+void rrFromWire(DNSInput dnsin) throws IOException {
+	u16Field = dnsin.readU16();
+	nameField = new Name(dnsin);
 }
 
 void

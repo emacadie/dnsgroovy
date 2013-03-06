@@ -63,15 +63,14 @@ public NSEC3PARAMRecord(Name name, int dclass, long ttl, int hashAlg,
 	}
 }
 
-void
-rrFromWire(DNSInput in) throws IOException {
-	hashAlg = in.readU8();
-	flags = in.readU8();
-	iterations = in.readU16();
+void rrFromWire(DNSInput dnsin) throws IOException {
+	hashAlg = dnsin.readU8();
+	flags = dnsin.readU8();
+	iterations = dnsin.readU16();
 
-	int salt_length = in.readU8();
+	int salt_length = dnsin.readU8();
 	if (salt_length > 0)
-		salt = in.readByteArray(salt_length);
+		salt = dnsin.readByteArray(salt_length);
 	else
 		salt = null;
 }

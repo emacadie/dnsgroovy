@@ -38,9 +38,8 @@ NULLRecord(Name name, int dclass, long ttl, byte [] data) {
 	this.data = data;
 }
 
-void
-rrFromWire(DNSInput in) throws IOException {
-	data = in.readByteArray();
+void rrFromWire(DNSInput dnsin) throws IOException {
+	data = dnsin.readByteArray();
 }
 
 void

@@ -33,9 +33,8 @@ SingleNameBase(Name name, int type, int dclass, long ttl, Name singleName,
 	this.singleName = checkName(description, singleName);
 }
 
-void
-rrFromWire(DNSInput in) throws IOException {
-	singleName = new Name(in);
+void rrFromWire(DNSInput dnsin) throws IOException {
+	singleName = new Name(dnsin);
 }
 
 void

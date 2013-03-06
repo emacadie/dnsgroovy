@@ -55,11 +55,10 @@ SSHFPRecord(Name name, int dclass, long ttl, int alg, int digestType,
 	this.fingerprint = fingerprint;
 }
 
-void
-rrFromWire(DNSInput in) throws IOException {
-	alg = in.readU8();
-	digestType = in.readU8();
-	fingerprint = in.readByteArray();
+void rrFromWire(DNSInput dnsin) throws IOException {
+	alg = dnsin.readU8();
+	digestType = dnsin.readU8();
+	fingerprint = dnsin.readByteArray();
 }
 
 void

@@ -42,11 +42,10 @@ PXRecord(Name name, int dclass, long ttl, int preference,
 	this.mapX400 = checkName("mapX400", mapX400);
 }
 
-void
-rrFromWire(DNSInput in) throws IOException {
-	preference = in.readU16();
-	map822 = new Name(in);
-	mapX400 = new Name(in);
+void rrFromWire(DNSInput dnsin) throws IOException {
+	preference = dnsin.readU16();
+	map822 = new Name(dnsin);
+	mapX400 = new Name(dnsin);
 }
 
 void

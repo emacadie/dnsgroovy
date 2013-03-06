@@ -31,22 +31,21 @@ TypeBitmap(int [] array) {
 	}
 }
 
-public
-TypeBitmap(DNSInput in) throws WireParseException {
+public TypeBitmap(DNSInput dnsin) throws WireParseException {
 	this();
 	int lastbase = -1;
-	while (in.remaining() > 0) {
-		if (in.remaining() < 2)
+	while (dnsin.remaining() > 0) {
+		if (dnsin.remaining() < 2)
 			throw new WireParseException
 				("invalid bitmap descriptor");
-		int mapbase = in.readU8();
+		int mapbase = dnsin.readU8();
 		if (mapbase < lastbase)
 			throw new WireParseException("invalid ordering");
-		int maplength = in.readU8();
-		if (maplength > in.remaining())
+		int maplength = dnsin.readU8();
+		if (maplength > dnsin.remaining())
 			throw new WireParseException("invalid bitmap");
 		for (int i = 0; i < maplength; i++) {
-			int current = in.readU8();
+			int current = dnsin.readU8();
 			if (current == 0)
 				continue;
 			for (int j = 0; j < 8; j++) {

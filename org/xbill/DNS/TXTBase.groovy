@@ -49,11 +49,10 @@ TXTBase(Name name, int type, int dclass, long ttl, String string) {
 	this(name, type, dclass, ttl, Collections.singletonList(string));
 }
 
-void
-rrFromWire(DNSInput in) throws IOException {
+void rrFromWire(DNSInput dnsin) throws IOException {
 	strings = new ArrayList(2);
-	while (in.remaining() > 0) {
-		byte [] b = in.readCountedString();
+	while (dnsin.remaining() > 0) {
+		byte [] b = dnsin.readCountedString();
 		strings.add(b);
 	}
 }

@@ -65,31 +65,29 @@ TSIGRecord(Name name, int dclass, long ttl, Name alg, Date timeSigned,
 	this.other = other;
 }
 
-void
-rrFromWire(DNSInput in) throws IOException {
-	alg = new Name(in);
+void rrFromWire(DNSInput dnsin) throws IOException {
+	alg = new Name(dnsin);
 
-	long timeHigh = in.readU16();
-	long timeLow = in.readU32();
+	long timeHigh = dnsin.readU16();
+	long timeLow = dnsin.readU32();
 	long time = (timeHigh << 32) + timeLow;
 	timeSigned = new Date(time * 1000);
-	fudge = in.readU16();
+	fudge = dnsin.readU16();
 
-	int sigLen = in.readU16();
-	signature = in.readByteArray(sigLen);
+	int sigLen = dnsin.readU16();
+	signature = dnsin.readByteArray(sigLen);
 
-	originalID = in.readU16();
-	error = in.readU16();
+	originalID = dnsin.readU16();
+	error = dnsin.readU16();
 
-	int otherLen = in.readU16();
+	int otherLen = dnsin.readU16();
 	if (otherLen > 0)
-		other = in.readByteArray(otherLen);
+		other = dnsin.readByteArray(otherLen);
 	else
 		other = null;
 }
 
-void
-rdataFromString(Tokenizer st, Name origin) throws IOException {
+void rdataFromString(Tokenizer st, Name origin) throws IOException {
 	throw st.exception("no text format defined for TSIG");
 }
 

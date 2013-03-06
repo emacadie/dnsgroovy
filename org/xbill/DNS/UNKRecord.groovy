@@ -24,9 +24,8 @@ getObject() {
 	return new UNKRecord();
 }
 
-void
-rrFromWire(DNSInput in) throws IOException {
-	data = in.readByteArray();
+void rrFromWire(DNSInput dnsin) throws IOException {
+	data = dnsin.readByteArray();
 }
 
 void

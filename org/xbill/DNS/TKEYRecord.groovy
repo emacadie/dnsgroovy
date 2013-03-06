@@ -75,23 +75,22 @@ TKEYRecord(Name name, int dclass, long ttl, Name alg,
 	this.other = other;
 }
 
-void
-rrFromWire(DNSInput in) throws IOException {
-	alg = new Name(in);
-	timeInception = new Date(1000 * in.readU32());
-	timeExpire = new Date(1000 * in.readU32());
-	mode = in.readU16();
-	error = in.readU16();
+void rrFromWire(DNSInput dnsin) throws IOException {
+	alg = new Name(dnsin);
+	timeInception = new Date(1000 * dnsin.readU32());
+	timeExpire = new Date(1000 * dnsin.readU32());
+	mode = dnsin.readU16();
+	error = dnsin.readU16();
 
-	int keylen = in.readU16();
+	int keylen = dnsin.readU16();
 	if (keylen > 0)
-		key = in.readByteArray(keylen);
+		key = dnsin.readByteArray(keylen);
 	else
 		key = null;
 
-	int otherlen = in.readU16();
+	int otherlen = dnsin.readU16();
 	if (otherlen > 0)
-		other = in.readByteArray(otherlen);
+		other = dnsin.readByteArray(otherlen);
 	else
 		other = null;
 }

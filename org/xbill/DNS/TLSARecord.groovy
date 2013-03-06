@@ -90,12 +90,11 @@ TLSARecord(Name name, int dclass, long ttl,
 						0xFFFF);
 }
 
-void
-rrFromWire(DNSInput in) throws IOException {
-	certificateUsage = in.readU8();
-	selector = in.readU8();
-	matchingType = in.readU8();
-	certificateAssociationData = in.readByteArray();
+void rrFromWire(DNSInput dnsin) throws IOException {
+	certificateUsage = dnsin.readU8();
+	selector = dnsin.readU8();
+	matchingType = dnsin.readU8();
+	certificateAssociationData = dnsin.readByteArray();
 }
 
 void

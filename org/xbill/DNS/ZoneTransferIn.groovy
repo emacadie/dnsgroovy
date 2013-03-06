@@ -528,14 +528,14 @@ private void
 doxfr() throws IOException, ZoneTransferException {
 	sendQuery();
 	while (state != END) {
-		byte [] in = client.recv();
-		Message response =  parseMessage(in);
+		byte [] bytein = client.recv();
+		Message response =  parseMessage(bytein);
 		if (response.getHeader().getRcode() == Rcode.NOERROR &&
 		    verifier != null)
 		{
 			TSIGRecord tsigrec = response.getTSIG();
 
-			int error = verifier.verify(response, in);
+			int error = verifier.verify(response, bytein);
 			if (error != Rcode.NOERROR)
 				fail("TSIG failure");
 		}

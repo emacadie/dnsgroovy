@@ -86,12 +86,11 @@ OPTRecord(int payloadSize, int xrcode, int version) {
 	this(payloadSize, xrcode, version, 0, null);
 }
 
-void
-rrFromWire(DNSInput in) throws IOException {
-	if (in.remaining() > 0)
+void rrFromWire(DNSInput dnsin) throws IOException {
+	if (dnsin.remaining() > 0)
 		options = new ArrayList();
-	while (in.remaining() > 0) {
-		EDNSOption option = EDNSOption.fromWire(in);
+	while (dnsin.remaining() > 0) {
+		EDNSOption option = EDNSOption.fromWire(dnsin);
 		options.add(option);
 	}
 }

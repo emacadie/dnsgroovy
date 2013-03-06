@@ -246,21 +246,21 @@ send(Message query) throws IOException {
 	boolean tcp = false;
 	long endTime = System.currentTimeMillis() + timeoutValue;
 	do {
-		byte [] in;
+		byte [] bytein;
 
 		if (useTCP || out.length > udpSize)
 			tcp = true;
 		if (tcp)
-			in = TCPClient.sendrecv(localAddress, address, out,
+			bytein = TCPClient.sendrecv(localAddress, address, out,
 						endTime);
 		else
-			in = UDPClient.sendrecv(localAddress, address, out,
+			bytein = UDPClient.sendrecv(localAddress, address, out,
 						udpSize, endTime);
 
 		/*
 		 * Check that the response is long enough.
 		 */
-		if (in.length < Header.LENGTH) {
+		if (bytein.length < Header.LENGTH) {
 			throw new WireParseException("invalid DNS header - " +
 						     "too short");
 		}
@@ -270,7 +270,7 @@ send(Message query) throws IOException {
 		 * if there's a malformed response that's not ours, it
 		 * doesn't confuse us.
 		 */
-		int id = ((in[0] & 0xFF) << 8) + (in[1] & 0xFF);
+		int id = ((bytein[0] & 0xFF) << 8) + (bytein[1] & 0xFF);
 		int qid = query.getHeader().getID();
 		if (id != qid) {
 			String error = "invalid message id: expected " + qid +
@@ -284,8 +284,8 @@ send(Message query) throws IOException {
 				continue;
 			}
 		}
-		Message response = parseMessage(in);
-		verifyTSIG(query, response, in, tsig);
+		Message response = parseMessage(bytein);
+		verifyTSIG(query, response, bytein, tsig);
 		if (!tcp && !ignoreTruncation &&
 		    response.getHeader().getFlag(Flags.TC))
 		{

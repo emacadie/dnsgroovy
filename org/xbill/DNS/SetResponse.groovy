@@ -62,8 +62,7 @@ private static final SetResponse nxrrset = new SetResponse(NXRRSET);
 private int type;
 private Object data;
 
-private
-SetResponse() {}
+private SetResponse() {}
 
 SetResponse(int type, RRset rrset) {
 	if (type < 0 || type > 6)
@@ -79,8 +78,7 @@ SetResponse(int type) {
 	this.data = null;
 }
 
-static SetResponse
-ofType(int type) {
+static SetResponse ofType(int type) {
 	switch (type) {
 		case UNKNOWN:
 			return unknown;
@@ -101,8 +99,7 @@ ofType(int type) {
 	}
 }
 
-void
-addRRset(RRset rrset) {
+void addRRset(RRset rrset) {
 	if (data == null)
 		data = new ArrayList();
 	List l = (List) data;
@@ -110,50 +107,42 @@ addRRset(RRset rrset) {
 }
 
 /** Is the answer to the query unknown? */
-public boolean
-isUnknown() {
+public boolean isUnknown() {
 	return (type == UNKNOWN);
 }
 
 /** Is the answer to the query that the name does not exist? */
-public boolean
-isNXDOMAIN() {
+public boolean isNXDOMAIN() {
 	return (type == NXDOMAIN);
 }
 
 /** Is the answer to the query that the name exists, but the type does not? */
-public boolean
-isNXRRSET() {
+public boolean isNXRRSET() {
 	return (type == NXRRSET);
 }
 
 /** Is the result of the lookup that the name is below a delegation? */
-public boolean
-isDelegation() {
+public boolean isDelegation() {
 	return (type == DELEGATION);
 }
 
 /** Is the result of the lookup a CNAME? */
-public boolean
-isCNAME() {
+public boolean isCNAME() {
 	return (type == CNAME);
 }
 
 /** Is the result of the lookup a DNAME? */
-public boolean
-isDNAME() {
+public boolean isDNAME() {
 	return (type == DNAME);
 }
 
 /** Was the query successful? */
-public boolean
-isSuccessful() {
+public boolean isSuccessful() {
 	return (type == SUCCESSFUL);
 }
 
 /** If the query was successful, return the answers */
-public RRset []
-answers() {
+public RRset [] answers() {
 	if (type != SUCCESSFUL)
 		return null;
 	List l = (List) data;
@@ -163,30 +152,26 @@ answers() {
 /**
  * If the query encountered a CNAME, return it.
  */
-public CNAMERecord
-getCNAME() {
+public CNAMERecord getCNAME() {
 	return (CNAMERecord)((RRset)data).first();
 }
 
 /**
  * If the query encountered a DNAME, return it.
  */
-public DNAMERecord
-getDNAME() {
+public DNAMERecord getDNAME() {
 	return (DNAMERecord)((RRset)data).first();
 }
 
 /**
  * If the query hit a delegation point, return the NS set.
  */
-public RRset
-getNS() {
+public RRset getNS() {
 	return (RRset)data;
 }
 
 /** Prints the value of the SetResponse */
-public String
-toString() {
+public String toString() {
 	switch (type) {
 		case UNKNOWN:		return "unknown";
 		case NXDOMAIN:		return "NXDOMAIN";
