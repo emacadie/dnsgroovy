@@ -25,8 +25,7 @@ private interface Element {
 	public int getType();
 }
 
-private static int
-limitExpire(long ttl, long maxttl) {
+private static int limitExpire(long ttl, long maxttl) {
 	if (maxttl >= 0 && maxttl < ttl)
 		ttl = maxttl;
 	long expire = (System.currentTimeMillis() / 1000) + ttl;
@@ -41,34 +40,29 @@ private static class CacheRRset extends RRset implements Element {
 	int credibility;
 	int expire;
 
-	public
-	CacheRRset(Record rec, int cred, long maxttl) {
+	public 	CacheRRset(Record rec, int cred, long maxttl) {
 		super();
 		this.credibility = cred;
 		this.expire = limitExpire(rec.getTTL(), maxttl);
 		addRR(rec);
 	}
 
-	public
-	CacheRRset(RRset rrset, int cred, long maxttl) {
+	public 	CacheRRset(RRset rrset, int cred, long maxttl) {
 		super(rrset);
 		this.credibility = cred;
 		this.expire = limitExpire(rrset.getTTL(), maxttl);
 	}
 
-	public final boolean
-	expired() {
+	public final boolean expired() {
 		int now = (int)(System.currentTimeMillis() / 1000);
 		return (now >= expire);
 	}
 
-	public final int
-	compareCredibility(int cred) {
+	public final int compareCredibility(int cred) {
 		return credibility - cred;
 	}
 
-	public String
-	toString() {
+	public String toString() {
 		StringBuffer sb = new StringBuffer();
 		sb.append(super.toString());
 		sb.append(" cl = ");
@@ -83,9 +77,7 @@ private static class NegativeElement implements Element {
 	int credibility;
 	int expire;
 
-	public
-	NegativeElement(Name name, int type, SOARecord soa, int cred,
-			long maxttl)
+	public 	NegativeElement(Name name, int type, SOARecord soa, int cred, long maxttl)
 	{
 		this.name = name;
 		this.type = type;
@@ -96,24 +88,20 @@ private static class NegativeElement implements Element {
 		this.expire = limitExpire(cttl, maxttl);
 	}
 
-	public int
-	getType() {
+	public int getType() {
 		return type;
 	}
 
-	public final boolean
-	expired() {
+	public final boolean 	expired() {
 		int now = (int)(System.currentTimeMillis() / 1000);
 		return (now >= expire);
 	}
 
-	public final int
-	compareCredibility(int cred) {
+	public final int	compareCredibility(int cred) {
 		return credibility - cred;
 	}
 
-	public String
-	toString() {
+	public String 	toString() {
 		StringBuffer sb = new StringBuffer();
 		if (type == 0)
 			sb.append("NXDOMAIN " + name);
@@ -133,13 +121,11 @@ private static class CacheMap extends LinkedHashMap {
 		this.maxsize = maxsize;
 	}
 
-	int
-	getMaxSize() {
+	int 	getMaxSize() {
 		return maxsize;
 	}
 
-	void
-	setMaxSize(int maxsize) {
+	void 	setMaxSize(int maxsize) {
 		/*
 		 * Note that this doesn't shrink the size of the map if
 		 * the maximum size is lowered, but it should shrink as
@@ -166,8 +152,7 @@ private static final int defaultMaxEntries = 50000;
  * @param dclass The DNS class of this cache
  * @see DClass
  */
-public
-Cache(int dclass) {
+public Cache(int dclass) {
 	this.dclass = dclass;
 	data = new CacheMap(defaultMaxEntries);
 }
@@ -176,16 +161,14 @@ Cache(int dclass) {
  * Creates an empty Cache for class IN.
  * @see DClass
  */
-public
-Cache() {
+public Cache() {
 	this(DClass.IN);
 }
 
 /**
  * Creates a Cache which initially contains all records in the specified file.
  */
-public
-Cache(String file) throws IOException {
+public Cache(String file) throws IOException {
 	data = new CacheMap(defaultMaxEntries);
 	Master m = new Master(file);
 	Record record;
@@ -193,18 +176,15 @@ Cache(String file) throws IOException {
 		addRecord(record, Credibility.HINT, m);
 }
 
-private synchronized Object
-exactName(Name name) {
+private synchronized Object exactName(Name name) {
 	return data.get(name);
 }
 
-private synchronized void
-removeName(Name name) {
+private synchronized void removeName(Name name) {
 	data.remove(name);
 }
 
-private synchronized Element []
-allElements(Object types) {
+private synchronized Element [] allElements(Object types) {
 	if (types instanceof List) {
 		List typelist = (List) types;
 		int size = typelist.size();
@@ -215,8 +195,7 @@ allElements(Object types) {
 	}
 }
 
-private synchronized Element
-oneElement(Name name, Object types, int type, int minCred) {
+private synchronized Element oneElement(Name name, Object types, int type, int minCred) {
 	Element found = null;
 
 	if (type == Type.ANY)
@@ -246,16 +225,14 @@ oneElement(Name name, Object types, int type, int minCred) {
 	return found;
 }
 
-private synchronized Element
-findElement(Name name, int type, int minCred) {
+private synchronized Element findElement(Name name, int type, int minCred) {
 	Object types = exactName(name);
 	if (types == null)
 		return null;
 	return oneElement(name, types, type, minCred);
 }
 
-private synchronized void
-addElement(Name name, Element element) {
+private synchronized void addElement(Name name, Element element) {
 	Object types = data.get(name);
 	if (types == null) {
 		data.put(name, element);
@@ -285,8 +262,7 @@ addElement(Name name, Element element) {
 	}
 }
 
-private synchronized void
-removeElement(Name name, int type) {
+private synchronized void removeElement(Name name, int type) {
 	Object types = data.get(name);
 	if (types == null) {
 		return;
@@ -311,8 +287,7 @@ removeElement(Name name, int type) {
 }
 
 /** Empties the Cache. */
-public synchronized void
-clearCache() {
+public synchronized void clearCache() {
 	data.clear();
 }
 
@@ -323,8 +298,7 @@ clearCache() {
  * @param o The source of the record (this could be a Message, for example)
  * @see Record
  */
-public synchronized void
-addRecord(Record r, int cred, Object o) {
+public synchronized void addRecord(Record r, int cred, Object o) {
 	Name name = r.getName();
 	int type = r.getRRsetType();
 	if (!Type.isRR(type))
@@ -347,8 +321,7 @@ addRecord(Record r, int cred, Object o) {
  * @param cred The credibility of these records
  * @see RRset
  */
-public synchronized void
-addRRset(RRset rrset, int cred) {
+public synchronized void addRRset(RRset rrset, int cred) {
 	long ttl = rrset.getTTL();
 	Name name = rrset.getName();
 	int type = rrset.getType();
@@ -378,8 +351,7 @@ addRRset(RRset rrset, int cred) {
  * The negative cache ttl is derived from the SOA.
  * @param cred The credibility of the negative entry
  */
-public synchronized void
-addNegative(Name name, int type, SOARecord soa, int cred) {
+public synchronized void addNegative(Name name, int type, SOARecord soa, int cred) {
 	long ttl = 0;
 	if (soa != null)
 		ttl = soa.getTTL();
@@ -400,8 +372,7 @@ addNegative(Name name, int type, SOARecord soa, int cred) {
 /**
  * Finds all matching sets or something that causes the lookup to stop.
  */
-protected synchronized SetResponse
-lookup(Name name, int type, int minCred) {
+protected synchronized SetResponse lookup(Name name, int type, int minCred) {
 	int labels;
 	int tlabels;
 	Element element;
@@ -508,13 +479,11 @@ lookup(Name name, int type, int minCred) {
  * @see SetResponse
  * @see Credibility
  */
-public SetResponse
-lookupRecords(Name name, int type, int minCred) {
+public SetResponse lookupRecords(Name name, int type, int minCred) {
 	return lookup(name, type, minCred);
 }
 
-private RRset []
-findRecords(Name name, int type, int minCred) {
+private RRset [] findRecords(Name name, int type, int minCred) {
 	SetResponse cr = lookupRecords(name, type, minCred);
 	if (cr.isSuccessful())
 		return cr.answers();
@@ -530,8 +499,7 @@ findRecords(Name name, int type, int minCred) {
  * @return An array of RRsets, or null
  * @see Credibility
  */
-public RRset []
-findRecords(Name name, int type) {
+public RRset [] findRecords(Name name, int type) {
 	return findRecords(name, type, Credibility.NORMAL);
 }
 
@@ -543,13 +511,11 @@ findRecords(Name name, int type) {
  * @return An array of RRsets, or null
  * @see Credibility
  */
-public RRset []
-findAnyRecords(Name name, int type) {
+public RRset [] findAnyRecords(Name name, int type) {
 	return findRecords(name, type, Credibility.GLUE);
 }
 
-private final int
-getCred(int section, boolean isAuth) {
+private final int getCred(int section, boolean isAuth) {
 	if (section == Section.ANSWER) {
 		if (isAuth)
 			return Credibility.AUTH_ANSWER;
@@ -566,8 +532,7 @@ getCred(int section, boolean isAuth) {
 		throw new IllegalArgumentException("getCred: invalid section");
 }
 
-private static void
-markAdditional(RRset rrset, Set names) {
+private static void markAdditional(RRset rrset, Set names) {
 	Record first = rrset.first();
 	if (first.getAdditionalName() == null)
 		return;
@@ -589,16 +554,15 @@ markAdditional(RRset rrset, Set names) {
  * lookup, or null if nothing useful could be cached from the message.
  * @see Message
  */
-public SetResponse
-addMessage(Message in) {
-	boolean isAuth = in.getHeader().getFlag(Flags.AA);
-	Record question = in.getQuestion();
+public SetResponse addMessage(Message msgin) {
+	boolean isAuth = msgin.getHeader().getFlag(Flags.AA);
+	Record question = msgin.getQuestion();
 	Name qname;
 	Name curname;
 	int qtype;
 	int qclass;
 	int cred;
-	int rcode = in.getHeader().getRcode();
+	int rcode = msgin.getHeader().getRcode();
 	boolean completed = false;
 	RRset [] answers, auth, addl;
 	SetResponse response = null;
@@ -617,7 +581,7 @@ addMessage(Message in) {
 
 	additionalNames = new HashSet();
 
-	answers = in.getSectionRRsets(Section.ANSWER);
+	answers = msgin.getSectionRRsets(Section.ANSWER);
 	for (int i = 0; i < answers.length; i++) {
 		if (answers[i].getDClass() != qclass)
 			continue;
@@ -660,7 +624,7 @@ addMessage(Message in) {
 		}
 	}
 
-	auth = in.getSectionRRsets(Section.AUTHORITY);
+	auth = msgin.getSectionRRsets(Section.AUTHORITY);
 	RRset soa = null, ns = null;
 	for (int i = 0; i < auth.length; i++) {
 		if (auth[i].getType() == Type.SOA &&
@@ -706,7 +670,7 @@ addMessage(Message in) {
 		markAdditional(ns, additionalNames);
 	}
 
-	addl = in.getSectionRRsets(Section.ADDITIONAL);
+	addl = msgin.getSectionRRsets(Section.ADDITIONAL);
 	for (int i = 0; i < addl.length; i++) {
 		int type = addl[i].getType();
 		if (type != Type.A && type != Type.AAAA && type != Type.A6)
@@ -728,8 +692,7 @@ addMessage(Message in) {
  * @param type The type of the records to be flushed
  * @see RRset
  */
-public void
-flushSet(Name name, int type) {
+public void flushSet(Name name, int type) {
 	removeElement(name, type);
 }
 
@@ -738,8 +701,7 @@ flushSet(Name name, int type) {
  * @param name The name of the records to be flushed
  * @see RRset
  */
-public void
-flushName(Name name) {
+public void flushName(Name name) {
 	removeName(name);
 }
 
@@ -748,8 +710,7 @@ flushName(Name name) {
  * in this Cache.  A negative value disables this feature (that is, sets
  * no limit).
  */
-public void
-setMaxNCache(int seconds) {
+public void setMaxNCache(int seconds) {
 	maxncache = seconds;
 }
 
@@ -757,8 +718,7 @@ setMaxNCache(int seconds) {
  * Gets the maximum length of time that a negative response will be stored
  * in this Cache.  A negative value indicates no limit.
  */
-public int
-getMaxNCache() {
+public int getMaxNCache() {
 	return maxncache;
 }
 
@@ -766,8 +726,7 @@ getMaxNCache() {
  * Sets the maximum length of time that records will be stored in this
  * Cache.  A negative value disables this feature (that is, sets no limit).
  */
-public void
-setMaxCache(int seconds) {
+public void setMaxCache(int seconds) {
 	maxcache = seconds;
 }
 
@@ -775,8 +734,7 @@ setMaxCache(int seconds) {
  * Gets the maximum length of time that records will be stored
  * in this Cache.  A negative value indicates no limit.
  */
-public int
-getMaxCache() {
+public int getMaxCache() {
 	return maxcache;
 }
 
@@ -784,8 +742,7 @@ getMaxCache() {
  * Gets the current number of entries in the Cache, where an entry consists
  * of all records with a specific Name.
  */
-public int
-getSize() {
+public int getSize() {
 	return data.size();
 }
 
@@ -794,8 +751,7 @@ getSize() {
  * of all records with a specific Name.  A negative value is treated as an
  * infinite limit.
  */
-public int
-getMaxEntries() {
+public int getMaxEntries() {
 	return data.getMaxSize();
 }
 
@@ -811,24 +767,21 @@ getMaxEntries() {
  *
  * @param entries The maximum number of entries in the Cache.
  */
-public void
-setMaxEntries(int entries) {
+public void setMaxEntries(int entries) {
 	data.setMaxSize(entries);
 }
 
 /**
  * Returns the DNS class of this cache.
  */
-public int
-getDClass() {
+public int getDClass() {
 	return dclass;
 }
 
 /**
  * Returns the contents of the Cache as a string.
  */ 
-public String
-toString() {
+public String toString() {
 	StringBuffer sb = new StringBuffer();
 	synchronized (this) {
 		Iterator it = data.values().iterator();

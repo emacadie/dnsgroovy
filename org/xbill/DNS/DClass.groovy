@@ -33,14 +33,12 @@ public static final int NONE		= 254;
 public static final int ANY		= 255;
 
 private static class DClassMnemonic extends Mnemonic {
-	public
-	DClassMnemonic() {
+	public 	DClassMnemonic() {
 		super("DClass", CASE_UPPER);
 		setPrefix("CLASS");
 	}
 
-	public void
-	check(int val) {
+	public void 	check(int val) {
 		DClass.check(val);
 	}
 }
@@ -57,15 +55,13 @@ static {
 	classes.add(ANY, "ANY");
 }
 
-private
-DClass() {}
+private DClass() {}
 
 /**
  * Checks that a numeric DClass is valid.
  * @throws InvalidDClassException The class is out of range.
  */
-public static void
-check(int i) {
+public static void check(int i) {
 	if (i < 0 || i > 0xFFFF)
 		throw new InvalidDClassException(i);
 }
@@ -75,8 +71,7 @@ check(int i) {
  * @return The canonical string representation of the class
  * @throws InvalidDClassException The class is out of range.
  */
-public static String
-string(int i) {
+public static String string(int i) {
 	return classes.getText(i);
 }
 
@@ -84,8 +79,7 @@ string(int i) {
  * Converts a String representation of a DClass into its numeric value
  * @return The class code, or -1 on error.
  */
-public static int
-value(String s) {
+public static int value(String s) {
 	return classes.getValue(s);
 }
 

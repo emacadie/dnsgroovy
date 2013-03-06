@@ -37,8 +37,7 @@ static {
 private
 Options() {}
 
-public static void
-refresh() {
+public static void refresh() {
 	String s = System.getProperty("dnsjava.options");
 	if (s != null) {
 		StringTokenizer st = new StringTokenizer(s, ",");
@@ -57,46 +56,40 @@ refresh() {
 }
 
 /** Clears all defined options */
-public static void
-clear() {
+public static void clear() {
 	table = null;
 }
 
 /** Sets an option to "true" */
-public static void
-set(String option) {
+public static void set(String option) {
 	if (table == null)
 		table = new HashMap();
 	table.put(option.toLowerCase(), "true");
 }
 
 /** Sets an option to the the supplied value */
-public static void
-set(String option, String value) {
+public static void set(String option, String value) {
 	if (table == null)
 		table = new HashMap();
 	table.put(option.toLowerCase(), value.toLowerCase());
 }
 
 /** Removes an option */
-public static void
-unset(String option) {
+public static void unset(String option) {
 	if (table == null)
 		return;
 	table.remove(option.toLowerCase());
 }
 
 /** Checks if an option is defined */
-public static boolean
-check(String option) {
+public static boolean check(String option) {
 	if (table == null)
 		return false;
 	return (table.get(option.toLowerCase()) != null);
 }
 
 /** Returns the value of an option */
-public static String
-value(String option) {
+public static String value(String option) {
 	if (table == null)
 		return null;
 	return ((String)table.get(option.toLowerCase()));
@@ -105,8 +98,7 @@ value(String option) {
 /**
  * Returns the value of an option as an integer, or -1 if not defined.
  */
-public static int
-intValue(String option) {
+public static int intValue(String option) {
 	String s = value(option);
 	if (s != null) {
 		try {

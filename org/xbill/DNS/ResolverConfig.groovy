@@ -43,8 +43,7 @@ static {
 	refresh();
 }
 
-public
-ResolverConfig() {
+public ResolverConfig() {
 	if (findProperty())
 		return;
 	if (findSunJVM())
@@ -69,8 +68,7 @@ ResolverConfig() {
 	}
 }
 
-private void
-addServer(String server, List list) {
+private void addServer(String server, List list) {
 	if (list.contains(server))
 		return;
 	if (Options.check("verbose"))
@@ -78,8 +76,7 @@ addServer(String server, List list) {
 	list.add(server);
 }
 
-private void
-addSearch(String search, List list) {
+private void addSearch(String search, List list) {
 	Name name;
 	if (Options.check("verbose"))
 		System.out.println("adding search " + search);
@@ -94,8 +91,7 @@ addSearch(String search, List list) {
 	list.add(name);
 }
 
-private int
-parseNdots(String token) {
+private int parseNdots(String token) {
 	token = token.substring(6);
 	try {
 		int ndots = Integer.parseInt(token);
@@ -110,16 +106,14 @@ parseNdots(String token) {
 	return -1;
 }
 
-private void
-configureFromLists(List lserver, List lsearch) {
+private void configureFromLists(List lserver, List lsearch) {
 	if (servers == null && lserver.size() > 0)
 		servers = (String []) lserver.toArray(new String[0]);
 	if (searchlist == null && lsearch.size() > 0)
 		searchlist = (Name []) lsearch.toArray(new Name[0]);
 }
 
-private void
-configureNdots(int lndots) {
+private void configureNdots(int lndots) {
 	if (ndots < 0 && lndots > 0)
 		ndots = lndots;
 }
@@ -129,8 +123,7 @@ configureNdots(int lndots) {
  * Servers are defined by dns.server=server1,server2...
  * The search path is defined by dns.search=domain1,domain2...
  */
-private boolean
-findProperty() {
+private boolean findProperty() {
 	String prop;
 	List lserver = new ArrayList(0);
 	List lsearch = new ArrayList(0);
@@ -157,8 +150,7 @@ findProperty() {
  * Uses the undocumented Sun DNS implementation to determine the configuration.
  * This doesn't work or even compile with all JVMs (gcj, for example).
  */
-private boolean
-findSunJVM() {
+private boolean findSunJVM() {
 	List lserver = new ArrayList(0);
 	List lserver_tmp;
 	List lsearch = new ArrayList(0);
@@ -212,16 +204,15 @@ findSunJVM() {
  * "nameserver" lines specify servers.  "domain" and "search" lines
  * define the search path.
  */
-private void
-findResolvConf(String file) {
-	InputStream in = null;
+private void findResolvConf(String file) {
+	InputStream inputStream = null;
 	try {
-		in = new FileInputStream(file);
+		inputStream = new FileInputStream(file);
 	}
 	catch (FileNotFoundException e) {
 		return;
 	}
-	InputStreamReader isr = new InputStreamReader(in);
+	InputStreamReader isr = new InputStreamReader(inputStream);
 	BufferedReader br = new BufferedReader(isr);
 	List lserver = new ArrayList(0);
 	List lsearch = new ArrayList(0);
@@ -270,21 +261,18 @@ findResolvConf(String file) {
 	configureNdots(lndots);
 }
 
-private void
-findUnix() {
+private void findUnix() {
 	findResolvConf("/etc/resolv.conf");
 }
 
-private void
-findNetware() {
+private void findNetware() {
 	findResolvConf("sys:/etc/resolv.cfg");
 }
 
 /**
  * Parses the output of winipcfg or ipconfig.
  */
-private void
-findWin(InputStream in, Locale locale) {
+private void findWin(InputStream inputstream, Locale locale) {
 	String packageName = ResolverConfig.class.getPackage().getName();
 	String resPackageName = packageName + ".windows.DNSServer";
 	ResourceBundle res;
@@ -298,7 +286,7 @@ findWin(InputStream in, Locale locale) {
 	String dns_suffix = res.getString("dns_suffix");
 	String dns_servers = res.getString("dns_servers");
 
-	BufferedReader br = new BufferedReader(new InputStreamReader(in));
+	BufferedReader br = new BufferedReader(new InputStreamReader(inputstream));
 	try {
 		List lserver = new ArrayList();
 		List lsearch = new ArrayList();
@@ -366,12 +354,11 @@ findWin(InputStream in, Locale locale) {
 	return;
 }
 
-private void
-findWin(InputStream in) {
+private void findWin(InputStream inputstream) {
 	String property = "org.xbill.DNS.windows.parse.buffer";
 	final int defaultBufSize = 8 * 1024;
 	int bufSize = Integer.getInteger(property, defaultBufSize).intValue();
-	BufferedInputStream b = new BufferedInputStream(in, bufSize);
+	BufferedInputStream b = new BufferedInputStream(inputstream, bufSize);
 	b.mark(bufSize);
 	findWin(b, null);
 	if (servers == null) {
@@ -388,8 +375,7 @@ findWin(InputStream in) {
 /**
  * Calls winipcfg and parses the result to find servers and a search path.
  */
-private void
-find95() {
+private void find95() {
 	String s = "winipcfg.out";
 	try {
 		Process p;
@@ -407,8 +393,7 @@ find95() {
 /**
  * Calls ipconfig and parses the result to find servers and a search path.
  */
-private void
-findNT() {
+private void findNT() {
 	try {
 		Process p;
 		p = Runtime.getRuntime().exec("ipconfig /all");
@@ -425,21 +410,20 @@ findNT() {
  * info on Android. getprop might disappear in future releases, so
  * this code comes with a use-by date.
  */
-private void
-findAndroid() {
+private void findAndroid() {
 	// This originally looked for all lines containing .dns; but
 	// http://code.google.com/p/android/issues/detail?id=2207#c73
 	// indicates that net.dns* should always be the active nameservers, so
 	// we use those.
-	String re1 = "^\\d+(\\.\\d+){3}$";
-	String re2 = "^[0-9a-f]+(:[0-9a-f]*)+:[0-9a-f]+$";
+	String re1 = "^\\d+(\\.\\d+){3}\$";
+	String re2 = "^[0-9a-f]+(:[0-9a-f]*)+:[0-9a-f]+\$";
 	try { 
 		ArrayList lserver = new ArrayList(); 
 		ArrayList lsearch = new ArrayList(); 
 		String line; 
 		Process p = Runtime.getRuntime().exec("getprop"); 
-		InputStream in = p.getInputStream();
-		InputStreamReader isr = new InputStreamReader(in);
+		InputStream inputstream = p.getInputStream();
+		InputStreamReader isr = new InputStreamReader(inputstream);
 		BufferedReader br = new BufferedReader(isr);
 		while ((line = br.readLine()) != null ) { 
 			StringTokenizer t = new StringTokenizer(line, ":");
@@ -459,22 +443,19 @@ findAndroid() {
 }
 
 /** Returns all located servers */
-public String []
-servers() {
+public String [] servers() {
 	return servers;
 }
 
 /** Returns the first located server */
-public String
-server() {
+public String server() {
 	if (servers == null)
 		return null;
 	return servers[0];
 }
 
 /** Returns all entries in the located search path */
-public Name []
-searchPath() {
+public Name [] searchPath() {
 	return searchlist;
 }
 
@@ -484,22 +465,19 @@ searchPath() {
  * take effect if ResolverConfig uses resolv.conf directly (that is, if the
  * JVM does not include the sun.net.dns.ResolverConfiguration class).
  */
-public int
-ndots() {
+public int ndots() {
 	if (ndots < 0)
 		return 1;
 	return ndots;
 }
 
 /** Gets the current configuration */
-public static synchronized ResolverConfig
-getCurrentConfig() {
+public static synchronized ResolverConfig getCurrentConfig() {
 	return currentConfig;
 }
 
 /** Gets the current configuration */
-public static void
-refresh() {
+public static void refresh() {
 	ResolverConfig newConfig = new ResolverConfig();
 	synchronized (ResolverConfig.class) {
 		currentConfig = newConfig;
