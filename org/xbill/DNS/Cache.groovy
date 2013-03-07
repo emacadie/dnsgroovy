@@ -191,7 +191,8 @@ private synchronized Element [] allElements(Object types) {
 		return (Element []) typelist.toArray(new Element[size]);
 	} else {
 		Element set = (Element) types;
-		return new Element[] {set};
+		// return new Element[] {set};
+		return new Element[set];
 	}
 }
 

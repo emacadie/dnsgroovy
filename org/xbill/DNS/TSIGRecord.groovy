@@ -30,8 +30,7 @@ private byte [] other;
 
 TSIGRecord() {} 
 
-Record
-getObject() {
+Record getObject() {
 	return new TSIGRecord();
 }
 
@@ -50,10 +49,9 @@ getObject() {
  * responses.
  * @see TSIG
  */
-public
-TSIGRecord(Name name, int dclass, long ttl, Name alg, Date timeSigned,
+public TSIGRecord(Name name, int dclass, long ttl, Name alg, Date timeSigned,
 	   int fudge, byte [] signature, int originalID, int error,
-	   byte other[])
+	   byte [] other)
 {
 	super(name, Type.TSIG, dclass, ttl);
 	this.alg = checkName("alg", alg);
@@ -92,8 +90,7 @@ void rdataFromString(Tokenizer st, Name origin) throws IOException {
 }
 
 /** Converts rdata to a String */
-String
-rrToString() {
+String rrToString() {
 	StringBuffer sb = new StringBuffer();
 	sb.append(alg);
 	sb.append(" ");
@@ -149,49 +146,41 @@ rrToString() {
 }
 
 /** Returns the shared key's algorithm */
-public Name
-getAlgorithm() {
+public Name getAlgorithm() {
 	return alg;
 }
 
 /** Returns the time that this record was generated */
-public Date
-getTimeSigned() {
+public Date getTimeSigned() {
 	return timeSigned;
 }
 
 /** Returns the time fudge factor */
-public int
-getFudge() {
+public int getFudge() {
 	return fudge;
 }
 
 /** Returns the signature */
-public byte []
-getSignature() {
+public byte [] getSignature() {
 	return signature;
 }
 
 /** Returns the original message ID */
-public int
-getOriginalID() {
+public int getOriginalID() {
 	return originalID;
 }
 
 /** Returns the extended error */
-public int
-getError() {
+public int getError() {
 	return error;
 }
 
 /** Returns the other data */
-public byte []
-getOther() {
+public byte [] getOther() {
 	return other;
 }
 
-void
-rrToWire(DNSOutput out, Compression c, boolean canonical) {
+void rrToWire(DNSOutput out, Compression c, boolean canonical) {
 	alg.toWire(out, null, canonical);
 
 	long time = timeSigned.getTime() / 1000;

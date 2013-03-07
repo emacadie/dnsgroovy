@@ -42,8 +42,7 @@ public static final int DELETE			= 5;
 
 TKEYRecord() {}
 
-Record
-getObject() {
+Record getObject() {
 	return new TKEYRecord();
 }
 
@@ -60,10 +59,7 @@ getObject() {
  * @param other The other data field.  Currently unused
  * responses.
  */
-public
-TKEYRecord(Name name, int dclass, long ttl, Name alg,
-	   Date timeInception, Date timeExpire, int mode, int error,
-	   byte [] key, byte other[])
+public TKEYRecord(Name name, int dclass, long ttl, Name alg, Date timeInception, Date timeExpire, int mode, int error, byte [] key, byte [] other)
 {
 	super(name, Type.TKEY, dclass, ttl);
 	this.alg = checkName("alg", alg);
@@ -95,13 +91,11 @@ void rrFromWire(DNSInput dnsin) throws IOException {
 		other = null;
 }
 
-void
-rdataFromString(Tokenizer st, Name origin) throws IOException {
+void rdataFromString(Tokenizer st, Name origin) throws IOException {
 	throw st.exception("no text format defined for TKEY");
 }
 
-protected String
-modeString() {
+protected String modeString() {
 	switch (mode) {
 		case SERVERASSIGNED:	return "SERVERASSIGNED";
 		case DIFFIEHELLMAN:	return "DIFFIEHELLMAN";
@@ -113,8 +107,7 @@ modeString() {
 }
 
 /** Converts rdata to a String */
-String
-rrToString() {
+String rrToString() {
 	StringBuffer sb = new StringBuffer();
 	sb.append(alg);
 	sb.append(" ");
@@ -149,8 +142,7 @@ rrToString() {
 }
 
 /** Returns the shared key's algorithm */
-public Name
-getAlgorithm() {
+public Name getAlgorithm() {
 	return alg;
 }
 
@@ -158,8 +150,7 @@ getAlgorithm() {
  * Returns the beginning of the validity period of the shared secret or
  * keying material
  */
-public Date
-getTimeInception() {
+public Date getTimeInception() {
 	return timeInception;
 }
 
@@ -167,37 +158,31 @@ getTimeInception() {
  * Returns the end of the validity period of the shared secret or
  * keying material
  */
-public Date
-getTimeExpire() {
+public Date getTimeExpire() {
 	return timeExpire;
 }
 
 /** Returns the key agreement mode */
-public int
-getMode() {
+public int getMode() {
 	return mode;
 }
 
 /** Returns the extended error */
-public int
-getError() {
+public int getError() {
 	return error;
 }
 
 /** Returns the shared secret or keying material */
-public byte []
-getKey() {
+public byte [] getKey() {
 	return key;
 }
 
 /** Returns the other data */
-public byte []
-getOther() {
+public byte [] getOther() {
 	return other;
 }
 
-void
-rrToWire(DNSOutput out, Compression c, boolean canonical) {
+void rrToWire(DNSOutput out, Compression c, boolean canonical) {
 	alg.toWire(out, null, canonical);
 
 	out.writeU32(timeInception.getTime() / 1000);

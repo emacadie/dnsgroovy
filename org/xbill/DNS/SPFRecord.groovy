@@ -16,8 +16,7 @@ private static final long serialVersionUID = -2100754352801658722L;
 
 SPFRecord() {}
 
-Record
-getObject() {
+Record getObject() {
 	return new SPFRecord();
 }
 
@@ -26,8 +25,7 @@ getObject() {
  * @param strings The text strings
  * @throws IllegalArgumentException One of the strings has invalid escapes
  */
-public
-SPFRecord(Name name, int dclass, long ttl, List strings) {
+public SPFRecord(Name name, int dclass, long ttl, List strings) {
 	super(name, Type.SPF, dclass, ttl, strings);
 }
 
@@ -36,8 +34,7 @@ SPFRecord(Name name, int dclass, long ttl, List strings) {
  * @param string One text string
  * @throws IllegalArgumentException The string has invalid escapes
  */
-public
-SPFRecord(Name name, int dclass, long ttl, String string) {
+public SPFRecord(Name name, int dclass, long ttl, String string) {
 	super(name, Type.SPF, dclass, ttl, string);
 }
 

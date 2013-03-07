@@ -29,8 +29,7 @@ private byte [] digest;
 
 DLVRecord() {}
 
-Record
-getObject() {
+Record getObject() {
 	return new DLVRecord();
 }
 
@@ -41,8 +40,7 @@ getObject() {
  * @param digestid The digest id code.
  * @param digest A hash of the original key.
  */
-public
-DLVRecord(Name name, int dclass, long ttl, int footprint, int alg,
+public DLVRecord(Name name, int dclass, long ttl, int footprint, int alg,
 	  int digestid, byte [] digest)
 {
 	super(name, Type.DLV, dclass, ttl);
@@ -52,16 +50,14 @@ DLVRecord(Name name, int dclass, long ttl, int footprint, int alg,
 	this.digest = digest;
 }
 
-void
-rrFromWire(DNSInput in) throws IOException {
-	footprint = in.readU16();
-	alg = in.readU8();
-	digestid = in.readU8();
-	digest = in.readByteArray();
+void rrFromWire(DNSInput dnsin) throws IOException {
+	footprint = dnsin.readU16();
+	alg = dnsin.readU8();
+	digestid = dnsin.readU8();
+	digest = dnsin.readByteArray();
 }
 
-void
-rdataFromString(Tokenizer st, Name origin) throws IOException {
+void rdataFromString(Tokenizer st, Name origin) throws IOException {
 	footprint = st.getUInt16();
 	alg = st.getUInt8();
 	digestid = st.getUInt8();
@@ -71,8 +67,7 @@ rdataFromString(Tokenizer st, Name origin) throws IOException {
 /**
  * Converts rdata to a String
  */
-String
-rrToString() {
+String rrToString() {
 	StringBuffer sb = new StringBuffer();
 	sb.append(footprint);
 	sb.append(" ");
@@ -90,16 +85,14 @@ rrToString() {
 /**
  * Returns the key's algorithm.
  */
-public int
-getAlgorithm() {
+public int getAlgorithm() {
 	return alg;
 }
 
 /**
  *  Returns the key's Digest ID.
  */
-public int
-getDigestID()
+public int getDigestID()
 {
 	return digestid;
 }
@@ -107,21 +100,18 @@ getDigestID()
 /**
  * Returns the binary hash of the key.
  */
-public byte []
-getDigest() {
+public byte [] getDigest() {
 	return digest;
 }
 
 /**
  * Returns the key's footprint.
  */
-public int
-getFootprint() {
+public int getFootprint() {
 	return footprint;
 }
 
-void
-rrToWire(DNSOutput out, Compression c, boolean canonical) {
+void rrToWire(DNSOutput out, Compression c, boolean canonical) {
 	out.writeU16(footprint);
 	out.writeU8(alg);
 	out.writeU8(digestid);
