@@ -25,7 +25,13 @@ private static final long serialVersionUID = -8689038598776316533L;
 private int hashAlg;
 private int flags;
 private int iterations;
-private byte salt[];
+  // private byte salt[];
+  //  byte salt[];
+  // private salt[] as byte;
+  // private salt as byte[];
+  // salt as byte[];
+  // def salt as byte[];
+  def salt = [  ] as byte[]
 
 NSEC3PARAMRecord() {}
 
@@ -44,8 +50,7 @@ Record getObject() {
  * @param iterations The number of hash iterations.
  * @param salt The salt to use (may be null).
  */
-public NSEC3PARAMRecord(Name name, int dclass, long ttl, int hashAlg, 
-			int flags, int iterations, byte [] salt)
+public NSEC3PARAMRecord(Name name, int dclass, long ttl, int hashAlg,  int flags, int iterations, byte [] salt)
 {
 	super(name, Type.NSEC3PARAM, dclass, ttl);
 	this.hashAlg = checkU8("hashAlg", hashAlg);
@@ -75,8 +80,7 @@ void rrFromWire(DNSInput dnsin) throws IOException {
 		salt = null;
 }
 
-void
-rrToWire(DNSOutput out, Compression c, boolean canonical) {
+void rrToWire(DNSOutput out, Compression c, boolean canonical) {
 	out.writeU8(hashAlg);
 	out.writeU8(flags);
 	out.writeU16(iterations);
@@ -88,8 +92,7 @@ rrToWire(DNSOutput out, Compression c, boolean canonical) {
 		out.writeU8(0);
 }
 
-void
-rdataFromString(Tokenizer st, Name origin) throws IOException
+void rdataFromString(Tokenizer st, Name origin) throws IOException
 {
 	hashAlg = st.getUInt8();
 	flags = st.getUInt8();
@@ -107,8 +110,7 @@ rdataFromString(Tokenizer st, Name origin) throws IOException
 }
 
 /** Converts rdata to a String */
-String
-rrToString() {
+String rrToString() {
 	StringBuffer sb = new StringBuffer();
 	sb.append(hashAlg);
 	sb.append(' ');
@@ -125,26 +127,22 @@ rrToString() {
 }
 
 /** Returns the hash algorithm */
-public int
-getHashAlgorithm() {
+public int getHashAlgorithm() {
 	return hashAlg;
 }
 
 /** Returns the flags */
-public int
-getFlags() {
+public int getFlags() {
 	return flags;
 }
   
 /** Returns the number of iterations */
-public int
-getIterations() {
+public int getIterations() {
 	return iterations;
 }
 
 /** Returns the salt */
-public byte []
-getSalt()
+public byte [] getSalt()
 {
 	return salt;
 }
@@ -155,8 +153,7 @@ getSalt()
  * @return The hashed version of the name
  * @throws NoSuchAlgorithmException The hash algorithm is unknown.
  */
-public byte []
-hashName(Name name) throws NoSuchAlgorithmException
+public byte [] hashName(Name name) throws NoSuchAlgorithmException
 {
 	return NSEC3Record.hashName(name, hashAlg, iterations, salt);
 }

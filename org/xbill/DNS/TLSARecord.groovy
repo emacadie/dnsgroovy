@@ -60,8 +60,7 @@ private byte [] certificateAssociationData;
 
 TLSARecord() {}
 
-Record
-getObject() {
+Record getObject() {
 	return new TLSARecord();
 }
 
@@ -75,8 +74,7 @@ getObject() {
  * @param certificateAssociationData The "certificate association data" to be
  * matched.
  */
-public
-TLSARecord(Name name, int dclass, long ttl, 
+public TLSARecord(Name name, int dclass, long ttl, 
 	   int certificateUsage, int selector, int matchingType,
 	   byte [] certificateAssociationData)
 {
@@ -97,8 +95,7 @@ void rrFromWire(DNSInput dnsin) throws IOException {
 	certificateAssociationData = dnsin.readByteArray();
 }
 
-void
-rdataFromString(Tokenizer st, Name origin) throws IOException {
+void rdataFromString(Tokenizer st, Name origin) throws IOException {
 	certificateUsage = st.getUInt8();
 	selector = st.getUInt8();
 	matchingType = st.getUInt8();
@@ -106,8 +103,7 @@ rdataFromString(Tokenizer st, Name origin) throws IOException {
 }
 
 /** Converts rdata to a String */
-String
-rrToString() {
+String rrToString() {
 	StringBuffer sb = new StringBuffer();
 	sb.append(certificateUsage);
 	sb.append(" ");
@@ -120,8 +116,7 @@ rrToString() {
 	return sb.toString();
 }
 
-void
-rrToWire(DNSOutput out, Compression c, boolean canonical) {
+void  rrToWire(DNSOutput out, Compression c, boolean canonical) {
 	out.writeU8(certificateUsage);
 	out.writeU8(selector);
 	out.writeU8(matchingType);
@@ -129,26 +124,22 @@ rrToWire(DNSOutput out, Compression c, boolean canonical) {
 }
 
 /** Returns the certificate usage of the TLSA record */
-public int
-getCertificateUsage() {
+public int getCertificateUsage() {
 	return certificateUsage;
 }
 
 /** Returns the selector of the TLSA record */
-public int
-getSelector() {
+public int getSelector() {
 	return selector;
 }
 
 /** Returns the matching type of the TLSA record */
-public int
-getMatchingType() {
+public int getMatchingType() {
 	return matchingType;
 }
 
 /** Returns the certificate associate data of this TLSA record */
-public final byte []
-getCertificateAssociationData() {
+public final byte [] getCertificateAssociationData() {
 	return certificateAssociationData;
 }
 

@@ -20,31 +20,29 @@ import org.xbill.DNS.utils.*;
  */
 
 public class NSEC3Record extends Record {
-
+  /*
 public static class Flags {
-	/**
-	 * NSEC3 flags identifiers.
-	 */
+  //  NSEC3 flags identifiers.
+
 
 	private Flags() {}
 
-	/** Unsigned delegation are not included in the NSEC3 chain.
-	 *
-	 */
+  //  Unsigned delegation are not included in the NSEC3 chain.
+
 	public static final int OPT_OUT = 0x01;
 }
 
 public static class Digest {
 	private Digest() {}
 
-	/** SHA-1 */
+  // ** SHA-1 
 	public static final int SHA1 = 1;
 }
 
 public static final int SHA1_DIGEST_ID = Digest.SHA1;
 
 private static final long serialVersionUID = -7123504635968932855L;
-
+*/
 private int hashAlg;
 private int flags;
 private int iterations;
@@ -52,8 +50,8 @@ private byte [] salt;
 private byte [] next;
 private TypeBitmap types;
 
-private static final base32 b32 = new base32(base32.Alphabet.BASE32HEX,
-					     false, false);
+  // private static final base32 b32 = new base32(base32.Alphabet.BASE32HEX, false, false);
+  def Base32 b32 = new Base32(Base32.Alphabet.BASE32HEX, false, false);
 
 NSEC3Record() {}
 
@@ -116,8 +114,7 @@ void rrFromWire(DNSInput dnsin) throws IOException {
 	types = new TypeBitmap(dnsin);
 }
 
-void
-rrToWire(DNSOutput out, Compression c, boolean canonical) {
+void rrToWire(DNSOutput out, Compression c, boolean canonical) {
 	out.writeU8(hashAlg);
 	out.writeU8(flags);
 	out.writeU16(iterations);
@@ -133,8 +130,7 @@ rrToWire(DNSOutput out, Compression c, boolean canonical) {
 	types.toWire(out);
 }
 
-void
-rdataFromString(Tokenizer st, Name origin) throws IOException {
+void rdataFromString(Tokenizer st, Name origin) throws IOException {
 	hashAlg = st.getUInt8();
 	flags = st.getUInt8();
 	iterations = st.getUInt16();
@@ -154,8 +150,7 @@ rdataFromString(Tokenizer st, Name origin) throws IOException {
 }
 
 /** Converts rdata to a String */
-String
-rrToString() {
+String rrToString() {
 	StringBuffer sb = new StringBuffer();
 	sb.append(hashAlg);
 	sb.append(' ');
@@ -179,52 +174,43 @@ rrToString() {
 }
 
 /** Returns the hash algorithm */
-public int
-getHashAlgorithm() {
+public int getHashAlgorithm() {
 	return hashAlg;
 }
 
 /** Returns the flags */
-public int
-getFlags() {
+public int getFlags() {
 	return flags;
 }
 
 /** Returns the number of iterations */
-public int
-getIterations() {
+public int getIterations() {
 	return iterations;
 }
 
 /** Returns the salt */
-public byte []
-getSalt()
+public byte [] getSalt()
 {
 	return salt;
 }
 
 /** Returns the next hash */
-public byte []
-getNext() {
+public byte [] getNext() {
 	return next;
 }
 
   /** Returns the set of types defined for this name */
-public int []
-getTypes() {
+public int [] getTypes() {
 	return types.toArray();
 }
 
 /** Returns whether a specific type is in the set of types. */
-public boolean
-hasType(int type)
+public boolean hasType(int type)
 {
 	return types.contains(type);
 }
 
-static byte []
-hashName(Name name, int hashAlg, int iterations, byte [] salt)
-throws NoSuchAlgorithmException
+static byte [] hashName(Name name, int hashAlg, int iterations, byte [] salt) throws NoSuchAlgorithmException
 {
 	MessageDigest digest;
 	switch (hashAlg) {
@@ -256,8 +242,7 @@ throws NoSuchAlgorithmException
  * @return The hashed version of the name
  * @throws NoSuchAlgorithmException The hash algorithm is unknown.
  */
-public byte []
-hashName(Name name) throws NoSuchAlgorithmException
+public byte [] hashName(Name name) throws NoSuchAlgorithmException
 {
 	return hashName(name, hashAlg, iterations, salt);
 }
