@@ -54,7 +54,7 @@ void rdataFromString(Tokenizer st, Name origin) throws IOException {
 	next = st.getName(origin);
 	bitmap = new BitSet();
 	while (true) {
-		Tokenizer.Token t = st.get();
+		Token t = st.get();
 		if (!t.isString())
 			break;
 		int typecode = Type.value(t.value, true);

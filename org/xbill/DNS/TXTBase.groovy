@@ -18,16 +18,13 @@ private static final long serialVersionUID = -4319510507246305931L;
 
 protected List strings;
 
-protected
-TXTBase() {}
+protected TXTBase() {}
 
-protected
-TXTBase(Name name, int type, int dclass, long ttl) {
+protected TXTBase(Name name, int type, int dclass, long ttl) {
 	super(name, type, dclass, ttl);
 }
 
-protected
-TXTBase(Name name, int type, int dclass, long ttl, List strings) {
+protected TXTBase(Name name, int type, int dclass, long ttl, List strings) {
 	super(name, type, dclass, ttl);
 	if (strings == null)
 		throw new IllegalArgumentException("strings must not be null");
@@ -44,8 +41,7 @@ TXTBase(Name name, int type, int dclass, long ttl, List strings) {
 	}
 }
 
-protected
-TXTBase(Name name, int type, int dclass, long ttl, String string) {
+protected TXTBase(Name name, int type, int dclass, long ttl, String string) {
 	this(name, type, dclass, ttl, Collections.singletonList(string));
 }
 
@@ -57,8 +53,7 @@ void rrFromWire(DNSInput dnsin) throws IOException {
 	}
 }
 
-void
-rdataFromString(Tokenizer st, Name origin) throws IOException {
+void rdataFromString(Tokenizer st, Name origin) throws IOException {
 	strings = new ArrayList(2);
 	while (true) {
 		Tokenizer.Token t = st.get();
@@ -76,8 +71,7 @@ rdataFromString(Tokenizer st, Name origin) throws IOException {
 }
 
 /** converts to a String */
-String
-rrToString() {
+String rrToString() {
 	StringBuffer sb = new StringBuffer();
 	Iterator it = strings.iterator();
 	while (it.hasNext()) {
@@ -93,8 +87,7 @@ rrToString() {
  * Returns the text strings
  * @return A list of Strings corresponding to the text strings.
  */
-public List
-getStrings() {
+public List getStrings() {
 	List list = new ArrayList(strings.size());
 	for (int i = 0; i < strings.size(); i++)
 		list.add(byteArrayToString((byte []) strings.get(i), false));
@@ -105,13 +98,11 @@ getStrings() {
  * Returns the text strings
  * @return A list of byte arrays corresponding to the text strings.
  */
-public List
-getStringsAsByteArrays() {
+public List getStringsAsByteArrays() {
 	return strings;
 }
 
-void
-rrToWire(DNSOutput out, Compression c, boolean canonical) {
+void rrToWire(DNSOutput out, Compression c, boolean canonical) {
 	Iterator it = strings.iterator();
 	while (it.hasNext()) {
 		byte [] b = (byte []) it.next();

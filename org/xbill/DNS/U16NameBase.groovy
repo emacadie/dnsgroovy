@@ -18,16 +18,13 @@ private static final long serialVersionUID = -8315884183112502995L;
 protected int u16Field;
 protected Name nameField;
 
-protected
-U16NameBase() {}
+protected U16NameBase() {}
 
-protected
-U16NameBase(Name name, int type, int dclass, long ttl) {
+protected U16NameBase(Name name, int type, int dclass, long ttl) {
 	super(name, type, dclass, ttl);
 }
 
-protected
-U16NameBase(Name name, int type, int dclass, long ttl, int u16Field,
+protected U16NameBase(Name name, int type, int dclass, long ttl, int u16Field,
 	    String u16Description, Name nameField, String nameDescription)
 {
 	super(name, type, dclass, ttl);
@@ -40,14 +37,12 @@ void rrFromWire(DNSInput dnsin) throws IOException {
 	nameField = new Name(dnsin);
 }
 
-void
-rdataFromString(Tokenizer st, Name origin) throws IOException {
+void rdataFromString(Tokenizer st, Name origin) throws IOException {
 	u16Field = st.getUInt16();
 	nameField = st.getName(origin);
 }
 
-String
-rrToString() {
+String rrToString() {
 	StringBuffer sb = new StringBuffer();
 	sb.append(u16Field);
 	sb.append(" ");
@@ -55,18 +50,15 @@ rrToString() {
 	return sb.toString();
 }
 
-protected int
-getU16Field() {
+protected int getU16Field() {
 	return u16Field;
 }
 
-protected Name
-getNameField() {
+protected Name getNameField() {
 	return nameField;
 }
 
-void
-rrToWire(DNSOutput out, Compression c, boolean canonical) {
+void rrToWire(DNSOutput out, Compression c, boolean canonical) {
 	out.writeU16(u16Field);
 	nameField.toWire(out, null, canonical);
 }

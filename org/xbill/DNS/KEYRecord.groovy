@@ -315,7 +315,7 @@ public KEYRecord(Name name, int dclass, long ttl, int flags, int proto, int alg,
  * format.
  */
 public KEYRecord(Name name, int dclass, long ttl, int flags, int proto, int alg,
-	  PublicKey key) throws DNSSEC.DNSSECException
+	  PublicKey key) throws DNSSECException
 {
 	super(name, Type.KEY, dclass, ttl, flags, proto, alg,
 	      DNSSEC.fromPublicKey(key, alg));

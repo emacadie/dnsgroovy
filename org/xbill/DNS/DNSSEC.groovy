@@ -109,8 +109,7 @@ public static class Algorithm {
 private
 DNSSEC() { }
 
-private static void
-digestSIG(DNSOutput out, SIGBase sig) {
+private static void digestSIG(DNSOutput out, SIGBase sig) {
 	out.writeU16(sig.getTypeCovered());
 	out.writeU8(sig.getAlgorithm());
 	out.writeU8(sig.getLabels());
@@ -129,8 +128,7 @@ digestSIG(DNSOutput out, SIGBase sig) {
  * @param rrset The data to be signed/verified.
  * @return The data to be cryptographically signed or verified.
  */
-public static byte []
-digestRRset(RRSIGRecord rrsig, RRset rrset) {
+public static byte [] digestRRset(RRSIGRecord rrsig, RRset rrset) {
 	DNSOutput out = new DNSOutput();
 	digestSIG(out, rrsig);
 
@@ -178,8 +176,7 @@ digestRRset(RRSIGRecord rrsig, RRset rrset) {
  * @param previous If this is a response, the signature from the query.
  * @return The data to be cryptographically signed.
  */
-public static byte []
-digestMessage(SIGRecord sig, Message msg, byte [] previous) {
+public static byte [] digestMessage(SIGRecord sig, Message msg, byte [] previous) {
 	DNSOutput out = new DNSOutput();
 	digestSIG(out, sig);
 
@@ -190,14 +187,7 @@ digestMessage(SIGRecord sig, Message msg, byte [] previous) {
 	return out.toByteArray();
 }
 
-/**
- * A DNSSEC exception.
- */
-public static class DNSSECException extends Exception {
-	DNSSECException(String s) {
-		super(s);
-	}
-}
+
 
 /**
  * An algorithm is unsupported by this DNSSEC implementation.
@@ -252,16 +242,14 @@ public static class SignatureExpiredException extends DNSSECException {
 	/**
 	 * @return When the signature expired
 	 */
-	public Date
-	getExpiration() {
+	public Date 	getExpiration() {
 		return when;
 	}
 
 	/**
 	 * @return When the verification was attempted
 	 */
-	public Date
-	getVerifyTime() {
+	public Date 	getVerifyTime() {
 		return now;
 	}
 }
@@ -281,16 +269,14 @@ public static class SignatureNotYetValidException extends DNSSECException {
 	/**
 	 * @return When the signature will become valid
 	 */
-	public Date
-	getExpiration() {
+	public Date 	getExpiration() {
 		return when;
 	}
 
 	/**
 	 * @return When the verification was attempted
 	 */
-	public Date
-	getVerifyTime() {
+	public Date 	getVerifyTime() {
 		return now;
 	}
 }
@@ -314,25 +300,21 @@ public static class IncompatibleKeyException extends IllegalArgumentException {
 	}
 }
 
-private static int
-BigIntegerLength(BigInteger i) {
+private static int BigIntegerLength(BigInteger i) {
 	return (i.bitLength() + 7) / 8;
 }
 
-private static BigInteger
-readBigInteger(DNSInput in, int len) throws IOException {
-	byte [] b = in.readByteArray(len);
+private static BigInteger readBigInteger(DNSInput dnsin, int len) throws IOException {
+	byte [] b = dnsin.readByteArray(len);
 	return new BigInteger(1, b);
 }
 
-private static BigInteger
-readBigInteger(DNSInput in) {
-	byte [] b = in.readByteArray();
+private static BigInteger readBigInteger(DNSInput dnsin) {
+	byte [] b = dnsin.readByteArray();
 	return new BigInteger(1, b);
 }
 
-private static void
-writeBigInteger(DNSOutput out, BigInteger val) {
+private static void writeBigInteger(DNSOutput out, BigInteger val) {
 	byte [] b = val.toByteArray();
 	if (b[0] == 0)
 		out.writeByteArray(b, 1, b.length - 1);
@@ -340,33 +322,31 @@ writeBigInteger(DNSOutput out, BigInteger val) {
 		out.writeByteArray(b);
 }
 
-private static PublicKey
-toRSAPublicKey(KEYBase r) throws IOException, GeneralSecurityException {
-	DNSInput in = new DNSInput(r.getKey());
-	int exponentLength = in.readU8();
+private static PublicKey toRSAPublicKey(KEYBase r) throws IOException, GeneralSecurityException {
+	DNSInput dnsin = new DNSInput(r.getKey());
+	int exponentLength = dnsin.readU8();
 	if (exponentLength == 0)
-		exponentLength = in.readU16();
-	BigInteger exponent = readBigInteger(in, exponentLength);
-	BigInteger modulus = readBigInteger(in);
+		exponentLength = dnsin.readU16();
+	BigInteger exponent = readBigInteger(dnsin, exponentLength);
+	BigInteger modulus = readBigInteger(dnsin);
 
 	KeyFactory factory = KeyFactory.getInstance("RSA");
 	return factory.generatePublic(new RSAPublicKeySpec(modulus, exponent));
 }
 
-private static PublicKey
-toDSAPublicKey(KEYBase r) throws IOException, GeneralSecurityException,
+private static PublicKey toDSAPublicKey(KEYBase r) throws IOException, GeneralSecurityException,
 	MalformedKeyException
 {
-	DNSInput in = new DNSInput(r.getKey());
+	DNSInput dnsin = new DNSInput(r.getKey());
 
-	int t = in.readU8();
+	int t = dnsin.readU8();
 	if (t > 8)
 		throw new MalformedKeyException(r);
 
-	BigInteger q = readBigInteger(in, 20);
-	BigInteger p = readBigInteger(in, 64 + t*8);
-	BigInteger g = readBigInteger(in, 64 + t*8);
-	BigInteger y = readBigInteger(in, 64 + t*8);
+	BigInteger q = readBigInteger(dnsin, 20);
+	BigInteger p = readBigInteger(dnsin, 64 + t*8);
+	BigInteger g = readBigInteger(dnsin, 64 + t*8);
+	BigInteger y = readBigInteger(dnsin, 64 + t*8);
 
 	KeyFactory factory = KeyFactory.getInstance("DSA");
 	return factory.generatePublic(new DSAPublicKeySpec(y, p, q, g));
@@ -411,15 +391,14 @@ private static final ECKeyInfo ECDSA_P384 = new ECKeyInfo(48,
 	"3617DE4A96262C6F5D9E98BF9292DC29F8F41DBD289A147CE9DA3113B5F0B8C00A60B1CE1D7E819D7A431D7C90EA0E5F",
 	"FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFC7634D81F4372DDF581A0DB248B0A77AECEC196ACCC52973");
 
-private static PublicKey
-toECDSAPublicKey(KEYBase r, ECKeyInfo keyinfo) throws IOException,
+private static PublicKey toECDSAPublicKey(KEYBase r, ECKeyInfo keyinfo) throws IOException,
 	GeneralSecurityException, MalformedKeyException
 {
-	DNSInput in = new DNSInput(r.getKey());
+	DNSInput dnsin = new DNSInput(r.getKey());
 
 	// RFC 6605 Section 4
-	BigInteger x = readBigInteger(in, keyinfo.length);
-	BigInteger y = readBigInteger(in, keyinfo.length);
+	BigInteger x = readBigInteger(dnsin, keyinfo.length);
+	BigInteger y = readBigInteger(dnsin, keyinfo.length);
 	ECPoint q = new ECPoint(x, y);
 
 	KeyFactory factory = KeyFactory.getInstance("EC");
@@ -427,8 +406,7 @@ toECDSAPublicKey(KEYBase r, ECKeyInfo keyinfo) throws IOException,
 }
 
 /** Converts a KEY/DNSKEY record into a PublicKey */
-static PublicKey
-toPublicKey(KEYBase r) throws DNSSECException {
+static PublicKey toPublicKey(KEYBase r) throws DNSSECException {
 	int alg = r.getAlgorithm();
 	try {
 		switch (alg) {
@@ -457,8 +435,7 @@ toPublicKey(KEYBase r) throws DNSSECException {
 	}
 }
 
-private static byte []
-fromRSAPublicKey(RSAPublicKey key) {
+private static byte [] fromRSAPublicKey(RSAPublicKey key) {
 	DNSOutput out = new DNSOutput();
 	BigInteger exponent = key.getPublicExponent();
 	BigInteger modulus = key.getModulus();
@@ -476,8 +453,7 @@ fromRSAPublicKey(RSAPublicKey key) {
 	return out.toByteArray();
 }
 
-private static byte []
-fromDSAPublicKey(DSAPublicKey key) {
+private static byte [] fromDSAPublicKey(DSAPublicKey key) {
 	DNSOutput out = new DNSOutput();
 	BigInteger q = key.getParams().getQ();
 	BigInteger p = key.getParams().getP();
@@ -494,8 +470,7 @@ fromDSAPublicKey(DSAPublicKey key) {
 	return out.toByteArray();
 }
 
-private static byte []
-fromECDSAPublicKey(ECPublicKey key) {
+private static byte [] fromECDSAPublicKey(ECPublicKey key) {
 	DNSOutput out = new DNSOutput();
 
 	BigInteger x = key.getW().getAffineX();
@@ -508,8 +483,7 @@ fromECDSAPublicKey(ECPublicKey key) {
 }
 
 /** Builds a DNSKEY record from a PublicKey */
-static byte []
-fromPublicKey(PublicKey key, int alg) throws DNSSECException
+static byte [] fromPublicKey(PublicKey key, int alg) throws DNSSECException
 {
 
 	switch (alg) {
@@ -541,8 +515,7 @@ fromPublicKey(PublicKey key, int alg) throws DNSSECException
  * @param alg The algorithm number.
  * @throws UnsupportedAlgorithmException The algorithm is unknown.
  */
-public static String
-algString(int alg) throws UnsupportedAlgorithmException {
+public static String algString(int alg) throws UnsupportedAlgorithmException {
 	switch (alg) {
 	case Algorithm.RSAMD5:
 		return "MD5withRSA";
@@ -570,22 +543,21 @@ private static final int ASN1_INT = 0x2;
 
 private static final int DSA_LEN = 20;
 
-private static byte []
-DSASignaturefromDNS(byte [] dns) throws DNSSECException, IOException {
+private static byte [] DSASignaturefromDNS(byte [] dns) throws DNSSECException, IOException {
 	if (dns.length != 1 + DSA_LEN * 2)
 		throw new SignatureVerificationException();
 
-	DNSInput in = new DNSInput(dns);
+	DNSInput dnsin = new DNSInput(dns);
 	DNSOutput out = new DNSOutput();
 
-	int t = in.readU8();
+	int t = dnsin.readU8();
 
-	byte [] r = in.readByteArray(DSA_LEN);
+	byte [] r = dnsin.readByteArray(DSA_LEN);
 	int rlen = DSA_LEN;
 	if (r[0] < 0)
 		rlen++;
 
-	byte [] s = in.readByteArray(DSA_LEN);
+	byte [] s = dnsin.readByteArray(DSA_LEN);
         int slen = DSA_LEN;
         if (s[0] < 0)
                 slen++;
@@ -608,61 +580,59 @@ DSASignaturefromDNS(byte [] dns) throws DNSSECException, IOException {
 	return out.toByteArray();
 }
 
-private static byte []
-DSASignaturetoDNS(byte [] signature, int t) throws IOException {
-	DNSInput in = new DNSInput(signature);
+private static byte [] DSASignaturetoDNS(byte [] signature, int t) throws IOException {
+	DNSInput dnsin = new DNSInput(signature);
 	DNSOutput out = new DNSOutput();
 
 	out.writeU8(t);
 
-	int tmp = in.readU8();
+	int tmp = dnsin.readU8();
 	if (tmp != ASN1_SEQ)
 		throw new IOException();
-	int seqlen = in.readU8();
+	int seqlen = dnsin.readU8();
 
-	tmp = in.readU8();
+	tmp = dnsin.readU8();
 	if (tmp != ASN1_INT)
 		throw new IOException();
-	int rlen = in.readU8();
+	int rlen = dnsin.readU8();
 	if (rlen == DSA_LEN + 1) {
-		if (in.readU8() != 0)
+		if (dnsin.readU8() != 0)
 			throw new IOException();
 	} else if (rlen != DSA_LEN)
 		throw new IOException();
-	byte [] bytes = in.readByteArray(DSA_LEN);
+	byte [] bytes = dnsin.readByteArray(DSA_LEN);
 	out.writeByteArray(bytes);
 
-	tmp = in.readU8();
+	tmp = dnsin.readU8();
 	if (tmp != ASN1_INT)
 		throw new IOException();
-	int slen = in.readU8();
+	int slen = dnsin.readU8();
 	if (slen == DSA_LEN + 1) {
-		if (in.readU8() != 0)
+		if (dnsin.readU8() != 0)
 			throw new IOException();
 	} else if (slen != DSA_LEN)
 		throw new IOException();
-	bytes = in.readByteArray(DSA_LEN);
+	bytes = dnsin.readByteArray(DSA_LEN);
 	out.writeByteArray(bytes);
 
 	return out.toByteArray();
 }
 
-private static byte []
-ECDSASignaturefromDNS(byte [] signature, ECKeyInfo keyinfo)
+private static byte [] ECDSASignaturefromDNS(byte [] signature, ECKeyInfo keyinfo)
 	throws DNSSECException, IOException
 {
 	if (signature.length != keyinfo.length * 2)
 		throw new SignatureVerificationException();
 
-	DNSInput in = new DNSInput(signature);
+	DNSInput dnsin = new DNSInput(signature);
 	DNSOutput out = new DNSOutput();
 
-	byte [] r = in.readByteArray(keyinfo.length);
+	byte [] r = dnsin.readByteArray(keyinfo.length);
 	int rlen = keyinfo.length;
 	if (r[0] < 0)
 		rlen++;
 
-	byte [] s = in.readByteArray(keyinfo.length);
+	byte [] s = dnsin.readByteArray(keyinfo.length);
 	int slen = keyinfo.length;
 	if (s[0] < 0)
 		slen++;
@@ -685,34 +655,33 @@ ECDSASignaturefromDNS(byte [] signature, ECKeyInfo keyinfo)
 	return out.toByteArray();
 }
 
-private static byte []
-ECDSASignaturetoDNS(byte [] signature, ECKeyInfo keyinfo) throws IOException {
-	DNSInput in = new DNSInput(signature);
+private static byte [] ECDSASignaturetoDNS(byte [] signature, ECKeyInfo keyinfo) throws IOException {
+	DNSInput dnsin = new DNSInput(signature);
 	DNSOutput out = new DNSOutput();
 
-	int tmp = in.readU8();
+	int tmp = dnsin.readU8();
 	if (tmp != ASN1_SEQ)
 		throw new IOException();
-	int seqlen = in.readU8();
+	int seqlen = dnsin.readU8();
 
-	tmp = in.readU8();
+	tmp = dnsin.readU8();
 	if (tmp != ASN1_INT)
 		throw new IOException();
-	int rlen = in.readU8();
+	int rlen = dnsin.readU8();
 	if (rlen == keyinfo.length + 1) {
-		if (in.readU8() != 0)
+		if (dnsin.readU8() != 0)
 			throw new IOException();
 	} else if (rlen != keyinfo.length)
 		throw new IOException();
-	byte[] bytes = in.readByteArray(keyinfo.length);
+	byte[] bytes = dnsin.readByteArray(keyinfo.length);
 	out.writeByteArray(bytes);
 
-	tmp = in.readU8();
+	tmp = dnsin.readU8();
 	if (tmp != ASN1_INT)
 		throw new IOException();
-	int slen = in.readU8();
+	int slen = dnsin.readU8();
 	if (slen == keyinfo.length + 1) {
-		if (in.readU8() != 0)
+		if (dnsin.readU8() != 0)
 			throw new IOException();
 	} else if (slen != keyinfo.length)
 		throw new IOException();
@@ -722,8 +691,7 @@ ECDSASignaturetoDNS(byte [] signature, ECKeyInfo keyinfo) throws IOException {
 	return out.toByteArray();
 }
 
-private static void
-verify(PublicKey key, int alg, byte [] data, byte [] signature)
+private static void verify(PublicKey key, int alg, byte [] data, byte [] signature)
 throws DNSSECException
 {
 	if (key instanceof DSAPublicKey) {
@@ -765,8 +733,7 @@ throws DNSSECException
 	}
 }
 
-private static boolean
-matches(SIGBase sig, KEYBase key)
+private static boolean matches(SIGBase sig, KEYBase key)
 {
 	return (key.getAlgorithm() == sig.getAlgorithm() &&
 		key.getFootprint() == sig.getFootprint() &&
@@ -786,8 +753,7 @@ matches(SIGBase sig, KEYBase key)
  * @throws SignatureVerificationException The signature does not verify.
  * @throws DNSSECException Some other error occurred.
  */
-public static void
-verify(RRset rrset, RRSIGRecord rrsig, DNSKEYRecord key) throws DNSSECException
+public static void verify(RRset rrset, RRSIGRecord rrsig, DNSKEYRecord key) throws DNSSECException
 {
 	if (!matches(rrsig, key))
 		throw new KeyMismatchException(key, rrsig);
@@ -803,8 +769,7 @@ verify(RRset rrset, RRSIGRecord rrsig, DNSKEYRecord key) throws DNSSECException
 	       digestRRset(rrsig, rrset), rrsig.getSignature());
 }
 
-private static byte []
-sign(PrivateKey privkey, PublicKey pubkey, int alg, byte [] data,
+private static byte [] sign(PrivateKey privkey, PublicKey pubkey, int alg, byte [] data,
      String provider) throws DNSSECException
 {
 	byte [] signature;
@@ -854,8 +819,8 @@ sign(PrivateKey privkey, PublicKey pubkey, int alg, byte [] data,
 
 	return signature;
 }
-static void
-checkAlgorithm(PrivateKey key, int alg) throws UnsupportedAlgorithmException
+
+static void checkAlgorithm(PrivateKey key, int alg) throws UnsupportedAlgorithmException
 {
 	switch (alg) {
 	case Algorithm.RSAMD5:
@@ -894,8 +859,7 @@ checkAlgorithm(PrivateKey key, int alg) throws UnsupportedAlgorithmException
  * @throws DNSSECException Some other error occurred.
  * @return The generated signature
  */
-public static RRSIGRecord
-sign(RRset rrset, DNSKEYRecord key, PrivateKey privkey,
+public static RRSIGRecord sign(RRset rrset, DNSKEYRecord key, PrivateKey privkey,
      Date inception, Date expiration) throws DNSSECException
 {
 	return sign(rrset, key, privkey, inception, expiration, null);
@@ -916,8 +880,7 @@ sign(RRset rrset, DNSKEYRecord key, PrivateKey privkey,
  * @throws DNSSECException Some other error occurred.
  * @return The generated signature
  */
-public static RRSIGRecord
-sign(RRset rrset, DNSKEYRecord key, PrivateKey privkey,
+public static RRSIGRecord sign(RRset rrset, DNSKEYRecord key, PrivateKey privkey,
      Date inception, Date expiration, String provider) throws DNSSECException
 {
 	int alg = key.getAlgorithm();
@@ -935,8 +898,7 @@ sign(RRset rrset, DNSKEYRecord key, PrivateKey privkey,
 	return rrsig;
 }
 
-static SIGRecord
-signMessage(Message message, SIGRecord previous, KEYRecord key,
+static SIGRecord signMessage(Message message, SIGRecord previous, KEYRecord key,
 	    PrivateKey privkey, Date inception, Date expiration)
 	throws DNSSECException
 {
@@ -958,8 +920,7 @@ signMessage(Message message, SIGRecord previous, KEYRecord key,
 	return sig;
 }
 
-static void
-verifyMessage(Message message, byte [] bytes, SIGRecord sig, SIGRecord previous,
+static void verifyMessage(Message message, byte [] bytes, SIGRecord sig, SIGRecord previous,
 	      KEYRecord key) throws DNSSECException
 {
 	if (!matches(sig, key))
@@ -995,8 +956,7 @@ verifyMessage(Message message, byte [] bytes, SIGRecord sig, SIGRecord previous,
  * @param digestid The type of digest
  * @return The digest value as an array of bytes
  */
-static byte []
-generateDSDigest(DNSKEYRecord key, int digestid)
+static byte [] generateDSDigest(DNSKEYRecord key, int digestid)
 {
 	MessageDigest digest;
 	try {

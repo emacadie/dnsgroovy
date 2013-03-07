@@ -130,7 +130,7 @@ private long parseDouble(Tokenizer st, String type, boolean required, long min, 
 	    long defaultValue)
 throws IOException
 {
-	Tokenizer.Token token = st.get();
+	Token token = st.get();
 	if (token.isEOL()) {
 		if (required)
 			throw st.exception("Invalid LOC " + type);

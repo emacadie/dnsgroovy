@@ -47,8 +47,7 @@ Master(File file, Name origin, long initialTTL) throws IOException {
  * @param ttl The initial default TTL.
  * @throws IOException The master file could not be opened.
  */
-public
-Master(String filename, Name origin, long ttl) throws IOException {
+public Master(String filename, Name origin, long ttl) throws IOException {
 	this(new File(filename), origin, ttl);
 }
 
@@ -58,8 +57,7 @@ Master(String filename, Name origin, long ttl) throws IOException {
  * @param origin The initial origin to append to relative names.
  * @throws IOException The master file could not be opened.
  */
-public
-Master(String filename, Name origin) throws IOException {
+public Master(String filename, Name origin) throws IOException {
 	this(new File(filename), origin, -1);
 }
 
@@ -68,8 +66,7 @@ Master(String filename, Name origin) throws IOException {
  * @param filename The master file.
  * @throws IOException The master file could not be opened.
  */
-public
-Master(String filename) throws IOException {
+public Master(String filename) throws IOException {
 	this(new File(filename), null, -1);
 }
 
@@ -79,12 +76,11 @@ Master(String filename) throws IOException {
  * @param origin The initial origin to append to relative names.
  * @param ttl The initial default TTL.
  */
-public
-Master(InputStream in, Name origin, long ttl) {
+public Master(InputStream instream, Name origin, long ttl) {
 	if (origin != null && !origin.isAbsolute()) {
 		throw new RelativeNameException(origin);
 	}
-	st = new Tokenizer(in);
+	st = new Tokenizer(instream);
 	this.origin = origin;
 	defaultTTL = ttl;
 }
@@ -94,22 +90,19 @@ Master(InputStream in, Name origin, long ttl) {
  * @param in The input stream containing a master file.
  * @param origin The initial origin to append to relative names.
  */
-public
-Master(InputStream in, Name origin) {
-	this(in, origin, -1);
+public Master(InputStream instream, Name origin) {
+	this(instream, origin, -1);
 }
 
 /**
  * Initializes the master file reader.
  * @param in The input stream containing a master file.
  */
-public
-Master(InputStream in) {
-	this(in, null, -1);
+public Master(InputStream instream) {
+	this(instream, null, -1);
 }
 
-private Name
-parseName(String s, Name origin) throws TextParseException {
+private Name parseName(String s, Name origin) throws TextParseException {
 	try {
 		return Name.fromString(s, origin);
 	}
@@ -118,8 +111,7 @@ parseName(String s, Name origin) throws TextParseException {
 	}
 }
 
-private void
-parseTTLClassAndType() throws IOException {
+private void parseTTLClassAndType() throws IOException {
 	String s;
 	boolean seen_class = false;
 
@@ -171,8 +163,7 @@ parseTTLClassAndType() throws IOException {
 	}
 }
 
-private long
-parseUInt32(String s) {
+private long parseUInt32(String s) {
 	if (!Character.isDigit(s.charAt(0)))
 		return -1;
 	try {
@@ -186,8 +177,7 @@ parseUInt32(String s) {
 	}
 }
 
-private void
-startGenerate() throws IOException {
+private void startGenerate() throws IOException {
 	String s;
 	int n;
 
@@ -241,16 +231,14 @@ startGenerate() throws IOException {
 	generators.add(generator);
 }
 
-private void
-endGenerate() throws IOException {
+private void endGenerate() throws IOException {
 	// Read the EOL that we put back before.
 	st.getEOL();
 
 	generator = null;
 }
 
-private Record
-nextGenerated() throws IOException {
+private Record nextGenerated() throws IOException {
 	try {
 		return generator.nextRecord();
 	}
@@ -269,8 +257,7 @@ nextGenerated() throws IOException {
  * @throws IOException The master file could not be read, or was syntactically
  * invalid.
  */
-public Record
-_nextRecord() throws IOException {
+public Record _nextRecord() throws IOException {
 	Tokenizer.Token token;
 	String s;
 
@@ -381,8 +368,7 @@ _nextRecord() throws IOException {
  * @throws IOException The master file could not be read, or was syntactically
  * invalid.
  */
-public Record
-nextRecord() throws IOException {
+public Record nextRecord() throws IOException {
 	Record rec = null;
 	try {
 		rec = _nextRecord();
@@ -401,8 +387,7 @@ nextRecord() throws IOException {
  * by calling {@link #generators}.  This must be called before a $GENERATE
  * statement is seen during iteration to have an effect.
  */
-public void
-expandGenerate(boolean wantExpand) {
+public void expandGenerate(boolean wantExpand) {
 	noExpandGenerate = !wantExpand;
 }
 
@@ -411,16 +396,14 @@ expandGenerate(boolean wantExpand) {
  * is, the parsed contents of $GENERATE statements.
  * @see Generator
  */
-public Iterator
-generators() {
+public Iterator generators() {
 	if (generators != null)
 		return Collections.unmodifiableList(generators).iterator();
 	else
 		return Collections.EMPTY_LIST.iterator();
 }
 
-protected void
-finalize() {
+protected void finalize() {
 	st.close();
 }
 

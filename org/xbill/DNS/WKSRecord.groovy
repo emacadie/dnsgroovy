@@ -635,7 +635,7 @@ void rdataFromString(Tokenizer st, Name origin) throws IOException {
 
 	List list = new ArrayList();
 	while (true) {
-		Tokenizer.Token t = st.get();
+		Token t = st.get();
 		if (!t.isString())
 			break;
 		int service = Service.value(t.value);

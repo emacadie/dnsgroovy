@@ -24,11 +24,9 @@ protected int footprint;
 protected Name signer;
 protected byte [] signature;
 
-protected
-SIGBase() {}
+protected SIGBase() {}
 
-public
-SIGBase(Name name, int type, int dclass, long ttl, int covered, int alg,
+public SIGBase(Name name, int type, int dclass, long ttl, int covered, int alg,
 	long origttl, Date expire, Date timeSigned, int footprint, Name signer,
 	byte [] signature)
 {
@@ -48,8 +46,7 @@ SIGBase(Name name, int type, int dclass, long ttl, int covered, int alg,
 	this.signature = signature;
 }
 
-void
-rrFromWire(DNSInput dnsin) throws IOException {
+void rrFromWire(DNSInput dnsin) throws IOException {
 	covered = dnsin.readU16();
 	alg = dnsin.readU8();
 	labels = dnsin.readU8();
@@ -61,8 +58,7 @@ rrFromWire(DNSInput dnsin) throws IOException {
 	signature = dnsin.readByteArray();
 }
 
-void
-rdataFromString(Tokenizer st, Name origin) throws IOException {
+void rdataFromString(Tokenizer st, Name origin) throws IOException {
 	String typeString = st.getString();
 	covered = Type.value(typeString);
 	if (covered < 0)
@@ -81,8 +77,7 @@ rdataFromString(Tokenizer st, Name origin) throws IOException {
 }
 
 /** Converts the RRSIG/SIG Record to a String */
-String
-rrToString() {
+String rrToString() {
 	StringBuffer sb = new StringBuffer();
 	sb.append (Type.string(covered));
 	sb.append (" ");
@@ -113,16 +108,14 @@ rrToString() {
 }
 
 /** Returns the RRset type covered by this signature */
-public int
-getTypeCovered() {
+public int getTypeCovered() {
 	return covered;
 }
 
 /**
  * Returns the cryptographic algorithm of the key that generated the signature
  */
-public int
-getAlgorithm() {
+public int getAlgorithm() {
 	return alg;
 }
 
@@ -131,54 +124,45 @@ getAlgorithm() {
  * different than the record's domain name if the record is a wildcard
  * record.
  */
-public int
-getLabels() {
+public int getLabels() {
 	return labels;
 }
 
 /** Returns the original TTL of the RRset */
-public long
-getOrigTTL() {
+public long getOrigTTL() {
 	return origttl;
 }
 
 /** Returns the time at which the signature expires */
-public Date
-getExpire() {
+public Date getExpire() {
 	return expire;
 }
 
 /** Returns the time at which this signature was generated */
-public Date
-getTimeSigned() {
+public Date getTimeSigned() {
 	return timeSigned;
 }
 
 /** Returns The footprint/key id of the signing key.  */
-public int
-getFootprint() {
+public int getFootprint() {
 	return footprint;
 }
 
 /** Returns the owner of the signing key */
-public Name
-getSigner() {
+public Name getSigner() {
 	return signer;
 }
 
 /** Returns the binary data representing the signature */
-public byte []
-getSignature() {
+public byte [] getSignature() {
 	return signature;
 }
 
-void
-setSignature(byte [] signature) {
+void setSignature(byte [] signature) {
 	this.signature = signature;
 }
 
-void
-rrToWire(DNSOutput out, Compression c, boolean canonical) {
+void rrToWire(DNSOutput out, Compression c, boolean canonical) {
 	out.writeU16(covered);
 	out.writeU8(alg);
 	out.writeU8(labels);

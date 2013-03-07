@@ -33,15 +33,13 @@ private boolean padding, lowercase;
  * @param lowercase Whether lowercase characters should be used.
  * default parameters (The standard base32 alphabet, no padding, uppercase)
  */
-public
-base32(String alphabet, boolean padding, boolean lowercase) {
+public Base32(String alphabet, boolean padding, boolean lowercase) {
 	this.alphabet = alphabet;
 	this.padding = padding;
 	this.lowercase = lowercase;
 }
 
-static private int
-blockLenToPadding(int blocklen) {
+static private int blockLenToPadding(int blocklen) {
 	switch (blocklen) {
 	case 1:
 		return 6;
@@ -58,8 +56,7 @@ blockLenToPadding(int blocklen) {
 	}
 }
 
-static private int
-paddingToBlockLen(int padlen) {
+static private int paddingToBlockLen(int padlen) {
 	switch (padlen) {
 	case 6:
 		return 1;
@@ -82,8 +79,7 @@ paddingToBlockLen(int padlen) {
  * @param b An array containing binary data
  * @return A String containing the encoded data
  */
-public String
-toString(byte [] b) {
+public String toString(byte [] b) {
 	ByteArrayOutputStream os = new ByteArrayOutputStream();
 
 	for (int i = 0; i < (b.length + 4) / 5; i++) {
@@ -144,8 +140,7 @@ toString(byte [] b) {
  * @param str A String containing the encoded data
  * @return An array containing the binary data, or null if the string is invalid
  */
-public byte[]
-fromString(String str) {
+public byte[] fromString(String str) {
 	ByteArrayOutputStream bs = new ByteArrayOutputStream();
 	byte [] raw = str.getBytes();
 	for (int i = 0; i < raw.length; i++)

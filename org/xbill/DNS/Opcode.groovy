@@ -42,18 +42,15 @@ static {
 	opcodes.add(UPDATE, "UPDATE");
 }
 
-private
-Opcode() {}
+private Opcode() {}
 
 /** Converts a numeric Opcode into a String */
-public static String
-string(int i) {
+public static String string(int i) {
 	return opcodes.getText(i);
 }
 
 /** Converts a String representation of an Opcode into its numeric value */
-public static int
-value(String s) {
+public static int value(String s) {
 	return opcodes.getValue(s);
 }
 

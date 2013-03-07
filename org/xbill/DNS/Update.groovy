@@ -21,8 +21,7 @@ private int dclass;
  * @param zone The name of the zone being updated.
  * @param dclass The class of the zone being updated.
  */
-public
-Update(Name zone, int dclass) {
+public Update(Name zone, int dclass) {
 	super();
 	if (!zone.isAbsolute())
 		throw new RelativeNameException(zone);
@@ -38,18 +37,15 @@ Update(Name zone, int dclass) {
  * Creates an update message.  The class is assumed to be IN.
  * @param zone The name of the zone being updated.
  */
-public
-Update(Name zone) {
+public Update(Name zone) {
 	this(zone, DClass.IN);
 }
 
-private void
-newPrereq(Record rec) {
+private void newPrereq(Record rec) {
 	addRecord(rec, Section.PREREQ);
 }
 
-private void
-newUpdate(Record rec) {
+private void newUpdate(Record rec) {
 	addRecord(rec, Section.UPDATE);
 }
 
@@ -57,8 +53,7 @@ newUpdate(Record rec) {
  * Inserts a prerequisite that the specified name exists; that is, there
  * exist records with the given name in the zone.
  */
-public void
-present(Name name) {
+public void present(Name name) {
 	newPrereq(Record.newRecord(name, Type.ANY, DClass.ANY, 0));
 }
 
@@ -66,8 +61,7 @@ present(Name name) {
  * Inserts a prerequisite that the specified rrset exists; that is, there
  * exist records with the given name and type in the zone.
  */
-public void
-present(Name name, int type) {
+public void present(Name name, int type) {
 	newPrereq(Record.newRecord(name, type, DClass.ANY, 0));
 }
 
@@ -79,8 +73,7 @@ present(Name name, int type) {
  * with that name and type on the server.
  * @throws IOException The record could not be parsed.
  */
-public void
-present(Name name, int type, String record) throws IOException {
+public void present(Name name, int type, String record) throws IOException {
 	newPrereq(Record.fromString(name, type, dclass, 0, record, origin));
 }
 
@@ -92,8 +85,7 @@ present(Name name, int type, String record) throws IOException {
  * with that name and type on the server.
  * @throws IOException The record could not be parsed.
  */
-public void
-present(Name name, int type, Tokenizer tokenizer) throws IOException {
+public void present(Name name, int type, Tokenizer tokenizer) throws IOException {
 	newPrereq(Record.fromString(name, type, dclass, 0, tokenizer, origin));
 }
 
@@ -103,8 +95,7 @@ present(Name name, int type, Tokenizer tokenizer) throws IOException {
  * the set of all records with the same and type in the update message must
  * be identical to the set of all records with that name and type on the server.
  */
-public void
-present(Record record) {
+public void present(Record record) {
 	newPrereq(record);
 }
 
@@ -112,8 +103,7 @@ present(Record record) {
  * Inserts a prerequisite that the specified name does not exist; that is,
  * there are no records with the given name in the zone.
  */
-public void
-absent(Name name) {
+public void absent(Name name) {
 	newPrereq(Record.newRecord(name, Type.ANY, DClass.NONE, 0));
 }
 
@@ -121,8 +111,7 @@ absent(Name name) {
  * Inserts a prerequisite that the specified rrset does not exist; that is,
  * there are no records with the given name and type in the zone.
  */
-public void
-absent(Name name, int type) {
+public void absent(Name name, int type) {
 	newPrereq(Record.newRecord(name, type, DClass.NONE, 0));
 }
 
@@ -131,8 +120,7 @@ absent(Name name, int type) {
  * should be inserted into the zone.
  * @throws IOException The record could not be parsed.
  */
-public void
-add(Name name, int type, long ttl, String record) throws IOException {
+public void add(Name name, int type, long ttl, String record) throws IOException {
 	newUpdate(Record.fromString(name, type, dclass, ttl, record, origin));
 }
 
@@ -141,8 +129,7 @@ add(Name name, int type, long ttl, String record) throws IOException {
  * should be inserted into the zone.
  * @throws IOException The record could not be parsed.
  */
-public void
-add(Name name, int type, long ttl, Tokenizer tokenizer) throws IOException {
+public void add(Name name, int type, long ttl, Tokenizer tokenizer) throws IOException {
 	newUpdate(Record.fromString(name, type, dclass, ttl, tokenizer,
 				    origin));
 }
@@ -150,16 +137,14 @@ add(Name name, int type, long ttl, Tokenizer tokenizer) throws IOException {
 /**
  * Indicates that the record should be inserted into the zone.
  */
-public void
-add(Record record) {
+public void add(Record record) {
 	newUpdate(record);
 }
 
 /**
  * Indicates that the records should be inserted into the zone.
  */
-public void
-add(Record [] records) {
+public void add(Record [] records) {
 	for (int i = 0; i < records.length; i++)
 		add(records[i]);
 }
@@ -168,8 +153,7 @@ add(Record [] records) {
  * Indicates that all of the records in the rrset should be inserted into the
  * zone.
  */
-public void
-add(RRset rrset) {
+public void add(RRset rrset) {
 	for (Iterator it = rrset.rrs(); it.hasNext(); )
 		add((Record) it.next());
 }
@@ -178,8 +162,7 @@ add(RRset rrset) {
  * Indicates that all records with the given name should be deleted from
  * the zone.
  */
-public void
-delete(Name name) {
+public void delete(Name name) {
 	newUpdate(Record.newRecord(name, Type.ANY, DClass.ANY, 0));
 }
 
@@ -187,8 +170,7 @@ delete(Name name) {
  * Indicates that all records with the given name and type should be deleted
  * from the zone.
  */
-public void
-delete(Name name, int type) {
+public void delete(Name name, int type) {
 	newUpdate(Record.newRecord(name, type, DClass.ANY, 0));
 }
 
@@ -197,8 +179,7 @@ delete(Name name, int type) {
  * should be deleted from the zone.
  * @throws IOException The record could not be parsed.
  */
-public void
-delete(Name name, int type, String record) throws IOException {
+public void delete(Name name, int type, String record) throws IOException {
 	newUpdate(Record.fromString(name, type, DClass.NONE, 0, record,
 				    origin));
 }
@@ -208,8 +189,7 @@ delete(Name name, int type, String record) throws IOException {
  * should be deleted from the zone.
  * @throws IOException The record could not be parsed.
  */
-public void
-delete(Name name, int type, Tokenizer tokenizer) throws IOException {
+public void delete(Name name, int type, Tokenizer tokenizer) throws IOException {
 	newUpdate(Record.fromString(name, type, DClass.NONE, 0, tokenizer,
 				    origin));
 }
@@ -217,16 +197,14 @@ delete(Name name, int type, Tokenizer tokenizer) throws IOException {
 /**
  * Indicates that the specified record should be deleted from the zone.
  */
-public void
-delete(Record record) {
+public void delete(Record record) {
 	newUpdate(record.withDClass(DClass.NONE, 0));
 }
 
 /**
  * Indicates that the records should be deleted from the zone.
  */
-public void
-delete(Record [] records) {
+public void delete(Record [] records) {
 	for (int i = 0; i < records.length; i++)
 		delete(records[i]);
 }
@@ -235,8 +213,7 @@ delete(Record [] records) {
  * Indicates that all of the records in the rrset should be deleted from the
  * zone.
  */
-public void
-delete(RRset rrset) {
+public void delete(RRset rrset) {
 	for (Iterator it = rrset.rrs(); it.hasNext(); )
 		delete((Record) it.next());
 }
@@ -247,8 +224,7 @@ delete(RRset rrset) {
  * same name and type.
  * @throws IOException The record could not be parsed.
  */
-public void
-replace(Name name, int type, long ttl, String record) throws IOException {
+public void replace(Name name, int type, long ttl, String record) throws IOException {
 	delete(name, type);
 	add(name, type, ttl, record);
 }
@@ -259,8 +235,7 @@ replace(Name name, int type, long ttl, String record) throws IOException {
  * same name and type.
  * @throws IOException The record could not be parsed.
  */
-public void
-replace(Name name, int type, long ttl, Tokenizer tokenizer) throws IOException
+public void replace(Name name, int type, long ttl, Tokenizer tokenizer) throws IOException
 {
 	delete(name, type);
 	add(name, type, ttl, tokenizer);
@@ -270,8 +245,7 @@ replace(Name name, int type, long ttl, Tokenizer tokenizer) throws IOException
  * Indicates that the record should be inserted into the zone replacing any
  * other records with the same name and type.
  */
-public void
-replace(Record record) {
+public void replace(Record record) {
 	delete(record.getName(), record.getType());
 	add(record);
 }
@@ -280,8 +254,7 @@ replace(Record record) {
  * Indicates that the records should be inserted into the zone replacing any
  * other records with the same name and type as each one.
  */
-public void
-replace(Record [] records) {
+public void replace(Record [] records) {
 	for (int i = 0; i < records.length; i++)
 		replace(records[i]);
 }
@@ -290,8 +263,7 @@ replace(Record [] records) {
  * Indicates that all of the records in the rrset should be inserted into the
  * zone replacing any other records with the same name and type.
  */
-public void
-replace(RRset rrset) {
+public void replace(RRset rrset) {
 	delete(rrset.getName(), rrset.getType());
 	for (Iterator it = rrset.rrs(); it.hasNext(); )
 		add((Record) it.next());

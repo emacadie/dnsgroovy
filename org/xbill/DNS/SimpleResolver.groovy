@@ -42,8 +42,7 @@ private static int uniqueID = 0;
  * Creates a SimpleResolver that will query the specified host 
  * @exception UnknownHostException Failure occurred while finding the host
  */
-public
-SimpleResolver(String hostname) throws UnknownHostException {
+public SimpleResolver(String hostname) throws UnknownHostException {
 	if (hostname == null) {
 		hostname = ResolverConfig.getCurrentConfig().server();
 		if (hostname == null)
@@ -63,8 +62,7 @@ SimpleResolver(String hostname) throws UnknownHostException {
  * @see ResolverConfig
  * @exception UnknownHostException Failure occurred while finding the host
  */
-public
-SimpleResolver() throws UnknownHostException {
+public SimpleResolver() throws UnknownHostException {
 	this(null);
 }
 
@@ -73,19 +71,16 @@ SimpleResolver() throws UnknownHostException {
  * Messages sent using this SimpleResolver will be sent to this address.
  * @return The destination address associated with this SimpleResolver.
  */
-InetSocketAddress
-getAddress() {
+InetSocketAddress getAddress() {
 	return address;
 }
 
 /** Sets the default host (initially localhost) to query */
-public static void
-setDefaultResolver(String hostname) {
+public static void setDefaultResolver(String hostname) {
 	defaultResolver = hostname;
 }
 
-public void
-setPort(int port) {
+public void setPort(int port) {
 	address = new InetSocketAddress(address.getAddress(), port);
 }
 
@@ -93,8 +88,7 @@ setPort(int port) {
  * Sets the address of the server to communicate with.
  * @param addr The address of the DNS server
  */
-public void
-setAddress(InetSocketAddress addr) {
+public void setAddress(InetSocketAddress addr) {
 	address = addr;
 }
 
@@ -103,8 +97,7 @@ setAddress(InetSocketAddress addr) {
  * DNS port)
  * @param addr The address of the DNS server
  */
-public void
-setAddress(InetAddress addr) {
+public void setAddress(InetAddress addr) {
 	address = new InetSocketAddress(addr, address.getPort());
 }
 
@@ -112,8 +105,7 @@ setAddress(InetAddress addr) {
  * Sets the local address to bind to when sending messages.
  * @param addr The local address to send messages from.
  */
-public void
-setLocalAddress(InetSocketAddress addr) {
+public void setLocalAddress(InetSocketAddress addr) {
 	localAddress = addr;
 }
 
@@ -122,23 +114,19 @@ setLocalAddress(InetSocketAddress addr) {
  * will be used.
  * @param addr The local address to send messages from.
  */
-public void
-setLocalAddress(InetAddress addr) {
+public void setLocalAddress(InetAddress addr) {
 	localAddress = new InetSocketAddress(addr, 0);
 }
 
-public void
-setTCP(boolean flag) {
+public void setTCP(boolean flag) {
 	this.useTCP = flag;
 }
 
-public void
-setIgnoreTruncation(boolean flag) {
+public void setIgnoreTruncation(boolean flag) {
 	this.ignoreTruncation = flag;
 }
 
-public void
-setEDNS(int level, int payloadSize, int flags, List options) {
+public void setEDNS(int level, int payloadSize, int flags, List options) {
 	if (level != 0 && level != -1)
 		throw new IllegalArgumentException("invalid EDNS level - " +
 						   "must be 0 or -1");
@@ -147,38 +135,31 @@ setEDNS(int level, int payloadSize, int flags, List options) {
 	queryOPT = new OPTRecord(payloadSize, 0, level, flags, options);
 }
 
-public void
-setEDNS(int level) {
+public void setEDNS(int level) {
 	setEDNS(level, 0, 0, null);
 }
 
-public void
-setTSIGKey(TSIG key) {
+public void setTSIGKey(TSIG key) {
 	tsig = key;
 }
 
-TSIG
-getTSIGKey() {
+TSIG getTSIGKey() {
 	return tsig;
 }
 
-public void
-setTimeout(int secs, int msecs) {
+public void setTimeout(int secs, int msecs) {
 	timeoutValue = (long)secs * 1000 + msecs;
 }
 
-public void
-setTimeout(int secs) {
+public void setTimeout(int secs) {
 	setTimeout(secs, 0);
 }
 
-long
-getTimeout() {
+long getTimeout() {
 	return timeoutValue;
 }
 
-private Message
-parseMessage(byte [] b) throws WireParseException {
+private Message parseMessage(byte [] b) throws WireParseException {
 	try {
 		return (new Message(b));
 	}
@@ -191,8 +172,7 @@ parseMessage(byte [] b) throws WireParseException {
 	}
 }
 
-private void
-verifyTSIG(Message query, Message response, byte [] b, TSIG tsig) {
+private void verifyTSIG(Message query, Message response, byte [] b, TSIG tsig) {
 	if (tsig == null)
 		return;
 	int error = tsig.verify(response, b, query.getTSIG());
@@ -200,15 +180,13 @@ verifyTSIG(Message query, Message response, byte [] b, TSIG tsig) {
 		System.err.println("TSIG verify: " + Rcode.TSIGstring(error));
 }
 
-private void
-applyEDNS(Message query) {
+private void applyEDNS(Message query) {
 	if (queryOPT == null || query.getOPT() != null)
 		return;
 	query.addRecord(queryOPT, Section.ADDITIONAL);
 }
 
-private int
-maxUDPSize(Message query) {
+private int maxUDPSize(Message query) {
 	OPTRecord opt = query.getOPT();
 	if (opt == null)
 		return DEFAULT_UDPSIZE;
@@ -223,8 +201,7 @@ maxUDPSize(Message query) {
  * @return The response.
  * @throws IOException An error occurred while sending or receiving.
  */
-public Message
-send(Message query) throws IOException {
+public Message send(Message query) throws IOException {
 	if (Options.check("verbose"))
 		System.err.println("Sending to " +
 				   address.getAddress().getHostAddress() +
@@ -245,7 +222,7 @@ send(Message query) throws IOException {
 	int udpSize = maxUDPSize(query);
 	boolean tcp = false;
 	long endTime = System.currentTimeMillis() + timeoutValue;
-	do {
+	while (true ) { // was a do { } while ( true )
 		byte [] bytein;
 
 		if (useTCP || out.length > udpSize)
@@ -293,7 +270,7 @@ send(Message query) throws IOException {
 			continue;
 		}
 		return response;
-	} while (true);
+	} // while (true);
 }
 
 /**
@@ -304,9 +281,8 @@ send(Message query) throws IOException {
  * @param query The query to send
  * @param listener The object containing the callbacks.
  * @return An identifier, which is also a parameter in the callback
- */
-public Object
-sendAsync(final Message query, final ResolverListener listener) {
+ */ 
+public Object sendAsync(final Message query, final ResolverListener listener) {
 	final Object id;
 	synchronized (this) {
 		id = new Integer(uniqueID++);
@@ -325,8 +301,7 @@ sendAsync(final Message query, final ResolverListener listener) {
 	return id;
 }
 
-private Message
-sendAXFR(Message query) throws IOException {
+private Message sendAXFR(Message query) throws IOException {
 	Name qname = query.getQuestion().getName();
 	ZoneTransferIn xfrin = ZoneTransferIn.newAXFR(qname, address, tsig);
 	xfrin.setTimeout((int)(getTimeout() / 1000));

@@ -22,11 +22,9 @@ protected byte [] key;
 protected int footprint = -1;
 protected PublicKey publicKey = null;
 
-protected
-KEYBase() {}
+protected KEYBase() {}
 
-public
-KEYBase(Name name, int type, int dclass, long ttl, int flags, int proto,
+public KEYBase(Name name, int type, int dclass, long ttl, int flags, int proto,
 	int alg, byte [] key)
 {
 	super(name, type, dclass, ttl);
@@ -36,18 +34,17 @@ KEYBase(Name name, int type, int dclass, long ttl, int flags, int proto,
 	this.key = key;
 }
 
-void
-rrFromWire(DNSInput in) throws IOException {
-	flags = in.readU16();
-	proto = in.readU8();
-	alg = in.readU8();
-	if (in.remaining() > 0)
-		key = in.readByteArray();
+void rrFromWire(DNSInput dnsin) throws IOException {
+	flags = dnsin.readU16();
+	proto = dnsin.readU8();
+	alg = dnsin.readU8();
+	if (dnsin.remaining() > 0) { 
+		key = dnsin.readByteArray();
+	}
 }
 
 /** Converts the DNSKEY/KEY Record to a String */
-String
-rrToString() {
+String rrToString() {
 	StringBuffer sb = new StringBuffer();
 	sb.append(flags);
 	sb.append(" ");
@@ -71,43 +68,38 @@ rrToString() {
 /**
  * Returns the flags describing the key's properties
  */
-public int
-getFlags() {
+public int getFlags() {
 	return flags;
 }
 
 /**
  * Returns the protocol that the key was created for
  */
-public int
-getProtocol() {
+public int getProtocol() {
 	return proto;
 }
 
 /**
  * Returns the key's algorithm
  */
-public int
-getAlgorithm() {
+public int getAlgorithm() {
 	return alg;
 }
 
 /**
  * Returns the binary data representing the key
  */
-public byte []
-getKey() {
+public byte [] getKey() {
 	return key;
 }
 
 /**
  * Returns the key's footprint (after computing it)
  */
-public int
-getFootprint() {
-	if (footprint >= 0)
+public int getFootprint() {
+	if (footprint >= 0) { 
 		return footprint;
-
+         }
 	int foot = 0;
 
 	DNSOutput out = new DNSOutput();
@@ -140,8 +132,7 @@ getFootprint() {
  * Returns a PublicKey corresponding to the data in this key.
  * @throws DNSSEC.DNSSECException The key could not be converted.
  */
-public PublicKey
-getPublicKey() throws DNSSEC.DNSSECException {
+public PublicKey getPublicKey() throws DNSSEC.DNSSECException {
 	if (publicKey != null)
 		return publicKey;
 
@@ -149,8 +140,7 @@ getPublicKey() throws DNSSEC.DNSSECException {
 	return publicKey;
 }
 
-void
-rrToWire(DNSOutput out, Compression c, boolean canonical) {
+void rrToWire(DNSOutput out, Compression c, boolean canonical) {
 	out.writeU16(flags);
 	out.writeU8(proto);
 	out.writeU8(alg);

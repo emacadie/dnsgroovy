@@ -51,18 +51,15 @@ static {
 	flags.add(CD, "cd");
 }
 
-private
-Flags() {}
+private Flags() {}
 
 /** Converts a numeric Flag into a String */
-public static String
-string(int i) {
+public static String string(int i) {
 	return flags.getText(i);
 }
 
 /** Converts a String representation of an Flag into its numeric value */
-public static int
-value(String s) {
+public static int value(String s) {
 	return flags.getValue(s);
 }
 
@@ -70,8 +67,7 @@ value(String s) {
  * Indicates if a bit in the flags field is a flag or not.  If it's part of
  * the rcode or opcode, it's not.
  */
-public static boolean
-isFlag(int index) {
+public static boolean isFlag(int index) {
 	flags.check(index);
 	if ((index >= 1 && index <= 4) || (index >= 12))
 		return false;

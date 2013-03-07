@@ -17,16 +17,13 @@ private static final long serialVersionUID = -18595042501413L;
 
 protected Name singleName;
 
-protected
-SingleNameBase() {}
+protected SingleNameBase() {}
 
-protected
-SingleNameBase(Name name, int type, int dclass, long ttl) {
+protected SingleNameBase(Name name, int type, int dclass, long ttl) {
 	super(name, type, dclass, ttl);
 }
 
-protected
-SingleNameBase(Name name, int type, int dclass, long ttl, Name singleName,
+protected SingleNameBase(Name name, int type, int dclass, long ttl, Name singleName,
 	    String description)
 {
 	super(name, type, dclass, ttl);
@@ -37,23 +34,19 @@ void rrFromWire(DNSInput dnsin) throws IOException {
 	singleName = new Name(dnsin);
 }
 
-void
-rdataFromString(Tokenizer st, Name origin) throws IOException {
+void rdataFromString(Tokenizer st, Name origin) throws IOException {
 	singleName = st.getName(origin);
 }
 
-String
-rrToString() {
+String rrToString() {
 	return singleName.toString();
 }
 
-protected Name
-getSingleName() {
+protected Name getSingleName() {
 	return singleName;
 }
 
-void
-rrToWire(DNSOutput out, Compression c, boolean canonical) {
+void rrToWire(DNSOutput out, Compression c, boolean canonical) {
 	singleName.toWire(out, null, canonical);
 }
 

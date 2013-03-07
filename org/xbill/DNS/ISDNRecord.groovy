@@ -50,7 +50,7 @@ void rrFromWire(DNSInput dnsin) throws IOException {
 void rdataFromString(Tokenizer st, Name origin) throws IOException {
 	try {
 		address = byteArrayFromString(st.getString());
-		Tokenizer.Token t = st.get();
+		Token t = st.get();
 		if (t.isString()) {
 			subAddress = byteArrayFromString(t.value);
 		} else {
