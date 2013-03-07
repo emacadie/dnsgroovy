@@ -99,24 +99,20 @@ static {
 	tsigrcodes.add(BADMODE, "BADMODE");
 }
 
-private
-Rcode() {}
+private Rcode() {}
 
 /** Converts a numeric Rcode into a String */
-public static String
-string(int i) {
+public static String string(int i) {
 	return rcodes.getText(i);
 }
 
 /** Converts a numeric TSIG extended Rcode into a String */
-public static String
-TSIGstring(int i) {
+public static String TSIGstring(int i) {
 	return tsigrcodes.getText(i);
 }
 
 /** Converts a String representation of an Rcode into its numeric value */
-public static int
-value(String s) {
+public static int value(String s) {
 	return rcodes.getValue(s);
 }
 

@@ -19,8 +19,7 @@ private byte [] data;
 
 UNKRecord() {}
 
-Record
-getObject() {
+Record getObject() {
 	return new UNKRecord();
 }
 
@@ -28,25 +27,21 @@ void rrFromWire(DNSInput dnsin) throws IOException {
 	data = dnsin.readByteArray();
 }
 
-void
-rdataFromString(Tokenizer st, Name origin) throws IOException {
+void rdataFromString(Tokenizer st, Name origin) throws IOException {
 	throw st.exception("invalid unknown RR encoding");
 }
 
 /** Converts this Record to the String "unknown format" */
-String
-rrToString() {
+String rrToString() {
 	return unknownToString(data);
 }
 
 /** Returns the contents of this record. */
-public byte []
-getData() { 
+public byte [] getData() { 
 	return data;
 }
 
-void
-rrToWire(DNSOutput out, Compression c, boolean canonical) {
+void rrToWire(DNSOutput out, Compression c, boolean canonical) {
 	out.writeByteArray(data);
 }
 

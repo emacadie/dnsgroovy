@@ -21,8 +21,7 @@ private static final long serialVersionUID = -2609150673537226317L;
 
 RRSIGRecord() {}
 
-Record
-getObject() {
+Record getObject() {
 	return new RRSIGRecord();
 }
 
@@ -38,8 +37,7 @@ getObject() {
  * @param signer The owner of the signing key
  * @param signature Binary data representing the signature
  */
-public
-RRSIGRecord(Name name, int dclass, long ttl, int covered, int alg, long origttl,
+public RRSIGRecord(Name name, int dclass, long ttl, int covered, int alg, long origttl,
 	    Date expire, Date timeSigned, int footprint, Name signer,
 	    byte [] signature)
 {

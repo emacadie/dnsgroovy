@@ -57,18 +57,15 @@ static {
 	updateSections[ADDITIONAL]	= "ADDITIONAL RECORDS";
 }
 
-private
-Section() {}
+private Section() {}
 
 /** Converts a numeric Section into an abbreviation String */
-public static String
-string(int i) {
+public static String string(int i) {
 	return sections.getText(i);
 }
 
 /** Converts a numeric Section into a full description String */
-public static String
-longString(int i) {
+public static String longString(int i) {
 	sections.check(i);
 	return longSections[i];
 }
@@ -77,15 +74,13 @@ longString(int i) {
  * Converts a numeric Section into a full description String for an update
  * Message.
  */
-public static String
-updString(int i) {
+public static String updString(int i) {
 	sections.check(i);
 	return updateSections[i];
 }
 
 /** Converts a String representation of a Section into its numeric value */
-public static int
-value(String s) {
+public static int value(String s) {
 	return sections.getValue(s);
 }
 

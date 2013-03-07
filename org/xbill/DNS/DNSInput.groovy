@@ -20,8 +20,7 @@ private int saved_end;
  * Creates a new DNSInput
  * @param input The byte array to read from
  */
-public
-DNSInput(byte [] input) {
+public DNSInput(byte [] input) {
 	array = input;
 	pos = 0;
 	end = array.length;
@@ -32,8 +31,7 @@ DNSInput(byte [] input) {
 /**
  * Returns the current position.
  */
-public int
-current() {
+public int current() {
 	return pos;
 }
 
@@ -41,13 +39,11 @@ current() {
  * Returns the number of bytes that can be read from this stream before
  * reaching the end.
  */
-public int
-remaining() {
+public int remaining() {
 	return end - pos;
 }
 
-private void
-require(int n) throws WireParseException{
+private void require(int n) throws WireParseException{
 	if (n > remaining()) {
 		throw new WireParseException("end of input");
 	}
@@ -59,8 +55,7 @@ require(int n) throws WireParseException{
  * @throws IllegalArgumentException The number of bytes in the active region
  * is longer than the remainder of the input.
  */
-public void
-setActive(int len) {
+public void setActive(int len) {
 	if (len > array.length - pos) {
 		throw new IllegalArgumentException("cannot set active " +
 						   "region past end of input");
@@ -72,16 +67,14 @@ setActive(int len) {
  * Clears the active region of the string.  Further operations are not
  * restricted to part of the input.
  */
-public void
-clearActive() {
+public void clearActive() {
 	end = array.length;
 }
 
 /**
  * Returns the position of the end of the current active region.
  */
-public int
-saveActive() {
+public int saveActive() {
 	return end;
 }
 
@@ -91,8 +84,7 @@ saveActive() {
  * offset from the current location.
  * @param pos The end of the active region.
  */
-public void
-restoreActive(int pos) {
+public void restoreActive(int pos) {
 	if (pos > array.length) {
 		throw new IllegalArgumentException("cannot set active " +
 						   "region past end of input");
@@ -106,8 +98,7 @@ restoreActive(int pos) {
  * @param index The position to continue parsing at.
  * @throws IllegalArgumentException The index is not within the input.
  */
-public void
-jump(int index) {
+public void jump(int index) {
 	if (index >= array.length) {
 		throw new IllegalArgumentException("cannot jump past " +
 						   "end of input");
@@ -121,8 +112,7 @@ jump(int index) {
  * the end of the active region are saved.
  * @throws IllegalArgumentException The index is not within the input.
  */
-public void
-save() {
+public void save() {
 	saved_pos = pos;
 	saved_end = end;
 }
@@ -130,8 +120,7 @@ save() {
 /**
  * Restores the input stream to its state before the call to {@link #save}.
  */
-public void
-restore() {
+public void restore() {
 	if (saved_pos < 0) {
 		throw new IllegalStateException("no previous state");
 	}
@@ -146,8 +135,7 @@ restore() {
  * @return An unsigned 8 bit value.
  * @throws WireParseException The end of the stream was reached.
  */
-public int
-readU8() throws WireParseException {
+public int readU8() throws WireParseException {
 	require(1);
 	return (array[pos++] & 0xFF);
 }
@@ -157,8 +145,7 @@ readU8() throws WireParseException {
  * @return An unsigned 16 bit value.
  * @throws WireParseException The end of the stream was reached.
  */
-public int
-readU16() throws WireParseException {
+public int readU16() throws WireParseException {
 	require(2);
 	int b1 = array[pos++] & 0xFF;
 	int b2 = array[pos++] & 0xFF;
@@ -170,8 +157,7 @@ readU16() throws WireParseException {
  * @return An unsigned 32 bit value.
  * @throws WireParseException The end of the stream was reached.
  */
-public long
-readU32() throws WireParseException {
+public long readU32() throws WireParseException {
 	require(4);
 	int b1 = array[pos++] & 0xFF;
 	int b2 = array[pos++] & 0xFF;
@@ -188,8 +174,7 @@ readU32() throws WireParseException {
  * @param len The number of bytes to copy.
  * @throws WireParseException The end of the stream was reached.
  */
-public void
-readByteArray(byte [] b, int off, int len) throws WireParseException {
+public void readByteArray(byte [] b, int off, int len) throws WireParseException {
 	require(len);
 	System.arraycopy(array, pos, b, off, len);
 	pos += len;
@@ -200,8 +185,7 @@ readByteArray(byte [] b, int off, int len) throws WireParseException {
  * @return The byte array.
  * @throws WireParseException The end of the stream was reached.
  */
-public byte []
-readByteArray(int len) throws WireParseException {
+public byte [] readByteArray(int len) throws WireParseException {
 	require(len);
 	byte [] out = new byte[len];
 	System.arraycopy(array, pos, out, 0, len);
@@ -214,8 +198,7 @@ readByteArray(int len) throws WireParseException {
  * active region, if one is set.
  * @return The byte array.
  */
-public byte []
-readByteArray() {
+public byte [] readByteArray() {
 	int len = remaining();
 	byte [] out = new byte[len];
 	System.arraycopy(array, pos, out, 0, len);
@@ -229,8 +212,7 @@ readByteArray() {
  * @return A byte array containing the string.
  * @throws WireParseException The end of the stream was reached.
  */
-public byte []
-readCountedString() throws WireParseException {
+public byte [] readCountedString() throws WireParseException {
 	require(1);
 	int len = array[pos++] & 0xFF;
 	return readByteArray(len);

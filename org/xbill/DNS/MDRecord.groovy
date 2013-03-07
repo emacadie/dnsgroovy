@@ -15,8 +15,7 @@ private static final long serialVersionUID = 5268878603762942202L;
 
 MDRecord() {}
 
-Record
-getObject() {
+Record getObject() {
 	return new MDRecord();
 }
 
@@ -24,19 +23,16 @@ getObject() {
  * Creates a new MD Record with the given data
  * @param mailAgent The mail agent that delivers mail for the domain.
  */
-public
-MDRecord(Name name, int dclass, long ttl, Name mailAgent) {
+public MDRecord(Name name, int dclass, long ttl, Name mailAgent) {
 	super(name, Type.MD, dclass, ttl, mailAgent, "mail agent");
 }
 
 /** Gets the mail agent for the domain */
-public Name
-getMailAgent() {
+public Name getMailAgent() {
 	return getSingleName();
 }
 
-public Name
-getAdditionalName() {
+public Name getAdditionalName() {
 	return getSingleName();
 }
 

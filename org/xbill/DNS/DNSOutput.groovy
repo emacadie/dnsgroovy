@@ -19,8 +19,7 @@ private int saved_pos;
  * Create a new DNSOutput with a specified size.
  * @param size The initial size
  */
-public
-DNSOutput(int size) {
+public DNSOutput(int size) {
 	array = new byte[size];
 	pos = 0;
 	saved_pos = -1;
@@ -29,21 +28,18 @@ DNSOutput(int size) {
 /**
  * Create a new DNSOutput
  */
-public
-DNSOutput() {
+public DNSOutput() {
 	this(32);
 }
 
 /**
  * Returns the current position.
  */
-public int
-current() {
+public int current() {
 	return pos;
 }
 
-private void
-check(long val, int bits) {
+private void check(long val, int bits) {
 	long max = 1;
 	max <<= bits;
 	if (val < 0 || val > max) {
@@ -52,8 +48,7 @@ check(long val, int bits) {
 	}
 }
 
-private void
-need(int n) {
+private void need(int n) {
 	if (array.length - pos >= n) {
 		return;
 	}
@@ -71,8 +66,7 @@ need(int n) {
  * @param index The new current position.
  * @throws IllegalArgumentException The index is not within the output.
  */
-public void
-jump(int index) {
+public void jump(int index) {
 	if (index > pos) {
 		throw new IllegalArgumentException("cannot jump past " +
 						   "end of data");
@@ -84,16 +78,14 @@ jump(int index) {
  * Saves the current state of the output stream.
  * @throws IllegalArgumentException The index is not within the output.
  */
-public void
-save() {
+public void save() {
 	saved_pos = pos;
 }
 
 /**
  * Restores the input stream to its state before the call to {@link #save}.
  */
-public void
-restore() {
+public void restore() {
 	if (saved_pos < 0) {
 		throw new IllegalStateException("no previous state");
 	}
@@ -105,8 +97,7 @@ restore() {
  * Writes an unsigned 8 bit value to the stream.
  * @param val The value to be written
  */
-public void
-writeU8(int val) {
+public void writeU8(int val) {
 	check(val, 8);
 	need(1);
 	array[pos++] = (byte)(val & 0xFF);
@@ -116,8 +107,7 @@ writeU8(int val) {
  * Writes an unsigned 16 bit value to the stream.
  * @param val The value to be written
  */
-public void
-writeU16(int val) {
+public void writeU16(int val) {
 	check(val, 16);
 	need(2);
 	array[pos++] = (byte)((val >>> 8) & 0xFF);
@@ -129,8 +119,7 @@ writeU16(int val) {
  * @param val The value to be written
  * @param where The position to write the value.
  */
-public void
-writeU16At(int val, int where) {
+public void writeU16At(int val, int where) {
 	check(val, 16);
 	if (where > pos - 2)
 		throw new IllegalArgumentException("cannot write past " +
@@ -143,8 +132,7 @@ writeU16At(int val, int where) {
  * Writes an unsigned 32 bit value to the stream.
  * @param val The value to be written
  */
-public void
-writeU32(long val) {
+public void writeU32(long val) {
 	check(val, 32);
 	need(4);
 	array[pos++] = (byte)((val >>> 24) & 0xFF);
@@ -159,8 +147,7 @@ writeU32(long val) {
  * @param off The offset of the array to start copying data from.
  * @param len The number of bytes to write.
  */
-public void
-writeByteArray(byte [] b, int off, int len) {
+public void writeByteArray(byte [] b, int off, int len) {
 	need(len);
 	System.arraycopy(b, off, array, pos, len);
 	pos += len;
@@ -170,8 +157,7 @@ writeByteArray(byte [] b, int off, int len) {
  * Writes a byte array to the stream.
  * @param b The array to write.
  */
-public void
-writeByteArray(byte [] b) {
+public void writeByteArray(byte [] b) {
 	writeByteArray(b, 0, b.length);
 }
 
@@ -180,8 +166,7 @@ writeByteArray(byte [] b) {
  * value indicating string length, followed by bytes of data.
  * @param s The string to write.
  */
-public void
-writeCountedString(byte [] s) {
+public void writeCountedString(byte [] s) {
 	if (s.length > 0xFF) {
 		throw new IllegalArgumentException("Invalid counted string");
 	}
@@ -193,8 +178,7 @@ writeCountedString(byte [] s) {
 /**
  * Returns a byte array containing the current contents of the stream.
  */
-public byte []
-toByteArray() {
+public byte [] toByteArray() {
 	byte [] out = new byte[pos];
 	System.arraycopy(array, 0, out, 0, pos);
 	return out;

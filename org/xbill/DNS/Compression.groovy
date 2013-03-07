@@ -26,8 +26,7 @@ private boolean verbose = Options.check("verbosecompression");
 /**
  * Creates a new Compression object.
  */
-public
-Compression() {
+public Compression() {
 	table = new Entry[TABLE_SIZE];
 }
 
@@ -36,8 +35,7 @@ Compression() {
  * @param pos The position at which the name is added.
  * @param name The name being added to the message.
  */
-public void
-add(int pos, Name name) {
+public void add(int pos, Name name) {
 	if (pos > MAX_POINTER)
 		return;
 	int row = (name.hashCode() & 0x7FFFFFFF) % TABLE_SIZE;
@@ -56,8 +54,7 @@ add(int pos, Name name) {
  * @param name The name to find in the compression table.
  * @return The position of the name, or -1 if not found.
  */
-public int
-get(Name name) {
+public int get(Name name) {
 	int row = (name.hashCode() & 0x7FFFFFFF) % TABLE_SIZE;
 	int pos = -1;
 	for (Entry entry = table[row]; entry != null; entry = entry.next) {

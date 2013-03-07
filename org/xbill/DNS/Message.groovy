@@ -53,21 +53,18 @@ static final int TSIG_FAILED = 4;
 private static Record [] emptyRecordArray = new Record[0];
 private static RRset [] emptyRRsetArray = new RRset[0];
 
-private
-Message(Header header) {
+private Message(Header header) {
 	sections = new List[4];
 	this.header = header;
 }
 
 /** Creates a new Message with the specified Message ID */
-public
-Message(int id) {
+public Message(int id) {
 	this(new Header(id));
 }
 
 /** Creates a new Message with a random Message ID */
-public
-Message() {
+public Message() {
 	this(new Header());
 }
 
@@ -76,8 +73,7 @@ Message() {
  * query.
  * @param r A record containing the question
  */
-public static Message
-newQuery(Record r) {
+public static Message newQuery(Record r) {
 	Message m = new Message();
 	m.header.setOpcode(Opcode.QUERY);
 	m.header.setFlag(Flags.RD);
@@ -90,13 +86,12 @@ newQuery(Record r) {
  * and the zone are filled in.
  * @param zone The zone to be updated
  */
-public static Message
-newUpdate(Name zone) {
+public static Message newUpdate(Name zone) {
 	return new Update(zone);
 }
 
-Message(DNSInput in) throws IOException {
-	this(new Header(in));
+Message(DNSInput dnsin) throws IOException {
+	this(new Header(dnsin));
 	boolean isUpdate = (header.getOpcode() == Opcode.UPDATE);
 	boolean truncated = header.getFlag(Flags.TC);
 	try {
@@ -105,8 +100,8 @@ Message(DNSInput in) throws IOException {
 			if (count > 0)
 				sections[i] = new ArrayList(count);
 			for (int j = 0; j < count; j++) {
-				int pos = in.current();
-				Record rec = Record.fromWire(in, i, isUpdate);
+				int pos = dnsin.current();
+				Record rec = Record.fromWire(dnsin, i, isUpdate);
 				sections[i].add(rec);
 				if (i == Section.ADDITIONAL) {
 					if (rec.getType() == Type.TSIG)
@@ -123,15 +118,14 @@ Message(DNSInput in) throws IOException {
 		if (!truncated)
 			throw e;
 	}
-	size = in.current();
+	size = dnsin.current();
 }
 
 /**
  * Creates a new Message from its DNS wire format representation
  * @param b A byte array containing the DNS Message.
  */
-public
-Message(byte [] b) throws IOException {
+public Message(byte [] b) throws IOException {
 	this(new DNSInput(b));
 }
 
@@ -139,8 +133,7 @@ Message(byte [] b) throws IOException {
  * Replaces the Header with a new one.
  * @see Header
  */
-public void
-setHeader(Header h) {
+public void setHeader(Header h) {
 	header = h;
 }
 
@@ -148,8 +141,7 @@ setHeader(Header h) {
  * Retrieves the Header.
  * @see Header
  */
-public Header
-getHeader() {
+public Header getHeader() {
 	return header;
 }
 
@@ -158,8 +150,7 @@ getHeader() {
  * @see Record
  * @see Section
  */
-public void
-addRecord(Record r, int section) {
+public void addRecord(Record r, int section) {
 	if (sections[section] == null)
 		sections[section] = new LinkedList();
 	header.incCount(section);
@@ -171,8 +162,7 @@ addRecord(Record r, int section) {
  * @see Record
  * @see Section
  */
-public boolean
-removeRecord(Record r, int section) {
+public boolean removeRecord(Record r, int section) {
 	if (sections[section] != null && sections[section].remove(r)) {
 		header.decCount(section);
 		return true;
@@ -186,8 +176,7 @@ removeRecord(Record r, int section) {
  * @see Record
  * @see Section
  */
-public void
-removeAllRecords(int section) {
+public void removeAllRecords(int section) {
 	sections[section] = null;
 	header.setCount(section, 0);
 }
@@ -197,8 +186,7 @@ removeAllRecords(int section) {
  * @see Record
  * @see Section
  */
-public boolean
-findRecord(Record r, int section) {
+public boolean findRecord(Record r, int section) {
 	return (sections[section] != null && sections[section].contains(r));
 }
 
@@ -207,8 +195,7 @@ findRecord(Record r, int section) {
  * @see Record
  * @see Section
  */
-public boolean
-findRecord(Record r) {
+public boolean findRecord(Record r) {
 	for (int i = Section.ANSWER; i <= Section.ADDITIONAL; i++)
 		if (sections[i] != null && sections[i].contains(r))
 			return true;
@@ -221,8 +208,7 @@ findRecord(Record r) {
  * @see RRset
  * @see Section
  */
-public boolean
-findRRset(Name name, int type, int section) {
+public boolean findRRset(Name name, int type, int section) {
 	if (sections[section] == null)
 		return false;
 	for (int i = 0; i < sections[section].size(); i++) {
@@ -239,8 +225,7 @@ findRRset(Name name, int type, int section) {
  * @see RRset
  * @see Section
  */
-public boolean
-findRRset(Name name, int type) {
+public boolean findRRset(Name name, int type) {
 	return (findRRset(name, type, Section.ANSWER) ||
 		findRRset(name, type, Section.AUTHORITY) ||
 		findRRset(name, type, Section.ADDITIONAL));
@@ -251,8 +236,7 @@ findRRset(Name name, int type) {
  * @see Record
  * @see Section
  */
-public Record
-getQuestion() {
+public Record getQuestion() {
 	List l = sections[Section.QUESTION];
 	if (l == null || l.size() == 0)
 		return null;
@@ -265,8 +249,7 @@ getQuestion() {
  * @see TSIG
  * @see Section
  */
-public TSIGRecord
-getTSIG() {
+public TSIGRecord getTSIG() {
 	int count = header.getCount(Section.ADDITIONAL);
 	if (count == 0)
 		return null;
@@ -281,8 +264,7 @@ getTSIG() {
  * Was this message signed by a TSIG?
  * @see TSIG
  */
-public boolean
-isSigned() {
+public boolean isSigned() {
 	return (tsigState == TSIG_SIGNED ||
 		tsigState == TSIG_VERIFIED ||
 		tsigState == TSIG_FAILED);
@@ -292,8 +274,7 @@ isSigned() {
  * If this message was signed by a TSIG, was the TSIG verified?
  * @see TSIG
  */
-public boolean
-isVerified() {
+public boolean isVerified() {
 	return (tsigState == TSIG_VERIFIED);
 }
 
@@ -302,8 +283,7 @@ isVerified() {
  * @see OPTRecord
  * @see Section
  */
-public OPTRecord
-getOPT() {
+public OPTRecord getOPT() {
 	Record [] additional = getSectionArray(Section.ADDITIONAL);
 	for (int i = 0; i < additional.length; i++)
 		if (additional[i] instanceof OPTRecord)
@@ -315,8 +295,7 @@ getOPT() {
  * Returns the message's rcode (error code).  This incorporates the EDNS
  * extended rcode.
  */
-public int
-getRcode() {
+public int getRcode() {
 	int rcode = header.getRcode();
 	OPTRecord opt = getOPT();
 	if (opt != null)
@@ -330,16 +309,14 @@ getRcode() {
  * @see Record
  * @see Section
  */
-public Record []
-getSectionArray(int section) {
+public Record [] getSectionArray(int section) {
 	if (sections[section] == null)
 		return emptyRecordArray;
 	List l = sections[section];
 	return (Record []) l.toArray(new Record[l.size()]);
 }
 
-private static boolean
-sameSet(Record r1, Record r2) {
+private static boolean sameSet(Record r1, Record r2) {
 	return (r1.getRRsetType() == r2.getRRsetType() &&
 		r1.getDClass() == r2.getDClass() &&
 		r1.getName().equals(r2.getName()));
@@ -351,8 +328,7 @@ sameSet(Record r1, Record r2) {
  * @see RRset
  * @see Section
  */
-public RRset []
-getSectionRRsets(int section) {
+public RRset [] getSectionRRsets(int section) {
 	if (sections[section] == null)
 		return emptyRRsetArray;
 	List sets = new LinkedList();
@@ -383,8 +359,7 @@ getSectionRRsets(int section) {
 	return (RRset []) sets.toArray(new RRset[sets.size()]);
 }
 
-void
-toWire(DNSOutput out) {
+void toWire(DNSOutput out) {
 	header.toWire(out);
 	Compression c = new Compression();
 	for (int i = 0; i < 4; i++) {
@@ -398,8 +373,7 @@ toWire(DNSOutput out) {
 }
 
 /* Returns the number of records not successfully rendered. */
-private int
-sectionToWire(DNSOutput out, int section, Compression c,
+private int sectionToWire(DNSOutput out, int section, Compression c,
 	      int maxLength)
 {
 	int n = sections[section].size();
@@ -424,8 +398,7 @@ sectionToWire(DNSOutput out, int section, Compression c,
 }
 
 /* Returns true if the message could be rendered. */
-private boolean
-toWire(DNSOutput out, int maxLength) {
+private boolean toWire(DNSOutput out, int maxLength) {
 	if (maxLength < Header.LENGTH)
 		return false;
 
@@ -482,8 +455,7 @@ toWire(DNSOutput out, int maxLength) {
 /**
  * Returns an array containing the wire format representation of the Message.
  */
-public byte []
-toWire() {
+public byte [] toWire() {
 	DNSOutput out = new DNSOutput();
 	toWire(out);
 	size = out.current();
@@ -503,8 +475,7 @@ toWire() {
  * @see Flags
  * @see TSIG
  */
-public byte []
-toWire(int maxLength) {
+public byte [] toWire(int maxLength) {
 	DNSOutput out = new DNSOutput();
 	toWire(out, maxLength);
 	size = out.current();
@@ -517,8 +488,7 @@ toWire(int maxLength) {
  * @param error The value of the TSIG error field.
  * @param querytsig If this is a response, the TSIG from the request.
  */
-public void
-setTSIG(TSIG key, int error, TSIGRecord querytsig) {
+public void setTSIG(TSIG key, int error, TSIGRecord querytsig) {
 	this.tsigkey = key;
 	this.tsigerror = error;
 	this.querytsig = querytsig;
@@ -528,8 +498,7 @@ setTSIG(TSIG key, int error, TSIGRecord querytsig) {
  * Returns the size of the message.  Only valid if the message has been
  * converted to or from wire format.
  */
-public int
-numBytes() {
+public int numBytes() {
 	return size;
 }
 
@@ -537,8 +506,7 @@ numBytes() {
  * Converts the given section of the Message to a String.
  * @see Section
  */
-public String
-sectionToString(int i) {
+public String sectionToString(int i) {
 	if (i > 3)
 		return null;
 
@@ -562,8 +530,7 @@ sectionToString(int i) {
 /**
  * Converts the Message to a String.
  */
-public String
-toString() {
+public String toString() {
 	StringBuffer sb = new StringBuffer();
 	OPTRecord opt = getOPT();
 	if (opt != null)
@@ -596,8 +563,7 @@ toString() {
  * @see TSIGRecord
  * @see OPTRecord
  */
-public Object
-clone() {
+public Object clone() {
 	Message m = new Message();
 	for (int i = 0; i < sections.length; i++) {
 		if (sections[i] != null)

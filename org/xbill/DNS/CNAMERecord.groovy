@@ -14,8 +14,7 @@ private static final long serialVersionUID = -4020373886892538580L;
 
 CNAMERecord() {}
 
-Record
-getObject() {
+Record getObject() {
 	return new CNAMERecord();
 }
 
@@ -23,22 +22,19 @@ getObject() {
  * Creates a new CNAMERecord with the given data
  * @param alias The name to which the CNAME alias points
  */
-public
-CNAMERecord(Name name, int dclass, long ttl, Name alias) {
+public CNAMERecord(Name name, int dclass, long ttl, Name alias) {
 	super(name, Type.CNAME, dclass, ttl, alias, "alias");
 }
 
 /**
  * Gets the target of the CNAME Record
  */
-public Name
-getTarget() {
+public Name getTarget() {
 	return getSingleName();
 }
 
 /** Gets the alias specified by the CNAME Record */
-public Name
-getAlias() {
+public Name getAlias() {
 	return getSingleName();
 }
 

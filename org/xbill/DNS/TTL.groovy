@@ -14,11 +14,9 @@ public final class TTL {
 
 public static final long MAX_VALUE = 0x7FFFFFFFL;
 
-private
-TTL() {}
+private TTL() {}
 
-static void
-check(long i) {
+static void check(long i) {
 	if (i < 0 || i > MAX_VALUE)
 		throw new InvalidTTLException(i);
 }
@@ -33,8 +31,7 @@ check(long i) {
  * @return The value as a number of seconds
  * @throws NumberFormatException The string was not in a valid TTL format.
  */
-public static long
-parse(String s, boolean clamp) {
+public static long parse(String s, boolean clamp) {
 	if (s == null || s.length() == 0 || !Character.isDigit(s.charAt(0)))
 		throw new NumberFormatException();
 	long value = 0;
@@ -78,13 +75,11 @@ parse(String s, boolean clamp) {
  * @return The TTL as a number of seconds
  * @throws NumberFormatException The string was not in a valid TTL format.
  */
-public static long
-parseTTL(String s) {
+public static long parseTTL(String s) {
 	return parse(s, true);
 }
 
-public static String
-format(long ttl) {
+public static String format(long ttl) {
 	TTL.check(ttl);
 	StringBuffer sb = new StringBuffer();
 	long secs, mins, hours, days, weeks;

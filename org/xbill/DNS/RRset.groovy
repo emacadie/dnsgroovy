@@ -51,8 +51,7 @@ RRset(RRset rrset) {
 	}
 }
 
-private void
-safeAddRR(Record r) {
+private void safeAddRR(Record r) {
 	if (!(r instanceof RRSIGRecord)) {
 		if (nsigs == 0)
 			rrs.add(r);
@@ -65,8 +64,7 @@ safeAddRR(Record r) {
 }
 
 /** Adds a Record to an RRset */
-public synchronized void
-addRR(Record r) {
+public synchronized void addRR(Record r) {
 	if (rrs.size() == 0) {
 		safeAddRR(r);
 		return;
@@ -95,22 +93,19 @@ addRR(Record r) {
 }
 
 /** Deletes a Record from an RRset */
-public synchronized void
-deleteRR(Record r) {
+public synchronized void deleteRR(Record r) {
 	if (rrs.remove(r) && (r instanceof RRSIGRecord))
 		nsigs--;
 }
 
 /** Deletes all Records from an RRset */
-public synchronized void
-clear() {
+public synchronized void clear() {
 	rrs.clear();
 	position = 0;
 	nsigs = 0;
 }
 
-private synchronized Iterator
-iterator(boolean data, boolean cycle) {
+private synchronized Iterator iterator(boolean data, boolean cycle) {
 	int size, start, total;
 
 	total = rrs.size();
@@ -151,8 +146,7 @@ iterator(boolean data, boolean cycle) {
  * @param cycle If true, cycle through the records so that each Iterator will
  * start with a different record.
  */
-public synchronized Iterator
-rrs(boolean cycle) {
+public synchronized Iterator rrs(boolean cycle) {
 	return iterator(true, cycle);
 }
 
@@ -160,29 +154,25 @@ rrs(boolean cycle) {
  * Returns an Iterator listing all (data) records.  This cycles through
  * the records, so each Iterator will start with a different record.
  */
-public synchronized Iterator
-rrs() {
+public synchronized Iterator rrs() {
 	return iterator(true, true);
 }
 
 /** Returns an Iterator listing all signature records */
-public synchronized Iterator
-sigs() {
+public synchronized Iterator sigs() {
 	return iterator(false, false);
 }
 
 /** Returns the number of (data) records */
-public synchronized int
-size() {
+public synchronized int size() {
 	return rrs.size() - nsigs;
 }
 
 /**
  * Returns the name of the records
  * @see Name
- */
-public Name
-getName() {
+ */ 
+public Name getName() {
 	return first().getName();
 }
 
@@ -190,8 +180,7 @@ getName() {
  * Returns the type of the records
  * @see Type
  */
-public int
-getType() {
+public int getType() {
 	return first().getRRsetType();
 }
 
@@ -199,14 +188,12 @@ getType() {
  * Returns the class of the records
  * @see DClass
  */
-public int
-getDClass() {
+public int getDClass() {
 	return first().getDClass();
 }
 
 /** Returns the ttl of the records */
-public synchronized long
-getTTL() {
+public synchronized long getTTL() {
 	return first().getTTL();
 }
 
@@ -214,15 +201,13 @@ getTTL() {
  * Returns the first record
  * @throws IllegalStateException if the rrset is empty
  */
-public synchronized Record
-first() {
+public synchronized Record first() {
 	if (rrs.size() == 0)
 		throw new IllegalStateException("rrset is empty");
 	return (Record) rrs.get(0);
 }
 
-private String
-iteratorToString(Iterator it) {
+private String iteratorToString(Iterator it) {
 	StringBuffer sb = new StringBuffer();
 	while (it.hasNext()) {
 		Record rr = (Record) it.next();
@@ -236,8 +221,7 @@ iteratorToString(Iterator it) {
 }
 
 /** Converts the RRset to a String */
-public String
-toString() {
+public String toString() {
 	if (rrs == null)
 		return ("{empty}");
 	StringBuffer sb = new StringBuffer();

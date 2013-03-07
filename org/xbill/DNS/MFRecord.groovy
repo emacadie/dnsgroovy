@@ -15,8 +15,7 @@ private static final long serialVersionUID = -6670449036843028169L;
 
 MFRecord() {}
 
-Record
-getObject() {
+Record getObject() {
 	return new MFRecord();
 }
 
@@ -24,19 +23,16 @@ getObject() {
  * Creates a new MF Record with the given data
  * @param mailAgent The mail agent that forwards mail for the domain.
  */
-public
-MFRecord(Name name, int dclass, long ttl, Name mailAgent) {
+public MFRecord(Name name, int dclass, long ttl, Name mailAgent) {
 	super(name, Type.MF, dclass, ttl, mailAgent, "mail agent");
 }
 
 /** Gets the mail agent for the domain */
-public Name
-getMailAgent() {
+public Name getMailAgent() {
 	return getSingleName();
 }
 
-public Name
-getAdditionalName() {
+public Name getAdditionalName() {
 	return getSingleName();
 }
 

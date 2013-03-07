@@ -14,8 +14,7 @@ private static final long serialVersionUID = 487170758138268838L;
 
 NSRecord() {}
 
-Record
-getObject() {
+Record getObject() {
 	return new NSRecord();
 }
 
@@ -23,19 +22,16 @@ getObject() {
  * Creates a new NS Record with the given data
  * @param target The name server for the given domain
  */
-public
-NSRecord(Name name, int dclass, long ttl, Name target) {
+public NSRecord(Name name, int dclass, long ttl, Name target) {
 	super(name, Type.NS, dclass, ttl, target, "target");
 }
 
 /** Gets the target of the NS Record */
-public Name
-getTarget() {
+public Name getTarget() {
 	return getSingleName();
 }
 
-public Name
-getAdditionalName() {
+public Name getAdditionalName() {
 	return getSingleName();
 }
 
