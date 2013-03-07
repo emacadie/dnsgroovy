@@ -56,7 +56,7 @@ void rrFromWire(DNSInput dnsin) throws IOException {
 void rdataFromString(Tokenizer st, Name origin) throws IOException {
 	strings = new ArrayList(2);
 	while (true) {
-		Tokenizer.Token t = st.get();
+		Token t = st.get();
 		if (!t.isString())
 			break;
 		try {

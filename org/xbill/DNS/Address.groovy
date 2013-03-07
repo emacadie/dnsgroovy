@@ -264,7 +264,8 @@ public static InetAddress getByName(String name) throws UnknownHostException {
 public static InetAddress [] getAllByName(String name) throws UnknownHostException {
 	try {
 		InetAddress addr = getByAddress(name);
-		return new InetAddress[] {addr};
+		// return new InetAddress[] {addr};
+		return new InetAddress[addr];
 	} catch (UnknownHostException e) {
 		Record [] records = lookupHostName(name);
 		InetAddress [] addrs = new InetAddress[records.length];

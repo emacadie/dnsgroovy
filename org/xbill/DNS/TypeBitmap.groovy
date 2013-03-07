@@ -59,7 +59,7 @@ public TypeBitmap(DNSInput dnsin) throws WireParseException {
 public TypeBitmap(Tokenizer st) throws IOException {
 	this();
 	while (true) {
-		Tokenizer.Token t = st.get();
+		Token t = st.get();
 		if (!t.isString())
 			break;
 		int typecode = Type.value(t.value);

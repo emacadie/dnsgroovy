@@ -24,12 +24,10 @@ static {
 	extflags.add(DO, "do");
 }
 
-private
-ExtendedFlags() {}
+private ExtendedFlags() {}
 
 /** Converts a numeric extended flag into a String */
-public static String
-string(int i) {
+public static String string(int i) {
 	return extflags.getText(i);
 }
 
@@ -37,8 +35,7 @@ string(int i) {
  * Converts a textual representation of an extended flag into its numeric
  * value
  */
-public static int
-value(String s) {
+public static int value(String s) {
 	return extflags.getValue(s);
 }
 

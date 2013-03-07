@@ -12,8 +12,7 @@ class Client {
 protected long endTime;
 protected SelectionKey key;
 
-protected
-Client(SelectableChannel channel, long endTime) throws IOException {
+protected Client(SelectableChannel channel, long endTime) throws IOException {
 	boolean done = false;
 	Selector selector = null;
 	this.endTime = endTime;
@@ -31,8 +30,7 @@ Client(SelectableChannel channel, long endTime) throws IOException {
 	}
 }
 
-static protected void
-blockUntil(SelectionKey key, long endTime) throws IOException {
+static protected void blockUntil(SelectionKey key, long endTime) throws IOException {
 	long timeout = endTime - System.currentTimeMillis();
 	int nkeys = 0;
 	if (timeout > 0)
@@ -43,14 +41,12 @@ blockUntil(SelectionKey key, long endTime) throws IOException {
 		throw new SocketTimeoutException();
 }
 
-static protected void
-verboseLog(String prefix, byte [] data) {
+static protected void verboseLog(String prefix, byte [] data) {
 	if (Options.check("verbosemsg"))
 		System.err.println(hexdump.dump(prefix, data));
 }
 
-void
-cleanup() throws IOException {
+void cleanup() throws IOException {
 	key.selector().close();
 	key.channel().close();
 }

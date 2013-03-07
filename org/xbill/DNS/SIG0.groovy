@@ -20,8 +20,7 @@ public class SIG0 {
  */
 private static final short VALIDITY = 300;
     
-private
-SIG0() { }
+private SIG0() { }
 
 /**
  * Sign a message with SIG(0). The DNS key and private key must refer to the
@@ -31,9 +30,8 @@ SIG0() { }
  * @param privkey The PrivateKey to use when signing
  * @param previous If this message is a response, the SIG(0) from the query
  */
-public static void
-signMessage(Message message, KEYRecord key, PrivateKey privkey,
-	    SIGRecord previous) throws DNSSEC.DNSSECException
+public static void signMessage(Message message, KEYRecord key, PrivateKey privkey,
+	    SIGRecord previous) throws DNSSECException
 {
 	
 	int validity = Options.intValue("sig0validity");
@@ -59,9 +57,8 @@ signMessage(Message message, KEYRecord key, PrivateKey privkey,
  * @param key The KEY record to verify the signature with.
  * @param previous If this message is a response, the SIG(0) from the query
  */
-public static void
-verifyMessage(Message message, byte [] b, KEYRecord key, SIGRecord previous)
-	throws DNSSEC.DNSSECException
+public static void verifyMessage(Message message, byte [] b, KEYRecord key, SIGRecord previous)
+	throws DNSSECException
 {
 	SIGRecord sig = null;
 	Record [] additional = message.getSectionArray(Section.ADDITIONAL);

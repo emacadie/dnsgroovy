@@ -18,8 +18,7 @@ private static Name inaddr4 = Name.fromConstantString("in-addr.arpa.");
 private static Name inaddr6 = Name.fromConstantString("ip6.arpa.");
 
 /* Otherwise the class could be instantiated */
-private
-ReverseMap() {}
+private ReverseMap() {}
 
 /**
  * Creates a reverse map name corresponding to an address contained in
@@ -27,8 +26,7 @@ ReverseMap() {}
  * @param addr The address from which to build a name.
  * @return The name corresponding to the address in the reverse map.
  */
-public static Name
-fromAddress(byte [] addr) {
+public static Name fromAddress(byte [] addr) {
 	if (addr.length != 4 && addr.length != 16)
 		throw new IllegalArgumentException("array must contain " +
 						   "4 or 16 elements");
@@ -71,8 +69,7 @@ fromAddress(byte [] addr) {
  * @param addr The address from which to build a name.
  * @return The name corresponding to the address in the reverse map.
  */
-public static Name
-fromAddress(int [] addr) {
+public static Name fromAddress(int [] addr) {
 	byte [] bytes = new byte[addr.length];
 	for (int i = 0; i < addr.length; i++) {
 		if (addr[i] < 0 || addr[i] > 0xFF)
@@ -90,8 +87,7 @@ fromAddress(int [] addr) {
  * @param addr The address from which to build a name.
  * @return The name corresponding to the address in the reverse map.
  */
-public static Name
-fromAddress(InetAddress addr) {
+public static Name fromAddress(InetAddress addr) {
 	return fromAddress(addr.getAddress());
 }
 
@@ -102,8 +98,7 @@ fromAddress(InetAddress addr) {
  * @return The name corresponding to the address in the reverse map.
  * @throws UnknownHostException The string does not contain a valid address.
  */
-public static Name
-fromAddress(String addr, int family) throws UnknownHostException {
+public static Name fromAddress(String addr, int family) throws UnknownHostException {
 	byte [] array = Address.toByteArray(addr, family);
 	if (array == null)
 		throw new UnknownHostException("Invalid IP address");
@@ -117,8 +112,7 @@ fromAddress(String addr, int family) throws UnknownHostException {
  * @return The name corresponding to the address in the reverse map.
  * @throws UnknownHostException The string does not contain a valid address.
  */
-public static Name
-fromAddress(String addr) throws UnknownHostException {
+public static Name fromAddress(String addr) throws UnknownHostException {
 	byte [] array = Address.toByteArray(addr, Address.IPv4);
 	if (array == null)
 		array = Address.toByteArray(addr, Address.IPv6);

@@ -682,7 +682,7 @@ private static byte [] ECDSASignaturetoDNS(byte [] signature, ECKeyInfo keyinfo)
 			throw new IOException();
 	} else if (slen != keyinfo.length)
 		throw new IOException();
-	bytes = in.readByteArray(keyinfo.length);
+	bytes = dnsin.readByteArray(keyinfo.length);
 	out.writeByteArray(bytes);
 
 	return out.toByteArray();

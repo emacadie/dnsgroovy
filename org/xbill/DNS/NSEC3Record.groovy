@@ -31,7 +31,7 @@ public static class Flags {
 
 	public static final int OPT_OUT = 0x01;
 }
-
+  */
 public static class Digest {
 	private Digest() {}
 
@@ -42,7 +42,7 @@ public static class Digest {
 public static final int SHA1_DIGEST_ID = Digest.SHA1;
 
 private static final long serialVersionUID = -7123504635968932855L;
-*/
+
 private int hashAlg;
 private int flags;
 private int iterations;

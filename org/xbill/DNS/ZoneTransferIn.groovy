@@ -163,11 +163,9 @@ private static class BasicHandler implements ZoneTransferHandler {
 	}
 };
 
-private
-ZoneTransferIn() {}
+private ZoneTransferIn() {}
 
-private
-ZoneTransferIn(Name zone, int xfrtype, long serial, boolean fallback,
+private ZoneTransferIn(Name zone, int xfrtype, long serial, boolean fallback,
 	       SocketAddress address, TSIG key)
 {
 	this.address = address;
@@ -198,8 +196,7 @@ ZoneTransferIn(Name zone, int xfrtype, long serial, boolean fallback,
  * @return The ZoneTransferIn object.
  * @throws UnknownHostException The host does not exist.
  */
-public static ZoneTransferIn
-newAXFR(Name zone, SocketAddress address, TSIG key) {
+public static ZoneTransferIn newAXFR(Name zone, SocketAddress address, TSIG key) {
 	return new ZoneTransferIn(zone, Type.AXFR, 0, false, address, key);
 }
 
@@ -212,8 +209,7 @@ newAXFR(Name zone, SocketAddress address, TSIG key) {
  * @return The ZoneTransferIn object.
  * @throws UnknownHostException The host does not exist.
  */
-public static ZoneTransferIn
-newAXFR(Name zone, String host, int port, TSIG key)
+public static ZoneTransferIn newAXFR(Name zone, String host, int port, TSIG key)
 throws UnknownHostException
 {
 	if (port == 0)
@@ -229,8 +225,7 @@ throws UnknownHostException
  * @return The ZoneTransferIn object.
  * @throws UnknownHostException The host does not exist.
  */
-public static ZoneTransferIn
-newAXFR(Name zone, String host, TSIG key)
+public static ZoneTransferIn newAXFR(Name zone, String host, TSIG key)
 throws UnknownHostException
 {
 	return newAXFR(zone, host, 0, key);
@@ -247,8 +242,7 @@ throws UnknownHostException
  * @return The ZoneTransferIn object.
  * @throws UnknownHostException The host does not exist.
  */
-public static ZoneTransferIn
-newIXFR(Name zone, long serial, boolean fallback, SocketAddress address,
+public static ZoneTransferIn newIXFR(Name zone, long serial, boolean fallback, SocketAddress address,
 	TSIG key)
 {
 	return new ZoneTransferIn(zone, Type.IXFR, serial, fallback, address,
@@ -267,8 +261,7 @@ newIXFR(Name zone, long serial, boolean fallback, SocketAddress address,
  * @return The ZoneTransferIn object.
  * @throws UnknownHostException The host does not exist.
  */
-public static ZoneTransferIn
-newIXFR(Name zone, long serial, boolean fallback, String host, int port,
+public static ZoneTransferIn newIXFR(Name zone, long serial, boolean fallback, String host, int port,
 	TSIG key)
 throws UnknownHostException
 {
@@ -289,8 +282,7 @@ throws UnknownHostException
  * @return The ZoneTransferIn object.
  * @throws UnknownHostException The host does not exist.
  */
-public static ZoneTransferIn
-newIXFR(Name zone, long serial, boolean fallback, String host, TSIG key)
+public static ZoneTransferIn newIXFR(Name zone, long serial, boolean fallback, String host, TSIG key)
 throws UnknownHostException
 {
 	return newIXFR(zone, serial, fallback, host, 0, key);
@@ -299,16 +291,14 @@ throws UnknownHostException
 /**
  * Gets the name of the zone being transferred.
  */
-public Name
-getName() {
+public Name getName() {
 	return zname;
 }
 
 /**
  * Gets the type of zone transfer (either AXFR or IXFR).
  */
-public int
-getType() {
+public int getType() {
 	return qtype;
 }
 
@@ -317,8 +307,7 @@ getType() {
  * minutes).
  * @param secs The maximum amount of time that this zone transfer can take.
  */
-public void
-setTimeout(int secs) {
+public void setTimeout(int secs) {
 	if (secs < 0)
 		throw new IllegalArgumentException("timeout cannot be " +
 						   "negative");
@@ -329,8 +318,7 @@ setTimeout(int secs) {
  * Sets an alternate DNS class for this zone transfer.
  * @param dclass The class to use instead of class IN.
  */
-public void
-setDClass(int dclass) {
+public void setDClass(int dclass) {
 	DClass.check(dclass);
 	this.dclass = dclass;
 }
@@ -339,13 +327,11 @@ setDClass(int dclass) {
  * Sets the local address to bind to when sending messages.
  * @param addr The local address to send messages from.
  */
-public void
-setLocalAddress(SocketAddress addr) {
+public void setLocalAddress(SocketAddress addr) {
 	this.localAddress = addr;
 }
 
-private void
-openConnection() throws IOException {
+private void openConnection() throws IOException {
 	long endTime = System.currentTimeMillis() + timeout;
 	client = new TCPClient(endTime);
 	if (localAddress != null)
@@ -353,8 +339,7 @@ openConnection() throws IOException {
 	client.connect(address);
 }
 
-private void
-sendQuery() throws IOException {
+private void sendQuery() throws IOException {
 	Record question = Record.newRecord(zname, qtype, dclass);
 
 	Message query = new Message();
@@ -374,25 +359,21 @@ sendQuery() throws IOException {
 	client.send(out);
 }
 
-private static long
-getSOASerial(Record rec) {
+private static long getSOASerial(Record rec) {
 	SOARecord soa = (SOARecord) rec;
 	return soa.getSerial();
 }
 
-private void
-logxfr(String s) {
+private void logxfr(String s) {
 	if (Options.check("verbose"))
 		System.out.println(zname + ": " + s);
 }
 
-private void
-fail(String s) throws ZoneTransferException {
+private void fail(String s) throws ZoneTransferException {
 	throw new ZoneTransferException(s);
 }
 
-private void
-fallback() throws ZoneTransferException {
+private void fallback() throws ZoneTransferException {
 	if (!want_fallback)
 		fail("server doesn't support IXFR");
 
@@ -401,8 +382,7 @@ fallback() throws ZoneTransferException {
 	state = INITIALSOA;
 }
 
-private void
-parseRR(Record rec) throws ZoneTransferException {
+private void parseRR(Record rec) throws ZoneTransferException {
 	int type = rec.getType();
 	Delta delta;
 
@@ -502,8 +482,7 @@ parseRR(Record rec) throws ZoneTransferException {
 	}
 }
 
-private void
-closeConnection() {
+private void closeConnection() {
 	try {
 		if (client != null)
 			client.cleanup();
@@ -512,8 +491,7 @@ closeConnection() {
 	}
 }
 
-private Message
-parseMessage(byte [] b) throws WireParseException {
+private Message parseMessage(byte [] b) throws WireParseException {
 	try {
 		return new Message(b);
 	}
@@ -524,8 +502,7 @@ parseMessage(byte [] b) throws WireParseException {
 	}
 }
 
-private void
-doxfr() throws IOException, ZoneTransferException {
+private void doxfr() throws IOException, ZoneTransferException {
 	sendQuery();
 	while (state != END) {
 		byte [] bytein = client.recv();
@@ -584,8 +561,7 @@ doxfr() throws IOException, ZoneTransferException {
  * @throws ZoneTransferException The zone transfer failed to due a problem
  * with the zone transfer itself.
  */
-public void
-run(ZoneTransferHandler handler) throws IOException, ZoneTransferException {
+public void run(ZoneTransferHandler handler) throws IOException, ZoneTransferException {
 	this.handler = handler;
 	try {
 		openConnection();
@@ -605,8 +581,7 @@ run(ZoneTransferHandler handler) throws IOException, ZoneTransferException {
  * @throws ZoneTransferException The zone transfer failed to due a problem
  * with the zone transfer itself.
  */
-public List
-run() throws IOException, ZoneTransferException {
+public List run() throws IOException, ZoneTransferException {
 	BasicHandler handler = new BasicHandler();
 	run(handler);
 	if (handler.axfr != null)
@@ -614,8 +589,7 @@ run() throws IOException, ZoneTransferException {
 	return handler.ixfr;
 }
 
-private BasicHandler
-getBasicHandler() throws IllegalArgumentException {
+private BasicHandler getBasicHandler() throws IllegalArgumentException {
 	if (handler instanceof BasicHandler)
 		return (BasicHandler) handler;
 	throw new IllegalArgumentException("ZoneTransferIn used callback " +
@@ -628,8 +602,7 @@ getBasicHandler() throws IllegalArgumentException {
  * and the server provided a full zone transfer, or an IXFR failed and
  * fallback to AXFR occurred.
  */
-public boolean
-isAXFR() {
+public boolean isAXFR() {
 	return (rtype == Type.AXFR);
 }
 
@@ -638,8 +611,7 @@ isAXFR() {
  * @throws IllegalArgumentException The transfer used the callback interface,
  * so the response was not stored.
  */
-public List
-getAXFR() {
+public List getAXFR() {
 	BasicHandler handler = getBasicHandler();
 	return handler.axfr;
 }
@@ -649,8 +621,7 @@ getAXFR() {
  * This will be true only if an IXFR was performed and the server provided
  * an incremental zone transfer.
  */
-public boolean
-isIXFR() {
+public boolean isIXFR() {
 	return (rtype == Type.IXFR);
 }
 
@@ -659,8 +630,7 @@ isIXFR() {
  * @throws IllegalArgumentException The transfer used the callback interface,
  * so the response was not stored.
  */
-public List
-getIXFR() {
+public List getIXFR() {
 	BasicHandler handler = getBasicHandler();
 	return handler.ixfr;
 }
@@ -671,8 +641,7 @@ getIXFR() {
  * @throws IllegalArgumentException The transfer used the callback interface,
  * so the response was not stored.
  */
-public boolean
-isCurrent() {
+public boolean isCurrent() {
 	BasicHandler handler = getBasicHandler();
 	return (handler.axfr == null && handler.ixfr == null);
 }

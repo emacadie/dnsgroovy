@@ -23,24 +23,20 @@ GenericEDNSOption(int code) {
  * Construct a generic EDNS option.
  * @param data The contents of the option.
  */
-public 
-GenericEDNSOption(int code, byte [] data) {
+public  GenericEDNSOption(int code, byte [] data) {
 	super(code);
 	this.data = Record.checkByteArrayLength("option data", data, 0xFFFF);
 }
 
-void 
-optionFromWire(DNSInput in) throws IOException {
-	data = in.readByteArray();
+void  optionFromWire(DNSInput dnsin) throws IOException {
+	data = dnsin.readByteArray();
 }
 
-void 
-optionToWire(DNSOutput out) {
+void optionToWire(DNSOutput out) {
 	out.writeByteArray(data);
 }
 
-String 
-optionToString() {
+String optionToString() {
 	return "<" + base16.toString(data) + ">";
 }
 

@@ -258,7 +258,7 @@ private Record nextGenerated() throws IOException {
  * invalid.
  */
 public Record _nextRecord() throws IOException {
-	Tokenizer.Token token;
+	Token token;
 	String s;
 
 	if (included != null) {
@@ -278,7 +278,7 @@ public Record _nextRecord() throws IOException {
 
 		token = st.get(true, false);
 		if (token.type == Tokenizer.WHITESPACE) {
-			Tokenizer.Token next = st.get();
+			Token next = st.get();
 			if (next.type == Tokenizer.EOL)
 				continue;
 			else if (next.type == Tokenizer.EOF)

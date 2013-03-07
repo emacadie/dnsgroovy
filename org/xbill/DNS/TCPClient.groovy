@@ -9,19 +9,16 @@ import java.nio.channels.*;
 
 final class TCPClient extends Client {
 
-public
-TCPClient(long endTime) throws IOException {
+public TCPClient(long endTime) throws IOException {
 	super(SocketChannel.open(), endTime);
 }
 
-void
-bind(SocketAddress addr) throws IOException {
+void bind(SocketAddress addr) throws IOException {
 	SocketChannel channel = (SocketChannel) key.channel();
 	channel.socket().bind(addr);
 }
 
-void
-connect(SocketAddress addr) throws IOException {
+void connect(SocketAddress addr) throws IOException {
 	SocketChannel channel = (SocketChannel) key.channel();
 	if (channel.connect(addr))
 		return;
@@ -38,8 +35,7 @@ connect(SocketAddress addr) throws IOException {
 	}
 }
 
-void
-send(byte [] data) throws IOException {
+void send(byte [] data) throws IOException {
 	SocketChannel channel = (SocketChannel) key.channel();
 	verboseLog("TCP write", data);
 	byte [] lengthArray = new byte[2];
@@ -70,8 +66,7 @@ send(byte [] data) throws IOException {
 	}
 }
 
-private byte []
-_recv(int length) throws IOException {
+private byte [] _recv(int length) throws IOException {
 	SocketChannel channel = (SocketChannel) key.channel();
 	int nrecvd = 0;
 	byte [] data = new byte[length];
@@ -98,8 +93,7 @@ _recv(int length) throws IOException {
 	return data;
 }
 
-byte []
-recv() throws IOException {
+byte [] recv() throws IOException {
 	byte [] buf = _recv(2);
 	int length = ((buf[0] & 0xFF) << 8) + (buf[1] & 0xFF);
 	byte [] data = _recv(length);
@@ -107,8 +101,7 @@ recv() throws IOException {
 	return data;
 }
 
-static byte []
-sendrecv(SocketAddress local, SocketAddress remote, byte [] data, long endTime)
+static byte [] sendrecv(SocketAddress local, SocketAddress remote, byte [] data, long endTime)
 throws IOException
 {
 	TCPClient client = new TCPClient(endTime);
@@ -124,8 +117,7 @@ throws IOException
 	}
 }
 
-static byte []
-sendrecv(SocketAddress addr, byte [] data, long endTime) throws IOException {
+static byte [] sendrecv(SocketAddress addr, byte [] data, long endTime) throws IOException {
 	return sendrecv(null, addr, data, endTime);
 }
 

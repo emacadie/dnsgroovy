@@ -19,8 +19,7 @@ private static final char [] hex = "0123456789ABCDEF".toCharArray();
  * @param offset The start of the data in the array.
  * @param length The length of the data in the array.
  */
-public static String
-dump(String description, byte [] b, int offset, int length) {
+public static String dump(String description, byte [] b, int offset, int length) {
 	StringBuffer sb = new StringBuffer();
 
 	sb.append(length + "b");
@@ -48,8 +47,7 @@ dump(String description, byte [] b, int offset, int length) {
 	return sb.toString();
 }
 
-public static String
-dump(String s, byte [] b) {
+public static String dump(String s, byte [] b) {
 	return dump(s, b, 0, b.length);
 }
 

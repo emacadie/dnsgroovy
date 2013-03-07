@@ -14,7 +14,7 @@ import java.util.HashMap;
 class Mnemonic {
 
   // private static Integer cachedInts[] = new Integer[64];
- def cachedInts = new Integer[64];
+ def static cachedInts = new Integer[64];
   
 
 

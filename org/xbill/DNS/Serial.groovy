@@ -14,8 +14,7 @@ public final class Serial {
 
 private static final long MAX32 = 0xFFFFFFFFL;
 
-private
-Serial() {
+private Serial() {
 }
 
 /**
@@ -27,8 +26,7 @@ Serial() {
  * than serial2, and a negative number if serial2 is greater than serial1.
  * @throws IllegalArgumentException serial1 or serial2 is out of range
  */
-public static int
-compare(long serial1, long serial2) {
+public static int compare(long serial1, long serial2) {
 	if (serial1 < 0 || serial1 > MAX32)
 		throw new IllegalArgumentException(serial1 + " out of range");
 	if (serial2 < 0 || serial2 > MAX32)
@@ -49,8 +47,7 @@ compare(long serial1, long serial2) {
  * @return The incremented serial number
  * @throws IllegalArgumentException serial is out of range
  */
-public static long
-increment(long serial) {
+public static long increment(long serial) {
 	if (serial < 0 || serial > MAX32)
 		throw new IllegalArgumentException(serial + " out of range");
 	if (serial == MAX32)

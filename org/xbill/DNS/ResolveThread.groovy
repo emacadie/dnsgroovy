@@ -17,8 +17,7 @@ private ResolverListener listener;
 private Resolver res;
 
 /** Creates a new ResolveThread */
-public
-ResolveThread(Resolver res, Message query, Object id,
+public ResolveThread(Resolver res, Message query, Object id,
 	      ResolverListener listener)
 {
 	this.res = res;
@@ -31,8 +30,7 @@ ResolveThread(Resolver res, Message query, Object id,
 /**
  * Performs the query, and executes the callback.
  */
-public void
-run() {
+public void run() {
 	try {
 		Message response = res.send(query);
 		listener.receiveMessage(id, response);

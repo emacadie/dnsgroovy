@@ -46,8 +46,7 @@ private long current;
  * Indicates whether generation is supported for this type.
  * @throws InvalidTypeException The type is out of range.
  */
-public static boolean
-supportedType(int type) {
+public static boolean supportedType(int type) {
 	Type.check(type);
 	return (type == Type.PTR || type == Type.CNAME || type == Type.DNAME ||
 		type == Type.A || type == Type.AAAA || type == Type.NS);
@@ -70,8 +69,7 @@ supportedType(int type) {
  * @throws IllegalArgumentException The type does not support generation.
  * @throws IllegalArgumentException The dclass is not a valid class.
  */
-public
-Generator(long start, long end, long step, String namePattern,
+public Generator(long start, long end, long step, String namePattern,
 	  int type, int dclass, long ttl, String rdataPattern, Name origin)
 {
 	if (start < 0 || end < 0 || start > end || step <= 0)
@@ -93,8 +91,7 @@ Generator(long start, long end, long step, String namePattern,
 	this.current = start;
 }
 
-private String
-substitute(String spec, long n) throws IOException {
+private String substitute(String spec, long n) throws IOException {
 	boolean escaped = false;
 	byte [] str = spec.getBytes();
 	StringBuffer sb = new StringBuffer();
@@ -211,8 +208,7 @@ substitute(String spec, long n) throws IOException {
  * @throws IOException The name or rdata was invalid after substitutions were
  * performed.
  */
-public Record
-nextRecord() throws IOException {
+public Record nextRecord() throws IOException {
 	if (current > end)
 		return null;
 	String namestr = substitute(namePattern, current);
@@ -227,8 +223,7 @@ nextRecord() throws IOException {
  * @throws IOException The name or rdata of a record was invalid after
  * substitutions were performed.
  */
-public Record []
-expand() throws IOException {
+public Record [] expand() throws IOException {
 	List list = new ArrayList();
 	for (long i = start; i < end; i += step) {
 		String namestr = substitute(namePattern, current);
@@ -244,8 +239,7 @@ expand() throws IOException {
  * Converts the generate specification to a string containing the corresponding
  * $GENERATE statement.
  */
-public String
-toString() {
+public String toString() {
 	StringBuffer sb = new StringBuffer();
 	sb.append("$GENERATE ");
 	sb.append(start + "-" + end);

@@ -81,10 +81,15 @@ static private int paddingToBlockLen(int padlen) {
  */
 public String toString(byte [] b) {
 	ByteArrayOutputStream os = new ByteArrayOutputStream();
-
-	for (int i = 0; i < (b.length + 4) / 5; i++) {
-		short s[] = new short[5];
-		int t[] = new int[8];
+	def for_max = (b.length + 4) / 5
+	for (int i = 0; i < for_max; i++) {
+	  // short s[] = new short[5];
+	  // def s[] = new short[5];
+	  s[] = new short[5];
+	  // def s[5] as short;
+	  // def salt = [  ] as byte[]]]
+	  // int t[] = new int[8];
+	  t[] = new int[8];
 
 		int blocklen = 5;
 		for (int j = 0; j < 5; j++) {

@@ -132,7 +132,7 @@ public int getFootprint() {
  * Returns a PublicKey corresponding to the data in this key.
  * @throws DNSSEC.DNSSECException The key could not be converted.
  */
-public PublicKey getPublicKey() throws DNSSEC.DNSSECException {
+public PublicKey getPublicKey() throws DNSSECException {
 	if (publicKey != null)
 		return publicKey;
 

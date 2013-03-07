@@ -21,8 +21,7 @@ private byte [] ipad, opad;
 private static final byte IPAD = 0x36;
 private static final byte OPAD = 0x5c;
 
-private void
-init(byte [] key) {
+private void init(byte [] key) {
 	int i;
 
 	if (key.length > blockLength) {
@@ -48,8 +47,7 @@ init(byte [] key) {
  * @param blockLength The block length of the message digest.
  * @param key The secret key
  */
-public
-HMAC(MessageDigest digest, int blockLength, byte [] key) {
+public HMAC(MessageDigest digest, int blockLength, byte [] key) {
 	digest.reset();
 	this.digest = digest;
   	this.blockLength = blockLength;
@@ -62,8 +60,7 @@ HMAC(MessageDigest digest, int blockLength, byte [] key) {
  * @param blockLength The block length of the message digest.
  * @param key The secret key.
  */
-public
-HMAC(String digestName, int blockLength, byte [] key) {
+public HMAC(String digestName, int blockLength, byte [] key) {
 	try {
 		digest = MessageDigest.getInstance(digestName);
 	} catch (NoSuchAlgorithmException e) {
@@ -83,8 +80,7 @@ HMAC(String digestName, int blockLength, byte [] key) {
  *             byte [] key)} instead.
  * @see        HMAC#HMAC(MessageDigest digest, int blockLength, byte [] key)
  */
-public
-HMAC(MessageDigest digest, byte [] key) {
+public HMAC(MessageDigest digest, byte [] key) {
 	this(digest, 64, key);
 }
 
@@ -97,8 +93,7 @@ HMAC(MessageDigest digest, byte [] key) {
  *             instead
  * @see        HMAC#HMAC(String digestName, int blockLength, byte [] key)
  */
-public
-HMAC(String digestName, byte [] key) {
+public HMAC(String digestName, byte [] key) {
 	this(digestName, 64, key);
 }
 
@@ -108,8 +103,7 @@ HMAC(String digestName, byte [] key) {
  * @param offset The index at which to start adding to the hash
  * @param length The number of bytes to hash
  */
-public void
-update(byte [] b, int offset, int length) {
+public void update(byte [] b, int offset, int length) {
 	digest.update(b, offset, length);
 }
 
@@ -117,8 +111,7 @@ update(byte [] b, int offset, int length) {
  * Adds data to the current hash
  * @param b The data
  */
-public void
-update(byte [] b) {
+public void update(byte [] b) {
 	digest.update(b);
 }
 
@@ -126,8 +119,7 @@ update(byte [] b) {
  * Signs the data (computes the secure hash)
  * @return An array with the signature
  */
-public byte []
-sign() {
+public byte [] sign() {
 	byte [] output = digest.digest();
 	digest.reset();
 	digest.update(opad);
@@ -139,8 +131,7 @@ sign() {
  * @param signature The signature to compare against
  * @return true if the signature matches, false otherwise
  */
-public boolean
-verify(byte [] signature) {
+public boolean verify(byte [] signature) {
 	return verify(signature, false);
 }
 
@@ -151,8 +142,7 @@ verify(byte [] signature) {
  * number of bytes in the provided signature are compared.
  * @return true if the signature matches, false otherwise
  */
-public boolean
-verify(byte [] signature, boolean truncation_ok) {
+public boolean verify(byte [] signature, boolean truncation_ok) {
 	byte [] expected = sign();
 	if (truncation_ok && signature.length < expected.length) {
 		byte [] truncated = new byte[signature.length];
@@ -165,8 +155,7 @@ verify(byte [] signature, boolean truncation_ok) {
 /**
  * Resets the HMAC object for further use
  */
-public void
-clear() {
+public void clear() {
 	digest.reset();
 	digest.update(ipad);
 }
@@ -174,8 +163,7 @@ clear() {
 /**
  * Returns the length of the digest.
  */
-public int
-digestLength() {
+public int digestLength() {
 	return digest.getDigestLength();
 }
 

@@ -123,7 +123,7 @@ public APLRecord(Name name, int dclass, long ttl, List elements) {
 }
 
 private static byte [] parseAddress(byte [] dnsin, int length) throws WireParseException {
-	if (in.length > length)
+	if (dnsin.length > length)
 		throw new WireParseException("invalid address length");
 	if (dnsin.length == length)
 		return dnsin;

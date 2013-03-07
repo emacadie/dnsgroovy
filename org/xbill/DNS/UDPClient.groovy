@@ -42,13 +42,11 @@ static {
 
 private boolean bound = false;
 
-public
-UDPClient(long endTime) throws IOException {
+public UDPClient(long endTime) throws IOException {
 	super(DatagramChannel.open(), endTime);
 }
 
-private void
-bind_random(InetSocketAddress addr) throws IOException
+private void bind_random(InetSocketAddress addr) throws IOException
 {
 	if (prng_initializing) {
 		try {
@@ -81,8 +79,7 @@ bind_random(InetSocketAddress addr) throws IOException
 	}
 }
 
-void
-bind(SocketAddress addr) throws IOException {
+void bind(SocketAddress addr) throws IOException {
 	if (addr == null ||
 	    (addr instanceof InetSocketAddress &&
 	     ((InetSocketAddress)addr).getPort() == 0))
@@ -99,23 +96,20 @@ bind(SocketAddress addr) throws IOException {
 	}
 }
 
-void
-connect(SocketAddress addr) throws IOException {
+void connect(SocketAddress addr) throws IOException {
 	if (!bound)
 		bind(null);
 	DatagramChannel channel = (DatagramChannel) key.channel();
 	channel.connect(addr);
 }
 
-void
-send(byte [] data) throws IOException {
+void send(byte [] data) throws IOException {
 	DatagramChannel channel = (DatagramChannel) key.channel();
 	verboseLog("UDP write", data);
 	channel.write(ByteBuffer.wrap(data));
 }
 
-byte []
-recv(int max) throws IOException {
+byte [] recv(int max) throws IOException {
 	DatagramChannel channel = (DatagramChannel) key.channel();
 	byte [] temp = new byte[max];
 	key.interestOps(SelectionKey.OP_READ);
@@ -137,8 +131,7 @@ recv(int max) throws IOException {
 	return data;
 }
 
-static byte []
-sendrecv(SocketAddress local, SocketAddress remote, byte [] data, int max,
+static byte [] sendrecv(SocketAddress local, SocketAddress remote, byte [] data, int max,
 	 long endTime)
 throws IOException
 {
@@ -154,8 +147,7 @@ throws IOException
 	}
 }
 
-static byte []
-sendrecv(SocketAddress addr, byte [] data, int max, long endTime)
+static byte [] sendrecv(SocketAddress addr, byte [] data, int max, long endTime)
 throws IOException
 {
 	return sendrecv(null, addr, data, max, endTime);
