@@ -40,8 +40,7 @@ private static final long serialVersionUID = -8679800040426675002L;
 
 DNSKEYRecord() {}
 
-Record
-getObject() {
+Record getObject() {
 	return new DNSKEYRecord();
 }
 
@@ -52,8 +51,7 @@ getObject() {
  * @param alg The key's algorithm
  * @param key Binary representation of the key
  */
-public
-DNSKEYRecord(Name name, int dclass, long ttl, int flags, int proto, int alg,
+public DNSKEYRecord(Name name, int dclass, long ttl, int flags, int proto, int alg,
 	     byte [] key)
 {
 	super(name, Type.DNSKEY, dclass, ttl, flags, proto, alg, key);
@@ -68,8 +66,7 @@ DNSKEYRecord(Name name, int dclass, long ttl, int flags, int proto, int alg,
  * @throws DNSSEC.DNSSECException The PublicKey could not be converted into DNS
  * format.
  */
-public
-DNSKEYRecord(Name name, int dclass, long ttl, int flags, int proto, int alg,
+public DNSKEYRecord(Name name, int dclass, long ttl, int flags, int proto, int alg,
 	     PublicKey key) throws DNSSEC.DNSSECException
 {
 	super(name, Type.DNSKEY, dclass, ttl, flags, proto, alg,
@@ -77,8 +74,7 @@ DNSKEYRecord(Name name, int dclass, long ttl, int flags, int proto, int alg,
 	publicKey = key;
 }
 
-void
-rdataFromString(Tokenizer st, Name origin) throws IOException {
+void rdataFromString(Tokenizer st, Name origin) throws IOException {
 	flags = st.getUInt16();
 	proto = st.getUInt8();
 	String algString = st.getString();

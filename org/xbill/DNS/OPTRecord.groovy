@@ -28,8 +28,7 @@ private List options;
 
 OPTRecord() {}
 
-Record
-getObject() {
+Record getObject() {
 	return new OPTRecord();
 }
 
@@ -47,8 +46,7 @@ getObject() {
  * are currently no defined options.
  * @see ExtendedFlags
  */
-public
-OPTRecord(int payloadSize, int xrcode, int version, int flags, List options) {
+public OPTRecord(int payloadSize, int xrcode, int version, int flags, List options) {
 	super(Name.root, Type.OPT, payloadSize, 0);
 	checkU16("payloadSize", payloadSize);
 	checkU8("xrcode", xrcode);
@@ -72,8 +70,7 @@ OPTRecord(int payloadSize, int xrcode, int version, int flags, List options) {
  * This should be 0 for dnsjava.
  * @see ExtendedFlags
  */
-public
-OPTRecord(int payloadSize, int xrcode, int version, int flags) {
+public OPTRecord(int payloadSize, int xrcode, int version, int flags) {
 	this(payloadSize, xrcode, version, flags, null);
 }
 
@@ -81,8 +78,7 @@ OPTRecord(int payloadSize, int xrcode, int version, int flags) {
  * Creates an OPT Record with no data.  This is normally called by
  * SimpleResolver, but can also be called by a server.
  */
-public
-OPTRecord(int payloadSize, int xrcode, int version) {
+public OPTRecord(int payloadSize, int xrcode, int version) {
 	this(payloadSize, xrcode, version, 0, null);
 }
 
@@ -95,14 +91,12 @@ void rrFromWire(DNSInput dnsin) throws IOException {
 	}
 }
 
-void
-rdataFromString(Tokenizer st, Name origin) throws IOException {
+void rdataFromString(Tokenizer st, Name origin) throws IOException {
 	throw st.exception("no text format defined for OPT");
 }
 
 /** Converts rdata to a String */
-String
-rrToString() {
+String rrToString() {
 	StringBuffer sb = new StringBuffer();
 	if (options != null) {
 		sb.append(options);
@@ -120,8 +114,7 @@ rrToString() {
 }
 
 /** Returns the maximum allowed payload size. */
-public int
-getPayloadSize() {
+public int getPayloadSize() {
 	return dclass;
 }
 
@@ -129,25 +122,21 @@ getPayloadSize() {
  * Returns the extended Rcode
  * @see Rcode
  */
-public int
-getExtendedRcode() {
+public int getExtendedRcode() {
 	return (int)(ttl >>> 24);
 }
 
 /** Returns the highest supported EDNS version */
-public int
-getVersion() {
+public int getVersion() {
 	return (int)((ttl >>> 16) & 0xFF);
 }
 
 /** Returns the EDNS flags */
-public int
-getFlags() {
+public int getFlags() {
 	return (int)(ttl & 0xFFFF);
 }
 
-void
-rrToWire(DNSOutput out, Compression c, boolean canonical) {
+void rrToWire(DNSOutput out, Compression c, boolean canonical) {
 	if (options == null)
 		return;
 	Iterator it = options.iterator();
@@ -160,8 +149,7 @@ rrToWire(DNSOutput out, Compression c, boolean canonical) {
 /**
  * Gets all options in the OPTRecord.  This returns a list of EDNSOptions.
  */
-public List
-getOptions() {
+public List getOptions() {
 	if (options == null)
 		return Collections.EMPTY_LIST;
 	return Collections.unmodifiableList(options);
@@ -171,8 +159,7 @@ getOptions() {
  * Gets all options in the OPTRecord with a specific code.  This returns a list
  * of EDNSOptions.
  */
-public List
-getOptions(int code) {
+public List getOptions(int code) {
 	if (options == null)
 		return Collections.EMPTY_LIST;
 	List list = Collections.EMPTY_LIST;

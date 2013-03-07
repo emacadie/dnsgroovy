@@ -21,8 +21,7 @@ private Name replacement;
 
 NAPTRRecord() {}
 
-Record
-getObject() {
+Record getObject() {
 	return new NAPTRRecord();
 }
 
@@ -39,8 +38,7 @@ getObject() {
  * record, depending on the value of the flags field.
  * @throws IllegalArgumentException One of the strings has invalid escapes
  */
-public
-NAPTRRecord(Name name, int dclass, long ttl, int order, int preference,
+public NAPTRRecord(Name name, int dclass, long ttl, int order, int preference,
 	    String flags, String service, String regexp, Name replacement)
 {
 	super(name, Type.NAPTR, dclass, ttl);
@@ -57,18 +55,16 @@ NAPTRRecord(Name name, int dclass, long ttl, int order, int preference,
 	this.replacement = checkName("replacement", replacement);
 }
 
-void
-rrFromWire(DNSInput in) throws IOException {
-	order = in.readU16();
-	preference = in.readU16();
-	flags = in.readCountedString();
-	service = in.readCountedString();
-	regexp = in.readCountedString();
-	replacement = new Name(in);
+void rrFromWire(DNSInput dnsin) throws IOException {
+	order = dnsin.readU16();
+	preference = dnsin.readU16();
+	flags = dnsin.readCountedString();
+	service = dnsin.readCountedString();
+	regexp = dnsin.readCountedString();
+	replacement = new Name(dnsin);
 }
 
-void
-rdataFromString(Tokenizer st, Name origin) throws IOException {
+void rdataFromString(Tokenizer st, Name origin) throws IOException {
 	order = st.getUInt16();
 	preference = st.getUInt16();
 	try {
@@ -83,8 +79,7 @@ rdataFromString(Tokenizer st, Name origin) throws IOException {
 }
 
 /** Converts rdata to a String */
-String
-rrToString() {
+String rrToString() {
 	StringBuffer sb = new StringBuffer();
 	sb.append(order);
 	sb.append(" ");
@@ -101,43 +96,36 @@ rrToString() {
 }
 
 /** Returns the order */
-public int
-getOrder() {
+public int getOrder() {
 	return order;
 }
 
 /** Returns the preference */
-public int
-getPreference() {
+public int getPreference() {
 	return preference;
 }
 
 /** Returns flags */
-public String
-getFlags() {
+public String getFlags() {
 	return byteArrayToString(flags, false);
 }
 
 /** Returns service */
-public String
-getService() {
+public String getService() {
 	return byteArrayToString(service, false);
 }
 
 /** Returns regexp */
-public String
-getRegexp() {
+public String getRegexp() {
 	return byteArrayToString(regexp, false);
 }
 
 /** Returns the replacement domain-name */
-public Name
-getReplacement() {
+public Name getReplacement() {
 	return replacement;
 }
 
-void
-rrToWire(DNSOutput out, Compression c, boolean canonical) {
+void rrToWire(DNSOutput out, Compression c, boolean canonical) {
 	out.writeU16(order);
 	out.writeU16(preference);
 	out.writeCountedString(flags);
@@ -146,8 +134,7 @@ rrToWire(DNSOutput out, Compression c, boolean canonical) {
 	replacement.toWire(out, null, canonical);
 }
 
-public Name
-getAdditionalName() {
+public Name getAdditionalName() {
 	return replacement;
 }
 

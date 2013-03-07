@@ -40,8 +40,7 @@ private byte [] key;
 
 IPSECKEYRecord() {} 
 
-Record
-getObject() {
+Record getObject() {
 	return new IPSECKEYRecord();
 }
 
@@ -53,8 +52,7 @@ getObject() {
  * @param gateway The record's gateway.
  * @param key The record's public key.
  */
-public
-IPSECKEYRecord(Name name, int dclass, long ttl, int precedence,
+public IPSECKEYRecord(Name name, int dclass, long ttl, int precedence,
 	       int gatewayType, int algorithmType, Object gateway,
 	       byte [] key)
 {
@@ -95,33 +93,31 @@ IPSECKEYRecord(Name name, int dclass, long ttl, int precedence,
 	this.key = key;
 }
 
-void
-rrFromWire(DNSInput in) throws IOException {
-	precedence = in.readU8();
-	gatewayType = in.readU8();
-	algorithmType = in.readU8();
+void rrFromWire(DNSInput dnsin) throws IOException {
+	precedence = dnsin.readU8();
+	gatewayType = dnsin.readU8();
+	algorithmType = dnsin.readU8();
 	switch (gatewayType) {
 	case Gateway.None:
 		gateway = null;
 		break;
 	case Gateway.IPv4:
-		gateway = InetAddress.getByAddress(in.readByteArray(4));
+		gateway = InetAddress.getByAddress(dnsin.readByteArray(4));
 		break;
 	case Gateway.IPv6:
-		gateway = InetAddress.getByAddress(in.readByteArray(16));
+		gateway = InetAddress.getByAddress(dnsin.readByteArray(16));
 		break;
 	case Gateway.Name:
-		gateway = new Name(in);
+		gateway = new Name(dnsin);
 		break;
 	default:
 		throw new WireParseException("invalid gateway type");
 	}
-	if (in.remaining() > 0)
+	if (dnsin.remaining() > 0)
 		key = in.readByteArray();
 }
 
-void
-rdataFromString(Tokenizer st, Name origin) throws IOException {
+void rdataFromString(Tokenizer st, Name origin) throws IOException {
 	precedence = st.getUInt8();
 	gatewayType = st.getUInt8();
 	algorithmType = st.getUInt8();
@@ -147,8 +143,7 @@ rdataFromString(Tokenizer st, Name origin) throws IOException {
 	key = st.getBase64(false);
 }
 
-String
-rrToString() {
+String rrToString() {
 	StringBuffer sb = new StringBuffer();
 	sb.append(precedence);
 	sb.append(" ");
@@ -177,37 +172,31 @@ rrToString() {
 }
 
 /** Returns the record's precedence. */
-public int
-getPrecedence() {
+public int getPrecedence() {
 	return precedence;
 }
 
 /** Returns the record's gateway type. */
-public int
-getGatewayType() {
+public int getGatewayType() {
 	return gatewayType;
 }
 
 /** Returns the record's algorithm type. */
-public int
-getAlgorithmType() {
+public int getAlgorithmType() {
 	return algorithmType;
 }
 
 /** Returns the record's gateway. */
-public Object
-getGateway() {
+public Object getGateway() {
 	return gateway;
 }
 
 /** Returns the record's public key */
-public byte []
-getKey() {
+public byte [] getKey() {
 	return key;
 }
 
-void
-rrToWire(DNSOutput out, Compression c, boolean canonical) {
+void rrToWire(DNSOutput out, Compression c, boolean canonical) {
 	out.writeU8(precedence);
 	out.writeU8(gatewayType);
 	out.writeU8(algorithmType);

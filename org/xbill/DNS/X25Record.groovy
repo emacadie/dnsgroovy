@@ -19,13 +19,11 @@ private byte [] address;
 
 X25Record() {}
 
-Record
-getObject() {
+Record getObject() {
 	return new X25Record();
 }
 
-private static final byte []
-checkAndConvertAddress(String address) {
+private static final byte [] checkAndConvertAddress(String address) {
 	int length = address.length();
 	byte [] out = new byte [length];
 	for (int i = 0; i < length; i++) {
@@ -42,8 +40,7 @@ checkAndConvertAddress(String address) {
  * @param address The X.25 PSDN address.
  * @throws IllegalArgumentException The address is not a valid PSDN address.
  */
-public
-X25Record(Name name, int dclass, long ttl, String address) {
+public X25Record(Name name, int dclass, long ttl, String address) {
 	super(name, Type.X25, dclass, ttl);
 	this.address = checkAndConvertAddress(address);
 	if (this.address == null) {
@@ -56,8 +53,7 @@ void rrFromWire(DNSInput dnsin) throws IOException {
 	address = dnsin.readCountedString();
 }
 
-void
-rdataFromString(Tokenizer st, Name origin) throws IOException {
+void rdataFromString(Tokenizer st, Name origin) throws IOException {
 	String addr = st.getString();
 	this.address = checkAndConvertAddress(addr);
 	if (this.address == null)
@@ -67,18 +63,15 @@ rdataFromString(Tokenizer st, Name origin) throws IOException {
 /**
  * Returns the X.25 PSDN address.
  */
-public String
-getAddress() {
+public String getAddress() {
 	return byteArrayToString(address, false);
 }
 
-void
-rrToWire(DNSOutput out, Compression c, boolean canonical) {
+void rrToWire(DNSOutput out, Compression c, boolean canonical) {
 	out.writeCountedString(address);
 }
 
-String
-rrToString() {
+String rrToString() {
 	return byteArrayToString(address, true);
 }
 

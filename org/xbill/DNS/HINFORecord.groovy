@@ -18,8 +18,7 @@ private byte [] cpu, os;
 
 HINFORecord() {}
 
-Record
-getObject() {
+Record getObject() {
 	return new HINFORecord();
 }
 
@@ -29,8 +28,7 @@ getObject() {
  * @param os A string describing the host's OS
  * @throws IllegalArgumentException One of the strings has invalid escapes
  */
-public
-HINFORecord(Name name, int dclass, long ttl, String cpu, String os) {
+public HINFORecord(Name name, int dclass, long ttl, String cpu, String os) {
 	super(name, Type.HINFO, dclass, ttl);
 	try {
 		this.cpu = byteArrayFromString(cpu);
@@ -41,14 +39,12 @@ HINFORecord(Name name, int dclass, long ttl, String cpu, String os) {
 	}
 }
 
-void
-rrFromWire(DNSInput in) throws IOException {
-	cpu = in.readCountedString();
-	os = in.readCountedString();
+void rrFromWire(DNSInput dnsin) throws IOException {
+	cpu = dnsin.readCountedString();
+	os = dnsin.readCountedString();
 }
 
-void
-rdataFromString(Tokenizer st, Name origin) throws IOException {
+void rdataFromString(Tokenizer st, Name origin) throws IOException {
 	try {
 		cpu = byteArrayFromString(st.getString());
 		os = byteArrayFromString(st.getString());
@@ -61,21 +57,18 @@ rdataFromString(Tokenizer st, Name origin) throws IOException {
 /**
  * Returns the host's CPU
  */
-public String
-getCPU() {
+public String getCPU() {
 	return byteArrayToString(cpu, false);
 }
 
 /**
  * Returns the host's OS
  */
-public String
-getOS() {
+public String getOS() {
 	return byteArrayToString(os, false);
 }
 
-void
-rrToWire(DNSOutput out, Compression c, boolean canonical) {
+void rrToWire(DNSOutput out, Compression c, boolean canonical) {
 	out.writeCountedString(cpu);
 	out.writeCountedString(os);
 }
@@ -83,8 +76,7 @@ rrToWire(DNSOutput out, Compression c, boolean canonical) {
 /**
  * Converts to a string
  */
-String
-rrToString() {
+String rrToString() {
 	StringBuffer sb = new StringBuffer();
 	sb.append(byteArrayToString(cpu, true));
 	sb.append(" ");

@@ -15,8 +15,7 @@ private static final long serialVersionUID = 2386284746382064904L;
 
 NSAP_PTRRecord() {}
 
-Record
-getObject() {
+Record getObject() {
 	return new NSAP_PTRRecord();
 }
 
@@ -24,14 +23,12 @@ getObject() {
  * Creates a new NSAP_PTR Record with the given data
  * @param target The name of the host with this address
  */
-public
-NSAP_PTRRecord(Name name, int dclass, long ttl, Name target) {
+public NSAP_PTRRecord(Name name, int dclass, long ttl, Name target) {
 	super(name, Type.NSAP_PTR, dclass, ttl, target, "target");
 }
 
 /** Gets the target of the NSAP_PTR Record */
-public Name
-getTarget() {
+public Name getTarget() {
 	return getSingleName();
 }
 

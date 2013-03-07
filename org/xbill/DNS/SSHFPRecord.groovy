@@ -34,8 +34,7 @@ private byte [] fingerprint;
 
 SSHFPRecord() {} 
 
-Record
-getObject() {
+Record getObject() {
 	return new SSHFPRecord();
 }
 
@@ -45,8 +44,7 @@ getObject() {
  * @param digestType The public key's digest type.
  * @param fingerprint The public key's fingerprint.
  */
-public
-SSHFPRecord(Name name, int dclass, long ttl, int alg, int digestType,
+public SSHFPRecord(Name name, int dclass, long ttl, int alg, int digestType,
 	    byte [] fingerprint)
 {
 	super(name, Type.SSHFP, dclass, ttl);
@@ -61,15 +59,13 @@ void rrFromWire(DNSInput dnsin) throws IOException {
 	fingerprint = dnsin.readByteArray();
 }
 
-void
-rdataFromString(Tokenizer st, Name origin) throws IOException {
+void rdataFromString(Tokenizer st, Name origin) throws IOException {
 	alg = st.getUInt8();
 	digestType = st.getUInt8();
 	fingerprint = st.getHex(true);
 }
 
-String
-rrToString() {
+String rrToString() {
 	StringBuffer sb = new StringBuffer();
 	sb.append(alg);
 	sb.append(" ");
@@ -80,25 +76,21 @@ rrToString() {
 }
 
 /** Returns the public key's algorithm. */
-public int
-getAlgorithm() {
+public int getAlgorithm() {
 	return alg;
 }
 
 /** Returns the public key's digest type. */
-public int
-getDigestType() {
+public int getDigestType() {
 	return digestType;
 }
 
 /** Returns the fingerprint */
-public byte []
-getFingerPrint() {
+public byte [] getFingerPrint() {
 	return fingerprint;
 }
 
-void
-rrToWire(DNSOutput out, Compression c, boolean canonical) {
+void rrToWire(DNSOutput out, Compression c, boolean canonical) {
 	out.writeU8(alg);
 	out.writeU8(digestType);
 	out.writeByteArray(fingerprint);

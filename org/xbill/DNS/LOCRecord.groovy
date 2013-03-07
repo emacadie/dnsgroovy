@@ -30,8 +30,7 @@ static {
 
 LOCRecord() {}
 
-Record
-getObject() {
+Record getObject() {
 	return new LOCRecord();
 }
 
@@ -44,8 +43,7 @@ getObject() {
  * @param hPrecision The horizontal precision of the data, in m.
  * @param vPrecision The vertical precision of the data, in m.
 */
-public
-LOCRecord(Name name, int dclass, long ttl, double latitude, double longitude,
+public LOCRecord(Name name, int dclass, long ttl, double latitude, double longitude,
 	  double altitude, double size, double hPrecision, double vPrecision)
 {
 	super(name, Type.LOC, dclass, ttl);
@@ -57,28 +55,26 @@ LOCRecord(Name name, int dclass, long ttl, double latitude, double longitude,
 	this.vPrecision = (long)(vPrecision * 100);
 }
 
-void
-rrFromWire(DNSInput in) throws IOException {
+void rrFromWire(DNSInput dnsin) throws IOException {
 	int version;
 
-	version = in.readU8();
+	version = dnsin.readU8();
 	if (version != 0)
 		throw new WireParseException("Invalid LOC version");
 
-	size = parseLOCformat(in.readU8());
-	hPrecision = parseLOCformat(in.readU8());
-	vPrecision = parseLOCformat(in.readU8());
-	latitude = in.readU32();
-	longitude = in.readU32();
-	altitude = in.readU32();
+	size = parseLOCformat(dnsin.readU8());
+	hPrecision = parseLOCformat(dnsin.readU8());
+	vPrecision = parseLOCformat(dnsin.readU8());
+	latitude = dnsin.readU32();
+	longitude = dnsin.readU32();
+	altitude = dnsin.readU32();
 }
 
-private double
-parseFixedPoint(String s)
+private double parseFixedPoint(String s)
 {
-	if (s.matches("^-?\\d+$"))
+	if (s.matches("^-?\\d+\$"))
 		return Integer.parseInt(s);
-	else if (s.matches("^-?\\d+\\.\\d*$")) {
+	else if (s.matches("^-?\\d+\\.\\d*\$")) {
 		String [] parts = s.split("\\.");
 		double value = Integer.parseInt(parts[0]);
 		double fraction = Integer.parseInt(parts[1]);
@@ -90,8 +86,7 @@ parseFixedPoint(String s)
 		throw new NumberFormatException();
 }
 
-private long
-parsePosition(Tokenizer st, String type) throws IOException {
+private long parsePosition(Tokenizer st, String type) throws IOException {
 	boolean isLatitude = type.equals("latitude");
 	int deg = 0, min = 0;
 	double sec = 0;
@@ -131,8 +126,7 @@ parsePosition(Tokenizer st, String type) throws IOException {
 	return value;
 }
 
-private long
-parseDouble(Tokenizer st, String type, boolean required, long min, long max,
+private long parseDouble(Tokenizer st, String type, boolean required, long min, long max,
 	    long defaultValue)
 throws IOException
 {
@@ -157,8 +151,7 @@ throws IOException
 	}
 }
 
-void
-rdataFromString(Tokenizer st, Name origin) throws IOException {
+void rdataFromString(Tokenizer st, Name origin) throws IOException {
 	latitude = parsePosition(st, "latitude");
 	longitude = parsePosition(st, "longitude");
 	altitude = parseDouble(st, "altitude", true,
@@ -170,8 +163,7 @@ rdataFromString(Tokenizer st, Name origin) throws IOException {
 				 0, 9000000000L, 1000);
 }
 
-private void
-renderFixedPoint(StringBuffer sb, NumberFormat formatter, long value,
+private void renderFixedPoint(StringBuffer sb, NumberFormat formatter, long value,
 		 long divisor)
 {
 	sb.append(value / divisor);
@@ -182,8 +174,7 @@ renderFixedPoint(StringBuffer sb, NumberFormat formatter, long value,
 	}
 }
 
-private String
-positionToString(long value, char pos, char neg) {
+private String positionToString(long value, char pos, char neg) {
 	StringBuffer sb = new StringBuffer();
 	char direction;
 
@@ -212,8 +203,7 @@ positionToString(long value, char pos, char neg) {
 
 
 /** Convert to a String */
-String
-rrToString() {
+String rrToString() {
 	StringBuffer sb = new StringBuffer();
 
 	/* Latitude */
@@ -244,43 +234,36 @@ rrToString() {
 }
 
 /** Returns the latitude */
-public double
-getLatitude() {  
+public double getLatitude() {  
 	return ((double)(latitude - (1L << 31))) / (3600 * 1000);
 }       
 
 /** Returns the longitude */
-public double
-getLongitude() {  
+public double getLongitude() {  
 	return ((double)(longitude - (1L << 31))) / (3600 * 1000);
 }       
 
 /** Returns the altitude */
-public double
-getAltitude() {  
+public double getAltitude() {  
 	return ((double)(altitude - 10000000)) / 100;
 }       
 
 /** Returns the diameter of the enclosing sphere */
-public double
-getSize() {  
+public double getSize() {  
 	return ((double)size) / 100;
 }       
 
 /** Returns the horizontal precision */
-public double
-getHPrecision() {  
+public double getHPrecision() {  
 	return ((double)hPrecision) / 100;
 }       
 
 /** Returns the horizontal precision */
-public double
-getVPrecision() {  
+public double getVPrecision() {  
 	return ((double)vPrecision) / 100;
 }       
 
-void
-rrToWire(DNSOutput out, Compression c, boolean canonical) {
+void rrToWire(DNSOutput out, Compression c, boolean canonical) {
 	out.writeU8(0); /* version */
 	out.writeU8(toLOCformat(size));
 	out.writeU8(toLOCformat(hPrecision));
@@ -290,8 +273,7 @@ rrToWire(DNSOutput out, Compression c, boolean canonical) {
 	out.writeU32(altitude);
 }
 
-private static long
-parseLOCformat(int b) throws WireParseException {
+private static long parseLOCformat(int b) throws WireParseException {
 	long out = b >> 4;
 	int exp = b & 0xF;
 	if (out > 9 || exp > 9)
@@ -301,8 +283,7 @@ parseLOCformat(int b) throws WireParseException {
 	return (out);
 }
 
-private int
-toLOCformat(long l) {
+private int toLOCformat(long l) {
 	byte exp = 0;
 	while (l > 9) {
 		exp++;

@@ -14,8 +14,7 @@ private static final long serialVersionUID = -3206215651648278098L;
 
 RTRecord() {}
 
-Record
-getObject() {
+Record getObject() {
 	return new RTRecord();
 }
 
@@ -25,8 +24,7 @@ getObject() {
  * more preferred routes.
  * @param intermediateHost The domain name of the host to use as a router.
  */
-public
-RTRecord(Name name, int dclass, long ttl, int preference,
+public RTRecord(Name name, int dclass, long ttl, int preference,
 	 Name intermediateHost)
 {
 	super(name, Type.RT, dclass, ttl, preference, "preference",
@@ -34,14 +32,12 @@ RTRecord(Name name, int dclass, long ttl, int preference,
 }
 
 /** Gets the preference of the route. */
-public int
-getPreference() {
+public int getPreference() {
 	return getU16Field();
 }
 
 /** Gets the host to use as a router. */
-public Name
-getIntermediateHost() {
+public Name getIntermediateHost() {
 	return getNameField();
 }
 

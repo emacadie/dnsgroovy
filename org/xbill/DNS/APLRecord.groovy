@@ -26,8 +26,7 @@ public static class Element {
 	public final int prefixLength;
 	public final Object address;
 
-	private
-	Element(int family, boolean negative, Object address, int prefixLength)
+	private Element(int family, boolean negative, Object address, int prefixLength)
 	{
 		this.family = family;
 		this.negative = negative;
@@ -46,14 +45,12 @@ public static class Element {
 	 * @param prefixLength The length of this prefix, in bits.
 	 * @throws IllegalArgumentException The prefix length is invalid.
 	 */
-	public
-	Element(boolean negative, InetAddress address, int prefixLength) {
+	public 	Element(boolean negative, InetAddress address, int prefixLength) {
 		this(Address.familyOf(address), negative, address,
 		     prefixLength);
 	}
 
-	public String
-	toString() {
+	public String 	toString() {
 		StringBuffer sb = new StringBuffer();
 		if (negative)
 			sb.append("!");
@@ -68,8 +65,7 @@ public static class Element {
 		return sb.toString();
 	}
 
-	public boolean
-	equals(Object arg) {
+	public boolean 	equals(Object arg) {
 		if (arg == null || !(arg instanceof Element))
 			return false;
 		Element elt = (Element) arg;
@@ -79,8 +75,7 @@ public static class Element {
 			address.equals(elt.address));
 	}
 
-	public int
-	hashCode() {
+	public int 	hashCode() {
 		return address.hashCode() + prefixLength + (negative ? 1 : 0);
 	}
 }
@@ -91,13 +86,11 @@ private List elements;
 
 APLRecord() {} 
 
-Record
-getObject() {
+Record getObject() {
 	return new APLRecord();
 }
 
-private static boolean
-validatePrefixLength(int family, int prefixLength) {
+private static boolean validatePrefixLength(int family, int prefixLength) {
 	if (prefixLength < 0 || prefixLength >= 256)
 		return false;
 	if ((family == Address.IPv4 && prefixLength > 32) ||
@@ -109,9 +102,8 @@ validatePrefixLength(int family, int prefixLength) {
 /**
  * Creates an APL Record from the given data.
  * @param elements The list of APL elements.
- */
-public
-APLRecord(Name name, int dclass, long ttl, List elements) {
+ */ 
+public APLRecord(Name name, int dclass, long ttl, List elements) {
 	super(name, Type.APL, dclass, ttl);
 	this.elements = new ArrayList(elements.size());
 	for (Iterator it = elements.iterator(); it.hasNext(); ) {
@@ -130,28 +122,26 @@ APLRecord(Name name, int dclass, long ttl, List elements) {
 	}
 }
 
-private static byte []
-parseAddress(byte [] in, int length) throws WireParseException {
+private static byte [] parseAddress(byte [] dnsin, int length) throws WireParseException {
 	if (in.length > length)
 		throw new WireParseException("invalid address length");
-	if (in.length == length)
-		return in;
+	if (dnsin.length == length)
+		return dnsin;
 	byte [] out = new byte[length];
-	System.arraycopy(in, 0, out, 0, in.length);
+	System.arraycopy(dnsin, 0, out, 0, dnsin.length);
 	return out;
 }
 
-void
-rrFromWire(DNSInput in) throws IOException {
+void rrFromWire(DNSInput dnsin) throws IOException {
 	elements = new ArrayList(1);
-	while (in.remaining() != 0) {
-		int family = in.readU16();
-		int prefix = in.readU8();
-		int length = in.readU8();
+	while (dnsin.remaining() != 0) {
+		int family = dnsin.readU16();
+		int prefix = dnsin.readU8();
+		int length = dnsin.readU8();
 		boolean negative = (length & 0x80) != 0;
 		length &= ~0x80;
 
-		byte [] data = in.readByteArray(length);
+		byte [] data = dnsin.readByteArray(length);
 		Element element;
 		if (!validatePrefixLength(family, prefix)) {
 			throw new WireParseException("invalid prefix length");
@@ -170,8 +160,7 @@ rrFromWire(DNSInput in) throws IOException {
 	}
 }
 
-void
-rdataFromString(Tokenizer st, Name origin) throws IOException {
+void rdataFromString(Tokenizer st, Name origin) throws IOException {
 	elements = new ArrayList(1);
 	while (true) {
 		Tokenizer.Token t = st.get();
@@ -230,8 +219,7 @@ rdataFromString(Tokenizer st, Name origin) throws IOException {
 	st.unget();
 }
 
-String
-rrToString() {
+String rrToString() {
 	StringBuffer sb = new StringBuffer();
 	for (Iterator it = elements.iterator(); it.hasNext(); ) {
 		Element element = (Element) it.next();
@@ -243,13 +231,11 @@ rrToString() {
 }
 
 /** Returns the list of APL elements. */
-public List
-getElements() {
+public List getElements() {
 	return elements;
 }
 
-private static int
-addressLength(byte [] addr) {
+private static int addressLength(byte [] addr) {
 	for (int i = addr.length - 1; i >= 0; i--) {
 		if (addr[i] != 0)
 			return i + 1;
@@ -257,8 +243,7 @@ addressLength(byte [] addr) {
 	return 0;
 }
 
-void
-rrToWire(DNSOutput out, Compression c, boolean canonical) {
+void rrToWire(DNSOutput out, Compression c, boolean canonical) {
 	for (Iterator it = elements.iterator(); it.hasNext(); ) {
 		Element element = (Element) it.next();
 		int length = 0;

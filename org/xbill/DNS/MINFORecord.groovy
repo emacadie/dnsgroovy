@@ -21,8 +21,7 @@ private Name errorAddress;
 
 MINFORecord() {}
 
-Record
-getObject() {
+Record getObject() {
 	return new MINFORecord();
 }
 
@@ -33,8 +32,7 @@ getObject() {
  * @param errorAddress The address to receive error messages relating to the
  * mailing list/mailbox.
  */
-public
-MINFORecord(Name name, int dclass, long ttl,
+public MINFORecord(Name name, int dclass, long ttl,
 	    Name responsibleAddress, Name errorAddress)
 {
 	super(name, Type.MINFO, dclass, ttl);
@@ -44,21 +42,18 @@ MINFORecord(Name name, int dclass, long ttl,
 	this.errorAddress = checkName("errorAddress", errorAddress);
 }
 
-void
-rrFromWire(DNSInput in) throws IOException {
-	responsibleAddress = new Name(in);
-	errorAddress = new Name(in);
+void rrFromWire(DNSInput dnsin) throws IOException {
+	responsibleAddress = new Name(dnsin);
+	errorAddress = new Name(dnsin);
 }
 
-void
-rdataFromString(Tokenizer st, Name origin) throws IOException {
+void rdataFromString(Tokenizer st, Name origin) throws IOException {
 	responsibleAddress = st.getName(origin);
 	errorAddress = st.getName(origin);
 }
 
 /** Converts the MINFO Record to a String */
-String
-rrToString() {
+String rrToString() {
 	StringBuffer sb = new StringBuffer();
 	sb.append(responsibleAddress);
 	sb.append(" ");
@@ -67,8 +62,7 @@ rrToString() {
 }
 
 /** Gets the address responsible for the mailing list/mailbox. */
-public Name
-getResponsibleAddress() {
+public Name getResponsibleAddress() {
 	return responsibleAddress;
 }
 
@@ -76,13 +70,11 @@ getResponsibleAddress() {
  * Gets the address to receive error messages relating to the mailing
  * list/mailbox.
  */
-public Name
-getErrorAddress() {
+public Name getErrorAddress() {
 	return errorAddress;
 }
 
-void
-rrToWire(DNSOutput out, Compression c, boolean canonical) {
+void rrToWire(DNSOutput out, Compression c, boolean canonical) {
 	responsibleAddress.toWire(out, null, canonical);
 	errorAddress.toWire(out, null, canonical);
 }

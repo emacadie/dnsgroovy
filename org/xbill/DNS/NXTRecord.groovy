@@ -23,8 +23,7 @@ private BitSet bitmap;
 
 NXTRecord() {}
 
-Record
-getObject() {
+Record getObject() {
 	return new NXTRecord();
 }
 
@@ -33,8 +32,7 @@ getObject() {
  * @param next The following name in an ordered list of the zone
  * @param bitmap The set of type for which records exist at this name
 */
-public
-NXTRecord(Name name, int dclass, long ttl, Name next, BitSet bitmap) {
+public NXTRecord(Name name, int dclass, long ttl, Name next, BitSet bitmap) {
 	super(name, Type.NXT, dclass, ttl);
 	this.next = checkName("next", next);
 	this.bitmap = bitmap;
@@ -52,8 +50,7 @@ void rrFromWire(DNSInput dnsin) throws IOException {
 	}
 }
 
-void
-rdataFromString(Tokenizer st, Name origin) throws IOException {
+void rdataFromString(Tokenizer st, Name origin) throws IOException {
 	next = st.getName(origin);
 	bitmap = new BitSet();
 	while (true) {
@@ -69,8 +66,7 @@ rdataFromString(Tokenizer st, Name origin) throws IOException {
 }
 
 /** Converts rdata to a String */
-String
-rrToString() {
+String rrToString() {
 	StringBuffer sb = new StringBuffer();
 	sb.append(next);
 	int length = bitmap.length();
@@ -83,22 +79,21 @@ rrToString() {
 }
 
 /** Returns the next name */
-public Name
-getNext() {
+public Name getNext() {
 	return next;
 }
 
 /** Returns the set of types defined for this name */
-public BitSet
-getBitmap() {
+public BitSet getBitmap() {
 	return bitmap;
 }
 
-void
-rrToWire(DNSOutput out, Compression c, boolean canonical) {
+void rrToWire(DNSOutput out, Compression c, boolean canonical) {
 	next.toWire(out, null, canonical);
 	int length = bitmap.length();
-	for (int i = 0, t = 0; i < length; i++) {
+	// for (int i = 0, t = 0; i < length; i++) {
+	t = 0
+	for ( int i = 0; i < length; i++) {
 		t |= (bitmap.get(i) ? (1 << (7 - i % 8)) : 0);
 		if (i % 8 == 7 || i == length - 1) {
 			out.writeU8(t);

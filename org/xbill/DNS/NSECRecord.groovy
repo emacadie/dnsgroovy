@@ -25,8 +25,7 @@ private TypeBitmap types;
 
 NSECRecord() {}
 
-Record
-getObject() {
+Record getObject() {
 	return new NSECRecord();
 }
 
@@ -35,8 +34,7 @@ getObject() {
  * @param next The following name in an ordered list of the zone
  * @param types An array containing the types present.
  */
-public
-NSECRecord(Name name, int dclass, long ttl, Name next, int [] types) {
+public NSECRecord(Name name, int dclass, long ttl, Name next, int [] types) {
 	super(name, Type.NSEC, dclass, ttl);
 	this.next = checkName("next", next);
 	for (int i = 0; i < types.length; i++) {
@@ -50,22 +48,19 @@ void rrFromWire(DNSInput dnsin) throws IOException {
 	types = new TypeBitmap(dnsin);
 }
 
-void
-rrToWire(DNSOutput out, Compression c, boolean canonical) {
+void rrToWire(DNSOutput out, Compression c, boolean canonical) {
 	// Note: The next name is not lowercased.
 	next.toWire(out, null, false);
 	types.toWire(out);
 }
 
-void
-rdataFromString(Tokenizer st, Name origin) throws IOException {
+void rdataFromString(Tokenizer st, Name origin) throws IOException {
 	next = st.getName(origin);
 	types = new TypeBitmap(st);
 }
 
 /** Converts rdata to a String */
-String
-rrToString()
+String rrToString()
 {
 	StringBuffer sb = new StringBuffer();
 	sb.append(next);
@@ -77,20 +72,17 @@ rrToString()
 }
 
 /** Returns the next name */
-public Name
-getNext() {
+public Name getNext() {
 	return next;
 }
 
 /** Returns the set of types defined for this name */
-public int []
-getTypes() {
+public int [] getTypes() {
 	return types.toArray();
 }
 
 /** Returns whether a specific type is in the set of types. */
-public boolean
-hasType(int type) {
+public boolean hasType(int type) {
 	return types.contains(type);
 }
 

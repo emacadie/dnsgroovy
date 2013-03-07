@@ -72,8 +72,7 @@ public static class CertificateType {
 	/**
 	 * Converts a certificate type into its textual representation
 	 */
-	public static String
-	string(int type) {
+	public static String 	string(int type) {
 		return types.getText(type);
 	}
 
@@ -83,8 +82,7 @@ public static class CertificateType {
 	 * @param s The textual representation of the algorithm
 	 * @return The algorithm code, or -1 on error.
 	 */
-	public static int
-	value(String s) {
+	public static int 	value(String s) {
 		return types.getValue(s);
 	}
 }
@@ -112,8 +110,7 @@ private byte [] cert;
 
 CERTRecord() {}
 
-Record
-getObject() {
+Record getObject() {
 	return new CERTRecord();
 }
 
@@ -124,8 +121,7 @@ getObject() {
  * @param alg The algorithm of the associated KEYRecord, if present
  * @param cert Binary data representing the certificate
  */
-public
-CERTRecord(Name name, int dclass, long ttl, int certType, int keyTag,
+public CERTRecord(Name name, int dclass, long ttl, int certType, int keyTag,
 	   int alg, byte []  cert)
 {
 	super(name, Type.CERT, dclass, ttl);
@@ -135,16 +131,14 @@ CERTRecord(Name name, int dclass, long ttl, int certType, int keyTag,
 	this.cert = cert;
 }
 
-void
-rrFromWire(DNSInput in) throws IOException {
-	certType = in.readU16();
-	keyTag = in.readU16();
-	alg = in.readU8();
-	cert = in.readByteArray();
+void rrFromWire(DNSInput dnsin) throws IOException {
+	certType = dnsin.readU16();
+	keyTag = dnsin.readU16();
+	alg = dnsin.readU8();
+	cert = dnsin.readByteArray();
 }
 
-void
-rdataFromString(Tokenizer st, Name origin) throws IOException {
+void rdataFromString(Tokenizer st, Name origin) throws IOException {
 	String certTypeString = st.getString();
 	certType = CertificateType.value(certTypeString);
 	if (certType < 0)
@@ -161,8 +155,7 @@ rdataFromString(Tokenizer st, Name origin) throws IOException {
 /**
  * Converts rdata to a String
  */
-String
-rrToString() {
+String rrToString() {
 	StringBuffer sb = new StringBuffer();
 	sb.append (certType);
 	sb.append (" ");
@@ -184,37 +177,32 @@ rrToString() {
 /**
  * Returns the type of certificate
  */
-public int
-getCertType() {
+public int getCertType() {
 	return certType;
 }
 
 /**
  * Returns the ID of the associated KEYRecord, if present
  */
-public int
-getKeyTag() {
+public int getKeyTag() {
 	return keyTag;
 }
 
 /**
  * Returns the algorithm of the associated KEYRecord, if present
  */
-public int
-getAlgorithm() {
+public int getAlgorithm() {
 	return alg;
 }
 
 /**
  * Returns the binary representation of the certificate
  */
-public byte []
-getCert() {
+public byte [] getCert() {
 	return cert;
 }
 
-void
-rrToWire(DNSOutput out, Compression c, boolean canonical) {
+void rrToWire(DNSOutput out, Compression c, boolean canonical) {
 	out.writeU16(certType);
 	out.writeU16(keyTag);
 	out.writeU8(alg);

@@ -19,8 +19,7 @@ private byte [] data;
 
 DHCIDRecord() {}
 
-Record
-getObject() {
+Record getObject() {
 	return new DHCIDRecord();
 }
 
@@ -28,37 +27,31 @@ getObject() {
  * Creates an DHCID Record from the given data
  * @param data The binary data, which is opaque to DNS.
  */
-public
-DHCIDRecord(Name name, int dclass, long ttl, byte [] data) {
+public DHCIDRecord(Name name, int dclass, long ttl, byte [] data) {
 	super(name, Type.DHCID, dclass, ttl);
 	this.data = data;
 }
 
-void
-rrFromWire(DNSInput in) throws IOException {
-	data = in.readByteArray();
+void rrFromWire(DNSInput dnsin) throws IOException {
+	data = dnsin.readByteArray();
 }
 
-void
-rdataFromString(Tokenizer st, Name origin) throws IOException {
+void rdataFromString(Tokenizer st, Name origin) throws IOException {
 	data = st.getBase64();
 }
 
-void
-rrToWire(DNSOutput out, Compression c, boolean canonical) {
+void rrToWire(DNSOutput out, Compression c, boolean canonical) {
 	out.writeByteArray(data);
 }
 
-String
-rrToString() {
+String rrToString() {
 	return base64.toString(data);
 }
 
 /**
  * Returns the binary data.
  */
-public byte []
-getData() {
+public byte [] getData() {
 	return data;
 }
 

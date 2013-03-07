@@ -14,8 +14,7 @@ private static final long serialVersionUID = 7448568832769757809L;
 
 KXRecord() {}
 
-Record
-getObject() {
+Record getObject() {
 	return new KXRecord();
 }
 
@@ -25,26 +24,22 @@ getObject() {
  * are preferred.
  * @param target The host that authority is delegated to
  */
-public
-KXRecord(Name name, int dclass, long ttl, int preference, Name target) {
+public KXRecord(Name name, int dclass, long ttl, int preference, Name target) {
 	super(name, Type.KX, dclass, ttl, preference, "preference",
 	      target, "target");
 }
 
 /** Returns the target of the KX record */
-public Name
-getTarget() {
+public Name getTarget() {
 	return getNameField();
 }
 
 /** Returns the preference of this KX record */
-public int
-getPreference() {
+public int getPreference() {
 	return getU16Field();
 }
 
-public Name
-getAdditionalName() {
+public Name getAdditionalName() {
 	return getNameField();
 }
 

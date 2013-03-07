@@ -19,13 +19,11 @@ private byte [] address;
 
 NSAPRecord() {}
 
-Record
-getObject() {
+Record getObject() {
 	return new NSAPRecord();
 }
 
-private static final byte []
-checkAndConvertAddress(String address) {
+private static final byte [] checkAndConvertAddress(String address) {
 	if (!address.substring(0, 2).equalsIgnoreCase("0x")) {
 		return null;
 	}
@@ -62,8 +60,7 @@ checkAndConvertAddress(String address) {
  * @param address The NSAP address.
  * @throws IllegalArgumentException The address is not a valid NSAP address.
  */
-public
-NSAPRecord(Name name, int dclass, long ttl, String address) {
+public NSAPRecord(Name name, int dclass, long ttl, String address) {
 	super(name, Type.NSAP, dclass, ttl);
 	this.address = checkAndConvertAddress(address);
 	if (this.address == null) {
@@ -72,13 +69,11 @@ NSAPRecord(Name name, int dclass, long ttl, String address) {
 	}
 }
 
-void
-rrFromWire(DNSInput in) throws IOException {
-	address = in.readByteArray();
+void rrFromWire(DNSInput dnsin) throws IOException {
+	address = dnsin.readByteArray();
 }
 
-void
-rdataFromString(Tokenizer st, Name origin) throws IOException {
+void rdataFromString(Tokenizer st, Name origin) throws IOException {
 	String addr = st.getString();
 	this.address = checkAndConvertAddress(addr);
 	if (this.address == null)
@@ -88,18 +83,15 @@ rdataFromString(Tokenizer st, Name origin) throws IOException {
 /**
  * Returns the NSAP address.
  */
-public String
-getAddress() {
+public String getAddress() {
 	return byteArrayToString(address, false);
 }
 
-void
-rrToWire(DNSOutput out, Compression c, boolean canonical) {
+void rrToWire(DNSOutput out, Compression c, boolean canonical) {
 	out.writeByteArray(address);
 }
 
-String
-rrToString() {
+String rrToString() {
 	return "0x" + base16.toString(address);
 }
 

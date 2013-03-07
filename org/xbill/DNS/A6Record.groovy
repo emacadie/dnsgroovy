@@ -21,8 +21,7 @@ private Name prefix;
 
 A6Record() {}
 
-Record
-getObject() {
+Record getObject() {
 	return new A6Record();
 }
 
@@ -32,8 +31,7 @@ getObject() {
  * @param suffix The address suffix
  * @param prefix The name of the prefix
  */
-public
-A6Record(Name name, int dclass, long ttl, int prefixBits,
+public A6Record(Name name, int dclass, long ttl, int prefixBits,
 	 InetAddress suffix, Name prefix)
 {
 	super(name, Type.A6, dclass, ttl);
@@ -45,22 +43,21 @@ A6Record(Name name, int dclass, long ttl, int prefixBits,
 		this.prefix = checkName("prefix", prefix);
 }
 
-void
-rrFromWire(DNSInput in) throws IOException {
-	prefixBits = in.readU8();
+void rrFromWire(DNSInput dnsin) throws IOException {
+	prefixBits = dnsin.readU8();
 	int suffixbits = 128 - prefixBits;
 	int suffixbytes = (suffixbits + 7) / 8;
 	if (prefixBits < 128) {
 		byte [] bytes = new byte[16];
-		in.readByteArray(bytes, 16 - suffixbytes, suffixbytes);
+		dnsin.readByteArray(bytes, 16 - suffixbytes, suffixbytes);
 		suffix = InetAddress.getByAddress(bytes);
 	}
-	if (prefixBits > 0)
-		prefix = new Name(in);
+	if (prefixBits > 0) { 
+		prefix = new Name(dnsin);
+	}
 }
 
-void
-rdataFromString(Tokenizer st, Name origin) throws IOException {
+void rdataFromString(Tokenizer st, Name origin) throws IOException {
 	prefixBits = st.getUInt8();
 	if (prefixBits > 128) {
 		throw st.exception("prefix bits must be [0..128]");
@@ -78,8 +75,7 @@ rdataFromString(Tokenizer st, Name origin) throws IOException {
 }
 
 /** Converts rdata to a String */
-String
-rrToString() {
+String rrToString() {
 	StringBuffer sb = new StringBuffer();
 	sb.append(prefixBits);
 	if (suffix != null) {
@@ -94,25 +90,21 @@ rrToString() {
 }
 
 /** Returns the number of bits in the prefix */
-public int
-getPrefixBits() {
+public int getPrefixBits() {
 	return prefixBits;
 }
 
 /** Returns the address suffix */
-public InetAddress
-getSuffix() {
+public InetAddress getSuffix() {
 	return suffix;
 }
 
 /** Returns the address prefix */
-public Name
-getPrefix() {
+public Name getPrefix() {
 	return prefix;
 }
 
-void
-rrToWire(DNSOutput out, Compression c, boolean canonical) {
+void rrToWire(DNSOutput out, Compression c, boolean canonical) {
 	out.writeU8(prefixBits);
 	if (suffix != null) {
 		int suffixbits = 128 - prefixBits;

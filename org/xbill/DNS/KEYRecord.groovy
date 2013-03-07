@@ -61,8 +61,7 @@ public static class Protocol {
 	/**
 	 * Converts an KEY protocol value into its textual representation
 	 */
-	public static String
-	string(int type) {
+	public static String 	string(int type) {
 		return protocols.getText(type);
 	}
 
@@ -72,8 +71,7 @@ public static class Protocol {
 	 * @param s The textual representation of the protocol
 	 * @return The protocol code, or -1 on error.
 	 */
-	public static int
-	value(String s) {
+	public static int 	value(String s) {
 		return protocols.getValue(s);
 	}
 }
@@ -230,8 +228,7 @@ public static class Flags {
 	 * @param s The textual representation of the protocol
 	 * @return The protocol code, or -1 on error.
 	 */
-	public static int
-	value(String s) {
+	public static int value(String s) {
 		int value;
 		try {
 			value = Integer.parseInt(s);
@@ -291,8 +288,7 @@ public static final int PROTOCOL_ANY = Protocol.ANY;
 
 KEYRecord() {}
 
-Record
-getObject() {
+Record getObject() {
 	return new KEYRecord();
 }
 
@@ -303,8 +299,7 @@ getObject() {
  * @param alg The key's algorithm
  * @param key Binary data representing the key
  */
-public
-KEYRecord(Name name, int dclass, long ttl, int flags, int proto, int alg,
+public KEYRecord(Name name, int dclass, long ttl, int flags, int proto, int alg,
 	  byte [] key)
 {
 	super(name, Type.KEY, dclass, ttl, flags, proto, alg, key);
@@ -319,8 +314,7 @@ KEYRecord(Name name, int dclass, long ttl, int flags, int proto, int alg,
  * @throws DNSSEC.DNSSECException The PublicKey could not be converted into DNS
  * format.
  */
-public
-KEYRecord(Name name, int dclass, long ttl, int flags, int proto, int alg,
+public KEYRecord(Name name, int dclass, long ttl, int flags, int proto, int alg,
 	  PublicKey key) throws DNSSEC.DNSSECException
 {
 	super(name, Type.KEY, dclass, ttl, flags, proto, alg,
@@ -328,8 +322,7 @@ KEYRecord(Name name, int dclass, long ttl, int flags, int proto, int alg,
 	publicKey = key;
 }
 
-void
-rdataFromString(Tokenizer st, Name origin) throws IOException {
+void rdataFromString(Tokenizer st, Name origin) throws IOException {
 	String flagString = st.getIdentifier();
 	flags = Flags.value(flagString);
 	if (flags < 0)

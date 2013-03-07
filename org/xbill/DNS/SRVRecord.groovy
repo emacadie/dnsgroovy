@@ -22,8 +22,7 @@ private Name target;
 
 SRVRecord() {}
 
-Record
-getObject() {
+Record getObject() {
 	return new SRVRecord();
 }
 
@@ -36,8 +35,7 @@ getObject() {
  * @param port The TCP/UDP port that the service uses
  * @param target The host running the service
  */
-public
-SRVRecord(Name name, int dclass, long ttl, int priority,
+public SRVRecord(Name name, int dclass, long ttl, int priority,
 	  int weight, int port, Name target)
 {
 	super(name, Type.SRV, dclass, ttl);
@@ -54,8 +52,7 @@ void rrFromWire(DNSInput dnsin) throws IOException {
 	target = new Name(dnsin);
 }
 
-void
-rdataFromString(Tokenizer st, Name origin) throws IOException {
+void rdataFromString(Tokenizer st, Name origin) throws IOException {
 	priority = st.getUInt16();
 	weight = st.getUInt16();
 	port = st.getUInt16();
@@ -63,8 +60,7 @@ rdataFromString(Tokenizer st, Name origin) throws IOException {
 }
 
 /** Converts rdata to a String */
-String
-rrToString() {
+String rrToString() {
 	StringBuffer sb = new StringBuffer();
 	sb.append(priority + " ");
 	sb.append(weight + " ");
@@ -74,39 +70,33 @@ rrToString() {
 }
 
 /** Returns the priority */
-public int
-getPriority() {
+public int getPriority() {
 	return priority;
 }
 
 /** Returns the weight */
-public int
-getWeight() {
+public int getWeight() {
 	return weight;
 }
 
 /** Returns the port that the service runs on */
-public int
-getPort() {
+public int getPort() {
 	return port;
 }
 
 /** Returns the host running that the service */
-public Name
-getTarget() {
+public Name getTarget() {
 	return target;
 }
 
-void
-rrToWire(DNSOutput out, Compression c, boolean canonical) {
+void rrToWire(DNSOutput out, Compression c, boolean canonical) {
 	out.writeU16(priority);
 	out.writeU16(weight);
 	out.writeU16(port);
 	target.toWire(out, null, canonical);
 }
 
-public Name
-getAdditionalName() {
+public Name getAdditionalName() {
 	return target;
 }
 

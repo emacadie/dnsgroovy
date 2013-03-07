@@ -203,8 +203,7 @@ public static class Protocol {
 	/**
 	 * Converts an IP protocol value into its textual representation
 	 */
-	public static String
-	string(int type) {
+	public static String 	string(int type) { 
 		return protocols.getText(type);
 	}
 
@@ -214,8 +213,7 @@ public static class Protocol {
 	 * @param s The textual representation of the protocol
 	 * @return The protocol code, or -1 on error.
 	 */
-	public static int
-	value(String s) {
+	public static int 	value(String s) {
 		return protocols.getValue(s);
 	}
 }
@@ -558,8 +556,7 @@ public static class Service {
 	 * Converts a TCP/UDP service port number into its textual
 	 * representation.
 	 */
-	public static String
-	string(int type) {
+	public static String 	string(int type) {
 		return services.getText(type);
 	}
 
@@ -569,8 +566,7 @@ public static class Service {
 	 * @param s The textual representation of the service.
 	 * @return The port number, or -1 on error.
 	 */
-	public static int
-	value(String s) {
+	public static int 	value(String s) {
 		return services.getValue(s);
 	}
 }
@@ -580,8 +576,7 @@ private int [] services;
 
 WKSRecord() {}
 
-Record
-getObject() {
+Record getObject() {
 	return new WKSRecord();
 }
 
@@ -591,8 +586,7 @@ getObject() {
  * @param protocol The IP protocol number
  * @param services An array of supported services, represented by port number.
  */
-public
-WKSRecord(Name name, int dclass, long ttl, InetAddress address, int protocol,
+public WKSRecord(Name name, int dclass, long ttl, InetAddress address, int protocol,
 	  int [] services)
 {
 	super(name, Type.WKS, dclass, ttl);
@@ -627,8 +621,7 @@ void rrFromWire(DNSInput dnsinput) throws IOException {
 	}
 }
 
-void
-rdataFromString(Tokenizer st, Name origin) throws IOException {
+void rdataFromString(Tokenizer st, Name origin) throws IOException {
 	String s = st.getString();
 	address = Address.toByteArray(s, Address.IPv4);
 	if (address == null)
@@ -662,8 +655,7 @@ rdataFromString(Tokenizer st, Name origin) throws IOException {
 /**
  * Converts rdata to a String
  */
-String
-rrToString() {
+String rrToString() {
 	StringBuffer sb = new StringBuffer();
 	sb.append(Address.toDottedQuad(address));
 	sb.append(" ");
@@ -677,8 +669,7 @@ rrToString() {
 /**
  * Returns the IP address.
  */
-public InetAddress
-getAddress() {
+public InetAddress getAddress() {
 	try {
 		return InetAddress.getByAddress(address);
 	} catch (UnknownHostException e) {
@@ -689,21 +680,18 @@ getAddress() {
 /**
  * Returns the IP protocol.
  */
-public int
-getProtocol() {
+public int getProtocol() {
 	return protocol;
 }
 
 /**
  * Returns the services provided by the host on the specified address.
  */
-public int []
-getServices() {
+public int [] getServices() {
 	return services;
 }
 
-void
-rrToWire(DNSOutput out, Compression c, boolean canonical) {
+void rrToWire(DNSOutput out, Compression c, boolean canonical) {
 	out.writeByteArray(address);
 	out.writeU8(protocol);
 	int highestPort = services[services.length - 1];

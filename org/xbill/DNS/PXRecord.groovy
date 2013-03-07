@@ -20,8 +20,7 @@ private Name mapX400;
 
 PXRecord() {}
 
-Record
-getObject() {
+Record getObject() {
 	return new PXRecord();
 }
 
@@ -31,8 +30,7 @@ getObject() {
  * @param map822 The RFC 822 component of the mail address.
  * @param mapX400 The X.400 component of the mail address.
  */
-public
-PXRecord(Name name, int dclass, long ttl, int preference,
+public PXRecord(Name name, int dclass, long ttl, int preference,
 	 Name map822, Name mapX400)
 {
 	super(name, Type.PX, dclass, ttl);
@@ -48,16 +46,14 @@ void rrFromWire(DNSInput dnsin) throws IOException {
 	mapX400 = new Name(dnsin);
 }
 
-void
-rdataFromString(Tokenizer st, Name origin) throws IOException {
+void rdataFromString(Tokenizer st, Name origin) throws IOException {
 	preference = st.getUInt16();
 	map822 = st.getName(origin);
 	mapX400 = st.getName(origin);
 }
 
 /** Converts the PX Record to a String */
-String
-rrToString() {
+String rrToString() {
 	StringBuffer sb = new StringBuffer();
 	sb.append(preference);
 	sb.append(" ");
@@ -67,28 +63,24 @@ rrToString() {
 	return sb.toString();
 }
 
-void
-rrToWire(DNSOutput out, Compression c, boolean canonical) {
+void rrToWire(DNSOutput out, Compression c, boolean canonical) {
 	out.writeU16(preference);
 	map822.toWire(out, null, canonical);
 	mapX400.toWire(out, null, canonical);
 }
 
 /** Gets the preference of the route. */
-public int
-getPreference() {
+public int getPreference() {
 	return preference;
 }
 
 /** Gets the RFC 822 component of the mail address. */
-public Name
-getMap822() {
+public Name getMap822() {
 	return map822;
 }
 
 /** Gets the X.400 component of the mail address. */
-public Name
-getMapX400() {
+public Name getMapX400() {
 	return mapX400;
 }
 

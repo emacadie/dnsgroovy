@@ -19,8 +19,7 @@ private byte [] subAddress;
 
 ISDNRecord() {}
 
-Record
-getObject() {
+Record getObject() {
 	return new ISDNRecord();
 }
 
@@ -30,8 +29,7 @@ getObject() {
  * @param subAddress The subaddress, if any.
  * @throws IllegalArgumentException One of the strings is invalid.
  */
-public
-ISDNRecord(Name name, int dclass, long ttl, String address, String subAddress) {
+public ISDNRecord(Name name, int dclass, long ttl, String address, String subAddress) {
 	super(name, Type.ISDN, dclass, ttl);
 	try {
 		this.address = byteArrayFromString(address);
@@ -43,15 +41,13 @@ ISDNRecord(Name name, int dclass, long ttl, String address, String subAddress) {
 	}
 }
 
-void
-rrFromWire(DNSInput in) throws IOException {
-	address = in.readCountedString();
-	if (in.remaining() > 0)
-		subAddress = in.readCountedString();
+void rrFromWire(DNSInput dnsin) throws IOException {
+	address = dnsin.readCountedString();
+	if (dnsin.remaining() > 0)
+		subAddress = dnsin.readCountedString();
 }
 
-void
-rdataFromString(Tokenizer st, Name origin) throws IOException {
+void rdataFromString(Tokenizer st, Name origin) throws IOException {
 	try {
 		address = byteArrayFromString(st.getString());
 		Tokenizer.Token t = st.get();
@@ -69,30 +65,26 @@ rdataFromString(Tokenizer st, Name origin) throws IOException {
 /**
  * Returns the ISDN number associated with the domain.
  */
-public String
-getAddress() {
+public String getAddress() {
 	return byteArrayToString(address, false);
 }
 
 /**
  * Returns the ISDN subaddress, or null if there is none.
  */
-public String
-getSubAddress() {
+public String getSubAddress() {
 	if (subAddress == null)
 		return null;
 	return byteArrayToString(subAddress, false);
 }
 
-void
-rrToWire(DNSOutput out, Compression c, boolean canonical) {
+void rrToWire(DNSOutput out, Compression c, boolean canonical) {
 	out.writeCountedString(address);
 	if (subAddress != null)
 		out.writeCountedString(subAddress);
 }
 
-String
-rrToString() {
+String rrToString() {
 	StringBuffer sb = new StringBuffer();
 	sb.append(byteArrayToString(address, true));
 	if (subAddress != null) {

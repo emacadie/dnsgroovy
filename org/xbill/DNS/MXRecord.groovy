@@ -14,8 +14,7 @@ private static final long serialVersionUID = 2914841027584208546L;
 
 MXRecord() {}
 
-Record
-getObject() {
+Record getObject() {
 	return new MXRecord();
 }
 
@@ -25,32 +24,27 @@ getObject() {
  * are preferred.
  * @param target The host that mail is sent to
  */
-public
-MXRecord(Name name, int dclass, long ttl, int priority, Name target) {
+public MXRecord(Name name, int dclass, long ttl, int priority, Name target) {
 	super(name, Type.MX, dclass, ttl, priority, "priority",
 	      target, "target");
 }
 
 /** Returns the target of the MX record */
-public Name
-getTarget() {
+public Name getTarget() {
 	return getNameField();
 }
 
 /** Returns the priority of this MX record */
-public int
-getPriority() {
+public int getPriority() {
 	return getU16Field();
 }
 
-void
-rrToWire(DNSOutput out, Compression c, boolean canonical) {
+void rrToWire(DNSOutput out, Compression c, boolean canonical) {
 	out.writeU16(u16Field);
 	nameField.toWire(out, c, canonical);
 }
 
-public Name
-getAdditionalName() {
+public Name getAdditionalName() {
 	return getNameField();
 }
 

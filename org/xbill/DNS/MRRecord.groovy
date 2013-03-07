@@ -14,8 +14,7 @@ private static final long serialVersionUID = -5617939094209927533L;
 
 MRRecord() {}
 
-Record
-getObject() {
+Record getObject() {
 	return new MRRecord();
 }
 
@@ -24,14 +23,12 @@ getObject() {
  * @param newName The new name of the mailbox specified by the domain.
  * domain.
  */
-public
-MRRecord(Name name, int dclass, long ttl, Name newName) {
+public MRRecord(Name name, int dclass, long ttl, Name newName) {
 	super(name, Type.MR, dclass, ttl, newName, "new name");
 }
 
 /** Gets the new name of the mailbox specified by the domain */
-public Name
-getNewName() {
+public Name getNewName() {
 	return getSingleName();
 }
 

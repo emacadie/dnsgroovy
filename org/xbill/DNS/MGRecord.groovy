@@ -14,8 +14,7 @@ private static final long serialVersionUID = -3980055550863644582L;
 
 MGRecord() {}
 
-Record
-getObject() {
+Record getObject() {
 	return new MGRecord();
 }
 
@@ -24,14 +23,12 @@ getObject() {
  * @param mailbox The mailbox that is a member of the group specified by the
  * domain.
  */
-public
-MGRecord(Name name, int dclass, long ttl, Name mailbox) {
+public MGRecord(Name name, int dclass, long ttl, Name mailbox) {
 	super(name, Type.MG, dclass, ttl, mailbox, "mailbox");
 }
 
 /** Gets the mailbox in the mail group specified by the domain */
-public Name
-getMailbox() {
+public Name getMailbox() {
 	return getSingleName();
 }
 

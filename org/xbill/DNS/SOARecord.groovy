@@ -19,8 +19,7 @@ private long serial, refresh, retry, expire, minimum;
 
 SOARecord() {}
 
-Record
-getObject() {
+Record getObject() {
 	return new SOARecord();
 }
 
@@ -36,8 +35,7 @@ getObject() {
  * @param expire The amount of time until a secondary expires a zone
  * @param minimum The minimum TTL for records in the zone
 */
-public
-SOARecord(Name name, int dclass, long ttl, Name host, Name admin,
+public SOARecord(Name name, int dclass, long ttl, Name host, Name admin,
 	  long serial, long refresh, long retry, long expire, long minimum)
 {
 	super(name, Type.SOA, dclass, ttl);
@@ -60,8 +58,7 @@ void rrFromWire(DNSInput dnsin) throws IOException {
 	minimum = dnsin.readU32();
 }
 
-void
-rdataFromString(Tokenizer st, Name origin) throws IOException {
+void rdataFromString(Tokenizer st, Name origin) throws IOException {
 	host = st.getName(origin);
 	admin = st.getName(origin);
 	serial = st.getUInt32();
@@ -72,8 +69,7 @@ rdataFromString(Tokenizer st, Name origin) throws IOException {
 }
 
 /** Convert to a String */
-String
-rrToString() {
+String rrToString() {
 	StringBuffer sb = new StringBuffer();
 	sb.append(host);
 	sb.append(" ");
@@ -106,49 +102,41 @@ rrToString() {
 }
 
 /** Returns the primary name server */
-public Name
-getHost() {  
+public Name getHost() {  
 	return host;
 }       
 
 /** Returns the zone administrator's address */
-public Name
-getAdmin() {  
+public Name getAdmin() {  
 	return admin;
 }       
 
 /** Returns the zone's serial number */
-public long
-getSerial() {  
+public long getSerial() {  
 	return serial;
 }       
 
 /** Returns the zone refresh interval */
-public long
-getRefresh() {  
+public long getRefresh() {  
 	return refresh;
 }       
 
 /** Returns the zone retry interval */
-public long
-getRetry() {  
+public long getRetry() {  
 	return retry;
 }       
 
 /** Returns the time until a secondary expires a zone */
-public long
-getExpire() {  
+public long getExpire() {  
 	return expire;
 }       
 
 /** Returns the minimum TTL for records in the zone */
-public long
-getMinimum() {  
+public long getMinimum() {  
 	return minimum;
 }       
 
-void
-rrToWire(DNSOutput out, Compression c, boolean canonical) {
+void rrToWire(DNSOutput out, Compression c, boolean canonical) {
 	host.toWire(out, c, canonical);
 	admin.toWire(out, c, canonical);
 	out.writeU32(serial);

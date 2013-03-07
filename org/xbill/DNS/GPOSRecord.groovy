@@ -18,13 +18,11 @@ private byte [] latitude, longitude, altitude;
 
 GPOSRecord() {}
 
-Record
-getObject() {
+Record getObject() {
 	return new GPOSRecord();
 }
 
-private void
-validate(double longitude, double latitude) throws IllegalArgumentException
+private void validate(double longitude, double latitude) throws IllegalArgumentException
 {
        if (longitude < -90.0 || longitude > 90.0) {
                throw new IllegalArgumentException("illegal longitude " +
@@ -43,8 +41,7 @@ validate(double longitude, double latitude) throws IllegalArgumentException
  * @param altitude The altitude component of the location (in meters above sea
  * level).
 */
-public
-GPOSRecord(Name name, int dclass, long ttl, double longitude, double latitude,
+public GPOSRecord(Name name, int dclass, long ttl, double longitude, double latitude,
 	   double altitude)
 {
 	super(name, Type.GPOS, dclass, ttl);
@@ -61,8 +58,7 @@ GPOSRecord(Name name, int dclass, long ttl, double longitude, double latitude,
  * @param altitude The altitude component of the location (in meters above sea
  * level).
 */
-public
-GPOSRecord(Name name, int dclass, long ttl, String longitude, String latitude,
+public GPOSRecord(Name name, int dclass, long ttl, String longitude, String latitude,
 	   String altitude)
 {
 	super(name, Type.GPOS, dclass, ttl);
@@ -77,11 +73,10 @@ GPOSRecord(Name name, int dclass, long ttl, String longitude, String latitude,
 	}
 }
 
-void
-rrFromWire(DNSInput in) throws IOException {
-	longitude = in.readCountedString();
-	latitude = in.readCountedString();
-	altitude = in.readCountedString();
+void rrFromWire(DNSInput dnsin) throws IOException {
+	longitude = dnsin.readCountedString();
+	latitude = dnsin.readCountedString();
+	altitude = dnsin.readCountedString();
 	try {
 		validate(getLongitude(), getLatitude());
 	}
@@ -90,8 +85,7 @@ rrFromWire(DNSInput in) throws IOException {
 	}
 }
 
-void
-rdataFromString(Tokenizer st, Name origin) throws IOException {
+void rdataFromString(Tokenizer st, Name origin) throws IOException {
 	try {
 		longitude = byteArrayFromString(st.getString());
 		latitude = byteArrayFromString(st.getString());
@@ -109,8 +103,7 @@ rdataFromString(Tokenizer st, Name origin) throws IOException {
 }
 
 /** Convert to a String */
-String
-rrToString() {
+String rrToString() {
 	StringBuffer sb = new StringBuffer();
 	sb.append(byteArrayToString(longitude, true));
 	sb.append(" ");
@@ -121,8 +114,7 @@ rrToString() {
 }
 
 /** Returns the longitude as a string */
-public String
-getLongitudeString() {
+public String getLongitudeString() {
 	return byteArrayToString(longitude, false);
 }
 
@@ -131,14 +123,12 @@ getLongitudeString() {
  * @throws NumberFormatException The string does not contain a valid numeric
  * value.
  */
-public double
-getLongitude() {
+public double  getLongitude() {
 	return Double.parseDouble(getLongitudeString());
 }
 
 /** Returns the latitude as a string */
-public String
-getLatitudeString() {
+public String getLatitudeString() {
 	return byteArrayToString(latitude, false);
 }
 
@@ -147,14 +137,12 @@ getLatitudeString() {
  * @throws NumberFormatException The string does not contain a valid numeric
  * value.
  */
-public double
-getLatitude() {
+public double getLatitude() {
 	return Double.parseDouble(getLatitudeString());
 }
 
 /** Returns the altitude as a string */
-public String
-getAltitudeString() {
+public String getAltitudeString() {
 	return byteArrayToString(altitude, false);
 }
 
@@ -163,13 +151,11 @@ getAltitudeString() {
  * @throws NumberFormatException The string does not contain a valid numeric
  * value.
  */
-public double
-getAltitude() {
+public double getAltitude() {
 	return Double.parseDouble(getAltitudeString());
 }
 
-void
-rrToWire(DNSOutput out, Compression c, boolean canonical) {
+void rrToWire(DNSOutput out, Compression c, boolean canonical) {
 	out.writeCountedString(longitude);
 	out.writeCountedString(latitude);
 	out.writeCountedString(altitude);

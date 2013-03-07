@@ -21,8 +21,7 @@ private Name textDomain;
 
 RPRecord() {}
 
-Record
-getObject() {
+Record getObject() {
 	return new RPRecord();
 }
 
@@ -31,29 +30,25 @@ getObject() {
  * @param mailbox The responsible person
  * @param textDomain The address where TXT records can be found
  */
-public
-RPRecord(Name name, int dclass, long ttl, Name mailbox, Name textDomain) {
+public RPRecord(Name name, int dclass, long ttl, Name mailbox, Name textDomain) {
 	super(name, Type.RP, dclass, ttl);
 
 	this.mailbox = checkName("mailbox", mailbox);
 	this.textDomain = checkName("textDomain", textDomain);
 }
 
-void
-rrFromWire(DNSInput dnsin) throws IOException {
+void rrFromWire(DNSInput dnsin) throws IOException {
 	mailbox = new Name(dnsin);
 	textDomain = new Name(dnsin);
 }
 
-void
-rdataFromString(Tokenizer st, Name origin) throws IOException {
+void rdataFromString(Tokenizer st, Name origin) throws IOException {
 	mailbox = st.getName(origin);
 	textDomain = st.getName(origin);
 }
 
 /** Converts the RP Record to a String */
-String
-rrToString() {
+String rrToString() {
 	StringBuffer sb = new StringBuffer();
 	sb.append(mailbox);
 	sb.append(" ");
@@ -62,19 +57,16 @@ rrToString() {
 }
 
 /** Gets the mailbox address of the RP Record */
-public Name
-getMailbox() {
+public Name getMailbox() {
 	return mailbox;
 }
 
 /** Gets the text domain info of the RP Record */
-public Name
-getTextDomain() {
+public Name getTextDomain() {
 	return textDomain;
 }
 
-void
-rrToWire(DNSOutput out, Compression c, boolean canonical) {
+void rrToWire(DNSOutput out, Compression c, boolean canonical) {
 	mailbox.toWire(out, null, canonical);
 	textDomain.toWire(out, null, canonical);
 }

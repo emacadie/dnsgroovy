@@ -19,8 +19,7 @@ private byte [] data;
 
 NULLRecord() {}
 
-Record
-getObject() {
+Record getObject() {
 	return new NULLRecord();
 }
 
@@ -28,8 +27,7 @@ getObject() {
  * Creates a NULL record from the given data.
  * @param data The contents of the record.
  */
-public
-NULLRecord(Name name, int dclass, long ttl, byte [] data) {
+public NULLRecord(Name name, int dclass, long ttl, byte [] data) {
 	super(name, Type.NULL, dclass, ttl);
 
 	if (data.length > 0xFFFF) {
@@ -42,24 +40,20 @@ void rrFromWire(DNSInput dnsin) throws IOException {
 	data = dnsin.readByteArray();
 }
 
-void
-rdataFromString(Tokenizer st, Name origin) throws IOException {
+void rdataFromString(Tokenizer st, Name origin) throws IOException {
 	throw st.exception("no defined text format for NULL records");
 }
 
-String
-rrToString() {
+String rrToString() {
 	return unknownToString(data);
 }
 
 /** Returns the contents of this record. */
-public byte []
-getData() {
+public byte [] getData() {
 	return data;
 }
 
-void
-rrToWire(DNSOutput out, Compression c, boolean canonical) {
+void rrToWire(DNSOutput out, Compression c, boolean canonical) {
 	out.writeByteArray(data);
 }
 

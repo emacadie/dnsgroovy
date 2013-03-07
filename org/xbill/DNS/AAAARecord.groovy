@@ -19,8 +19,7 @@ private InetAddress address;
 
 AAAARecord() {}
 
-Record
-getObject() {
+Record getObject() {
 	return new AAAARecord();
 }
 
@@ -28,39 +27,33 @@ getObject() {
  * Creates an AAAA Record from the given data
  * @param address The address suffix
  */
-public
-AAAARecord(Name name, int dclass, long ttl, InetAddress address) {
+public AAAARecord(Name name, int dclass, long ttl, InetAddress address) {
 	super(name, Type.AAAA, dclass, ttl);
 	if (Address.familyOf(address) != Address.IPv6)
 		throw new IllegalArgumentException("invalid IPv6 address");
 	this.address = address;
 }
 
-void
-rrFromWire(DNSInput in) throws IOException {
+void rrFromWire(DNSInput dnsin) throws IOException {
 	address = InetAddress.getByAddress(name.toString(),
-					   in.readByteArray(16));
+					   dnsin.readByteArray(16));
 }
 
-void
-rdataFromString(Tokenizer st, Name origin) throws IOException {
+void rdataFromString(Tokenizer st, Name origin) throws IOException {
 	address = st.getAddress(Address.IPv6);
 }
 
 /** Converts rdata to a String */
-String
-rrToString() {
+String rrToString() {
 	return address.getHostAddress();
 }
 
 /** Returns the address */
-public InetAddress
-getAddress() {
+public InetAddress getAddress() {
 	return address;
 }
 
-void
-rrToWire(DNSOutput out, Compression c, boolean canonical) {
+void rrToWire(DNSOutput out, Compression c, boolean canonical) {
 	out.writeByteArray(address.getAddress());
 }
 
