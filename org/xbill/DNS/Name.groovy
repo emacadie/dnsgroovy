@@ -60,15 +60,20 @@ private static final DecimalFormat byteFormat = new DecimalFormat();
 
 /* Used to efficiently convert bytes to lowercase */
 // // private static final byte lowercase[] = new byte[256];
-def lowercase = []
-
+// this works, but can we get 256?
+// def static lowercase = []
+// this also works: def static lowercase = [256]
+  // no good: def static lowercase = [  ] as byte[256]
+  static byte[] lowercase = [ ] as byte[]
 /* Used in wildcard names. */
 // private static final Name wild;
 static final Name wild;
 
 static {
+  println("lowercase.length:" + lowercase.length)
 	byteFormat.setMinimumIntegerDigits(3);
-	for (int i = 0; i < lowercase.length; i++) {
+	// for (int i = 0; i < lowercase.length; i++) {
+	for (int i = 0; i < 256; i++) {
 		if (i < 'A' || i > 'Z')
 			lowercase[i] = (byte)i;
 		else
