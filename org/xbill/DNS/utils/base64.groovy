@@ -15,16 +15,14 @@ public class base64 {
 
 private static final String Base64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
 
-private
-base64() {}
+private base64() {}
 
 /**
  * Convert binary data to a base64-encoded String
  * @param b An array containing binary data
  * @return A String containing the encoded data
  */
-public static String
-toString(byte [] b) {
+public static String toString(byte [] b) {
 	ByteArrayOutputStream os = new ByteArrayOutputStream();
 
 	for (int i = 0; i < (b.length + 2) / 3; i++) {
@@ -66,8 +64,7 @@ toString(byte [] b) {
  * @param addClose Whether to add a close parenthesis or not
  * @return A String representing the formatted output
  */
-public static String
-formatString(byte [] b, int lineLength, String prefix, boolean addClose) {
+public static String formatString(byte [] b, int lineLength, String prefix, boolean addClose) {
 	String s = toString(b);
 	StringBuffer sb = new StringBuffer();
 	for (int i = 0; i < s.length(); i += lineLength) {
@@ -91,8 +88,7 @@ formatString(byte [] b, int lineLength, String prefix, boolean addClose) {
  * @param str A String containing the encoded data
  * @return An array containing the binary data, or null if the string is invalid
  */
-public static byte []
-fromString(String str) {
+public static byte [] fromString(String str) {
 	ByteArrayOutputStream bs = new ByteArrayOutputStream();
 	byte [] raw = str.getBytes();
 	for (int i = 0; i < raw.length; i++) {

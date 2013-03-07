@@ -24,16 +24,14 @@ static {
 	w4.setGroupingUsed(false);
 }
 
-private
-FormattedTime() {}
+private FormattedTime() {}
 
 /**
  * Converts a Date into a formatted string.
  * @param date The Date to convert.
  * @return The formatted string.
  */
-public static String
-format(Date date) {
+public static String format(Date date) {
 	Calendar c = new GregorianCalendar(TimeZone.getTimeZone("UTC"));
 	StringBuffer sb = new StringBuffer();
 
@@ -53,8 +51,7 @@ format(Date date) {
  * @return The Date object.
  * @throws TextParseExcetption The string was invalid.
  */
-public static Date
-parse(String s) throws TextParseException {
+public static Date parse(String s) throws TextParseException {
 	if (s.length() != 14) {
 		throw new TextParseException("Invalid time encoding: " + s);
 	}

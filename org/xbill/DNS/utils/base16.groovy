@@ -15,16 +15,14 @@ public class base16 {
 
 private static final String Base16 = "0123456789ABCDEF";
 
-private
-base16() {}
+private base16() {}
 
 /**
  * Convert binary data to a hex-encoded String
  * @param b An array containing binary data
  * @return A String containing the encoded data
  */
-public static String
-toString(byte [] b) {
+public static String toString(byte [] b) {
 	ByteArrayOutputStream os = new ByteArrayOutputStream();
 
 	for (int i = 0; i < b.length; i++) {
@@ -42,8 +40,7 @@ toString(byte [] b) {
  * @param str A String containing the encoded data
  * @return An array containing the binary data, or null if the string is invalid
  */
-public static byte []
-fromString(String str) {
+public static byte [] fromString(String str) {
 	ByteArrayOutputStream bs = new ByteArrayOutputStream();
 	byte [] raw = str.getBytes();
 	for (int i = 0; i < raw.length; i++) {

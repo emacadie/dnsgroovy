@@ -17,13 +17,11 @@ private static final long serialVersionUID = -125354057735389003L;
 
 private TreeSet types;
 
-private
-TypeBitmap() {
+private TypeBitmap() {
 	types = new TreeSet();
 }
 
-public
-TypeBitmap(int [] array) {
+public TypeBitmap(int [] array) {
 	this();
 	for (int i = 0; i < array.length; i++) {
 		Type.check(array[i]);
@@ -58,8 +56,7 @@ public TypeBitmap(DNSInput dnsin) throws WireParseException {
 	}
 }
 
-public
-TypeBitmap(Tokenizer st) throws IOException {
+public TypeBitmap(Tokenizer st) throws IOException {
 	this();
 	while (true) {
 		Tokenizer.Token t = st.get();
@@ -74,8 +71,7 @@ TypeBitmap(Tokenizer st) throws IOException {
 	st.unget();
 }
 
-public int []
-toArray() {
+public int [] toArray() {
 	int [] array = new int[types.size()];
 	int n = 0;
 	for (Iterator it = types.iterator(); it.hasNext(); )
@@ -83,8 +79,7 @@ toArray() {
 	return array;
 }
 
-public String
-toString() {
+public String toString() {
 	StringBuffer sb = new StringBuffer();
 	for (Iterator it = types.iterator(); it.hasNext(); ) {
 		int t = ((Integer)it.next()).intValue();
@@ -95,8 +90,7 @@ toString() {
 	return sb.toString();
 }
 
-private static void
-mapToWire(DNSOutput out, TreeSet map, int mapbase) {
+private static void mapToWire(DNSOutput out, TreeSet map, int mapbase) {
 	int arraymax = (((Integer)map.last()).intValue()) & 0xFF;
 	int arraylength = (arraymax / 8) + 1;
 	int [] array = new int[arraylength];
@@ -110,8 +104,7 @@ mapToWire(DNSOutput out, TreeSet map, int mapbase) {
 		out.writeU8(array[j]);
 }
 
-public void
-toWire(DNSOutput out) {
+public void toWire(DNSOutput out) {
 	if (types.size() == 0)
 		return;
 
@@ -133,13 +126,11 @@ toWire(DNSOutput out) {
 	mapToWire(out, map, mapbase);
 }
 
-public boolean
-empty() {
+public boolean empty() {
 	return types.isEmpty();
 }
 
-public boolean
-contains(int typecode) {
+public boolean contains(int typecode) {
 	return types.contains(Mnemonic.toInteger(typecode));
 }
 

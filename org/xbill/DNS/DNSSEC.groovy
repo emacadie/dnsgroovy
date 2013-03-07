@@ -89,8 +89,7 @@ public static class Algorithm {
 	/**
 	 * Converts an algorithm into its textual representation
 	 */
-	public static String
-	string(int alg) {
+	public static String string(int alg) {
 		return algs.getText(alg);
 	}
 
@@ -100,14 +99,12 @@ public static class Algorithm {
 	 * @param s The textual representation of the algorithm
 	 * @return The algorithm code, or -1 on error.
 	 */
-	public static int
-	value(String s) {
+	public static int value(String s) {
 		return algs.getValue(s);
 	}
 }
 
-private
-DNSSEC() { }
+private DNSSEC() { }
 
 private static void digestSIG(DNSOutput out, SIGBase sig) {
 	out.writeU16(sig.getTypeCovered());
