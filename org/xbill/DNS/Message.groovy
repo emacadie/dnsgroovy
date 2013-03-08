@@ -398,7 +398,7 @@ private int sectionToWire(DNSOutput out, int section, Compression c,
 }
 
 /* Returns true if the message could be rendered. */
-private boolean toWire(DNSOutput out, int maxLength) {
+private boolean toWire_private(DNSOutput out, int maxLength) {
 	if (maxLength < Header.LENGTH)
 		return false;
 
@@ -477,7 +477,7 @@ public byte [] toWire() {
  */
 public byte [] toWire(int maxLength) {
 	DNSOutput out = new DNSOutput();
-	toWire(out, maxLength);
+	toWire_private(out, maxLength);
 	size = out.current();
 	return out.toByteArray();
 }

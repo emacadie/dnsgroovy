@@ -484,12 +484,13 @@ public SetResponse lookupRecords(Name name, int type, int minCred) {
 	return lookup(name, type, minCred);
 }
 
-private RRset [] findRecords(Name name, int type, int minCred) {
+private RRset [] findRecords_private(Name name, int type, int minCred) {
 	SetResponse cr = lookupRecords(name, type, minCred);
-	if (cr.isSuccessful())
+	if (cr.isSuccessful()) { 
 		return cr.answers();
-	else
+	} else { 
 		return null;
+	}
 }
 
 /**
@@ -501,7 +502,7 @@ private RRset [] findRecords(Name name, int type, int minCred) {
  * @see Credibility
  */
 public RRset [] findRecords(Name name, int type) {
-	return findRecords(name, type, Credibility.NORMAL);
+	return findRecords_private(name, type, Credibility.NORMAL);
 }
 
 /**
@@ -513,7 +514,7 @@ public RRset [] findRecords(Name name, int type) {
  * @see Credibility
  */
 public RRset [] findAnyRecords(Name name, int type) {
-	return findRecords(name, type, Credibility.GLUE);
+	return findRecords_private(name, type, Credibility.GLUE);
 }
 
 private final int getCred(int section, boolean isAuth) {

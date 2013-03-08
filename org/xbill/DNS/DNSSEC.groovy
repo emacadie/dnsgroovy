@@ -688,7 +688,7 @@ private static byte [] ECDSASignaturetoDNS(byte [] signature, ECKeyInfo keyinfo)
 	return out.toByteArray();
 }
 
-private static void verify(PublicKey key, int alg, byte [] data, byte [] signature)
+private static void verify_private(PublicKey key, int alg, byte [] data, byte [] signature)
 throws DNSSECException
 {
 	if (key instanceof DSAPublicKey) {
@@ -762,11 +762,10 @@ public static void verify(RRset rrset, RRSIGRecord rrsig, DNSKEYRecord key) thro
 		throw new SignatureNotYetValidException(rrsig.getTimeSigned(),
 							now);
 
-	verify(key.getPublicKey(), rrsig.getAlgorithm(),
-	       digestRRset(rrsig, rrset), rrsig.getSignature());
+	verify_private(key.getPublicKey(), rrsig.getAlgorithm(), digestRRset(rrsig, rrset), rrsig.getSignature());
 }
 
-private static byte [] sign(PrivateKey privkey, PublicKey pubkey, int alg, byte [] data, String provider) throws DNSSECException
+private static byte [] sign_private(PrivateKey privkey, PublicKey pubkey, int alg, byte [] data, String provider) throws DNSSECException
 {
 	byte [] signature;
 	try {
@@ -887,7 +886,7 @@ public static RRSIGRecord sign(RRset rrset, DNSKEYRecord key, PrivateKey privkey
 					    key.getFootprint(),
 					    key.getName(), null);
 
-	rrsig.setSignature(sign(privkey, key.getPublicKey(), alg,
+	rrsig.setSignature(sign_private(privkey, key.getPublicKey(), alg,
 				digestRRset(rrsig, rrset), provider));
 	return rrsig;
 }
@@ -939,8 +938,7 @@ static void verifyMessage(Message message, byte [] bytes, SIGRecord sig, SIGReco
 	out.writeByteArray(bytes, Header.LENGTH,
 			   message.sig0start - Header.LENGTH);
 
-	verify(key.getPublicKey(), sig.getAlgorithm(),
-	       out.toByteArray(), sig.getSignature());
+	verify_private(key.getPublicKey(), sig.getAlgorithm(), out.toByteArray(), sig.getSignature());
 }
 
 /**

@@ -70,7 +70,7 @@ private static final Record getEmptyRecord(Name name, int type, int dclass, long
  */
 abstract void rrFromWire(DNSInput dnsin) throws IOException;
 
-private static  Record newRecord(Name name, int type, int dclass, long ttl, int length, DNSInput dnsin)
+private static  Record newRecord_private(Name name, int type, int dclass, long ttl, int length, DNSInput dnsin)
 throws IOException
 {
 	Record rec;
@@ -100,19 +100,23 @@ throws IOException
  * the first length bytes are used.
  */
 public static Record newRecord(Name name, int type, int dclass, long ttl, int length, byte [] data) {
-	if (!name.isAbsolute())
-		throw new RelativeNameException(name);
+	if (!name.isAbsolute()) { 
+	  throw new RelativeNameException(name);
+	}
+		
 	Type.check(type);
 	DClass.check(dclass);
 	TTL.check(ttl);
 
 	DNSInput dnsin;
-	if (data != null)
-		dnsin = new DNSInput(data);
-	else
-		dnsin = null;
+	if (data != null) { 
+	  dnsin = new DNSInput(data);
+	} else { 
+	  dnsin = null;  
+	}
+		
 	try {
-		return newRecord(name, type, dclass, ttl, length, dnsin);
+		return newRecord_private(name, type, dclass, ttl, length, dnsin);
 	}
 	catch (IOException e) {
 		return null;
@@ -174,15 +178,18 @@ static Record fromWire(DNSInput dnsin, int section, boolean isUpdate) throws IOE
 	type = dnsin.readU16();
 	dclass = dnsin.readU16();
 
-	if (section == Section.QUESTION)
-		return newRecord(name, type, dclass);
+	if (section == Section.QUESTION) { 
+	  return newRecord(name, type, dclass);
+	}
+		
 
 	ttl = dnsin.readU32();
 	length = dnsin.readU16();
-	if (length == 0 && isUpdate &&
-	    (section == Section.PREREQ || section == Section.UPDATE))
-		return newRecord(name, type, dclass, ttl);
-	rec = newRecord(name, type, dclass, ttl, length, dnsin);
+	if (length == 0 && isUpdate && (section == Section.PREREQ || section == Section.UPDATE)) { 
+	  return newRecord(name, type, dclass, ttl);
+	}
+		
+	rec = newRecord_private(name, type, dclass, ttl, length, dnsin);
 	return rec;
 }
 
@@ -220,7 +227,7 @@ public byte [] toWire(int section) {
 	return out.toByteArray();
 }
 
-private void toWireCanonical(DNSOutput out, boolean noTTL) {
+private void toWireCanonical_void(DNSOutput out, boolean noTTL) {
 	name.toWireCanonical(out);
 	out.writeU16(type);
 	out.writeU16(dclass);
@@ -240,9 +247,9 @@ private void toWireCanonical(DNSOutput out, boolean noTTL) {
  * Converts a Record into canonical DNS uncompressed wire format (all names are
  * converted to lowercase), optionally ignoring the TTL.
  */
-private byte [] toWireCanonical(boolean noTTL) {
+private byte [] toWireCanonical_byte(boolean noTTL) {
 	DNSOutput out = new DNSOutput();
-	toWireCanonical(out, noTTL);
+	toWireCanonical_void(out, noTTL);
 	return out.toByteArray();
 }
 
@@ -251,7 +258,7 @@ private byte [] toWireCanonical(boolean noTTL) {
  * converted to lowercase).
  */
 public byte [] toWireCanonical() {
-	return toWireCanonical(false);
+	return toWireCanonical_byte(false);
 }
 
 /**
@@ -423,8 +430,10 @@ throws IOException
 {
 	Record rec;
 
-	if (!name.isAbsolute())
-		throw new RelativeNameException(name);
+	if (!name.isAbsolute()) { 
+	  throw new RelativeNameException(name);
+	}
+		
 	Type.check(type);
 	DClass.check(dclass);
 	TTL.check(ttl);
@@ -440,7 +449,7 @@ throws IOException
 			throw st.exception("invalid unknown RR encoding: " +
 					   "length mismatch");
 		DNSInput dnsin = new DNSInput(data);
-		return newRecord(name, type, dclass, ttl, length, dnsin);
+		return newRecord_private(name, type, dclass, ttl, length, dnsin);
 	}
 	st.unget();
 	rec = getEmptyRecord(name, type, dclass, ttl, true);
