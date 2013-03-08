@@ -3,7 +3,7 @@ package org.xbill.DNS;
 
 import java.io.*;
 
-import org.xbill.DNS.utils.base16;
+import org.xbill.DNS.utils.Base16;
 
 /**
  * An EDNSOption with no internal structure.
@@ -37,7 +37,7 @@ void optionToWire(DNSOutput out) {
 }
 
 String optionToString() {
-	return "<" + base16.toString(data) + ">";
+	return "<" + Base16.toString(data) + ">";
 }
 
 }

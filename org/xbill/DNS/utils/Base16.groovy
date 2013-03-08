@@ -11,11 +11,11 @@ import java.io.*;
  * @author Brian Wellington
  */
 
-public class base16 {
+public class Base16 {
 
 private static final String Base16 = "0123456789ABCDEF";
 
-private base16() {}
+private Base16() {}
 
 /**
  * Convert binary data to a hex-encoded String

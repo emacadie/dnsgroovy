@@ -403,7 +403,7 @@ protected static String unknownToString(byte [] data) {
 	sb.append("\\# ");
 	sb.append(data.length);
 	sb.append(" ");
-	sb.append(base16.toString(data));
+	sb.append(Base16.toString(data));
 	return sb.toString();
 }
 

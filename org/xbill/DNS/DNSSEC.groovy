@@ -766,8 +766,7 @@ public static void verify(RRset rrset, RRSIGRecord rrsig, DNSKEYRecord key) thro
 	       digestRRset(rrsig, rrset), rrsig.getSignature());
 }
 
-private static byte [] sign(PrivateKey privkey, PublicKey pubkey, int alg, byte [] data,
-     String provider) throws DNSSECException
+private static byte [] sign(PrivateKey privkey, PublicKey pubkey, int alg, byte [] data, String provider) throws DNSSECException
 {
 	byte [] signature;
 	try {
@@ -856,8 +855,7 @@ static void checkAlgorithm(PrivateKey key, int alg) throws UnsupportedAlgorithmE
  * @throws DNSSECException Some other error occurred.
  * @return The generated signature
  */
-public static RRSIGRecord sign(RRset rrset, DNSKEYRecord key, PrivateKey privkey,
-     Date inception, Date expiration) throws DNSSECException
+public static RRSIGRecord sign(RRset rrset, DNSKEYRecord key, PrivateKey privkey, Date inception, Date expiration) throws DNSSECException
 {
 	return sign(rrset, key, privkey, inception, expiration, null);
 }
@@ -877,8 +875,7 @@ public static RRSIGRecord sign(RRset rrset, DNSKEYRecord key, PrivateKey privkey
  * @throws DNSSECException Some other error occurred.
  * @return The generated signature
  */
-public static RRSIGRecord sign(RRset rrset, DNSKEYRecord key, PrivateKey privkey,
-     Date inception, Date expiration, String provider) throws DNSSECException
+public static RRSIGRecord sign(RRset rrset, DNSKEYRecord key, PrivateKey privkey, Date inception, Date expiration, String provider) throws DNSSECException
 {
 	int alg = key.getAlgorithm();
 	checkAlgorithm(privkey, alg);
@@ -917,8 +914,7 @@ static SIGRecord signMessage(Message message, SIGRecord previous, KEYRecord key,
 	return sig;
 }
 
-static void verifyMessage(Message message, byte [] bytes, SIGRecord sig, SIGRecord previous,
-	      KEYRecord key) throws DNSSECException
+static void verifyMessage(Message message, byte [] bytes, SIGRecord sig, SIGRecord previous, KEYRecord key) throws DNSSECException
 {
 	if (!matches(sig, key))
 		throw new KeyMismatchException(key, sig);
