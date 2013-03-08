@@ -57,7 +57,8 @@ private boolean ungottenToken;
 private int multiline;
 private boolean quoting;
 private String delimiters;
-private Token current;
+  // this was a static inner class
+private static Token current;
 private StringBuffer sb;
 private boolean wantClose;
 
@@ -171,15 +172,20 @@ public Token get(boolean wantWhitespace, boolean wantComment) throws IOException
 	if (ungottenToken) {
 		ungottenToken = false;
 		if (current.type == WHITESPACE) {
-			if (wantWhitespace)
-				return current;
+			if (wantWhitespace) { 
+			  return current;
+			}
+				
 		} else if (current.type == COMMENT) {
-			if (wantComment)
-				return current;
+			if (wantComment) { 
+			  return current;
+			}
+				
 		} else {
-			if (current.type == EOL)
-				line++;
-			return current;
+		  if (current.type == EOL) {
+		    line++;
+		  }
+		  return current;
 		}
 	}
 	int skipped = skipWhitespace();
@@ -194,10 +200,12 @@ public Token get(boolean wantWhitespace, boolean wantComment) throws IOException
 				if (quoting)
 					throw exception("EOF in " +
 							"quoted string");
-				else if (sb.length() == 0)
-					return current.set(EOF, null);
-				else
-					return current.set(type, sb);
+				else if (sb.length() == 0) { 
+				  return current.set(EOF, null);
+				} else { 
+				  return current.set(type, sb);
+				}
+					
 			}
 			if (sb.length() == 0 && type != QUOTED_STRING) {
 				if (c == '(') {

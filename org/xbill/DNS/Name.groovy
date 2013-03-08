@@ -35,7 +35,9 @@ private int hashcode;
 // private static final byte [] emptyLabel = new byte[] [0];
 private static final emptyLabel = [ 0 ] as byte[]
 // private static final byte [] wildLabel = new byte[] [(byte)1 (byte)];
-private static final wildLabel = [ 1, '*' ] as byte[]
+// private static final wildLabel = [ 1, '*' ] as byte[]
+// private static final wildLabel = [ 1, new Byte("*").byteValue() ] as byte[]
+private static final wildLabel = [ 1, 1 ] as byte[]
 
 /** The root name */
 public static final Name root;
@@ -64,20 +66,26 @@ private static final DecimalFormat byteFormat = new DecimalFormat();
 // def static lowercase = []
 // this also works: def static lowercase = [256]
   // no good: def static lowercase = [  ] as byte[256]
-  static byte[] lowercase = [ ] as byte[]
+  // 
+  // static Byte[] lowercase = [ ] as Byte[]
+  // def lowercase = new Byte[256]
+  private def static lowercase = [ ] as byte[]
 /* Used in wildcard names. */
 // private static final Name wild;
 static final Name wild;
 
 static {
+  // lowercase = Byte[256]
   println("lowercase.length:" + lowercase.length)
 	byteFormat.setMinimumIntegerDigits(3);
 	// for (int i = 0; i < lowercase.length; i++) {
 	for (int i = 0; i < 256; i++) {
-		if (i < 'A' || i > 'Z')
-			lowercase[i] = (byte)i;
-		else
-			lowercase[i] = (byte)(i - 'A' + 'a');
+		if (i < 'A' || i > 'Z') {  
+		  lowercase[i] = (byte)i;
+		} else {
+		  lowercase[i] = (byte)(i - 'A' + 'a');
+		}
+			
 	}
 	root = new Name();
 	root.appendSafe(emptyLabel, 0, 1);
@@ -87,8 +95,7 @@ static {
 	wild.appendSafe(wildLabel, 0, 1);
 }
 
-private
-Name() {
+private Name() {
 }
 
 // private final void setoffset(int n, int offset) {
@@ -716,21 +723,26 @@ public void toWire(DNSOutput out, Compression c, boolean canonical) {
 		toWire(out, c);
 }
 
-private final boolean equals(byte [] b, int bpos) {
+private final boolean equals_private(byte [] b, int bpos) {
 	int labels = labels();
 	// for (int i = 0, pos = offset(0); i < labels; i++) {
 	pos = offset(0)
 	for (int i = 0; i < labels; i++) {
-		if (name[pos] != b[bpos])
-			return false;
+		if (name[pos] != b[bpos]) { 
+		  return false;
+		}
+			
 		int len = name[pos++];
 		bpos++;
-		if (len > MAXLABEL)
-			throw new IllegalStateException("invalid label");
-		for (int j = 0; j < len; j++)
-			if (lowercase[(name[pos++] & 0xFF)] !=
-			    lowercase[(b[bpos++] & 0xFF)])
-				return false;
+		if (len > MAXLABEL) { 
+		  throw new IllegalStateException("invalid label");
+		}
+			
+		for (int j = 0; j < len; j++) { 
+			if (lowercase[(name[pos++] & 0xFF)] != lowercase[(b[bpos++] & 0xFF)]) { 
+			  return false;
+			}
+		}			
 	}
 	return true;
 }
@@ -739,20 +751,28 @@ private final boolean equals(byte [] b, int bpos) {
  * Are these two Names equivalent?
  */
 public boolean equals(Object arg) {
-	if (arg == this)
-		return true;
-	if (arg == null || !(arg instanceof Name))
-		return false;
+	if (arg == this) { 
+	  return true;
+	}
+	if (arg == null || !(arg instanceof Name)) { 
+	  return false;
+	}
+		
 	Name d = (Name) arg;
-	if (d.hashcode == 0)
-		d.hashCode();
-	if (hashcode == 0)
-		hashCode();
-	if (d.hashcode != hashcode)
-		return false;
-	if (d.labels() != labels())
-		return false;
-	return equals(d.name, d.offset(0));
+	if (d.hashcode == 0) { 
+	  d.hashCode();
+	}
+	if (hashcode == 0) { 
+	  hashCode();
+	}	
+	if (d.hashcode != hashcode) { 
+	  return false;
+	}	
+	if (d.labels() != labels()) { 
+	  return false;
+	}
+		
+	return equals_private(d.name, d.offset(0));
 }
 
 /**

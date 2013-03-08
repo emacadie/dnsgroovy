@@ -17,32 +17,29 @@ long defaultTTL;
 int defaultClass = DClass.IN;
 PrintStream log = null;
 
-void
-print(Object o) {
+void print(Object o) {
 	System.out.println(o);
 	if (log != null)
 		log.println(o);
 }
 
-public Message
-newMessage() {
+public Message newMessage() {
 	Message msg = new Message();
 	msg.getHeader().setOpcode(Opcode.UPDATE);
 	return msg;
 }
 
-public
-update(InputStream in) throws IOException {
+public update(InputStream inputstream) throws IOException {
 	List inputs = new LinkedList();
 	List istreams = new LinkedList();
 
 	query = newMessage();
 
-	InputStreamReader isr = new InputStreamReader(in);
+	InputStreamReader isr = new InputStreamReader(inputstream);
 	BufferedReader br = new BufferedReader(isr);
 
 	inputs.add(br);
-	istreams.add(in);
+	istreams.add(inputstream);
 
 	while (true) {
 		try {
@@ -52,7 +49,7 @@ update(InputStream in) throws IOException {
 				is = (InputStream)istreams.get(0);
 				br = (BufferedReader)inputs.get(0);
 
-				if (is == System.in)
+				if (is == System.inputstream)
 					System.out.print("> ");
 
 				line = br.readLine();
@@ -241,8 +238,7 @@ update(InputStream in) throws IOException {
 	}
 }
 
-void
-sendUpdate() throws IOException {
+void sendUpdate() throws IOException {
 	if (query.getHeader().getCount(Section.UPDATE) == 0) {
 		print("Empty update message.  Ignoring.");
 		return;
@@ -279,8 +275,7 @@ sendUpdate() throws IOException {
  * <name> [ttl] [class] <type> <data>
  * Ignore the class, if present.
  */
-Record
-parseRR(Tokenizer st, int classValue, long TTLValue)
+Record parseRR(Tokenizer st, int classValue, long TTLValue)
 throws IOException
 {
 	Name name = st.getName(zone);
@@ -313,8 +308,7 @@ throws IOException
 		throw new IOException("Parse error");
 }
 
-void
-doRequire(Tokenizer st) throws IOException {
+void doRequire(Tokenizer st) throws IOException {
 	Tokenizer.Token token;
 	Name name;
 	Record record;
@@ -341,8 +335,7 @@ doRequire(Tokenizer st) throws IOException {
 	print(record);
 }
 
-void
-doProhibit(Tokenizer st) throws IOException {
+void doProhibit(Tokenizer st) throws IOException {
 	Tokenizer.Token token;
 	Name name;
 	Record record;
@@ -360,15 +353,13 @@ doProhibit(Tokenizer st) throws IOException {
 	print(record);
 }
 
-void
-doAdd(Tokenizer st) throws IOException {
+void doAdd(Tokenizer st) throws IOException {
 	Record record = parseRR(st, defaultClass, defaultTTL);
 	query.addRecord(record, Section.UPDATE);
 	print(record);
 }
 
-void
-doDelete(Tokenizer st) throws IOException {
+void doDelete(Tokenizer st) throws IOException {
 	Tokenizer.Token token;
 	String s;
 	Name name;
@@ -400,15 +391,13 @@ doDelete(Tokenizer st) throws IOException {
 	print(record);
 }
 
-void
-doGlue(Tokenizer st) throws IOException {
+void doGlue(Tokenizer st) throws IOException {
 	Record record = parseRR(st, defaultClass, defaultTTL);
 	query.addRecord(record, Section.ADDITIONAL);
 	print(record);
 }
 
-void
-doQuery(Tokenizer st) throws IOException {
+void doQuery(Tokenizer st) throws IOException {
 	Record rec;
 	Tokenizer.Token token;
 
@@ -438,8 +427,7 @@ doQuery(Tokenizer st) throws IOException {
 	print(response);
 }
 
-void
-doFile(Tokenizer st, List inputs, List istreams) throws IOException {
+void doFile(Tokenizer st, List inputs, List istreams) throws IOException {
 	String s = st.getString();
 	InputStream is;
 	try {
@@ -455,8 +443,7 @@ doFile(Tokenizer st, List inputs, List istreams) throws IOException {
 	}
 }
 
-void
-doLog(Tokenizer st) throws IOException {
+void doLog(Tokenizer st) throws IOException {
 	String s = st.getString();
 	try {
 		FileOutputStream fos = new FileOutputStream(s);
@@ -467,8 +454,7 @@ doLog(Tokenizer st) throws IOException {
 	}
 }
 
-boolean
-doAssert(Tokenizer st) throws IOException {
+boolean doAssert(Tokenizer st) throws IOException {
 	String field = st.getString();
 	String expected = st.getString();
 	String value = null;
@@ -535,8 +521,7 @@ doAssert(Tokenizer st) throws IOException {
 	return flag;
 }
 
-static void
-help(String topic) {
+static void help(String topic) {
 	System.out.println();
 	if (topic == null) {
 		System.out.println("The following are supported commands:\n" +
@@ -672,8 +657,7 @@ help(String topic) {
 		System.out.println ("Topic '" + topic + "' unrecognized\n");
 }
 
-public static void
-main(String args[]) throws IOException {
+public static void main(String args[]) throws IOException {
 
 	InputStream in = null;
 	if (args.length >= 1) {

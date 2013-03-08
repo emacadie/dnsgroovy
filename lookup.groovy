@@ -10,8 +10,10 @@ public class lookup {
 def printAnswer(String name, Lookup lookup) {
 	System.out.print(name + ":");
 	int result = lookup.getResult();
-	if (result != Lookup.SUCCESSFUL)
-		System.out.print(" " + lookup.getErrorString());
+	if (result != Lookup.SUCCESSFUL) { 
+	  System.out.print(" " + lookup.getErrorString());
+	}
+		
 	System.out.println();
 	Name [] aliases = lookup.getAliases();
 	if (aliases.length > 0) {
@@ -25,19 +27,25 @@ def printAnswer(String name, Lookup lookup) {
 	}
 	if (lookup.getResult() == Lookup.SUCCESSFUL) {
 		Record [] answers = lookup.getAnswers();
-		for (int i = 0; i < answers.length; i++)
-			System.out.println(answers[i]);
+		for (int i = 0; i < answers.length; i++) { 
+		  System.out.println(answers[i]);
+		}
+			
 	}
 }
 
 // # public static void main(String [] args) throws Exception {
 def public static void main(String [] args) throws Exception {
+  println( "starting lookup" )
 	int type = Type.A;
+	println("here is type: " + type)
 	int start = 0;
 	if (args.length > 2 && args[0].equals("-t")) {
 		type = Type.value(args[1]);
-		if (type < 0)
-			throw new IllegalArgumentException("invalid type");
+		if (type < 0) { 
+		  throw new IllegalArgumentException("invalid type");
+		}
+			
 		start = 2;
 	}
 	for (int i = start; i < args.length; i++) {
@@ -45,6 +53,7 @@ def public static void main(String [] args) throws Exception {
 		l.run();
 		printAnswer(args[i], l);
 	}
+	println("At the end of main" )
 }
 
 }

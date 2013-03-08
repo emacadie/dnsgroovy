@@ -22,7 +22,7 @@ import java.net.*;
 
 import org.xbill.DNS.utils.*;
 
-public static class Token {
+public class Token {
 	/** The type of token. */
 	public int type;
 

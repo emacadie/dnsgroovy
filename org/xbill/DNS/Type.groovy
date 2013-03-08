@@ -192,34 +192,19 @@ public static final int ANY		= 255;
 /** DNSSEC Lookaside Validation, RFC 4431 . */
 public static final int DLV		= 32769;
 
+  private static TypeMnemonic types;
 
-private static class TypeMnemonic extends Mnemonic {
-	private HashMap objects;
-
-	public 	TypeMnemonic() {
-		super("Type", CASE_UPPER);
-		setPrefix("TYPE");
-		objects = new HashMap();
-	}
-
-	public void 	add(int val, String str, Record proto) {
-		super.add(val, str);
-		objects.put(Mnemonic.toInteger(val), proto);
-	}
-	
-	public void 	check(int val) {
-		Type.check(val);
-	}
-
-	public Record 	getProto(int val) {
-		check(val);
-		return (Record) objects.get(toInteger(val));
-	}
+private Type() {
+  // private static TypeMnemonic types = new TypeMnemonic();
+types = new TypeMnemonic();
+  this.init();
+  println("------------------------------------------")
+  types.printLength()
 }
 
-private static TypeMnemonic types = new TypeMnemonic();
 
-static {
+
+  public void init() {
 	types.add(A, "A", new ARecord());
 	types.add(NS, "NS", new NSRecord());
 	types.add(MD, "MD", new MDRecord());
@@ -282,15 +267,14 @@ static {
 	types.add(DLV, "DLV", new DLVRecord());
 }
 
-private
-Type() {
-}
+
 
 /**
  * Checks that a numeric Type is valid.
  * @throws InvalidTypeException The type is out of range.
  */
-public static void check(int val) {
+// was static
+public  void check(int val) {
 	if (val < 0 || val > 0xFFFF)
 		throw new InvalidTypeException(val);
 }
@@ -301,7 +285,8 @@ public static void check(int val) {
  * @return The canonical string representation of the type
  * @throws InvalidTypeException The type is out of range.
  */
-public static String string(int val) {
+// was static
+public  String string(int val) {
 	return types.getText(val);
 }
 
@@ -311,7 +296,8 @@ public static String string(int val) {
  * @param numberok Whether a number will be accepted or not.
  * @return The type code, or -1 on error.
  */
-public static int value(String s, boolean numberok) {
+// was static
+public  int value(String s, boolean numberok) {
 	int val = types.getValue(s);
 	if (val == -1 && numberok) {
 		val = types.getValue("TYPE" + s);
@@ -323,11 +309,13 @@ public static int value(String s, boolean numberok) {
  * Converts a String representation of an Type into its numeric value
  * @return The type code, or -1 on error.
  */
-public static int value(String s) {
+// was static
+public  int value(String s) {
 	return value(s, false);
 }
 
-static Record getProto(int val) {
+  // was static
+ Record getProto(int val) {
 	return types.getProto(val);
 }
 
