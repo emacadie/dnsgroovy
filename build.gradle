@@ -1,5 +1,7 @@
 apply plugin: 'java'
 apply plugin: 'maven'
+apply plugin: 'groovy'
+
 
 repositories {
   mavenCentral()
@@ -22,10 +24,13 @@ allprojects {
     
     testRuntime 'ch.qos.logback:logback-core:1.0.+'
     testRuntime 'ch.qos.logback:logback-classic:1.0.+'
+
+     compile 'org.codehaus.groovy:groovy-all:2.1.0'
   }
 }
 
 task runJava(type: JavaExec) {
+     println( "-- Groovy version: " + groovy.lang.GroovySystem.getVersion() )
      dependsOn classes
      description = 'Run gradle.sample.SampleApp'
      // Java main class to execute.
@@ -38,6 +43,22 @@ task runJava(type: JavaExec) {
      // We can pass arguments to the main() method
      // of gradle.sample.SampleApp.
      args 'www.yahoo.com'
+}
+
+task runGroovy(type: JavaExec) {
+     println( "-- Groovy version: " + groovy.lang.GroovySystem.getVersion() )
+     dependsOn classes
+     description = 'Run gradle.sample.SampleApp'
+     // Java main class to execute.
+     main = 'org.lookup'
+     // We need to set the classpath.
+     classpath sourceSets.main.runtimeClasspath
+     // Extra options can be set.
+     systemProperty 'sysProp', 'notUsed'
+     jvmArgs '-client'
+     // We can pass arguments to the main() method
+     // of gradle.sample.SampleApp.
+     // args 'www.yahoo.com'
 }
 
 
