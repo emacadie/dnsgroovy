@@ -58,7 +58,7 @@ task runGroovy(type: JavaExec) {
      jvmArgs '-client'
      // We can pass arguments to the main() method
      // of gradle.sample.SampleApp.
-     // args 'www.yahoo.com'
+     args 'www.yahoo.com'
 }
 
 

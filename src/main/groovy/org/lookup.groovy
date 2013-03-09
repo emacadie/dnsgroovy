@@ -8,7 +8,7 @@ import org.xbill.DNS.*;
 public class lookup {
 
 // public static void printAnswer(String name, Lookup lookup) {
-def printAnswer(String name, Lookup lookup) {
+def static  printAnswer(String name, Lookup lookup) {
 	System.out.print(name + ":");
 	int result = lookup.getResult();
 	if (result != Lookup.SUCCESSFUL) { 
