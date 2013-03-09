@@ -1,0 +1,9 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<testsuite name="org.xbill.DNS.TypeBitmapTest" tests="3" failures="0" errors="0" timestamp="2013-03-09T16:54:49" hostname="finance" time="0.004">
+  <properties/>
+  <testcase name="test_typeNSandSOA" classname="org.xbill.DNS.TypeBitmapTest" time="0.004"/>
+  <testcase name="test_empty" classname="org.xbill.DNS.TypeBitmapTest" time="0.0"/>
+  <testcase name="test_typeA" classname="org.xbill.DNS.TypeBitmapTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

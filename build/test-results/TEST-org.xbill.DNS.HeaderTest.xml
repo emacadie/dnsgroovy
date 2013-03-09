@@ -1,0 +1,25 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<testsuite name="org.xbill.DNS.HeaderTest" tests="19" failures="0" errors="0" timestamp="2013-03-09T16:54:49" hostname="finance" time="0.017">
+  <properties/>
+  <testcase name="test_setOpcode_invalid" classname="org.xbill.DNS.HeaderTest" time="0.003"/>
+  <testcase name="test_setCount_invalid" classname="org.xbill.DNS.HeaderTest" time="0.0"/>
+  <testcase name="test_ID" classname="org.xbill.DNS.HeaderTest" time="0.0"/>
+  <testcase name="test_Opcode" classname="org.xbill.DNS.HeaderTest" time="0.0"/>
+  <testcase name="test_incCount_invalid" classname="org.xbill.DNS.HeaderTest" time="0.0"/>
+  <testcase name="test_toWire" classname="org.xbill.DNS.HeaderTest" time="0.001"/>
+  <testcase name="test_fixture_state" classname="org.xbill.DNS.HeaderTest" time="0.0"/>
+  <testcase name="test_getCount_invalid" classname="org.xbill.DNS.HeaderTest" time="0.001"/>
+  <testcase name="test_ctor_DNSInput" classname="org.xbill.DNS.HeaderTest" time="0.0"/>
+  <testcase name="test_ctor_0arg" classname="org.xbill.DNS.HeaderTest" time="0.0"/>
+  <testcase name="test_toString" classname="org.xbill.DNS.HeaderTest" time="0.0"/>
+  <testcase name="test_flags_invalid" classname="org.xbill.DNS.HeaderTest" time="0.0"/>
+  <testcase name="test_decCount_invalid" classname="org.xbill.DNS.HeaderTest" time="0.0"/>
+  <testcase name="test_setID_invalid" classname="org.xbill.DNS.HeaderTest" time="0.0"/>
+  <testcase name="test_Count" classname="org.xbill.DNS.HeaderTest" time="0.0"/>
+  <testcase name="test_setRcode_invalid" classname="org.xbill.DNS.HeaderTest" time="0.003"/>
+  <testcase name="test_Rcode" classname="org.xbill.DNS.HeaderTest" time="0.0"/>
+  <testcase name="test_clone" classname="org.xbill.DNS.HeaderTest" time="0.0"/>
+  <testcase name="test_flags" classname="org.xbill.DNS.HeaderTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

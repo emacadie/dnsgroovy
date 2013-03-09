@@ -1,0 +1,9 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<testsuite name="org.xbill.DNS.MessageTest$Test_init" tests="3" failures="0" errors="0" timestamp="2013-03-09T16:54:47" hostname="finance" time="0.012">
+  <properties/>
+  <testcase name="test_0arg" classname="org.xbill.DNS.MessageTest$Test_init" time="0.005"/>
+  <testcase name="test_1arg" classname="org.xbill.DNS.MessageTest$Test_init" time="0.004"/>
+  <testcase name="test_newQuery" classname="org.xbill.DNS.MessageTest$Test_init" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

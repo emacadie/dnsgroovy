@@ -1,0 +1,9 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<testsuite name="org.xbill.DNS.MXRecordTest" tests="3" failures="0" errors="0" timestamp="2013-03-09T16:54:49" hostname="finance" time="0.002">
+  <properties/>
+  <testcase name="test_rrToWire" classname="org.xbill.DNS.MXRecordTest" time="0.0"/>
+  <testcase name="test_ctor_5arg" classname="org.xbill.DNS.MXRecordTest" time="0.0"/>
+  <testcase name="test_getObject" classname="org.xbill.DNS.MXRecordTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

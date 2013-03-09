@@ -1,0 +1,16 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<testsuite name="org.xbill.DNS.RRsetTest" tests="10" failures="0" errors="0" timestamp="2013-03-09T16:54:49" hostname="finance" time="0.013">
+  <properties/>
+  <testcase name="test_Record_placement" classname="org.xbill.DNS.RRsetTest" time="0.001"/>
+  <testcase name="test_basics" classname="org.xbill.DNS.RRsetTest" time="0.001"/>
+  <testcase name="test_TTLcalculation" classname="org.xbill.DNS.RRsetTest" time="0.0"/>
+  <testcase name="test_ctor_0arg" classname="org.xbill.DNS.RRsetTest" time="0.001"/>
+  <testcase name="test_ctor_1arg" classname="org.xbill.DNS.RRsetTest" time="0.0"/>
+  <testcase name="test_noncycling_iterator" classname="org.xbill.DNS.RRsetTest" time="0.003"/>
+  <testcase name="test_addRR_invalidDClass" classname="org.xbill.DNS.RRsetTest" time="0.0"/>
+  <testcase name="test_addRR_invalidName" classname="org.xbill.DNS.RRsetTest" time="0.001"/>
+  <testcase name="test_addRR_invalidType" classname="org.xbill.DNS.RRsetTest" time="0.0"/>
+  <testcase name="test_toString" classname="org.xbill.DNS.RRsetTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

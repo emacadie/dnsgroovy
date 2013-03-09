@@ -1,0 +1,40 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<testsuite name="org.xbill.DNS.NameTest$Test_String_init" tests="34" failures="0" errors="0" timestamp="2013-03-09T16:54:47" hostname="finance" time="0.036">
+  <properties/>
+  <testcase name="test_fromString_dot" classname="org.xbill.DNS.NameTest$Test_String_init" time="0.001"/>
+  <testcase name="test_ctor_wildcard" classname="org.xbill.DNS.NameTest$Test_String_init" time="0.0"/>
+  <testcase name="test_ctor_max_length_abs" classname="org.xbill.DNS.NameTest$Test_String_init" time="0.0"/>
+  <testcase name="test_ctor_max_length_rel" classname="org.xbill.DNS.NameTest$Test_String_init" time="0.0"/>
+  <testcase name="test_ctor_abs" classname="org.xbill.DNS.NameTest$Test_String_init" time="0.0"/>
+  <testcase name="test_ctor_dot" classname="org.xbill.DNS.NameTest$Test_String_init" time="0.0"/>
+  <testcase name="test_ctor_rel" classname="org.xbill.DNS.NameTest$Test_String_init" time="0.0"/>
+  <testcase name="test_ctor_empty" classname="org.xbill.DNS.NameTest$Test_String_init" time="0.0"/>
+  <testcase name="test_ctor_empty_escaped_end" classname="org.xbill.DNS.NameTest$Test_String_init" time="0.0"/>
+  <testcase name="test_ctor_invalid_label" classname="org.xbill.DNS.NameTest$Test_String_init" time="0.0"/>
+  <testcase name="test_fromConstantString" classname="org.xbill.DNS.NameTest$Test_String_init" time="0.0"/>
+  <testcase name="test_ctor_toobig_label_escaped_end" classname="org.xbill.DNS.NameTest$Test_String_init" time="0.008"/>
+  <testcase name="test_ctor_at_null_origin" classname="org.xbill.DNS.NameTest$Test_String_init" time="0.001"/>
+  <testcase name="test_ctor_short_escaped" classname="org.xbill.DNS.NameTest$Test_String_init" time="0.0"/>
+  <testcase name="test_ctor_toobig_label" classname="org.xbill.DNS.NameTest$Test_String_init" time="0.001"/>
+  <testcase name="test_ctor_short_escaped_end" classname="org.xbill.DNS.NameTest$Test_String_init" time="0.0"/>
+  <testcase name="test_ctor_7label" classname="org.xbill.DNS.NameTest$Test_String_init" time="0.0"/>
+  <testcase name="test_ctor_8label" classname="org.xbill.DNS.NameTest$Test_String_init" time="0.0"/>
+  <testcase name="test_ctor_toobig_label_escaped" classname="org.xbill.DNS.NameTest$Test_String_init" time="0.0"/>
+  <testcase name="test_ctor_abs_abs_origin" classname="org.xbill.DNS.NameTest$Test_String_init" time="0.001"/>
+  <testcase name="test_ctor_max_label_escaped" classname="org.xbill.DNS.NameTest$Test_String_init" time="0.0"/>
+  <testcase name="test_ctor_abs_rel_origin" classname="org.xbill.DNS.NameTest$Test_String_init" time="0.0"/>
+  <testcase name="test_ctor_toobig_escaped" classname="org.xbill.DNS.NameTest$Test_String_init" time="0.0"/>
+  <testcase name="test_ctor_max_labels" classname="org.xbill.DNS.NameTest$Test_String_init" time="0.002"/>
+  <testcase name="test_ctor_max_label" classname="org.xbill.DNS.NameTest$Test_String_init" time="0.001"/>
+  <testcase name="test_fromString_at" classname="org.xbill.DNS.NameTest$Test_String_init" time="0.0"/>
+  <testcase name="test_fromString" classname="org.xbill.DNS.NameTest$Test_String_init" time="0.0"/>
+  <testcase name="test_ctor_toobig_escaped_end" classname="org.xbill.DNS.NameTest$Test_String_init" time="0.0"/>
+  <testcase name="test_ctor_at_abs_origin" classname="org.xbill.DNS.NameTest$Test_String_init" time="0.006"/>
+  <testcase name="test_ctor_escaped" classname="org.xbill.DNS.NameTest$Test_String_init" time="0.0"/>
+  <testcase name="test_fromConstantString_invalid" classname="org.xbill.DNS.NameTest$Test_String_init" time="0.001"/>
+  <testcase name="test_ctor_at_rel_origin" classname="org.xbill.DNS.NameTest$Test_String_init" time="0.0"/>
+  <testcase name="test_ctor_escaped_end" classname="org.xbill.DNS.NameTest$Test_String_init" time="0.001"/>
+  <testcase name="test_ctor_rel_abs_origin" classname="org.xbill.DNS.NameTest$Test_String_init" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

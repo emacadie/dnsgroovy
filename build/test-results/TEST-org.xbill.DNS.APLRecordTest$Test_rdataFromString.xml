@@ -1,0 +1,20 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<testsuite name="org.xbill.DNS.APLRecordTest$Test_rdataFromString" tests="14" failures="0" errors="0" timestamp="2013-03-09T16:54:47" hostname="finance" time="0.014">
+  <properties/>
+  <testcase name="test_malformed_address" classname="org.xbill.DNS.APLRecordTest$Test_rdataFromString" time="0.003"/>
+  <testcase name="test_empty_family" classname="org.xbill.DNS.APLRecordTest$Test_rdataFromString" time="0.001"/>
+  <testcase name="test_valid_multi" classname="org.xbill.DNS.APLRecordTest$Test_rdataFromString" time="0.001"/>
+  <testcase name="test_empty_prefix" classname="org.xbill.DNS.APLRecordTest$Test_rdataFromString" time="0.0"/>
+  <testcase name="test_validIPv4" classname="org.xbill.DNS.APLRecordTest$Test_rdataFromString" time="0.0"/>
+  <testcase name="test_validIPv6" classname="org.xbill.DNS.APLRecordTest$Test_rdataFromString" time="0.0"/>
+  <testcase name="test_no_colon" classname="org.xbill.DNS.APLRecordTest$Test_rdataFromString" time="0.0"/>
+  <testcase name="test_no_slash" classname="org.xbill.DNS.APLRecordTest$Test_rdataFromString" time="0.001"/>
+  <testcase name="test_malformed_family" classname="org.xbill.DNS.APLRecordTest$Test_rdataFromString" time="0.001"/>
+  <testcase name="test_malformed_prefix" classname="org.xbill.DNS.APLRecordTest$Test_rdataFromString" time="0.0"/>
+  <testcase name="test_empty_address" classname="org.xbill.DNS.APLRecordTest$Test_rdataFromString" time="0.0"/>
+  <testcase name="test_colon_and_slash_swapped" classname="org.xbill.DNS.APLRecordTest$Test_rdataFromString" time="0.0"/>
+  <testcase name="test_invalid_family" classname="org.xbill.DNS.APLRecordTest$Test_rdataFromString" time="0.001"/>
+  <testcase name="test_invalid_prefix" classname="org.xbill.DNS.APLRecordTest$Test_rdataFromString" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

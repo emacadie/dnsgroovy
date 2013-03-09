@@ -1,0 +1,26 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<testsuite name="org.xbill.DNS.TokenizerTest" tests="20" failures="0" errors="0" timestamp="2013-03-09T16:54:49" hostname="finance" time="0.02">
+  <properties/>
+  <testcase name="test_get_invalid" classname="org.xbill.DNS.TokenizerTest" time="0.001"/>
+  <testcase name="test_unwanted_ungotten_comment" classname="org.xbill.DNS.TokenizerTest" time="0.0"/>
+  <testcase name="test_File_input" classname="org.xbill.DNS.TokenizerTest" time="0.004"/>
+  <testcase name="test_getLong" classname="org.xbill.DNS.TokenizerTest" time="0.001"/>
+  <testcase name="test_getName" classname="org.xbill.DNS.TokenizerTest" time="0.0"/>
+  <testcase name="test_get" classname="org.xbill.DNS.TokenizerTest" time="0.004"/>
+  <testcase name="test_unwanted_ungotten_whitespace" classname="org.xbill.DNS.TokenizerTest" time="0.0"/>
+  <testcase name="test_empty_string" classname="org.xbill.DNS.TokenizerTest" time="0.0"/>
+  <testcase name="test_getEOL" classname="org.xbill.DNS.TokenizerTest" time="0.0"/>
+  <testcase name="test_getHex" classname="org.xbill.DNS.TokenizerTest" time="0.0"/>
+  <testcase name="test_getTTL" classname="org.xbill.DNS.TokenizerTest" time="0.0"/>
+  <testcase name="test_getBase64" classname="org.xbill.DNS.TokenizerTest" time="0.001"/>
+  <testcase name="test_getUInt8" classname="org.xbill.DNS.TokenizerTest" time="0.001"/>
+  <testcase name="test_multiple_ungets" classname="org.xbill.DNS.TokenizerTest" time="0.0"/>
+  <testcase name="test_getString" classname="org.xbill.DNS.TokenizerTest" time="0.001"/>
+  <testcase name="test_getUInt16" classname="org.xbill.DNS.TokenizerTest" time="0.0"/>
+  <testcase name="test_getUInt32" classname="org.xbill.DNS.TokenizerTest" time="0.001"/>
+  <testcase name="test_getIdentifier" classname="org.xbill.DNS.TokenizerTest" time="0.0"/>
+  <testcase name="test_unwanted_comment" classname="org.xbill.DNS.TokenizerTest" time="0.001"/>
+  <testcase name="test_getTTLLike" classname="org.xbill.DNS.TokenizerTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
