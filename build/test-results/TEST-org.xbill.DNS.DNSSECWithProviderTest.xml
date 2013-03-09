@@ -1,7 +1,0 @@
-<?xml version="1.1" encoding="UTF-8"?>
-<testsuite name="org.xbill.DNS.DNSSECWithProviderTest" tests="1" failures="0" errors="0" timestamp="2013-03-09T16:54:47" hostname="finance" time="0.192">
-  <properties/>
-  <testcase name="testSignSoftware" classname="org.xbill.DNS.DNSSECWithProviderTest" time="0.192"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

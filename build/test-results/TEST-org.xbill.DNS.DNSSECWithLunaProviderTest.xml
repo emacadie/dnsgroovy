@@ -1,9 +1,0 @@
-<?xml version="1.1" encoding="UTF-8"?>
-<testsuite name="org.xbill.DNS.DNSSECWithLunaProviderTest" tests="3" failures="0" errors="0" timestamp="2013-03-09T16:54:49" hostname="finance" time="0.065">
-  <properties/>
-  <testcase name="testSignWithDNSSECAndHSM" classname="org.xbill.DNS.DNSSECWithLunaProviderTest" time="0.0"/>
-  <testcase name="testSignWithDNSSECAndSoftware" classname="org.xbill.DNS.DNSSECWithLunaProviderTest" time="0.063"/>
-  <testcase name="testSignHSM" classname="org.xbill.DNS.DNSSECWithLunaProviderTest" time="0.0"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

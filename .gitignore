@@ -24,4 +24,10 @@ tree*txt
 *class
 *jar
 /target/*
+# gradle build artifacts
+build/reports/*
+build/test-results/*
+build/tmp/test/*
+# build/*
+.gradle/*
 #- EOF
