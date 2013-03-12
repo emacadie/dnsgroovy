@@ -32,7 +32,8 @@ allprojects {
 test {
   maxParallelForks = 5
   forkEvery = 50
-   outputs.upToDateWhen { false }
+  // this will make it run the test every time you run 'gradle test'
+  outputs.upToDateWhen { false }
 }
 
 task runJava(type: JavaExec) {
