@@ -50,8 +50,7 @@ private boolean preferV6 = false;
  * <b>sun.net.spi.nameservice.domain</b>, and
  * <b>java.net.preferIPv6Addresses</b> properties for configuration.
  */
-protected
-DNSJavaNameService() {
+    protected DNSJavaNameService() {
 	String nameServers = System.getProperty(nsProperty);
 	String domain = System.getProperty(domainProperty);
 	String v6 = System.getProperty(v6Property);
@@ -84,11 +83,10 @@ DNSJavaNameService() {
 
 	if (v6 != null && v6.equalsIgnoreCase("true"))
 		preferV6 = true;
-}
+    }
 
 
-public Object
-invoke(Object proxy, Method method, Object[] args) throws Throwable {
+    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 	try {
 		if (method.getName().equals("getHostByAddr")) {
 			return this.getHostByAddr((byte[]) args[0]);
@@ -118,15 +116,14 @@ invoke(Object proxy, Method method, Object[] args) throws Throwable {
 	}
 	throw new IllegalArgumentException(
 					"Unknown function name or arguments.");
-}
+    }
 
 /**
  * Performs a forward DNS lookup for the host name.
  * @param host The host name to resolve.
  * @return All the ip addresses found for the host name.
  */
-public InetAddress []
-lookupAllHostAddr(String host) throws UnknownHostException {
+public InetAddress [] lookupAllHostAddr(String host) throws UnknownHostException {
 	Name name = null;
 
 	try {

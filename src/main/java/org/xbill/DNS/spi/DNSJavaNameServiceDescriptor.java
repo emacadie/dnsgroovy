@@ -13,8 +13,10 @@ import sun.net.spi.nameservice.*;
  * @author Paul Cowan (pwc21@yahoo.com)
  */
 
-public class DNSJavaNameServiceDescriptor implements NameServiceDescriptor {
-
+// ORIG:
+//  public class DNSJavaNameServiceDescriptor implements NameServiceDescriptor {
+public class DNSJavaNameServiceDescriptor {
+    /*
 private static NameService nameService;
 
 static {
@@ -23,10 +25,11 @@ static {
 			new Class[] { NameService.class },
 			new DNSJavaNameService());
 }
-
+    */
 /**
  * Returns a reference to a dnsjava name server provider.
  */
+/*
 public NameService
 createNameService() {
 	return nameService;
@@ -41,5 +44,5 @@ public String
 getProviderName() {
 	return "dnsjava"; 
 }
-
+*/
 }
