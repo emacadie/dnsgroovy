@@ -59,7 +59,9 @@ task runGroovy(type: JavaExec) {
      dependsOn classes
      description = 'Run gradle.sample.SampleApp'
      // Java main class to execute.
-     main = System.properties['mainClass']
+     // main = System.properties['mainClass']
+     the_main = mainClass
+     main = the_main
      // We need to set the classpath.
      classpath sourceSets.main.runtimeClasspath
      // Extra options can be set.
@@ -70,5 +72,12 @@ task runGroovy(type: JavaExec) {
      args 'www.yahoo.com'
 }
 
+
+task showProperties {
+  doLast {
+    println "Version: $version"
+    println "Custom property: $customProperty"
+  }
+}
 
 // 
