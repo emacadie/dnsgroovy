@@ -59,7 +59,7 @@ task runGroovy(type: JavaExec) {
      dependsOn classes
      description = 'Run gradle.sample.SampleApp'
      // Java main class to execute.
-     main = 'org.lookup'
+     main = System.properties['mainClass']
      // We need to set the classpath.
      classpath sourceSets.main.runtimeClasspath
      // Extra options can be set.
