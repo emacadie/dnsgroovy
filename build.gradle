@@ -58,10 +58,11 @@ task runGroovy(type: JavaExec) {
      println( "-- Groovy version: " + groovy.lang.GroovySystem.getVersion() )
      dependsOn classes
      description = 'Run gradle.sample.SampleApp'
-     // Java main class to execute.
+     // main class to execute.
      // main = System.properties['mainClass']
-     the_main = mainClass
-     main = the_main
+     if ( rootProject.hasProperty("mainClass") ) {     
+     	main = mainClass
+     }
      // We need to set the classpath.
      classpath sourceSets.main.runtimeClasspath
      // Extra options can be set.

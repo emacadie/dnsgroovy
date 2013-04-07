@@ -15,7 +15,7 @@ gradle -Dtest.single=StepwiseExtension test -info
    
 
 To run with Groovy:   
-gradle runGroovy -DmainClass="org.lookup"    
+gradle runGroovy -PmainClass="org.lookup"    
     
 
 
