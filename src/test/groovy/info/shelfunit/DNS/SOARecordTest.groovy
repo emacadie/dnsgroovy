@@ -402,7 +402,7 @@ public class SOARecordTest
 		"\\s*" + m_refresh + "\\s*;\\s*refresh\\n" + // refresh
 		"\\s*" + m_retry + "\\s*;\\s*retry\\n" + // retry
 		"\\s*" + m_expire + "\\s*;\\s*expire\\n" + // expire
-		"\\s*" + m_minimum + "\\s*\\)\\s*;\\s*minimum$"; // minimum
+		"\\s*" + m_minimum + "\\s*\\)\\s*;\\s*minimum"; // minimum there was a dollar sign at the end there
 
 	    Options.set("multiline");
 	    String out = ar.rrToString();

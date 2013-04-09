@@ -69,7 +69,7 @@ public class DNSKEYRecordTest extends TestCase
     {
 	Name n = Name.fromString("My.Absolute.Name.");
 	Name r = Name.fromString("My.Relative.Name");
-	byte[] key = new byte[] { 0, 1, 3, 5, 7, 9 };
+	def key = [ 0, 1, 3, 5, 7, 9 ] as byte
 
 	DNSKEYRecord kr = new DNSKEYRecord(n, DClass.IN, 0x24AC, 0x9832, 0x12, 0x67, key);
 	assertEquals(n, kr.getName());
@@ -98,7 +98,8 @@ public class DNSKEYRecordTest extends TestCase
 	assertEquals(0xABCD, kr.getFlags());
 	assertEquals(0x81, kr.getProtocol());
 	assertEquals(DNSSEC.Algorithm.RSASHA1, kr.getAlgorithm());
-	assertTrue(Arrays.equals(new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 }, kr.getKey()));
+	def b_a = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] as byte
+	assertTrue(Arrays.equals(b_a, kr.getKey()));
 
 	// invalid algorithm
 	kr = new DNSKEYRecord();

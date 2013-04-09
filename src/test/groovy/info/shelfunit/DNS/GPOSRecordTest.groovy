@@ -225,12 +225,12 @@ public class GPOSRecordTest extends TestCase
 	public void test_basic() throws IOException
 	{
 	    def raw = [ 5, '-', '8', '.', '1', '2',
-				      6, '1', '2', '3', '.', '0', '7',
-				      3, '0', '.', '0' ] as byte
-	    DNSInput in = new DNSInput(raw);
+		      6, '1', '2', '3', '.', '0', '7',
+		      3, '0', '.', '0' ] as byte
+	    DNSInput dnsInput = new DNSInput(raw);
 	    
 	    GPOSRecord gr = new GPOSRecord();
-	    gr.rrFromWire(in);
+	    gr.rrFromWire(dnsInput);
 	    assertEquals(new Double(-8.12), new Double(gr.getLongitude()));
 	    assertEquals(new Double(123.07), new Double(gr.getLatitude()));
 	    assertEquals(new Double(0.0), new Double(gr.getAltitude()));
@@ -241,11 +241,11 @@ public class GPOSRecordTest extends TestCase
 	    def raw = [ 5, '-', '9', '5', '.', '0',
 				      6, '1', '2', '3', '.', '0', '7',
 				      3, '0', '.', '0' ] as byte
-	    DNSInput in = new DNSInput(raw);
+	    DNSInput dnsInput = new DNSInput(raw);
 	    
 	    GPOSRecord gr = new GPOSRecord();
 	    try {
-		gr.rrFromWire(in);
+		gr.rrFromWire(dnsInput);
 		fail("WireParseException not thrown");
 	    }
 	    catch(WireParseException e){}
@@ -256,11 +256,11 @@ public class GPOSRecordTest extends TestCase
 	    def raw = [ 5, '1', '8', '5', '.', '0',
 				      6, '1', '2', '3', '.', '0', '7',
 				      3, '0', '.', '0' ] as byte
-	    DNSInput in = new DNSInput(raw);
+	    DNSInput dnsInput = new DNSInput(raw);
 
 	    GPOSRecord gr = new GPOSRecord();
 	    try {
-		gr.rrFromWire(in);
+		gr.rrFromWire(dnsInput);
 		fail("WireParseException not thrown");
 	    }
 	    catch(WireParseException e){}
@@ -271,11 +271,11 @@ public class GPOSRecordTest extends TestCase
 	    def raw = [ 5, '-', '8', '5', '.', '0',
 				      6, '-', '1', '9', '0', '.', '0',
 				      3, '0', '.', '0' ] as byte
-	    DNSInput in = new DNSInput(raw);
+	    DNSInput dnsInput = new DNSInput(raw);
 
 	    GPOSRecord gr = new GPOSRecord();
 	    try {
-		gr.rrFromWire(in);
+		gr.rrFromWire(dnsInput);
 		fail("WireParseException not thrown");
 	    }
 	    catch(WireParseException e){}
@@ -286,11 +286,11 @@ public class GPOSRecordTest extends TestCase
 	    def raw = [ 5, '-', '8', '5', '.', '0',
 				      6, '2', '1', '9', '0', '.', '0',
 				      3, '0', '.', '0' ] as byte
-	    DNSInput in = new DNSInput(raw);
+	    DNSInput dnsInput = new DNSInput(raw);
 
 	    GPOSRecord gr = new GPOSRecord();
 	    try {
-		gr.rrFromWire(in);
+		gr.rrFromWire(dnsInput);
 		fail("WireParseException not thrown");
 	    }
 	    catch(WireParseException e){}

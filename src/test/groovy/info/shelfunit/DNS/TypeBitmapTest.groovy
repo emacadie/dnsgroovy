@@ -39,17 +39,20 @@ import junit.framework.TestCase;
 
 public class TypeBitmapTest extends TestCase {
     public void test_empty() {
-      TypeBitmap typeBitmap = new TypeBitmap(new int[]{});
+      def a_i = [][] as int
+      TypeBitmap typeBitmap = new TypeBitmap(a_i);
       assertEquals(typeBitmap.toString(), "");
     }
     
     public void test_typeA() {
-      TypeBitmap typeBitmap = new TypeBitmap(new int[]{1});
+	def a_i = [][ 1 ] as int
+      TypeBitmap typeBitmap = new TypeBitmap(a_i);
       assertEquals(typeBitmap.toString(), "A");
     }
     
     public void test_typeNSandSOA() {
-      TypeBitmap typeBitmap = new TypeBitmap(new int[]{2, 6});
+	def int_map = [ 2, 6 ] as int
+      TypeBitmap typeBitmap = new TypeBitmap(int_map);
       assertEquals(typeBitmap.toString(), "NS SOA");
     }
 }

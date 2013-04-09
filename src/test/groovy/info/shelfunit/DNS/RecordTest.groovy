@@ -59,7 +59,7 @@ public class RecordTest extends TestCase
 	    return null;
 	}
 
-	public void rrFromWire(DNSInput in) throws IOException {}
+	public void rrFromWire(DNSInput dnsin) throws IOException {}
 
 	public String rrToString()
 	{
@@ -71,21 +71,21 @@ public class RecordTest extends TestCase
 	public void rrToWire(DNSOutput out, Compression c, boolean canonical) {}
 
 	// makes it callable by test code
-	public static byte[] byteArrayFromString(String in) throws TextParseException
+	public static byte[] byteArrayFromString(String instring) throws TextParseException
 	{
-	    return Record.byteArrayFromString(in);
+	    return Record.byteArrayFromString(instring);
 	}
 
 	// make it callable by test code
-	public static String byteArrayToString(byte[] in, boolean quote)
+	public static String byteArrayToString(byte[] inbytes, boolean quote)
 	{
-	    return Record.byteArrayToString(in, quote);
+	    return Record.byteArrayToString(inbytes, quote);
 	}
 
 	// make it callable by test code
-	public static String unknownToString(byte[] in)
+	public static String unknownToString(byte[] inbytes)
 	{
-	    return Record.unknownToString(in);
+	    return Record.unknownToString(inbytes);
 	}
 
 	public Object clone() throws CloneNotSupportedException
@@ -287,9 +287,9 @@ public class RecordTest extends TestCase
 	out.writeU16(data.length);
 	out.writeByteArray(data);
 
-	DNSInput in = new DNSInput(out.toByteArray());
+	DNSInput dnsin = new DNSInput(out.toByteArray());
 
-	Record rec = Record.fromWire(in, Section.ANSWER, false);
+	Record rec = Record.fromWire(dnsin, Section.ANSWER, false);
 	assertTrue(rec instanceof ARecord);
 	assertEquals(n, rec.getName());
 	assertEquals(t, rec.getType());
@@ -297,16 +297,16 @@ public class RecordTest extends TestCase
 	assertEquals(ttl, rec.getTTL());
 	assertEquals(exp, ((ARecord)rec).getAddress());
 
-	in = new DNSInput(out.toByteArray());
-	rec = Record.fromWire(in, Section.QUESTION, false);
+	dnsin = new DNSInput(out.toByteArray());
+	rec = Record.fromWire(dnsin, Section.QUESTION, false);
 	assertTrue(rec instanceof EmptyRecord);
 	assertEquals(n, rec.getName());
 	assertEquals(t, rec.getType());
 	assertEquals(d, rec.getDClass());
 	assertEquals(0, rec.getTTL());
 
-	in = new DNSInput(out.toByteArray());
-	rec = Record.fromWire(in, Section.QUESTION);
+	dnsin = new DNSInput(out.toByteArray());
+	rec = Record.fromWire(dnsin, Section.QUESTION);
 	assertTrue(rec instanceof EmptyRecord);
 	assertEquals(n, rec.getName());
 	assertEquals(t, rec.getType());
@@ -327,9 +327,9 @@ public class RecordTest extends TestCase
 	out.writeU32(ttl);
 	out.writeU16(0);
 
-	in = new DNSInput(out.toByteArray());
+	dnsin = new DNSInput(out.toByteArray());
 
-	rec = Record.fromWire(in, Section.ANSWER, true);
+	rec = Record.fromWire(dnsin, Section.ANSWER, true);
 	assertTrue(rec instanceof EmptyRecord);
 	assertEquals(n, rec.getName());
 	assertEquals(t, rec.getType());
@@ -501,13 +501,13 @@ public class RecordTest extends TestCase
 
     public void test_byteArrayFromString() throws TextParseException
     {
-	String in = "the 98 \" \' quick 0xAB brown";
-	byte[] out = SubRecord.byteArrayFromString(in);
+	String stringin = "the 98 \" \' quick 0xAB brown";
+	byte[] out = SubRecord.byteArrayFromString(stringin);
 	assertTrue(Arrays.equals(in.getBytes(), out));
 
-	in = " \\031Aa\\;\\\"\\\\~\\127\\255";
+	stringin = " \\031Aa\\;\\\"\\\\~\\127\\255";
 	def exp = [ ' ', 0x1F, 'A', 'a', ';', '"', '\\', 0x7E, 0x7F, (byte)0xFF ] as byte
-	out = SubRecord.byteArrayFromString(in);
+	out = SubRecord.byteArrayFromString(stringin);
 	assertTrue(Arrays.equals(exp, out));
     }
 
@@ -550,9 +550,9 @@ public class RecordTest extends TestCase
 
     public void test_byteArrayToString()
     {
-	def in = [ ' ', 0x1F, 'A', 'a', ';', '"', '\\', 0x7E, 0x7F, (byte)0xFF ] as byte
+	def bytesin = [ ' ', 0x1F, 'A', 'a', ';', '"', '\\', 0x7E, 0x7F, (byte)0xFF ] as byte
 	String exp = "\" \\031Aa;\\\"\\\\~\\127\\255\"";
-	assertEquals(exp, SubRecord.byteArrayToString(in, true));
+	assertEquals(exp, SubRecord.byteArrayToString(bytesin, true));
     }
 
     public void test_unknownToString()

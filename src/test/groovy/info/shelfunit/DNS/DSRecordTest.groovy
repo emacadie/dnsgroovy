@@ -80,7 +80,7 @@ public class DSRecordTest extends TestCase
 	    m_footprint = 0xEF01;
 	    m_algorithm = 0x23;
 	    m_digestid = 0x45;
-	    m_digest = new byte[] { (byte)0x67, (byte)0x89, (byte)0xAB, (byte)0xCD, (byte)0xEF };
+	    m_digest = byte[ (byte)0x67, (byte)0x89, (byte)0xAB, (byte)0xCD, (byte)0xEF ] as byte
 	}
 	
 	public void test_basic() throws TextParseException
@@ -174,25 +174,25 @@ public class DSRecordTest extends TestCase
 
     public void test_rrFromWire() throws IOException
     {
-	byte[] raw = new byte[] { (byte)0xAB, (byte)0xCD, (byte)0xEF, 
+	def raw = [ (byte)0xAB, (byte)0xCD, (byte)0xEF, 
 				  (byte)0x01, (byte)0x23, (byte)0x45,
-				  (byte)0x67, (byte)0x89 };
-	DNSInput in = new DNSInput(raw);
+				  (byte)0x67, (byte)0x89 ] as byte
+	DNSInput dnsin = new DNSInput(raw);
 
 	DSRecord dr = new DSRecord();
-	dr.rrFromWire(in);
+	dr.rrFromWire(dnsin);
 	assertEquals(0xABCD, dr.getFootprint());
 	assertEquals(0xEF, dr.getAlgorithm());
 	assertEquals(0x01, dr.getDigestID());
-	assertTrue(Arrays.equals(new byte[] { (byte)0x23, (byte)0x45, (byte)0x67, (byte)0x89 },
-				 dr.getDigest()));
+	def answer = [ (byte)0x23, (byte)0x45, (byte)0x67, (byte)0x89 ] as byte
+	    assertTrue(Arrays.equals( answer, dr.getDigest()));
     }
 
     public void test_rdataFromString() throws IOException
     {
-	byte[] raw = new byte[] { (byte)0xAB, (byte)0xCD, (byte)0xEF, 
+	def raw = [ (byte)0xAB, (byte)0xCD, (byte)0xEF, 
 				  (byte)0x01, (byte)0x23, (byte)0x45,
-				  (byte)0x67, (byte)0x89 };
+				  (byte)0x67, (byte)0x89 ] as byte
 	Tokenizer t = new Tokenizer(0xABCD + " " + 0xEF + " " + 0x01 + " 23456789AB");
 
 	DSRecord dr = new DSRecord();
@@ -200,31 +200,33 @@ public class DSRecordTest extends TestCase
 	assertEquals(0xABCD, dr.getFootprint());
 	assertEquals(0xEF, dr.getAlgorithm());
 	assertEquals(0x01, dr.getDigestID());
-	assertTrue(Arrays.equals(new byte[] { (byte)0x23, (byte)0x45, (byte)0x67, (byte)0x89, (byte)0xAB },
+	def answer = [ (byte)0x23, (byte)0x45, (byte)0x67, (byte)0x89, (byte)0xAB ] as byte
+	    assertTrue(Arrays.equals( answer, 
 				 dr.getDigest()));
     }
 
     public void test_rrToString() throws TextParseException
     {
 	String exp = 0xABCD + " " + 0xEF + " " + 0x01 + " 23456789AB";
-
+	def byteArray = [ (byte)0x23, (byte)0x45, (byte)0x67,
+						(byte)0x89, (byte)0xAB ] as byte
 	DSRecord dr = new DSRecord(Name.fromString("The.Name."), DClass.IN, 0x123,
 				   0xABCD, 0xEF, 0x01,
-				   new byte[] { (byte)0x23, (byte)0x45, (byte)0x67,
-						(byte)0x89, (byte)0xAB });
+				   byteArray )
 	assertEquals(exp, dr.rrToString());
     }
 
     public void test_rrToWire() throws TextParseException
     {
+	def byteArray = [ (byte)0x23, (byte)0x45, (byte)0x67,
+						(byte)0x89, (byte)0xAB ] as byte
 	DSRecord dr = new DSRecord(Name.fromString("The.Name."), DClass.IN, 0x123,
-				   0xABCD, 0xEF, 0x01,
-				   new byte[] { (byte)0x23, (byte)0x45, (byte)0x67,
-						(byte)0x89, (byte)0xAB });
+				   0xABCD, 0xEF, 0x01, byteArray )
+				   
 
-	byte[] exp = new byte[] { (byte)0xAB, (byte)0xCD, (byte)0xEF, 
+	def exp = [ (byte)0xAB, (byte)0xCD, (byte)0xEF, 
 				  (byte)0x01, (byte)0x23, (byte)0x45,
-				  (byte)0x67, (byte)0x89, (byte)0xAB };
+				  (byte)0x67, (byte)0x89, (byte)0xAB ] as byte
 
 	DNSOutput out = new DNSOutput();
 	dr.rrToWire(out, null, true);

@@ -503,7 +503,7 @@ public class TokenizerTest extends TestCase
 
     public void test_getBase64() throws IOException
     {
-	byte[] exp = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+	def exp = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] as byte
 	// basic
 	m_t = new Tokenizer("AQIDBAUGBwgJ");
 	byte[] out = m_t.getBase64();
@@ -548,7 +548,7 @@ public class TokenizerTest extends TestCase
 
     public void test_getHex() throws IOException
     {
-	byte[] exp = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
+	def exp = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ] as byte
 	// basic
 	m_t = new Tokenizer("0102030405060708090A0B0C0D0E0F");
 	byte[] out = m_t.getHex();

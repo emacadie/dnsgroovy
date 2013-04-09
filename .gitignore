@@ -26,6 +26,7 @@ tree*txt
 /target/*
 # gradle build artifacts
 build/reports/*
+build/reports/tests/*
 build/test-results/*
 build/tmp/test/*
 # build/*

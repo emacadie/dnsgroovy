@@ -107,13 +107,13 @@ public class HINFORecordTest extends TestCase
 	String cpu = "Intel(R) Pentium(R) M processor 1.70GHz";
 	String os = "Linux troy 2.6.10-gentoo-r6";
 
-	byte[] raw = new byte[] { 39, 'I', 'n', 't', 'e', 'l', '(', 'R', ')', ' ', 'P', 'e', 'n', 't', 'i', 'u', 'm', '(', 'R', ')', ' ', 'M', ' ', 'p', 'r', 'o', 'c', 'e', 's', 's', 'o', 'r', ' ', '1', '.', '7', '0', 'G', 'H', 'z',
-				  27, 'L', 'i', 'n', 'u', 'x', ' ', 't', 'r', 'o', 'y', ' ', '2', '.', '6', '.', '1', '0', '-', 'g', 'e', 'n', 't', 'o', 'o', '-', 'r', '6' };
+	def raw = [ 39, 'I', 'n', 't', 'e', 'l', '(', 'R', ')', ' ', 'P', 'e', 'n', 't', 'i', 'u', 'm', '(', 'R', ')', ' ', 'M', ' ', 'p', 'r', 'o', 'c', 'e', 's', 's', 'o', 'r', ' ', '1', '.', '7', '0', 'G', 'H', 'z',
+				  27, 'L', 'i', 'n', 'u', 'x', ' ', 't', 'r', 'o', 'y', ' ', '2', '.', '6', '.', '1', '0', '-', 'g', 'e', 'n', 't', 'o', 'o', '-', 'r', '6' ] as byte
 				  
-	DNSInput in = new DNSInput(raw);
+	DNSInput dnsin = new DNSInput(raw);
 
 	HINFORecord dr = new HINFORecord();
-	dr.rrFromWire(in);
+	dr.rrFromWire(dnsin);
 	assertEquals(cpu, dr.getCPU());
 	assertEquals(os, dr.getOS());
     }
@@ -176,8 +176,8 @@ public class HINFORecordTest extends TestCase
     {
 	String cpu = "Intel(R) Pentium(R) M processor 1.70GHz";
 	String os = "Linux troy 2.6.10-gentoo-r6";
-	byte[] raw = new byte[] { 39, 'I', 'n', 't', 'e', 'l', '(', 'R', ')', ' ', 'P', 'e', 'n', 't', 'i', 'u', 'm', '(', 'R', ')', ' ', 'M', ' ', 'p', 'r', 'o', 'c', 'e', 's', 's', 'o', 'r', ' ', '1', '.', '7', '0', 'G', 'H', 'z',
-				  27, 'L', 'i', 'n', 'u', 'x', ' ', 't', 'r', 'o', 'y', ' ', '2', '.', '6', '.', '1', '0', '-', 'g', 'e', 'n', 't', 'o', 'o', '-', 'r', '6' };
+	def raw = [ 39, 'I', 'n', 't', 'e', 'l', '(', 'R', ')', ' ', 'P', 'e', 'n', 't', 'i', 'u', 'm', '(', 'R', ')', ' ', 'M', ' ', 'p', 'r', 'o', 'c', 'e', 's', 's', 'o', 'r', ' ', '1', '.', '7', '0', 'G', 'H', 'z',
+				  27, 'L', 'i', 'n', 'u', 'x', ' ', 't', 'r', 'o', 'y', ' ', '2', '.', '6', '.', '1', '0', '-', 'g', 'e', 'n', 't', 'o', 'o', '-', 'r', '6' ] as byte
 				  
 	HINFORecord dr = new HINFORecord(Name.fromString("The.Name."), DClass.IN, 0x123,
 					 cpu, os);

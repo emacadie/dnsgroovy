@@ -60,7 +60,8 @@ public class EmptyRecordTest extends TestCase
 
     public void test_rrFromWire() throws IOException
     {
-	DNSInput i = new DNSInput(new byte[] { 1, 2, 3, 4, 5 });
+	def b_array = [ 1, 2, 3, 4, 5 ] as byte
+	DNSInput i = new DNSInput(b_array)  
 	i.jump(3);
 
 	EmptyRecord er = new EmptyRecord();

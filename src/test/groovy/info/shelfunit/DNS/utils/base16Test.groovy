@@ -34,7 +34,7 @@
 //
 package info.shelfunit.DNS.utils
 
-import org.xbill.DNS.utils
+import org.xbill.DNS.utils.*
 
 import junit.framework.TestCase;
 
@@ -74,7 +74,7 @@ public class base16Test extends TestCase
 
     public void test_toString_array1()
     {
-	byte[] data = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
+	def data = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ] as byte
 	String out = base16.toString( data );
 	assertEquals( "0102030405060708090A0B0C0D0E0F", out );
     }
@@ -107,7 +107,7 @@ public class base16Test extends TestCase
     {
 	String data = "0102030405060708090A0B0C0D0E0F";
 	byte[] out = base16.fromString( data );
-	byte[] exp = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
+	def exp = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ] as byte
 	assertEquals( exp.length, out.length );
 	for( int i=0; i<exp.length; ++i ){
 	    assertEquals( exp[i], out[i] );

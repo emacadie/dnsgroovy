@@ -94,7 +94,9 @@ public class MessageTest
 				     InetAddress.getByName("192.168.101.110"));
 
 	    Message m = Message.newQuery(ar);
-	    assertTrue(Arrays.equals(new Record[]{ ar }, m.getSectionArray(0)));
+	    def rec_array = [ ar ] as Record
+	    // assertTrue(Arrays.equals(new Record[]{ ar }, m.getSectionArray(0)));
+	    assertTrue(Arrays.equals(rec_array, m.getSectionArray(0)));
 	    assertTrue(Arrays.equals(new Record[0], m.getSectionArray(1)));
 	    assertTrue(Arrays.equals(new Record[0], m.getSectionArray(2)));
 	    assertTrue(Arrays.equals(new Record[0], m.getSectionArray(3)));

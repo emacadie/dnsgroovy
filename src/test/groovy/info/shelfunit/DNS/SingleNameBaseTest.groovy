@@ -98,10 +98,10 @@ public class SingleNameBaseTest extends TestCase
     public void test_rrFromWire() throws IOException
     {
 	def raw = [ 2, 'm', 'y', 6, 's', 'i', 'n', 'g', 'l', 'e', 4, 'n', 'a', 'm', 'e', 0 ] as byte
-	DNSInput in = new DNSInput(raw);
+	DNSInput dnsin = new DNSInput(raw);
 	
 	TestClass tc = new TestClass();
-	tc.rrFromWire(in);
+	tc.rrFromWire(dnsin);
 
 	Name exp = Name.fromString("my.single.name.");
 	assertEquals(exp, tc.getSingleName());

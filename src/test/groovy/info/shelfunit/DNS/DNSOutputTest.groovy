@@ -200,48 +200,48 @@ public class DNSOutputTest extends TestCase
 
     public void test_writeByteArray_1arg()
     {
-	byte[] in = new byte[] { (byte)0xAB, (byte)0xCD, (byte)0xEF, (byte)0x12, (byte)0x34 };
-	m_do.writeByteArray( in );
+	def b_in = [ (byte)0xAB, (byte)0xCD, (byte)0xEF, (byte)0x12, (byte)0x34 ] as byte
+	m_do.writeByteArray( b_in );
 	assertEquals( 5, m_do.current() );
 	byte[] curr = m_do.toByteArray();
-	assertEquals( in, curr );
+	assertEquals( b_in, curr );
     }
 
     public void test_writeByteArray_3arg()
     {
-	byte[] in = new byte[] { (byte)0xAB, (byte)0xCD, (byte)0xEF, (byte)0x12, (byte)0x34 };
-	m_do.writeByteArray( in, 2, 3 );
+	def b_in = [ (byte)0xAB, (byte)0xCD, (byte)0xEF, (byte)0x12, (byte)0x34 ] as byte
+	m_do.writeByteArray( b_in, 2, 3 );
 	assertEquals( 3, m_do.current() );
-	byte[] exp = new byte[] { in[2], in[3], in[4] };
+	def exp = [ b_in[2], b_in[3], b_in[4] ]
 	byte[] curr = m_do.toByteArray();
 	assertEquals( exp, curr );
     }
 
     public void test_writeCountedString_basic()
     {
-	byte[] in = new byte[] { 'h', 'e', 'l', 'L', '0' };
-	m_do.writeCountedString( in );
-	assertEquals( in.length + 1, m_do.current() );
+	def b_in = [ 'h', 'e', 'l', 'L', '0' ] as byte
+	m_do.writeCountedString( b_in );
+	assertEquals( b_in.length + 1, m_do.current() );
 	byte[] curr = m_do.toByteArray();
-	byte[] exp = new byte[] { (byte)(in.length), in[0], in[1], in[2], in[3], in[4] };
+	def exp = [ (byte)(b_in.length), b_in[0], b_in[1], b_in[2], b_in[3], b_in[4] ] as byte
 	assertEquals( exp, curr );
     }
 
     public void test_writeCountedString_empty()
     {
-	byte[] in = new byte[] {};
-	m_do.writeCountedString( in );
-	assertEquals( in.length + 1, m_do.current() );
+	byte[] b_in = [] [] as byte
+	m_do.writeCountedString( b_in );
+	assertEquals( b_in.length + 1, m_do.current() );
 	byte[] curr = m_do.toByteArray();
-	byte[] exp = new byte[] { (byte)(in.length) };
+	def exp = [ (byte)(b_in.length) ] as byte
 	assertEquals( exp, curr );
     }
 
     public void test_writeCountedString_toobig()
     {
-	byte[] in = new byte [ 256 ];
+	byte[] b_in = new byte [ 256 ];
 	try {
-	    m_do.writeCountedString(in);
+	    m_do.writeCountedString(b_in);
 	    fail( "IllegalArgumentException not thrown" );
 	}
 	catch( IllegalArgumentException e ){

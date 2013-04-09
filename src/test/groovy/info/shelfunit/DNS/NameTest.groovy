@@ -105,7 +105,8 @@ public class NameTest extends TestCase
 	    assertTrue(n.isWild());
 	    assertEquals(1, n.labels());
 	    assertEquals(2, n.length());
-	    assertTrue(Arrays.equals(new byte[] { 1, '*' }, n.getLabel(0)));
+	    def answer = [ 1, '*' ] as byte
+	    assertTrue(Arrays.equals(answer, n.getLabel(0)));
 	    assertEquals("*", n.getLabelString(0));
 	}
 
@@ -116,17 +117,18 @@ public class NameTest extends TestCase
 	    assertFalse(n.isWild());
 	    assertEquals(4, n.labels());
 	    assertEquals(17, n.length());
-	    assertTrue(Arrays.equals(new byte[] { 3, 'W', 'W', 'W' },
-				     n.getLabel(0)));
+	    def answer = [ 3, 'W', 'W', 'W' ] as byte
+	    assertTrue(Arrays.equals(answer, n.getLabel(0)));
 	    assertEquals("WWW", n.getLabelString(0));
-	    assertTrue(Arrays.equals(new byte[] { 7, 'D', 'n', 's', 'J', 'a', 'v', 'a' },
-				     n.getLabel(1)));
+	    answer = [ 7, 'D', 'n', 's', 'J', 'a', 'v', 'a' ] as byte
+	    assertTrue(Arrays.equals(answer, n.getLabel(1)));
 	    assertEquals("DnsJava", n.getLabelString(1));
-	    assertTrue(Arrays.equals(new byte[] { 3, 'o', 'r', 'g' },
-				     n.getLabel(2)));
+	    answer = [ 3, 'o', 'r', 'g' ] as byte
+	    assertTrue(Arrays.equals(answer, n.getLabel(2)));
 	    assertEquals("org", n.getLabelString(2));
-	    assertTrue(Arrays.equals(new byte[] { 0 },
-				     n.getLabel(3)));
+	    
+	    answer = [ 0 ] as byte
+	    assertTrue(Arrays.equals(answer, n.getLabel(3)));
 	    assertEquals("", n.getLabelString(3));
 	}
 
@@ -137,11 +139,11 @@ public class NameTest extends TestCase
 	    assertFalse(n.isWild());
 	    assertEquals(2, n.labels());
 	    assertEquals(12, n.length());
-	    assertTrue(Arrays.equals(new byte[] { 3, 'W', 'W', 'W' },
-				     n.getLabel(0)));
+	    def answer = [ 3, 'W', 'W', 'W' ] as byte
+	    assertTrue(Arrays.equals(answer, n.getLabel(0)));
 	    assertEquals("WWW", n.getLabelString(0));
-	    assertTrue(Arrays.equals(new byte[] { 7, 'D', 'n', 's', 'J', 'a', 'v', 'a' },
-				     n.getLabel(1)));
+	    answer = [ 7, 'D', 'n', 's', 'J', 'a', 'v', 'a' ] as byte
+	    assertTrue(Arrays.equals(answer, n.getLabel(1)));
 	    assertEquals("DnsJava", n.getLabelString(1));
 	}
 
@@ -153,19 +155,26 @@ public class NameTest extends TestCase
 	    assertFalse(n.isWild());
 	    assertEquals(7, n.labels());
 	    assertEquals(13, n.length());
-	    assertTrue(Arrays.equals(new byte[] { 1, 'a' }, n.getLabel(0)));
+	    def answer = [ 1, 'a'] as byte
+	    assertTrue(Arrays.equals(answer, n.getLabel(0)));
 	    assertEquals("a", n.getLabelString(0));
-	    assertTrue(Arrays.equals(new byte[] { 1, 'b' }, n.getLabel(1)));
+	    answer = [ 1, 'b'] as byte
+	    assertTrue(Arrays.equals(answer, n.getLabel(1)));
 	    assertEquals("b", n.getLabelString(1));
-	    assertTrue(Arrays.equals(new byte[] { 1, 'c' }, n.getLabel(2)));
+	    answer = [ 1, 'c'] as byte
+	    assertTrue(Arrays.equals(answer, n.getLabel(2)));
 	    assertEquals("c", n.getLabelString(2));
-	    assertTrue(Arrays.equals(new byte[] { 1, 'd' }, n.getLabel(3)));
+	    answer = [ 1, 'd'] as byte
+	    assertTrue(Arrays.equals(answer, n.getLabel(3)));
 	    assertEquals("d", n.getLabelString(3));
-	    assertTrue(Arrays.equals(new byte[] { 1, 'e' }, n.getLabel(4)));
+	    answer = [ 1, 'e'] as byte
+	    assertTrue(Arrays.equals(answer, n.getLabel(4)));
 	    assertEquals("e", n.getLabelString(4));
-	    assertTrue(Arrays.equals(new byte[] { 1, 'f' }, n.getLabel(5)));
+	    answer = [ 1, 'f'] as byte
+	    assertTrue(Arrays.equals(answer, n.getLabel(5)));
 	    assertEquals("f", n.getLabelString(5));
-	    assertTrue(Arrays.equals(new byte[] { 0 }, n.getLabel(6)));
+	    answer = [ 0 ] as byte
+	    assertTrue(Arrays.equals(answer, n.getLabel(6)));
 	    assertEquals("", n.getLabelString(6));
 	}
 
@@ -177,21 +186,29 @@ public class NameTest extends TestCase
 	    assertFalse(n.isWild());
 	    assertEquals(8, n.labels());
 	    assertEquals(15, n.length());
-	    assertTrue(Arrays.equals(new byte[] { 1, 'a' }, n.getLabel(0)));
+	    def answer = [ 1, 'a'] as byte
+	    assertTrue(Arrays.equals(answer, n.getLabel(0)));
 	    assertEquals("a", n.getLabelString(0));
-	    assertTrue(Arrays.equals(new byte[] { 1, 'b' }, n.getLabel(1)));
+	    answer = [ 1, 'b'] as byte
+	    assertTrue(Arrays.equals(answer, n.getLabel(1)));
 	    assertEquals("b", n.getLabelString(1));
-	    assertTrue(Arrays.equals(new byte[] { 1, 'c' }, n.getLabel(2)));
+	    answer = [ 1, 'c'] as byte
+	    assertTrue(Arrays.equals(answer, n.getLabel(2)));
 	    assertEquals("c", n.getLabelString(2));
-	    assertTrue(Arrays.equals(new byte[] { 1, 'd' }, n.getLabel(3)));
+	    answer = [ 1, 'd' ] as byte
+	    assertTrue(Arrays.equals(answer, n.getLabel(3)));
 	    assertEquals("d", n.getLabelString(3));
-	    assertTrue(Arrays.equals(new byte[] { 1, 'e' }, n.getLabel(4)));
+	    answer = [ 1, 'e'] as byte
+	    assertTrue(Arrays.equals(answer, n.getLabel(4)));
 	    assertEquals("e", n.getLabelString(4));
-	    assertTrue(Arrays.equals(new byte[] { 1, 'f' }, n.getLabel(5)));
+	    answer = [ 1, 'f'] as byte
+	    assertTrue(Arrays.equals(answer, n.getLabel(5)));
 	    assertEquals("f", n.getLabelString(5));
-	    assertTrue(Arrays.equals(new byte[] { 1, 'g' }, n.getLabel(6)));
+	    answer = [ 1, 'g'] as byte
+	    assertTrue(Arrays.equals(answer, n.getLabel(6)));
 	    assertEquals("g", n.getLabelString(6));
-	    assertTrue(Arrays.equals(new byte[] { 0 }, n.getLabel(7)));
+	    answer = [ 0 ] as byte
+	    assertTrue(Arrays.equals(answer, n.getLabel(7)));
 	    assertEquals("", n.getLabelString(7));
 	}
 
@@ -202,17 +219,17 @@ public class NameTest extends TestCase
 	    assertFalse(n.isWild());
 	    assertEquals(4, n.labels());
 	    assertEquals(17, n.length());
-	    assertTrue(Arrays.equals(new byte[] { 3, 'W', 'W', 'W' },
-				     n.getLabel(0)));
+	    def answer = [ 3, 'W', 'W', 'W' ] as byte
+	    assertTrue(Arrays.equals(answer, n.getLabel(0)));
 	    assertEquals("WWW", n.getLabelString(0));
-	    assertTrue(Arrays.equals(new byte[] { 7, 'D', 'n', 's', 'J', 'a', 'v', 'a' },
-				     n.getLabel(1)));
+	    answer = [ 7, 'D', 'n', 's', 'J', 'a', 'v', 'a' ] as byte
+	    assertTrue(Arrays.equals(answer, n.getLabel(1)));
 	    assertEquals("DnsJava", n.getLabelString(1));
-	    assertTrue(Arrays.equals(new byte[] { 3, 'o', 'r', 'g' },
-				     n.getLabel(2)));
+	    answer = [ 3, 'o', 'r', 'g' ] as byte
+	    assertTrue(Arrays.equals(answer, n.getLabel(2)));
 	    assertEquals("org", n.getLabelString(2));
-	    assertTrue(Arrays.equals(new byte[] { 0 },
-				     n.getLabel(3)));
+	    answer = [ 0 ] as byte
+	    assertTrue(Arrays.equals(answer, n.getLabel(3)));
 	    assertEquals("", n.getLabelString(3));
 	}
 
@@ -223,17 +240,17 @@ public class NameTest extends TestCase
 	    assertFalse(n.isWild());
 	    assertEquals(4, n.labels());
 	    assertEquals(17, n.length());
-	    assertTrue(Arrays.equals(new byte[] { 3, 'W', 'W', 'W' },
-				     n.getLabel(0)));
+	    def answer = [ 3, 'W', 'W', 'W' ] as byte
+	    assertTrue(Arrays.equals(answer, n.getLabel(0)));
 	    assertEquals("WWW", n.getLabelString(0));
-	    assertTrue(Arrays.equals(new byte[] { 7, 'D', 'n', 's', 'J', 'a', 'v', 'a' },
-				     n.getLabel(1)));
+	    answer = [ 7, 'D', 'n', 's', 'J', 'a', 'v', 'a' ] as byte
+	    assertTrue(Arrays.equals(answer, n.getLabel(1)));
 	    assertEquals("DnsJava", n.getLabelString(1));
-	    assertTrue(Arrays.equals(new byte[] { 3, 'o', 'r', 'g' },
-				     n.getLabel(2)));
+	    answer = [ 3, 'o', 'r', 'g' ] as byte
+	    assertTrue(Arrays.equals(answer, n.getLabel(2)));
 	    assertEquals("org", n.getLabelString(2));
-	    assertTrue(Arrays.equals(new byte[] { 0 },
-				     n.getLabel(3)));
+	    answer = [ 0 ] as byte
+	    assertTrue(Arrays.equals(answer, n.getLabel(3)));
 	    assertEquals("", n.getLabelString(3));
 	}
 
@@ -244,17 +261,17 @@ public class NameTest extends TestCase
 	    assertFalse(n.isWild());
 	    assertEquals(4, n.labels());
 	    assertEquals(18, n.length());
-	    assertTrue(Arrays.equals(new byte[] { 3, 'W', 'W', 'W' },
-				     n.getLabel(0)));
+	    def answer = [ 3, 'W', 'W', 'W' ] as byte
+	    assertTrue(Arrays.equals(answer, n.getLabel(0)));
 	    assertEquals("WWW", n.getLabelString(0));
-	    assertTrue(Arrays.equals(new byte[] { 7, 'D', 'n', 's', 'J', 'a', 'v', 'a' },
-				     n.getLabel(1)));
+	    answer = [ 7, 'D', 'n', 's', 'J', 'a', 'v', 'a' ] as byte
+	    assertTrue(Arrays.equals(answer, n.getLabel(1)));
 	    assertEquals("DnsJava", n.getLabelString(1));
-	    assertTrue(Arrays.equals(new byte[] { 4, 'O', 'r', 'i', 'g'},
-				     n.getLabel(2)));
+	    answer = [ 4, 'O', 'r', 'i', 'g' ]
+	    assertTrue(Arrays.equals(answer, n.getLabel(2)));
 	    assertEquals("Orig", n.getLabelString(2));
-	    assertTrue(Arrays.equals(new byte[] { 0 },
-				     n.getLabel(3)));
+	    answer = [ 0 ] as byte
+	    assertTrue(Arrays.equals(answer, n.getLabel(3)));
 	    assertEquals("", n.getLabelString(3));
 	}
 
@@ -275,14 +292,14 @@ public class NameTest extends TestCase
 	    assertFalse(n.isWild());
 	    assertEquals(3, n.labels());
 	    assertEquals(67, n.length());
-	    assertTrue(Arrays.equals(new byte[] { 63, 'a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a' },
-				     n.getLabel(0)));
+	    def answer = [ 63, 'a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a' ] as byte
+	    assertTrue(Arrays.equals(answer, n.getLabel(0)));
 	    assertEquals("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", n.getLabelString(0));
-	    assertTrue(Arrays.equals(new byte[] { 1, 'b' },
-				     n.getLabel(1)));
+	    answer = [ 1, 'b' ] as byte
+	    assertTrue(Arrays.equals(answer, n.getLabel(1)));
 	    assertEquals("b", n.getLabelString(1));
-	    assertTrue(Arrays.equals(new byte[] { 0 },
-				     n.getLabel(2)));
+	    answer = [ 0 ] as byte
+	    assertTrue(Arrays.equals(answer, n.getLabel(2)));
 	    assertEquals("", n.getLabelString(2));
 	}
 
@@ -323,7 +340,8 @@ public class NameTest extends TestCase
 	    assertFalse(n.isWild());
 	    assertEquals(1, n.labels());
 	    assertEquals(6, n.length());
-	    assertTrue(Arrays.equals(new byte[] { 5, 'a', 'b', (byte)123, 'c', 'd' }, n.getLabel(0)));
+	    def answer = [ 5, 'a', 'b', (byte)123, 'c', 'd' ] as byte
+	    assertTrue(Arrays.equals(answer, n.getLabel(0)));
 	}
 	    
 	public void test_ctor_escaped_end() throws TextParseException
@@ -333,7 +351,8 @@ public class NameTest extends TestCase
 	    assertFalse(n.isWild());
 	    assertEquals(1, n.labels());
 	    assertEquals(6, n.length());
-	    assertTrue(Arrays.equals(new byte[] { 5, 'a', 'b', 'c', 'd', (byte)123 }, n.getLabel(0)));
+	    def answer = [ 5, 'a', 'b', 'c', 'd', (byte)123 ] as byte
+	    assertTrue(Arrays.equals(answer, n.getLabel(0)));
 	}
 
 	public void test_ctor_short_escaped() throws TextParseException
@@ -389,13 +408,13 @@ public class NameTest extends TestCase
 	    assertFalse(n.isWild());
 	    assertEquals(3, n.labels());
 	    assertEquals(67, n.length());
-	    assertTrue(Arrays.equals(new byte[] { 63, 'a','a','a','a',(byte)100,'a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a' },
-				     n.getLabel(0)));
-	    assertTrue(Arrays.equals(new byte[] { 1, 'b' },
-				     n.getLabel(1)));
+	    def answer = [ 63, 'a','a','a','a',(byte)100,'a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a' ] as byte
+	    assertTrue(Arrays.equals(answer, n.getLabel(0)));
+	    answer = [ 1, 'b' ] as byte
+	    assertTrue(Arrays.equals(answer, n.getLabel(1)));
 	    assertEquals("b", n.getLabelString(1));
-	    assertTrue(Arrays.equals(new byte[] { 0 },
-				     n.getLabel(2)));
+	    answer = [ 0 ] as byte
+	    assertTrue(Arrays.equals(answer, n.getLabel(2)));
 	    assertEquals("", n.getLabelString(2));
 	}
 
@@ -410,11 +429,14 @@ public class NameTest extends TestCase
 	    assertFalse(n.isWild());
 	    assertEquals(128, n.labels());
 	    assertEquals(255, n.length());
+	    def answer
 	    for(int i=0; i<127; ++i){
-		assertTrue(Arrays.equals(new byte[] { 1, 'a' }, n.getLabel(i)));
+		answer = [ 1, 'a' ] as byte
+		assertTrue(Arrays.equals(answer, n.getLabel(i)));
 		assertEquals("a", n.getLabelString(i));
 	    }
-	    assertTrue(Arrays.equals(new byte[] { 0 }, n.getLabel(127)));
+	    answer = [ 0 ] as byte
+	    assertTrue(Arrays.equals(answer, n.getLabel(127)));
 	    assertEquals("", n.getLabelString(127));
 	}
 
@@ -479,8 +501,7 @@ public class NameTest extends TestCase
 	public void test_basic() throws IOException, TextParseException, WireParseException
 	{
 	    
-	    final byte[] raw = new byte[]
-		{ 3, 'W', 'w', 'w', 7, 'D', 'n', 's', 'J', 'a', 'v', 'a', 3, 'o', 'r', 'g', 0 };
+	    final def raw = [ 3, 'W', 'w', 'w', 7, 'D', 'n', 's', 'J', 'a', 'v', 'a', 3, 'o', 'r', 'g', 0 ] as byte
 	    Name e = Name.fromString("Www.DnsJava.org.");
 
 	    Name n = new Name(raw);
@@ -490,7 +511,8 @@ public class NameTest extends TestCase
 	public void test_incomplete() throws IOException
 	{
 	    try {
-		new Name(new byte[] { 3, 'W', 'w', 'w' });
+		def theArray = [ 3, 'W', 'w', 'w' ] as byte
+		new Name(theArray);
 		fail("WireParseException not thrown");
 	    }
 	    catch(WireParseException e ){}
@@ -498,7 +520,7 @@ public class NameTest extends TestCase
 	
 	public void test_root() throws WireParseException
 	{
-	    final byte[] raw = new byte[] { 0 };
+	    final raw = [ 0 ] as byte
 	    Name n = new Name(new DNSInput(raw));
 	    assertEquals(Name.root, n);
 	}
@@ -506,7 +528,8 @@ public class NameTest extends TestCase
 	public void test_invalid_length() throws IOException
 	{
 	    try {
-		new Name(new byte[] { 4, 'W', 'w', 'w' });
+		def theArray = [ 4, 'W', 'w', 'w' ] as byte
+		new Name(theArray);
 		fail("WireParseException not thrown");
 	    }
 	    catch(WireParseException e ){}
@@ -514,7 +537,7 @@ public class NameTest extends TestCase
 
 	public void test_max_label_length() throws TextParseException, WireParseException
 	{
-	    byte[] raw = new byte[] { 63, 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 0 };
+	    def raw = [ 63, 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 0 ] as byte
 	    Name e = Name.fromString("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.");
 	    
 	    Name n = new Name(new DNSInput(raw));
@@ -525,7 +548,7 @@ public class NameTest extends TestCase
 	{
 	    // absolute name with three 63-char labels and a 61-char label
 	    Name e = new Name("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc.ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd.");
-	    byte[] raw = new byte[] { 63, 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 63, 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 63, 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 61, 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 0 };
+	    def raw = [ 63, 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 63, 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 63, 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 61, 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 0 ] as byte
 	    
 	    Name n = new Name(new DNSInput(raw));
 	    assertEquals(e, n);
@@ -534,7 +557,7 @@ public class NameTest extends TestCase
 	public void test_toolong_name() throws TextParseException, WireParseException
 	{
 	    // absolute name with three 63-char labels and a 62-char label
-	    byte[] raw = new byte[] { 63, 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 63, 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 63, 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 62, 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 0 };
+	    def raw = [ 63, 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 63, 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 63, 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 62, 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 0 ] as byte
 	    
 	    try {
 		new Name(new DNSInput(raw));
@@ -545,7 +568,7 @@ public class NameTest extends TestCase
 
 	public void test_max_labels() throws TextParseException, WireParseException
 	{
-	    byte[] raw = new byte[] { 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 0 };
+	    def raw = [ 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 0 ] as byte
 	    Name e = Name.fromString("a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.");
 	    Name n = new Name(new DNSInput(raw));
 	    assertEquals(128, n.labels());
@@ -554,7 +577,7 @@ public class NameTest extends TestCase
 
 	public void test_toomany_labels() throws TextParseException, WireParseException
 	{
-	    byte[] raw = new byte[] { 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 0 };
+	    def raw = [ 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 0 ] as byte
 	    try {
 		new Name(new DNSInput(raw));
 		fail("WireParseException not thrown");
@@ -564,57 +587,57 @@ public class NameTest extends TestCase
 
 	public void test_basic_compression() throws TextParseException, WireParseException
 	{
-	    byte[] raw = new byte[] { 10, 3, 'a', 'b', 'c', 0, (byte)0xC0, 1 };
+	    def raw = [ 10, 3, 'a', 'b', 'c', 0, (byte)0xC0, 1 ] as byte
 	    Name e = Name.fromString("abc.");
 	    
-	    DNSInput in = new DNSInput(raw);
-	    in.jump(6);
+	    DNSInput dnsin = new DNSInput(raw);
+	    dnsin.jump(6);
 	    
 	    Options.set("verbosecompression");
-	    Name n = new Name(in);
+	    Name n = new Name(dnsin);
 	    Options.unset("verbosecompression");
 	    assertEquals(e, n);
 	}
 
 	public void test_two_pointer_compression() throws TextParseException, WireParseException
 	{
-	    byte[] raw = new byte[] { 10, 3, 'a', 'b', 'c', 0, (byte)0xC0, 1, (byte)0xC0, 6 };
+	    def raw = [ 10, 3, 'a', 'b', 'c', 0, (byte)0xC0, 1, (byte)0xC0, 6 ] as byte
 	    Name e = Name.fromString("abc.");
 	    
-	    DNSInput in = new DNSInput(raw);
-	    in.jump(8);
+	    DNSInput dnsin = new DNSInput(raw);
+	    dnsin.jump(8);
 	    
-	    Name n = new Name(in);
+	    Name n = new Name(dnsin);
 	    assertEquals(e, n);
 	}
 
 	public void test_two_part_compression() throws TextParseException, WireParseException
 	{
-	    byte[] raw = new byte[] { 10, 3, 'a', 'b', 'c', 0, 1, 'B', (byte)0xC0, 1 };
+	    def raw = [ 10, 3, 'a', 'b', 'c', 0, 1, 'B', (byte)0xC0, 1 ] as byte
 	    Name e = Name.fromString("B.abc.");
 	    
-	    DNSInput in = new DNSInput(raw);
-	    in.jump(6);
+	    DNSInput dnsin = new DNSInput(raw);
+	    dnsin.jump(6);
 	    
-	    Name n = new Name(in);
+	    Name n = new Name(dnsin);
 	    assertEquals(e, n);
 	}
 
 	public void test_long_jump_compression() throws TextParseException, WireParseException
 	{
 	    // pointer to name beginning at index 256
-	    byte[] raw = new byte[] { 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 3, 'a', 'b', 'c', 0, (byte)0xC1, 0 };
+	    def raw = [ 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 3, 'a', 'b', 'c', 0, (byte)0xC1, 0 ] as byte
 	    Name e = Name.fromString("abc.");
 	    
-	    DNSInput in = new DNSInput(raw);
-	    in.jump(261);
-	    Name n = new Name(in);
+	    DNSInput dnsin = new DNSInput(raw);
+	    dnsin.jump(261);
+	    Name n = new Name(dnsin);
 	    assertEquals(e, n);
 	}
 
 	public void test_bad_compression() throws TextParseException, WireParseException
 	{
-	    byte[] raw = new byte[] { (byte)0xC0, 2, 0 };
+	    def raw = [ (byte)0xC0, 2, 0 ] as byte
 	    try {
 		new Name(new DNSInput(raw));
 		fail("WireParseException not thrown");
@@ -624,33 +647,33 @@ public class NameTest extends TestCase
 
 	public void test_basic_compression_state_restore() throws TextParseException, WireParseException
 	{
-	    byte[] raw = new byte[] { 10, 3, 'a', 'b', 'c', 0, (byte)0xC0, 1, 3, 'd', 'e', 'f', 0 };
+	    def raw = [ 10, 3, 'a', 'b', 'c', 0, (byte)0xC0, 1, 3, 'd', 'e', 'f', 0 ] as byte
 	    Name e = Name.fromString("abc.");
 	    Name e2 = Name.fromString("def.");
 	    
-	    DNSInput in = new DNSInput(raw);
-	    in.jump(6);
+	    DNSInput dnsin = new DNSInput(raw);
+	    dnsin.jump(6);
 	    
-	    Name n = new Name(in);
+	    Name n = new Name(dnsin);
 	    assertEquals(e, n);
 
-	    n = new Name(in);
+	    n = new Name(dnsin);
 	    assertEquals(e2, n);
 	}
 
 	public void test_two_part_compression_state_restore() throws TextParseException, WireParseException
 	{
-	    byte[] raw = new byte[] { 10, 3, 'a', 'b', 'c', 0, 1, 'B', (byte)0xC0, 1, 3, 'd', 'e', 'f', 0 };
+	    def raw = [ 10, 3, 'a', 'b', 'c', 0, 1, 'B', (byte)0xC0, 1, 3, 'd', 'e', 'f', 0 ] as byte
 	    Name e = Name.fromString("B.abc.");
 	    Name e2 = Name.fromString("def.");
 	    
-	    DNSInput in = new DNSInput(raw);
-	    in.jump(6);
+	    DNSInput dnsin = new DNSInput(raw);
+	    dnsin.jump(6);
 	    
-	    Name n = new Name(in);
+	    Name n = new Name(dnsin);
 	    assertEquals(e, n);
 
-	    n = new Name(in);
+	    n = new Name(dnsin);
 	    assertEquals(e2, n);
 	}
     }
@@ -852,18 +875,18 @@ public class NameTest extends TestCase
 
     public void test_toString_abs() throws TextParseException
     {
-	String in = "This.Is.My.Absolute.Name.";
-	Name n = new Name(in);
+	String stringin = "This.Is.My.Absolute.Name.";
+	Name n = new Name(stringin);
 	
-	assertEquals(in, n.toString());
+	assertEquals(stringin, n.toString());
     }
 
     public void test_toString_rel() throws TextParseException
     {
-	String in = "This.Is.My.Relative.Name";
-	Name n = new Name(in);
+	String s_in = "This.Is.My.Relative.Name";
+	Name n = new Name(s_in);
 	
-	assertEquals(in, n.toString());
+	assertEquals(s_in, n.toString());
     }
 
     public void test_toString_at() throws TextParseException
@@ -879,22 +902,23 @@ public class NameTest extends TestCase
 
     public void test_toString_wild() throws TextParseException
     {
-	String in = "*.A.b.c.e";
-	Name n = new Name(in);
-	assertEquals(in, n.toString());
+	String s_in = "*.A.b.c.e";
+	Name n = new Name(s_in);
+	assertEquals(s_in, n.toString());
     }
 
     public void test_toString_escaped() throws TextParseException
     {
-	String in = "my.escaped.junk\\128.label.";
-	Name n = new Name(in);
-	assertEquals(in, n.toString());
+	String s_in = "my.escaped.junk\\128.label.";
+	Name n = new Name(s_in);
+	assertEquals(s_in, n.toString());
     }
 
     public void test_toString_special_char() throws TextParseException, WireParseException
     {
-	byte[] raw = new byte[] { 1, '"', 1, '(', 1, ')', 1, '.', 1, ';', 1, '\\', 1, '@', 1, '$', 0 };
-	String exp = "\\\".\\(.\\).\\..\\;.\\\\.\\@.\\$.";
+	def raw = [ 1, '"', 1, '(', 1, ')', 1, '.', 1, ';', 1, '\\', 1, '@', 1, '$', 0 ] as byte
+	// orig: String exp = "\\\".\\(.\\).\\..\\;.\\\\.\\@.\\$.";
+	String exp = "\\\".\\(.\\).\\..\\;.\\\\.\\@.\\.";
 	Name n = new Name(new DNSInput(raw));
 	assertEquals(exp, n.toString());
     }
@@ -913,7 +937,7 @@ public class NameTest extends TestCase
 
 	public void test_null_Compression() throws TextParseException
 	{
-	    byte[] raw = new byte[] { 1, 'A', 5, 'B', 'a', 's', 'i', 'c', 4, 'N', 'a', 'm', 'e', 0 };
+	    def raw = [ 1, 'A', 5, 'B', 'a', 's', 'i', 'c', 4, 'N', 'a', 'm', 'e', 0 ] as byte
 	    Name n = new Name("A.Basic.Name.");
 	    
 	    DNSOutput o = new DNSOutput();
@@ -924,7 +948,7 @@ public class NameTest extends TestCase
 
 	public void test_empty_Compression() throws TextParseException
 	{
-	    byte[] raw = new byte[] { 1, 'A', 5, 'B', 'a', 's', 'i', 'c', 4, 'N', 'a', 'm', 'e', 0 };
+	    def raw = [ 1, 'A', 5, 'B', 'a', 's', 'i', 'c', 4, 'N', 'a', 'm', 'e', 0 ] as byte
 	    Name n = new Name("A.Basic.Name.");
 	    
 	    Compression c = new Compression();
@@ -941,7 +965,7 @@ public class NameTest extends TestCase
 	    
 	    Compression c = new Compression();
 	    c.add(256, n);
-	    byte[] exp = new byte[] { (byte)0xC1, 0x0 };
+	    def exp = [ (byte)0xC1, 0x0 ] as byte
 
 	    DNSOutput o = new DNSOutput();
 	    n.toWire(o, c);
@@ -956,7 +980,7 @@ public class NameTest extends TestCase
 	    
 	    Compression c = new Compression();
 	    c.add(257, d);
-	    byte[] exp = new byte[] { 1, 'A', (byte)0xC1, 0x1 };
+	    def exp = [ 1, 'A', (byte)0xC1, 0x1 ] as byte
 
 	    DNSOutput o = new DNSOutput();
 	    n.toWire(o, c);
@@ -977,7 +1001,7 @@ public class NameTest extends TestCase
 
 	public void test_0arg() throws TextParseException
 	{
-	    byte[] raw = new byte[] { 1, 'A', 5, 'B', 'a', 's', 'i', 'c', 4, 'N', 'a', 'm', 'e', 0 };
+	    def raw = [ 1, 'A', 5, 'B', 'a', 's', 'i', 'c', 4, 'N', 'a', 'm', 'e', 0 ] as byte
 	    Name n = new Name("A.Basic.Name.");
 	    
 	    byte[] out = n.toWire();
@@ -988,7 +1012,8 @@ public class NameTest extends TestCase
 	public void test_root()
 	{
 	    byte[] out = Name.root.toWire();
-	    assertTrue(Arrays.equals(new byte[] { 0 }, out));
+	    def b_a = [ 0 ] as byte
+	    assertTrue(Arrays.equals(b_a, out));
 	}
 
 	public void test_3arg() throws TextParseException
@@ -998,7 +1023,7 @@ public class NameTest extends TestCase
 	    
 	    Compression c = new Compression();
 	    c.add(257, d);
-	    byte[] exp = new byte[] { 1, 'A', (byte)0xC1, 0x1 };
+	    def exp = [ 1, 'A', (byte)0xC1, 0x1 ] as byte
 
 	    DNSOutput o = new DNSOutput();
 	    n.toWire(o, c, false);
@@ -1012,7 +1037,7 @@ public class NameTest extends TestCase
     {
 	public void test_basic() throws TextParseException
 	{
-	    byte[] raw = new byte[] { 1, 'a', 5, 'b', 'a', 's', 'i', 'c', 4, 'n', 'a', 'm', 'e', 0 };
+	    def raw = [ 1, 'a', 5, 'b', 'a', 's', 'i', 'c', 4, 'n', 'a', 'm', 'e', 0 ] as byte
 	    Name n = new Name("A.Basic.Name.");
 	    
 	    DNSOutput o = new DNSOutput();
@@ -1023,7 +1048,7 @@ public class NameTest extends TestCase
 
 	public void test_0arg() throws TextParseException
 	{
-	    byte[] raw = new byte[] { 1, 'a', 5, 'b', 'a', 's', 'i', 'c', 4, 'n', 'a', 'm', 'e', 0 };
+	    def raw = [ 1, 'a', 5, 'b', 'a', 's', 'i', 'c', 4, 'n', 'a', 'm', 'e', 0 ] as byte
 	    Name n = new Name("A.Basic.Name.");
 	    
 	    byte[] out = n.toWireCanonical();
@@ -1034,7 +1059,8 @@ public class NameTest extends TestCase
 	public void test_root()
 	{
 	    byte[] out = Name.root.toWireCanonical();
-	    assertTrue(Arrays.equals(new byte[] { 0 }, out));
+	    def b_a = [ 0 ] as byte
+	    assertTrue(Arrays.equals(b_a, out));
 	}
 
 	public void test_empty() throws TextParseException
@@ -1051,7 +1077,7 @@ public class NameTest extends TestCase
 	    
 	    Compression c = new Compression();
 	    c.add(257, d);
-	    byte[] exp = new byte[] { 1, 'a', 5, 'b', 'a', 's', 'i', 'c', 4, 'n', 'a', 'm', 'e', 0 };
+	    def exp = [ 1, 'a', 5, 'b', 'a', 's', 'i', 'c', 4, 'n', 'a', 'm', 'e', 0 ] as byte
 
 	    DNSOutput o = new DNSOutput();
 	    n.toWire(o, c, true);

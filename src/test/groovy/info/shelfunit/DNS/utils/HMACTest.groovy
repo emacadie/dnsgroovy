@@ -42,14 +42,17 @@ import	junit.framework.TestCase;
 
 public class HMACTest extends TestCase
 {
-    private static class test_data
+    /*
+    // ORIG: private static class test_data
+    static class test_data
     {
 	public byte[] key;
 	public byte[] data;
 	public byte[] digest;
     }
 
-    private static test_data[] tests;
+    // ORIG: private static test_data[] tests;
+    static test_data[] tests;
 
     static {
 	// These test cases come directly from RFC 2202 (for MD5)
@@ -155,7 +158,7 @@ public class HMACTest extends TestCase
 	    do_test(i, h);
 	}
     }
-
+    */
     public void test_ctor_digestName_key_invalid()
     {
 	try {
@@ -164,4 +167,5 @@ public class HMACTest extends TestCase
 	}
 	catch( IllegalArgumentException e ){}
     }
+
 }

@@ -143,10 +143,10 @@ public class U16NameBaseTest extends TestCase
     public void test_rrFromWire() throws IOException
     {
 	def raw = [ (byte)0xBC, (byte)0x1F, 2, 'M', 'y', 6, 's', 'i', 'N', 'g', 'l', 'E', 4, 'n', 'A', 'm', 'E', 0 ] as byte
-	DNSInput in = new DNSInput(raw);
+	DNSInput dnsin = new DNSInput(raw);
 	
 	TestClass tc = new TestClass();
-	tc.rrFromWire(in);
+	tc.rrFromWire(dnsin);
 
 	Name exp = Name.fromString("My.single.name.");
 	assertEquals(0xBC1FL, tc.getU16Field());

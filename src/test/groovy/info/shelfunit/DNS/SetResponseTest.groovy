@@ -43,15 +43,15 @@ public class SetResponseTest extends TestCase
 {
     public void test_ctor_1arg()
     {
-	final int[] types = new int[] { SetResponse.UNKNOWN,
+	final types = [ SetResponse.UNKNOWN,
 					SetResponse.NXDOMAIN,
 					SetResponse.NXRRSET,
 					SetResponse.DELEGATION,
 					SetResponse.CNAME,
 					SetResponse.DNAME,
-					SetResponse.SUCCESSFUL };
+					SetResponse.SUCCESSFUL ] 
 
-	for( int i=0; i<types.length; ++i){
+	for( int i=0; i<types.size; ++i){
 	    SetResponse sr = new SetResponse(types[i]);
 	    assertNull(sr.getNS());
 	    assertEquals(types[i] == SetResponse.UNKNOWN, sr.isUnknown());
@@ -84,15 +84,15 @@ public class SetResponseTest extends TestCase
 
     public void test_ctor_2arg()
     {
-	final int[] types = new int[] { SetResponse.UNKNOWN,
+	final types = [ SetResponse.UNKNOWN,
 					SetResponse.NXDOMAIN,
 					SetResponse.NXRRSET,
 					SetResponse.DELEGATION,
 					SetResponse.CNAME,
 					SetResponse.DNAME,
-					SetResponse.SUCCESSFUL };
+					SetResponse.SUCCESSFUL ]
 
-	for( int i=0; i<types.length; ++i){
+	for( int i=0; i<types.size; ++i){
 	    RRset rs = new RRset();
 	    SetResponse sr = new SetResponse(types[i], rs);
 	    assertSame(rs, sr.getNS());
@@ -126,12 +126,12 @@ public class SetResponseTest extends TestCase
 
     public void test_ofType_basic()
     {
-	final int[] types = new int[] { SetResponse.DELEGATION,
+	final types = [ SetResponse.DELEGATION,
 					SetResponse.CNAME,
 					SetResponse.DNAME,
-					SetResponse.SUCCESSFUL };
+					SetResponse.SUCCESSFUL ] 
 
-	for(int i=0; i<types.length; ++i){
+	for(int i=0; i<types.size; ++i){
 	    SetResponse sr = SetResponse.ofType(types[i]);
 	    assertNull(sr.getNS());
 	    assertEquals(types[i] == SetResponse.UNKNOWN, sr.isUnknown());
@@ -149,11 +149,11 @@ public class SetResponseTest extends TestCase
 
     public void test_ofType_singleton()
     {
-	final int[] types = new int[] { SetResponse.UNKNOWN,
+	final types = [ SetResponse.UNKNOWN,
 					SetResponse.NXDOMAIN,
-					SetResponse.NXRRSET };
+					SetResponse.NXRRSET ] 
 
-	for(int i=0; i<types.length; ++i){
+	for(int i=0; i<types.size; ++i){
 	    SetResponse sr = SetResponse.ofType(types[i]);
 	    assertNull(sr.getNS());
 	    assertEquals(types[i] == SetResponse.UNKNOWN, sr.isUnknown());
@@ -201,7 +201,8 @@ public class SetResponseTest extends TestCase
 	SetResponse sr = new SetResponse(SetResponse.SUCCESSFUL);
 	sr.addRRset(rrs);
 
-	RRset[] exp = new RRset[] { rrs };
+	// RRset[] exp = new RRset[] { rrs };
+	def exp = [ rrs ] // as RRset
 	assertTrue(Arrays.equals(exp, sr.answers()));
     }
 
@@ -231,7 +232,7 @@ public class SetResponseTest extends TestCase
 	sr.addRRset(rrs);
 	sr.addRRset(rrs2);
 
-	RRset[] exp = new RRset[] { rrs, rrs2 };
+	RRset[] exp = [ rrs, rrs2 ] as RRset
 	assertTrue(Arrays.equals(exp, sr.answers()));
     }
 
@@ -267,29 +268,42 @@ public class SetResponseTest extends TestCase
 
     public void test_toString() throws TextParseException, UnknownHostException
     {
-	final int[] types = new int[] { SetResponse.UNKNOWN,
+	final types = [ SetResponse.UNKNOWN,
 					SetResponse.NXDOMAIN,
 					SetResponse.NXRRSET,
 					SetResponse.DELEGATION,
 					SetResponse.CNAME,
 					SetResponse.DNAME,
-					SetResponse.SUCCESSFUL };
+					SetResponse.SUCCESSFUL ]
+	    // println("here is types: " + types )
+	    // println("types is a " + types.getClass().getName())
+
 	RRset rrs = new RRset();
 	rrs.addRR(new ARecord(Name.fromString("The.Name."),
 			      DClass.IN,
 			      0xABCD,
 			      InetAddress.getByName("192.168.0.1")));
-
-	final String[] labels = new String[] { "unknown",
+	def labels = [ "unknown",
 					       "NXDOMAIN",
 					       "NXRRSET",
 					       "delegation: " + rrs,
 					       "CNAME: " + rrs,
 					       "DNAME: " + rrs,
-					       "successful" };
+					       "successful" ]
+/*
+	final String[] labels = [ "unknown",
+					       "NXDOMAIN",
+					       "NXRRSET",
+					       "delegation: " + rrs,
+					       "CNAME: " + rrs,
+					       "DNAME: " + rrs,
+					       "successful" ] as String
+*/
 
-	for( int i=0; i<types.length; ++i){
+	for( int i=0; i<types.size; ++i){
 	    SetResponse sr = new SetResponse(types[i], rrs);
+	    // println("-- here is labels[ " + i + " ]: " + labels[i])
+	    // println("-- here is sr.toString():   " + sr.toString())
 	    assertEquals(labels[i], sr.toString());
 	}
     }

@@ -38,7 +38,7 @@ package info.shelfunit.DNS
 import info.shelfunit.DNS.*
 
 import junit.framework.TestCase;
-import org.xbill.DNS
+import org.xbill.DNS.*
 
 public class DClassTest extends TestCase
 {
