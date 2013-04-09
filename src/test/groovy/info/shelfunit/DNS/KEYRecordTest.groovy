@@ -32,7 +32,9 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-package	org.xbill.DNS;
+package info.shelfunit.DNS
+
+import org.xbill.DNS.*
 
 import	java.io.IOException;
 import	java.net.InetAddress;
@@ -67,7 +69,7 @@ public class KEYRecordTest extends TestCase
     {
 	Name n = Name.fromString("My.Absolute.Name.");
 	Name r = Name.fromString("My.Relative.Name");
-	byte[] key = new byte[] { 0, 1, 3, 5, 7, 9 };
+	def key = [ 0, 1, 3, 5, 7, 9 ] as byte
 
 	KEYRecord kr = new KEYRecord(n, DClass.IN, 0x24AC, 0x9832, 0x12, 0x67, key);
 	assertEquals(n, kr.getName());
@@ -157,7 +159,7 @@ public class KEYRecordTest extends TestCase
 		     kr.getFlags());
 	assertEquals(KEYRecord.Protocol.EMAIL, kr.getProtocol());
 	assertEquals(DNSSEC.Algorithm.RSASHA1, kr.getAlgorithm());
-	assertTrue(Arrays.equals(new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 }, kr.getKey()));
+	assertTrue(Arrays.equals( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] as byte, kr.getKey()));
 
 	// basic w/o key
 	kr = new KEYRecord();

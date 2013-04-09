@@ -32,7 +32,9 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-package org.xbill.DNS;
+package info.shelfunit.DNS
+
+import org.xbill.DNS.*
 
 import	java.io.IOException;
 import	java.net.InetAddress;
@@ -198,7 +200,7 @@ public class RecordTest extends TestCase
 	int t = Type.A;
 	int d = DClass.IN;
 	int ttl = 0xDBE8;
-	byte[] data = new byte[] { (byte)123, (byte)232, (byte)0, (byte)255 };
+	byte[] data = [ (byte)123, (byte)232, (byte)0, (byte)255 ] as byte
 	InetAddress exp = InetAddress.getByName("123.232.0.255");
 
 	Record rec = Record.newRecord(n, t, d, ttl, data);
@@ -217,7 +219,7 @@ public class RecordTest extends TestCase
 	int t = Type.A;
 	int d = DClass.IN;
 	int ttl = 0xDBE8;
-	byte[] data = new byte[] { (byte)123, (byte)232, (byte)0, (byte)255 };
+	def data = [ (byte)123, (byte)232, (byte)0, (byte)255 ] as byte
 	InetAddress exp = InetAddress.getByName("123.232.0.255");
 
 	Record rec = Record.newRecord(n, t, d, ttl, 0, null);
@@ -251,12 +253,12 @@ public class RecordTest extends TestCase
 	int t = Type.A;
 	int d = DClass.IN;
 	int ttl = 0xDBE8;
-	byte[] data = new byte[] { (byte)123, (byte)232, (byte)0, (byte)255 };
+	def data = [ (byte)123, (byte)232, (byte)0, (byte)255 ] as byte
 
 	assertNull(Record.newRecord(n, t, d, ttl, 0, new byte[ 0 ]));
 	assertNull(Record.newRecord(n, t, d, ttl, 1, new byte[ 0 ]));
 	assertNull(Record.newRecord(n, t, d, ttl, data.length+1, data));
-	assertNull(Record.newRecord(n, t, d, ttl, 5, new byte[] { data[0], data[1], data[2], data[3], 0 }));
+	assertNull(Record.newRecord(n, t, d, ttl, 5, [ data[0], data[1], data[2], data[3], 0 ] as byte));
 	try {
 	    Record.newRecord(r, t, d, ttl, 0, null);
 	    fail("RelativeNameException not thrown");
@@ -274,7 +276,7 @@ public class RecordTest extends TestCase
 	int t = Type.A;
 	int d = DClass.IN;
 	int ttl = 0xDBE8;
-	byte[] data = new byte[] { (byte)123, (byte)232, (byte)0, (byte)255 };
+	def data = [ (byte)123, (byte)232, (byte)0, (byte)255 ] as byte
 	InetAddress exp = InetAddress.getByName("123.232.0.255");
 
 	DNSOutput out = new DNSOutput();
@@ -345,7 +347,7 @@ public class RecordTest extends TestCase
 	int t = Type.A;
 	int d = DClass.IN;
 	int ttl = 0xDBE8;
-	byte[] data = new byte[] { (byte)123, (byte)232, (byte)0, (byte)255 };
+	def data = [ (byte)123, (byte)232, (byte)0, (byte)255 ] as byte
 
 	// a non-QUESTION
 	DNSOutput out = new DNSOutput();
@@ -396,7 +398,7 @@ public class RecordTest extends TestCase
 	int t = Type.A;
 	int d = DClass.IN;
 	int ttl = 0xDBE8;
-	byte[] data = new byte[] { (byte)123, (byte)232, (byte)0, (byte)255 };
+	def data = [ (byte)123, (byte)232, (byte)0, (byte)255 ] as byte
 
 	DNSOutput out = new DNSOutput();
 	n.toWireCanonical(out);
@@ -504,7 +506,7 @@ public class RecordTest extends TestCase
 	assertTrue(Arrays.equals(in.getBytes(), out));
 
 	in = " \\031Aa\\;\\\"\\\\~\\127\\255";
-	byte[] exp = new byte[] { ' ', 0x1F, 'A', 'a', ';', '"', '\\', 0x7E, 0x7F, (byte)0xFF };
+	def exp = [ ' ', 0x1F, 'A', 'a', ';', '"', '\\', 0x7E, 0x7F, (byte)0xFF ] as byte
 	out = SubRecord.byteArrayFromString(in);
 	assertTrue(Arrays.equals(exp, out));
     }
@@ -548,15 +550,15 @@ public class RecordTest extends TestCase
 
     public void test_byteArrayToString()
     {
-	byte[] in = new byte[] { ' ', 0x1F, 'A', 'a', ';', '"', '\\', 0x7E, 0x7F, (byte)0xFF };
+	def in = [ ' ', 0x1F, 'A', 'a', ';', '"', '\\', 0x7E, 0x7F, (byte)0xFF ] as byte
 	String exp = "\" \\031Aa;\\\"\\\\~\\127\\255\"";
 	assertEquals(exp, SubRecord.byteArrayToString(in, true));
     }
 
     public void test_unknownToString()
     {
-	byte[] data = new byte[] { (byte)0x12, (byte)0x34, (byte)0x56, (byte)0x78, (byte)0x9A,
-				   (byte)0xBC, (byte)0xDE, (byte)0xFF };
+	def data = [ (byte)0x12, (byte)0x34, (byte)0x56, (byte)0x78, (byte)0x9A,
+				   (byte)0xBC, (byte)0xDE, (byte)0xFF ] as byte
 	String out = SubRecord.unknownToString(data);
 	
 	assertFalse(out.indexOf("" + data.length) == -1);
@@ -572,7 +574,7 @@ public class RecordTest extends TestCase
 	int ttl = 0xABE99;
 	String sa = "191.234.43.10";
 	InetAddress addr = InetAddress.getByName(sa);
-	byte[] b = new byte[] { (byte)191, (byte)234, (byte)43, (byte)10 };
+	def b = [ (byte)191, (byte)234, (byte)43, (byte)10 ] as byte
 
 	Tokenizer st = new Tokenizer(sa);
 	Record rec = Record.fromString(n, t, d, ttl, st, n2);
@@ -704,8 +706,8 @@ public class RecordTest extends TestCase
 	assertFalse(r1.equals(r2));
 	assertFalse(r2.equals(r1));
 
-	byte[] d1 = new byte[] { 23, 12, 9, (byte)129 };
-	byte[] d2 = new byte[] { (byte)220, 1, (byte)131, (byte)212 };
+	def d1 = [ 23, 12, 9, (byte)129 ] as byte
+	def d2 = [ (byte)220, 1, (byte)131, (byte)212 ] as byte
 
 	r1 = Record.newRecord(n, Type.A, DClass.IN, 0xABCDE9, d1);
 	r2 = Record.newRecord(n, Type.A, DClass.IN, 0xABCDE9, d1);
@@ -724,8 +726,8 @@ public class RecordTest extends TestCase
 	Name n = Name.fromString("My.N.");
 	Name n2 = Name.fromString("my.n.");
 	Name m = Name.fromString("My.M.");
-	byte[] d1 = new byte[] { 23, 12, 9, (byte)129 };
-	byte[] d2 = new byte[] { (byte)220, 1, (byte)131, (byte)212 };
+	def d1 = [ 23, 12, 9, (byte)129 ] as byte
+	def d2 = [ (byte)220, 1, (byte)131, (byte)212 ] as byte
 
 	Record r1 = Record.newRecord(n, Type.A, DClass.IN, 0xABCDE9, d1);
 
@@ -757,7 +759,7 @@ public class RecordTest extends TestCase
     public void test_cloneRecord() throws TextParseException
     {
 	Name n = Name.fromString("My.N.");
-	byte[] d = new byte[] { 23, 12, 9, (byte)129 };
+	def d = [ 23, 12, 9, (byte)129 ] as byte
 	Record r = Record.newRecord(n, Type.A, DClass.IN, 0xABCDE9, d);
 
 	Record r2 = r.cloneRecord();
@@ -779,7 +781,7 @@ public class RecordTest extends TestCase
 	Name n = Name.fromString("My.N.");
 	Name m = Name.fromString("My.M.Name.");
 	Name rel = Name.fromString("My.Relative.Name");
-	byte[] d = new byte[] { 23, 12, 9, (byte)129 };
+	def d = [ 23, 12, 9, (byte)129 ] as byte
 	Record r = Record.newRecord(n, Type.A, DClass.IN, 0xABCDE9, d);
 
 	Record r1 = r.withName(m);
@@ -800,7 +802,7 @@ public class RecordTest extends TestCase
     public void test_withDClass() throws TextParseException
     {
 	Name n = Name.fromString("My.N.");
-	byte[] d = new byte[] { 23, 12, 9, (byte)129 };
+	def d = [ 23, 12, 9, (byte)129 ] as byte
 	Record r = Record.newRecord(n, Type.A, DClass.IN, 0xABCDE9, d);
 
 	Record r1 = r.withDClass(DClass.HESIOD, 0x9876);
@@ -816,7 +818,7 @@ public class RecordTest extends TestCase
 				     UnknownHostException
     {
 	Name n = Name.fromString("My.N.");
-	byte[] d = new byte[] { 23, 12, 9, (byte)129 };
+	def d = [ 23, 12, 9, (byte)129 ] as byte
 	InetAddress exp = InetAddress.getByName("23.12.9.129");
 	Record r = Record.newRecord(n, Type.A, DClass.IN, 0xABCDE9, d);
 
@@ -836,8 +838,8 @@ public class RecordTest extends TestCase
 	Name n = Name.fromString("My.N.");
 	Name n2 = Name.fromString("my.n.");
 	Name m = Name.fromString("My.M.");
-	byte[] d = new byte[] { 23, 12, 9, (byte)129 };
-	byte[] d2 = new byte[] { 23, 12, 9, (byte)128 };
+	def d = [ 23, 12, 9, (byte)129 ] as byte
+	def d2 = [ 23, 12, 9, (byte)128 ] as byte
 	Record r1 = Record.newRecord(n, Type.A, DClass.IN, 0xABCDE9, d);
 	Record r2 = Record.newRecord(n, Type.A, DClass.IN, 0xABCDE9, d);
 	

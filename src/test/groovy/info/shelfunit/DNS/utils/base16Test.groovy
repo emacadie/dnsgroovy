@@ -32,7 +32,9 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-package org.xbill.DNS.utils;
+package info.shelfunit.DNS.utils
+
+import org.xbill.DNS.utils
 
 import junit.framework.TestCase;
 

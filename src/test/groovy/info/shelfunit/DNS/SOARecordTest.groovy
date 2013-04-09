@@ -280,14 +280,14 @@ public class SOARecordTest
 	
 	public void test() throws IOException
 	{
-	    byte[] raw = new byte[] {
+	    def raw = [
 		1, 'm', 1, 'h', 1, 'n', 0, // host
 		1, 'm', 1, 'a', 1, 'n', 0, // admin
 		(byte)0xAB, (byte)0xCD, (byte)0xEF, (byte)0x12,	   // serial
 		(byte)0xCD, (byte)0xEF, (byte)0x12, (byte)0x34,	   // refresh
 		(byte)0xEF, (byte)0x12, (byte)0x34, (byte)0x56,	   // retry
 		(byte)0x12, (byte)0x34, (byte)0x56, (byte)0x78,	   // expire
-		(byte)0x34, (byte)0x56, (byte)0x78, (byte)0x9A };  // minimum
+		(byte)0x34, (byte)0x56, (byte)0x78, (byte)0x9A ] as byte  // minimum
 
 	    DNSInput di = new DNSInput(raw);
 	    SOARecord ar = new SOARecord();
@@ -432,14 +432,14 @@ public class SOARecordTest
 
 	public void test_canonical()
 	{
-	    byte[] exp = new byte[] {
+	    def exp = [
 		1, 'm', 1, 'h', 1, 'n', 0, // host
 		1, 'm', 1, 'a', 1, 'n', 0, // admin
 		(byte)0xAB, (byte)0xCD, (byte)0xEF, (byte)0x12,	   // serial
 		(byte)0xCD, (byte)0xEF, (byte)0x12, (byte)0x34,	   // refresh
 		(byte)0xEF, (byte)0x12, (byte)0x34, (byte)0x56,	   // retry
 		(byte)0x12, (byte)0x34, (byte)0x56, (byte)0x78,	   // expire
-		(byte)0x34, (byte)0x56, (byte)0x78, (byte)0x9A };  // minimum
+		(byte)0x34, (byte)0x56, (byte)0x78, (byte)0x9A ] as byte  // minimum
 
 	    SOARecord ar = new SOARecord(m_an, DClass.IN, m_ttl,
 					 m_host, m_admin, m_serial, m_refresh,
@@ -452,14 +452,14 @@ public class SOARecordTest
 
 	public void test_case_sensitive()
 	{
-	    byte[] exp = new byte[] {
+	    def exp = [
 		1, 'M', 1, 'h', 1, 'N', 0, // host
 		1, 'M', 1, 'a', 1, 'n', 0, // admin
 		(byte)0xAB, (byte)0xCD, (byte)0xEF, (byte)0x12,	   // serial
 		(byte)0xCD, (byte)0xEF, (byte)0x12, (byte)0x34,	   // refresh
 		(byte)0xEF, (byte)0x12, (byte)0x34, (byte)0x56,	   // retry
 		(byte)0x12, (byte)0x34, (byte)0x56, (byte)0x78,	   // expire
-		(byte)0x34, (byte)0x56, (byte)0x78, (byte)0x9A };  // minimum
+		(byte)0x34, (byte)0x56, (byte)0x78, (byte)0x9A ] as byte  // minimum
 
 	    SOARecord ar = new SOARecord(m_an, DClass.IN, m_ttl,
 					 m_host, m_admin, m_serial, m_refresh,

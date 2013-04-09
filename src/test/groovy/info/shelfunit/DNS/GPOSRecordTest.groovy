@@ -32,7 +32,9 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-package org.xbill.DNS;
+package info.shelfunit.DNS
+
+import org.xbill.DNS.*
 
 import	java.io.IOException;
 import	java.util.Arrays;
@@ -222,9 +224,9 @@ public class GPOSRecordTest extends TestCase
     {
 	public void test_basic() throws IOException
 	{
-	    byte[] raw = new byte[] { 5, '-', '8', '.', '1', '2',
+	    def raw = [ 5, '-', '8', '.', '1', '2',
 				      6, '1', '2', '3', '.', '0', '7',
-				      3, '0', '.', '0' };
+				      3, '0', '.', '0' ] as byte
 	    DNSInput in = new DNSInput(raw);
 	    
 	    GPOSRecord gr = new GPOSRecord();
@@ -236,9 +238,9 @@ public class GPOSRecordTest extends TestCase
 	
 	public void test_longitude_toosmall() throws IOException
 	{
-	    byte[] raw = new byte[] { 5, '-', '9', '5', '.', '0',
+	    def raw = [ 5, '-', '9', '5', '.', '0',
 				      6, '1', '2', '3', '.', '0', '7',
-				      3, '0', '.', '0' };
+				      3, '0', '.', '0' ] as byte
 	    DNSInput in = new DNSInput(raw);
 	    
 	    GPOSRecord gr = new GPOSRecord();
@@ -251,9 +253,9 @@ public class GPOSRecordTest extends TestCase
 
 	public void test_longitude_toobig() throws IOException
 	{
-	    byte[] raw = new byte[] { 5, '1', '8', '5', '.', '0',
+	    def raw = [ 5, '1', '8', '5', '.', '0',
 				      6, '1', '2', '3', '.', '0', '7',
-				      3, '0', '.', '0' };
+				      3, '0', '.', '0' ] as byte
 	    DNSInput in = new DNSInput(raw);
 
 	    GPOSRecord gr = new GPOSRecord();
@@ -266,9 +268,9 @@ public class GPOSRecordTest extends TestCase
 
 	public void test_latitude_toosmall() throws IOException
 	{
-	    byte[] raw = new byte[] { 5, '-', '8', '5', '.', '0',
+	    def raw = [ 5, '-', '8', '5', '.', '0',
 				      6, '-', '1', '9', '0', '.', '0',
-				      3, '0', '.', '0' };
+				      3, '0', '.', '0' ] as byte
 	    DNSInput in = new DNSInput(raw);
 
 	    GPOSRecord gr = new GPOSRecord();
@@ -281,9 +283,9 @@ public class GPOSRecordTest extends TestCase
 
 	public void test_latitude_toobig() throws IOException
 	{
-	    byte[] raw = new byte[] { 5, '-', '8', '5', '.', '0',
+	    def raw = [ 5, '-', '8', '5', '.', '0',
 				      6, '2', '1', '9', '0', '.', '0',
-				      3, '0', '.', '0' };
+				      3, '0', '.', '0' ] as byte
 	    DNSInput in = new DNSInput(raw);
 
 	    GPOSRecord gr = new GPOSRecord();
@@ -380,9 +382,9 @@ public class GPOSRecordTest extends TestCase
 	GPOSRecord gr = new GPOSRecord(Name.fromString("The.Name."), DClass.IN, 0x123,
 				       -10.45, 120.0, 111.0);
 
-	byte[] exp = new byte[] { 6, '-', '1', '0', '.', '4', '5',
+	def exp = [ 6, '-', '1', '0', '.', '4', '5',
 				  5, '1', '2', '0', '.', '0',
-				  5, '1', '1', '1', '.', '0' };
+				  5, '1', '1', '1', '.', '0' ] as byte
 	
 	DNSOutput out = new DNSOutput();
 	gr.rrToWire(out, null, true);

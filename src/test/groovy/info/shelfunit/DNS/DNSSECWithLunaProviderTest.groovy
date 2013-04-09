@@ -1,4 +1,6 @@
-package org.xbill.DNS;
+package info.shelfunit.DNS
+
+import org.xbill.DNS.*
 
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;

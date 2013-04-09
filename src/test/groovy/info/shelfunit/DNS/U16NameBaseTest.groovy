@@ -32,7 +32,9 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-package org.xbill.DNS;
+package info.shelfunit.DNS
+
+import org.xbill.DNS.*
 
 import	java.io.IOException;
 import	java.util.Arrays;
@@ -140,7 +142,7 @@ public class U16NameBaseTest extends TestCase
 
     public void test_rrFromWire() throws IOException
     {
-	byte[] raw = new byte[] { (byte)0xBC, (byte)0x1F, 2, 'M', 'y', 6, 's', 'i', 'N', 'g', 'l', 'E', 4, 'n', 'A', 'm', 'E', 0 };
+	def raw = [ (byte)0xBC, (byte)0x1F, 2, 'M', 'y', 6, 's', 'i', 'N', 'g', 'l', 'E', 4, 'n', 'A', 'm', 'E', 0 ] as byte
 	DNSInput in = new DNSInput(raw);
 	
 	TestClass tc = new TestClass();
@@ -199,14 +201,14 @@ public class U16NameBaseTest extends TestCase
 	DNSOutput dout = new DNSOutput();
 	tc.rrToWire(dout, null, true);
 	byte[] out = dout.toByteArray();
-	byte[] exp = new byte[] { 0x1F, 0x2B, 1, 'm', 1, 'o', 1, 'n', 0 };
+	def exp = [ 0x1F, 0x2B, 1, 'm', 1, 'o', 1, 'n', 0 ] as byte
 	assertTrue(Arrays.equals(exp, out));
 
 	// case sensitive
 	dout = new DNSOutput();
 	tc.rrToWire(dout, null, false);
 	out = dout.toByteArray();
-	exp = new byte[] { 0x1F, 0x2B, 1, 'M', 1, 'O', 1, 'n', 0 };
+	exp = [ 0x1F, 0x2B, 1, 'M', 1, 'O', 1, 'n', 0 ] as byte
 	assertTrue(Arrays.equals(exp, out));
     }
 }

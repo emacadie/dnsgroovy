@@ -1,4 +1,6 @@
-package org.xbill.DNS;
+package info.shelfunit.DNS
+
+import  org.xbill.DNS.*
 
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -8,7 +10,6 @@ import java.security.Signature;
 import junit.framework.TestCase;
 
 import org.xbill.DNS.DNSSEC.Algorithm;
-
 
 public class DNSSECWithProviderTest extends TestCase {
 
