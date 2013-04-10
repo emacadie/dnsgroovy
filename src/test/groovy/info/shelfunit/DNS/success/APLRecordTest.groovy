@@ -206,10 +206,10 @@ public class APLRecordTest
 	public void test_validIPv4() throws IOException
 	{
 	    def raw = [ 0, 1, 8, (byte)0x84, 
-				      m_addr4_bytes[0], m_addr4_bytes[1],
-				      m_addr4_bytes[2], m_addr4_bytes[3] ] as byte
+			m_addr4_bytes[0], m_addr4_bytes[1],
+			m_addr4_bytes[2], m_addr4_bytes[3] ].collect { entry -> (byte) entry }
 	    
-	    DNSInput di = new DNSInput(raw);
+	    DNSInput di = new DNSInput(raw.toArray(new byte[raw.size]));
 	    APLRecord ar = new APLRecord();
 	    ar.rrFromWire(di);
 	    
@@ -221,10 +221,10 @@ public class APLRecordTest
 	public void test_validIPv4_short_address() throws IOException
 	{
 	    def raw = [ 0, 1, 20, (byte)0x83, 
-				      m_addr4_bytes[0], m_addr4_bytes[1],
-				      m_addr4_bytes[2] ] as byte
+			m_addr4_bytes[0], m_addr4_bytes[1],
+			m_addr4_bytes[2] ].collect { entry -> (byte) entry }
 	    
-	    DNSInput di = new DNSInput(raw);
+	    DNSInput di = new DNSInput(raw.toArray(new byte[raw.size]));
 	    APLRecord ar = new APLRecord();
 	    ar.rrFromWire(di);
 	    
@@ -238,10 +238,10 @@ public class APLRecordTest
 	public void test_invalid_IPv4_prefix() throws IOException
 	{
 	    def raw = [ 0, 1, 33, (byte)0x84, 
-				      m_addr4_bytes[0], m_addr4_bytes[1],
-				      m_addr4_bytes[2], m_addr4_bytes[3] ] as byte
+			m_addr4_bytes[0], m_addr4_bytes[1],
+			m_addr4_bytes[2], m_addr4_bytes[3] ].collect { entry -> (byte) entry }
 	    
-	    DNSInput di = new DNSInput(raw);
+	    DNSInput di = new DNSInput(raw.toArray(new byte[raw.size]));
 	    APLRecord ar = new APLRecord();
 	    try {
 		ar.rrFromWire(di);
@@ -253,10 +253,10 @@ public class APLRecordTest
 	public void test_invalid_IPv4_length() throws IOException
 	{
 	    def raw = [ 0, 1, 8, (byte)0x85, 
-				      m_addr4_bytes[0], m_addr4_bytes[1],
-				      m_addr4_bytes[2], m_addr4_bytes[3], 10 ] as byte
+			m_addr4_bytes[0], m_addr4_bytes[1],
+			m_addr4_bytes[2], m_addr4_bytes[3], 10 ].collect { entry -> (byte) entry }
 	    
-	    DNSInput di = new DNSInput(raw);
+	    DNSInput di = new DNSInput(raw.toArray(new byte[raw.size]));
 	    APLRecord ar = new APLRecord();
 	    try {
 		ar.rrFromWire(di);
@@ -268,14 +268,13 @@ public class APLRecordTest
 	public void test_multiple_validIPv4() throws IOException
 	{
 	    def raw = [ 0, 1, 8, (byte)0x84, 
-				      m_addr4_bytes[0], m_addr4_bytes[1],
-				      m_addr4_bytes[2], m_addr4_bytes[3],
-				      0, 1, 30, (byte)0x4,
-				      m_addr4_bytes[0], m_addr4_bytes[1],
-				      m_addr4_bytes[2], m_addr4_bytes[3],
-	    ] as byte
+			m_addr4_bytes[0], m_addr4_bytes[1],
+			m_addr4_bytes[2], m_addr4_bytes[3],
+			0, 1, 30, (byte)0x4,
+			m_addr4_bytes[0], m_addr4_bytes[1],
+			m_addr4_bytes[2], m_addr4_bytes[3] ].collect { entry -> (byte) entry }
 	    
-	    DNSInput di = new DNSInput(raw);
+	    DNSInput di = new DNSInput(raw.toArray(new byte[raw.size]));
 	    APLRecord ar = new APLRecord();
 	    ar.rrFromWire(di);
 	    
@@ -288,16 +287,16 @@ public class APLRecordTest
 	public void test_validIPv6() throws IOException
 	{
 	    def raw = [ 0, 2, (byte)115, (byte)0x10, 
-				      m_addr6_bytes[0], m_addr6_bytes[1],
-				      m_addr6_bytes[2], m_addr6_bytes[3],
-				      m_addr6_bytes[4], m_addr6_bytes[5],
-				      m_addr6_bytes[6], m_addr6_bytes[7],
-				      m_addr6_bytes[8], m_addr6_bytes[9],
-				      m_addr6_bytes[10], m_addr6_bytes[11],
-				      m_addr6_bytes[12], m_addr6_bytes[13],
-				      m_addr6_bytes[14], m_addr6_bytes[15] ] as byte
+			m_addr6_bytes[0], m_addr6_bytes[1],
+			m_addr6_bytes[2], m_addr6_bytes[3],
+			m_addr6_bytes[4], m_addr6_bytes[5],
+			m_addr6_bytes[6], m_addr6_bytes[7],
+			m_addr6_bytes[8], m_addr6_bytes[9],
+			m_addr6_bytes[10], m_addr6_bytes[11],
+			m_addr6_bytes[12], m_addr6_bytes[13],
+			m_addr6_bytes[14], m_addr6_bytes[15] ].collect { entry -> (byte) entry }
 	    
-	    DNSInput di = new DNSInput(raw);
+	    DNSInput di = new DNSInput(raw.toArray(new byte[raw.size]));
 	    APLRecord ar = new APLRecord();
 	    ar.rrFromWire(di);
 	    
@@ -308,10 +307,9 @@ public class APLRecordTest
 
 	public void test_valid_nonIP() throws IOException
 	{
-	    def raw = [ 0, 3, (byte)130, (byte)0x85, 
-				      1, 2, 3, 4, 5 ] as byte
+	    def raw = [ 0, 3, (byte)130, (byte)0x85, 1, 2, 3, 4, 5 ].collect { entry -> (byte) entry }
 	    
-	    DNSInput di = new DNSInput(raw);
+	    DNSInput di = new DNSInput(raw.toArray(new byte[raw.size]));
 	    APLRecord ar = new APLRecord();
 	    ar.rrFromWire(di);
 	    
@@ -322,8 +320,8 @@ public class APLRecordTest
 	    assertEquals(3, el.family);
 	    assertEquals(true, el.negative);
 	    assertEquals(130, el.prefixLength);
-	    def b_a = [ 1, 2, 3, 4, 5 ] as byte
-	    assertTrue(Arrays.equals(b_a, (byte[])el.address));
+	    def b_a = [ 1, 2, 3, 4, 5 ].collect { entry -> (byte) entry }
+	    assertTrue(Arrays.equals(b_a.toArray(new byte[b_a.size]), (byte[])el.address));
 	}
     }
 
@@ -603,37 +601,37 @@ public class APLRecordTest
 	    APLRecord ar = new APLRecord(m_an, DClass.IN, m_ttl, m_elements);
 	    
 	    def exp = [ 0, 1, 12, (byte)0x84, 
-				      m_addr4_bytes[0], m_addr4_bytes[1],
-				      m_addr4_bytes[2], m_addr4_bytes[3],
-				      0, 2, 64, 0x10,
-				      m_addr6_bytes[0], m_addr6_bytes[1],
-				      m_addr6_bytes[2], m_addr6_bytes[3],
-				      m_addr6_bytes[4], m_addr6_bytes[5],
-				      m_addr6_bytes[6], m_addr6_bytes[7],
-				      m_addr6_bytes[8], m_addr6_bytes[9],
-				      m_addr6_bytes[10], m_addr6_bytes[11],
-				      m_addr6_bytes[12], m_addr6_bytes[13],
-				      m_addr6_bytes[14], m_addr6_bytes[15] ] as byte
+			m_addr4_bytes[0], m_addr4_bytes[1],
+			m_addr4_bytes[2], m_addr4_bytes[3],
+			0, 2, 64, 0x10,
+			m_addr6_bytes[0], m_addr6_bytes[1],
+			m_addr6_bytes[2], m_addr6_bytes[3],
+			m_addr6_bytes[4], m_addr6_bytes[5],
+			m_addr6_bytes[6], m_addr6_bytes[7],
+			m_addr6_bytes[8], m_addr6_bytes[9],
+			m_addr6_bytes[10], m_addr6_bytes[11],
+			m_addr6_bytes[12], m_addr6_bytes[13],
+			m_addr6_bytes[14], m_addr6_bytes[15] ].collect { entry -> (byte) entry }
 	    
 	    DNSOutput dout = new DNSOutput();
 	    
 	    ar.rrToWire(dout, null, true);
-	    assertTrue(Arrays.equals(exp, dout.toByteArray()));
+	    assertTrue(Arrays.equals(exp.toArray(new byte[exp.size]), dout.toByteArray()));
 	}
 	
 	public void test_non_IP() throws IOException
 	{
 	    def exp = [ 0, 3, (byte)130, (byte)0x85, 
-				      1, 2, 3, 4, 5 ] as byte
+			1, 2, 3, 4, 5 ].collect { entry -> (byte) entry }
 	    
-	    DNSInput di = new DNSInput(exp);
+	    DNSInput di = new DNSInput(exp.toArray(new byte[exp.size]));
 	    APLRecord ar = new APLRecord();
 	    ar.rrFromWire(di);
 	    
 	    DNSOutput dout = new DNSOutput();
 	    
 	    ar.rrToWire(dout, null, true);
-	    assertTrue(Arrays.equals(exp, dout.toByteArray()));
+	    assertTrue(Arrays.equals(exp.toArray(new byte[exp.size]), dout.toByteArray()));
 	}
 	
 	public void test_address_with_embedded_zero() throws UnknownHostException
@@ -644,12 +642,12 @@ public class APLRecordTest
 	    
 	    APLRecord ar = new APLRecord(m_an, DClass.IN, m_ttl, elements);
 	    
-	    def exp = [ 0, 1, 31, (byte)0x84, (byte)232, 0, 11, 1 ] as byte
+	    def exp = [ 0, 1, 31, (byte)0x84, (byte)232, 0, 11, 1 ].collect { entry -> (byte) entry }
 	    
 	    DNSOutput dout = new DNSOutput();
 	    
 	    ar.rrToWire(dout, null, true);
-	    assertTrue(Arrays.equals(exp, dout.toByteArray()));
+	    assertTrue(Arrays.equals(exp.toArray(new byte[exp.size]), dout.toByteArray()));
 	}
 	
 	public void test_short_address() throws UnknownHostException
@@ -660,12 +658,12 @@ public class APLRecordTest
 	    
 	    APLRecord ar = new APLRecord(m_an, DClass.IN, m_ttl, elements);
 	    
-	    def exp = [ 0, 1, 31, (byte)0x83, (byte)232, 0, 11 ] as byte
+	    def exp = [ 0, 1, 31, (byte)0x83, (byte)232, 0, 11 ].collect { entry -> (byte) entry }
 	    
 	    DNSOutput dout = new DNSOutput();
 	    
 	    ar.rrToWire(dout, null, true);
-	    assertTrue(Arrays.equals(exp, dout.toByteArray()));
+	    assertTrue(Arrays.equals(exp.toArray(new byte[exp.size]), dout.toByteArray()));
 	}
 	
 	public void test_wildcard_address() throws UnknownHostException
@@ -676,12 +674,12 @@ public class APLRecordTest
 	    
 	    APLRecord ar = new APLRecord(m_an, DClass.IN, m_ttl, elements);
 	    
-	    def exp = [ 0, 1, 31, (byte)0x80 ] as byte
+	    def exp = [ 0, 1, 31, (byte)0x80 ].collect { entry -> (byte) entry }
 	    
 	    DNSOutput dout = new DNSOutput();
 	    
 	    ar.rrToWire(dout, null, true);
-	    assertTrue(Arrays.equals(exp, dout.toByteArray()));
+	    assertTrue(Arrays.equals(exp.toArray(new byte[exp.size]), dout.toByteArray()));
 	}
     }
 

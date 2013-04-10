@@ -269,12 +269,12 @@ public class SOARecordTest
 	protected void setUp() throws TextParseException,
 				      UnknownHostException
 	{
-	    m_host = Name.fromString("M.h.N.");
-	    m_admin = Name.fromString("M.a.n.");
-	    m_serial = 0xABCDEF12L;
+	    m_host    = Name.fromString("M.h.N.");
+	    m_admin   = Name.fromString("M.a.n.");
+	    m_serial  = 0xABCDEF12L;
 	    m_refresh = 0xCDEF1234L;
-	    m_retry = 0xEF123456L;
-	    m_expire = 0x12345678L;
+	    m_retry   = 0xEF123456L;
+	    m_expire  = 0x12345678L;
 	    m_minimum = 0x3456789AL;
 	}
 	
@@ -287,9 +287,9 @@ public class SOARecordTest
 		(byte)0xCD, (byte)0xEF, (byte)0x12, (byte)0x34,	   // refresh
 		(byte)0xEF, (byte)0x12, (byte)0x34, (byte)0x56,	   // retry
 		(byte)0x12, (byte)0x34, (byte)0x56, (byte)0x78,	   // expire
-		(byte)0x34, (byte)0x56, (byte)0x78, (byte)0x9A ] as byte  // minimum
+		(byte)0x34, (byte)0x56, (byte)0x78, (byte)0x9A ].collect { entry -> (byte) entry }  // minimum
 
-	    DNSInput di = new DNSInput(raw);
+	    DNSInput di = new DNSInput(raw.toArray(new byte[raw.size]));
 	    SOARecord ar = new SOARecord();
 	    
 	    ar.rrFromWire(di);
@@ -368,14 +368,14 @@ public class SOARecordTest
 
 	protected void setUp() throws TextParseException
 	{
-	    m_an = Name.fromString("My.absolute.name.");
-	    m_ttl = 0x13A8;
-	    m_host = Name.fromString("M.h.N.");
-	    m_admin = Name.fromString("M.a.n.");
-	    m_serial = 0xABCDEF12L;
+	    m_an      = Name.fromString("My.absolute.name.");
+	    m_ttl     = 0x13A8;
+	    m_host    = Name.fromString("M.h.N.");
+	    m_admin   = Name.fromString("M.a.n.");
+	    m_serial  = 0xABCDEF12L;
 	    m_refresh = 0xCDEF1234L;
-	    m_retry = 0xEF123456L;
-	    m_expire = 0x12345678L;
+	    m_retry   = 0xEF123456L;
+	    m_expire  = 0x12345678L;
 	    m_minimum = 0x3456789AL;
 	}
 
@@ -384,11 +384,13 @@ public class SOARecordTest
 	    SOARecord ar = new SOARecord(m_an, DClass.IN, m_ttl,
 					 m_host, m_admin, m_serial, m_refresh,
 					 m_retry, m_expire, m_minimum);
-	    String exp = m_host + " " + m_admin + " " + m_serial + " " +
-		m_refresh + " " + m_retry + " " + m_expire + " " + m_minimum;
 
 	    String out = ar.rrToString();
-	    
+	    // println( "Here is ar.rrToString(): " + out )
+
+	    String exp = m_host.toString() + " " + m_admin.toString() + " " + m_serial + " " +
+		m_refresh + " " + m_retry + " " + m_expire + " " + m_minimum;
+    
 	    assertEquals(exp, out);
 	}
 
@@ -439,7 +441,7 @@ public class SOARecordTest
 		(byte)0xCD, (byte)0xEF, (byte)0x12, (byte)0x34,	   // refresh
 		(byte)0xEF, (byte)0x12, (byte)0x34, (byte)0x56,	   // retry
 		(byte)0x12, (byte)0x34, (byte)0x56, (byte)0x78,	   // expire
-		(byte)0x34, (byte)0x56, (byte)0x78, (byte)0x9A ] as byte  // minimum
+		(byte)0x34, (byte)0x56, (byte)0x78, (byte)0x9A ].collect { entry -> (byte) entry }  // minimum
 
 	    SOARecord ar = new SOARecord(m_an, DClass.IN, m_ttl,
 					 m_host, m_admin, m_serial, m_refresh,
@@ -447,7 +449,7 @@ public class SOARecordTest
 	    DNSOutput o = new DNSOutput();
 	    ar.rrToWire(o, null, true);
 
-	    assertTrue(Arrays.equals(exp, o.toByteArray()));
+	    assertTrue(Arrays.equals(exp.toArray(new byte[exp.size]), o.toByteArray()));
 	}
 
 	public void test_case_sensitive()
@@ -459,7 +461,7 @@ public class SOARecordTest
 		(byte)0xCD, (byte)0xEF, (byte)0x12, (byte)0x34,	   // refresh
 		(byte)0xEF, (byte)0x12, (byte)0x34, (byte)0x56,	   // retry
 		(byte)0x12, (byte)0x34, (byte)0x56, (byte)0x78,	   // expire
-		(byte)0x34, (byte)0x56, (byte)0x78, (byte)0x9A ] as byte  // minimum
+		(byte)0x34, (byte)0x56, (byte)0x78, (byte)0x9A ].collect { entry -> (byte) entry }  // minimum
 
 	    SOARecord ar = new SOARecord(m_an, DClass.IN, m_ttl,
 					 m_host, m_admin, m_serial, m_refresh,
@@ -467,7 +469,7 @@ public class SOARecordTest
 	    DNSOutput o = new DNSOutput();
 	    ar.rrToWire(o, null, false);
 
-	    assertTrue(Arrays.equals(exp, o.toByteArray()));
+	    assertTrue(Arrays.equals(exp.toArray(new byte[exp.size]), o.toByteArray()));
 	}
     }
 

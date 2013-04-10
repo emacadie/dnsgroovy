@@ -69,9 +69,9 @@ public class KEYRecordTest extends TestCase
     {
 	Name n = Name.fromString("My.Absolute.Name.");
 	Name r = Name.fromString("My.Relative.Name");
-	def key = [ 0, 1, 3, 5, 7, 9 ] as byte
-
-	KEYRecord kr = new KEYRecord(n, DClass.IN, 0x24AC, 0x9832, 0x12, 0x67, key);
+	def key = [ 0, 1, 3, 5, 7, 9 ].collect { entry -> (byte) entry }
+	def key_array = key.toArray(new byte[key.size])
+	KEYRecord kr = new KEYRecord(n, DClass.IN, 0x24AC, 0x9832, 0x12, 0x67, key_array);
 	assertEquals(n, kr.getName());
 	assertEquals(Type.KEY, kr.getType());
 	assertEquals(DClass.IN, kr.getDClass());
@@ -79,11 +79,11 @@ public class KEYRecordTest extends TestCase
 	assertEquals(0x9832, kr.getFlags());
 	assertEquals(0x12, kr.getProtocol());
 	assertEquals(0x67, kr.getAlgorithm());
-	assertTrue(Arrays.equals(key, kr.getKey()));
+	assertTrue(Arrays.equals(key_array, kr.getKey()));
 
 	// a relative name
 	try {
-	    new KEYRecord(r, DClass.IN, 0x24AC, 0x9832, 0x12, 0x67, key);
+	    new KEYRecord(r, DClass.IN, 0x24AC, 0x9832, 0x12, 0x67, key_array);
 	    fail("RelativeNameException not thrown");
 	}
 	catch( RelativeNameException e ){}
@@ -159,7 +159,8 @@ public class KEYRecordTest extends TestCase
 		     kr.getFlags());
 	assertEquals(KEYRecord.Protocol.EMAIL, kr.getProtocol());
 	assertEquals(DNSSEC.Algorithm.RSASHA1, kr.getAlgorithm());
-	assertTrue(Arrays.equals( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] as byte, kr.getKey()));
+	def tempArray = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ].collect { entry -> (byte) entry }
+	assertTrue(Arrays.equals( tempArray.toArray(new byte[tempArray.size]), kr.getKey()));
 
 	// basic w/o key
 	kr = new KEYRecord();
