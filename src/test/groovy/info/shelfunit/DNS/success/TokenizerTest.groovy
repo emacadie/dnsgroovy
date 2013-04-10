@@ -503,7 +503,8 @@ public class TokenizerTest extends TestCase
 
     public void test_getBase64() throws IOException
     {
-	def exp = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] as byte
+	def exp_raw = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ].collect{ entry -> (byte) entry }
+	byte[] exp = exp_raw.toArray(new byte[exp_raw.size] )
 	// basic
 	m_t = new Tokenizer("AQIDBAUGBwgJ");
 	byte[] out = m_t.getBase64();
@@ -548,8 +549,9 @@ public class TokenizerTest extends TestCase
 
     public void test_getHex() throws IOException
     {
-	def exp = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ] as byte
+	def exp_raw = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ].collect{ entry -> (byte) entry }
 	// basic
+	byte [] exp = exp_raw.toArray(new byte[exp_raw.size])
 	m_t = new Tokenizer("0102030405060708090A0B0C0D0E0F");
 	byte[] out = m_t.getHex();
 	assertEquals(exp, out);

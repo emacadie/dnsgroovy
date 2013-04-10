@@ -90,13 +90,13 @@ public class HeaderTest extends TestCase
     public void test_ctor_DNSInput() throws IOException
     {
 	def raw = [ (byte)0x12, (byte)0xAB, // ID
-				  (byte)0x8F, (byte)0xBD, // flags: 1 0001 1 1 1 1 011 1101
-				  (byte)0x65, (byte)0x1C, // QDCOUNT
-				  (byte)0x10, (byte)0xF0, // ANCOUNT
-				  (byte)0x98, (byte)0xBA, // NSCOUNT
-				  (byte)0x71, (byte)0x90 ] as byte // ARCOUNT
+		    (byte)0x8F, (byte)0xBD, // flags: 1 0001 1 1 1 1 011 1101
+		    (byte)0x65, (byte)0x1C, // QDCOUNT
+		    (byte)0x10, (byte)0xF0, // ANCOUNT
+		    (byte)0x98, (byte)0xBA, // NSCOUNT
+		    (byte)0x71, (byte)0x90 ].collect{ entry -> (byte) entry } // ARCOUNT
 
-	m_h = new Header(new DNSInput(raw));
+	m_h = new Header(new DNSInput(raw.toArray(new byte[raw.size]) ) );
 
 	assertEquals(0x12AB, m_h.getID());
 
@@ -129,13 +129,13 @@ public class HeaderTest extends TestCase
     public void test_toWire() throws IOException
     {
 	def raw = [ (byte)0x12, (byte)0xAB, // ID
-				  (byte)0x8F, (byte)0xBD, // flags: 1 0001 1 1 1 1 011 1101
-				  (byte)0x65, (byte)0x1C, // QDCOUNT
-				  (byte)0x10, (byte)0xF0, // ANCOUNT
-				  (byte)0x98, (byte)0xBA, // NSCOUNT
-				  (byte)0x71, (byte)0x90 ] as byte // ARCOUNT
+		    (byte)0x8F, (byte)0xBD, // flags: 1 0001 1 1 1 1 011 1101
+		    (byte)0x65, (byte)0x1C, // QDCOUNT
+		    (byte)0x10, (byte)0xF0, // ANCOUNT
+		    (byte)0x98, (byte)0xBA, // NSCOUNT
+		    (byte)0x71, (byte)0x90 ].collect{ entry -> (byte) entry } // ARCOUNT
 	
-	m_h = new Header(raw);
+	m_h = new Header(raw.toArray(new byte[raw.size]));
 	
 	DNSOutput dout = new DNSOutput();
 	m_h.toWire(dout);

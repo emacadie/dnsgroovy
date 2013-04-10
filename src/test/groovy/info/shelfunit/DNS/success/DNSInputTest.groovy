@@ -51,8 +51,9 @@ public class DNSInputTest extends TestCase
 
     public void setUp()
     {
-	m_raw = [ 0, 1, 2, 3, 4, 5, (byte)255, (byte)255, (byte)255, (byte)255 ] as byte
-	m_di = new DNSInput( m_raw );
+	def m_raw_orig = [ 0, 1, 2, 3, 4, 5, (byte)255, (byte)255, (byte)255, (byte)255 ].collect{ entry -> (byte) entry }
+	m_raw = m_raw_orig.toArray(new byte[m_raw_orig.size] ) ;
+	    m_di = new DNSInput( m_raw) ;
     }
 
     public void test_initial_state()

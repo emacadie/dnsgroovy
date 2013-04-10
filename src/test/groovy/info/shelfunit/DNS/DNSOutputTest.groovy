@@ -200,11 +200,11 @@ public class DNSOutputTest extends TestCase
 
     public void test_writeByteArray_1arg()
     {
-	def b_in = [ (byte)0xAB, (byte)0xCD, (byte)0xEF, (byte)0x12, (byte)0x34 ] as byte
-	m_do.writeByteArray( b_in );
+	def b_in = [ (byte)0xAB, (byte)0xCD, (byte)0xEF, (byte)0x12, (byte)0x34 ]// .collect{ entry -> (byte) entry }
+	m_do.writeByteArray( b_in.toArray(new byte[b_in.size]) );
 	assertEquals( 5, m_do.current() );
 	byte[] curr = m_do.toByteArray();
-	assertEquals( b_in, curr );
+	assertEquals( b_in.toArray(new byte[b_in.size]), curr );
     }
 
     public void test_writeByteArray_3arg()

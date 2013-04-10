@@ -125,31 +125,31 @@ public class AddressTest extends TestCase
     public void test_toByteArray_IPv6()
     {
 	def exp = [ (byte)32, (byte)1, (byte)13, (byte)184,
-				  (byte)133, (byte)163, (byte)8, (byte)211,
-				  (byte)19, (byte)25, (byte)138, (byte)46, 
-				  (byte)3, (byte)112, (byte)115, (byte)52 ] as byte[]
+		    (byte)133, (byte)163, (byte)8, (byte)211,
+		    (byte)19, (byte)25, (byte)138, (byte)46, 
+		    (byte)3, (byte)112, (byte)115, (byte)52 ].collect { entry -> (byte) entry }
 	byte[] ret = Address.toByteArray("2001:0db8:85a3:08d3:1319:8a2e:0370:7334", Address.IPv6);
-	assertEquals(exp, ret);
+	assertEquals(exp.toArray(new byte[exp.size]), ret);
 	ret = Address.toByteArray("2001:db8:85a3:8d3:1319:8a2e:370:7334", Address.IPv6);
-	assertEquals(exp, ret);
+	assertEquals(exp.toArray(new byte[exp.size]), ret);
 	ret = Address.toByteArray("2001:DB8:85A3:8D3:1319:8A2E:370:7334", Address.IPv6);
-	assertEquals(exp, ret);
+	assertEquals(exp.toArray(new byte[exp.size]), ret);
 
-	exp = [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ] as byte
+	exp = [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ].collect { entry -> (byte) entry }
 	ret = Address.toByteArray("0:0:0:0:0:0:0:0", Address.IPv6);
 	assertEquals(exp, ret);
 
 	exp = [ (byte)0xFF, (byte)0xFF, (byte)0xFF, (byte)0xFF,
-			   (byte)0xFF, (byte)0xFF, (byte)0xFF, (byte)0xFF,
-			   (byte)0xFF, (byte)0xFF, (byte)0xFF, (byte)0xFF,
-			   (byte)0xFF, (byte)0xFF, (byte)0xFF, (byte)0xFF ] as byte
+		(byte)0xFF, (byte)0xFF, (byte)0xFF, (byte)0xFF,
+		(byte)0xFF, (byte)0xFF, (byte)0xFF, (byte)0xFF,
+		(byte)0xFF, (byte)0xFF, (byte)0xFF, (byte)0xFF ].collect { entry -> (byte) entry }
 	ret = Address.toByteArray("FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF", Address.IPv6);
 	assertEquals(exp, ret);
 
 	exp = [ (byte)32, (byte)1, (byte)13, (byte)184,
-			   (byte)0, (byte)0, (byte)8, (byte)211,
-			   (byte)19, (byte)25, (byte)138, (byte)46, 
-			   (byte)3, (byte)112, (byte)115, (byte)52 ] as byte
+		(byte)0, (byte)0, (byte)8, (byte)211,
+		(byte)19, (byte)25, (byte)138, (byte)46, 
+		(byte)3, (byte)112, (byte)115, (byte)52 ].collect { entry -> (byte) entry }
 	ret = Address.toByteArray("2001:0db8:0000:08d3:1319:8a2e:0370:7334", Address.IPv6);
 	assertEquals(exp, ret);
 
@@ -157,18 +157,18 @@ public class AddressTest extends TestCase
 	assertEquals(exp, ret);
 
 	exp = [ (byte)0, (byte)0, (byte)0, (byte)0,
-			   (byte)133, (byte)163, (byte)8, (byte)211,
-			   (byte)19, (byte)25, (byte)138, (byte)46, 
-			   (byte)3, (byte)112, (byte)115, (byte)52 ] as byte
+		(byte)133, (byte)163, (byte)8, (byte)211,
+		(byte)19, (byte)25, (byte)138, (byte)46, 
+		(byte)3, (byte)112, (byte)115, (byte)52 ].collect { entry -> (byte) entry }
 	ret = Address.toByteArray("0000:0000:85a3:08d3:1319:8a2e:0370:7334", Address.IPv6);
 	assertEquals(exp, ret);
 	ret = Address.toByteArray("::85a3:08d3:1319:8a2e:0370:7334", Address.IPv6);
 	assertEquals(exp, ret);
 
 	exp = [ (byte)32, (byte)1, (byte)13, (byte)184,
-			   (byte)133, (byte)163, (byte)8, (byte)211,
-			   (byte)19, (byte)25, (byte)138, (byte)46, 
-			   (byte)0, (byte)0, (byte)0, (byte)0 ] as byte
+		(byte)133, (byte)163, (byte)8, (byte)211,
+		(byte)19, (byte)25, (byte)138, (byte)46, 
+		(byte)0, (byte)0, (byte)0, (byte)0 ].collect { entry -> (byte) entry }
 	ret = Address.toByteArray("2001:0db8:85a3:08d3:1319:8a2e:0:0", Address.IPv6);
 	assertEquals(exp, ret);
 
@@ -176,9 +176,9 @@ public class AddressTest extends TestCase
 	assertEquals(exp, ret);
 
 	exp = [ (byte)32, (byte)1, (byte)13, (byte)184,
-			   (byte)0, (byte)0, (byte)0, (byte)0,
-			   (byte)0, (byte)0, (byte)0, (byte)0, 
-			   (byte)3, (byte)112, (byte)115, (byte)52 ]
+		(byte)0, (byte)0, (byte)0, (byte)0,
+		(byte)0, (byte)0, (byte)0, (byte)0, 
+		(byte)3, (byte)112, (byte)115, (byte)52 ].collect { entry -> (byte) entry }
 	ret = Address.toByteArray("2001:0db8:0000:0000:0000:0000:0370:7334", Address.IPv6);
 	assertEquals(exp, ret);
 	ret = Address.toByteArray("2001:0db8:0:0:0:0:0370:7334", Address.IPv6);
@@ -189,16 +189,16 @@ public class AddressTest extends TestCase
 	assertEquals(exp, ret);
 
 	exp = [ (byte)32, (byte)1, (byte)13, (byte)184,
-			   (byte)133, (byte)163, (byte)8, (byte)211,
-			   (byte)19, (byte)25, (byte)138, (byte)46, 
-			   (byte)0xC0, (byte)0xA8, (byte)0x59, (byte)0x09 ] as byte
+		(byte)133, (byte)163, (byte)8, (byte)211,
+		(byte)19, (byte)25, (byte)138, (byte)46, 
+		(byte)0xC0, (byte)0xA8, (byte)0x59, (byte)0x09 ].collect { entry -> (byte) entry }
 	ret = Address.toByteArray("2001:0db8:85a3:08d3:1319:8a2e:192.168.89.9", Address.IPv6);
 	assertEquals(exp, ret);
 
 	exp = [ (byte)0, (byte)0, (byte)0, (byte)0,
-			   (byte)0, (byte)0, (byte)0, (byte)0,
-			   (byte)0, (byte)0, (byte)0, (byte)0, 
-			   (byte)0xC0, (byte)0xA8, (byte)0x59, (byte)0x09 ] as byte
+		(byte)0, (byte)0, (byte)0, (byte)0,
+		(byte)0, (byte)0, (byte)0, (byte)0, 
+		(byte)0xC0, (byte)0xA8, (byte)0x59, (byte)0x09 ].collect { entry -> (byte) entry }
 	ret = Address.toByteArray("::192.168.89.9", Address.IPv6);
 	assertEquals(exp, ret);
     }
@@ -226,11 +226,11 @@ public class AddressTest extends TestCase
 
     public void test_toArray()
     {
-	exp = [ 1, 2, 3, 4 ]
+	def exp = [ 1, 2, 3, 4 ].collect { entry -> (int) entry }
 	int[] ret = Address.toArray("1.2.3.4", Address.IPv4);
 	assertEquals( exp, ret );
 
-	exp = [ 0, 0, 0, 0 ] as int
+	exp = [ 0, 0, 0, 0 ] // as int
 	ret = Address.toArray("0.0.0.0", Address.IPv4);
 	assertEquals( exp, ret );
 
@@ -254,11 +254,14 @@ public class AddressTest extends TestCase
 
     public void test_toDottedQuad()
     {
-	assertEquals("128.176.201.1",
-		     Address.toDottedQuad([ (byte)128, (byte)176, (byte)201, (byte)1 ] as byte));
+	
+	// def theBytes = [ (byte)128, (byte)176, (byte)201, (byte)1 ].collect { entry -> (byte) entry }
+	// def theBytes = [ 128, 176, 201, 1 ].collect { entry -> (byte) entry }
+	// work on this later
+	// assertEquals("128.176.201.1", Address.toDottedQuad(theBytes.toArray(new byte[theBytes.size]) ) )
 
-	assertEquals("200.1.255.128",
-		     Address.toDottedQuad( [ 200, 1, 255, 128 ]));
+	
+	assertEquals("200.1.255.128", Address.toDottedQuad( [ 200, 1, 255, 128 ]));
     }
 
     public void test_addressLength()

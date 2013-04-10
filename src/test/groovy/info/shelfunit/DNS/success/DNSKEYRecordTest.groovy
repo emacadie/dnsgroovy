@@ -69,9 +69,9 @@ public class DNSKEYRecordTest extends TestCase
     {
 	Name n = Name.fromString("My.Absolute.Name.");
 	Name r = Name.fromString("My.Relative.Name");
-	def key = [ 0, 1, 3, 5, 7, 9 ] as byte
+	def key = [ 0, 1, 3, 5, 7, 9 ].collect{ entry -> (byte) entry }
 
-	DNSKEYRecord kr = new DNSKEYRecord(n, DClass.IN, 0x24AC, 0x9832, 0x12, 0x67, key);
+	DNSKEYRecord kr = new DNSKEYRecord(n, DClass.IN, 0x24AC, 0x9832, 0x12, 0x67, key.toArray(new byte[key.size]));
 	assertEquals(n, kr.getName());
 	assertEquals(Type.DNSKEY, kr.getType());
 	assertEquals(DClass.IN, kr.getDClass());
@@ -79,11 +79,11 @@ public class DNSKEYRecordTest extends TestCase
 	assertEquals(0x9832, kr.getFlags());
 	assertEquals(0x12, kr.getProtocol());
 	assertEquals(0x67, kr.getAlgorithm());
-	assertTrue(Arrays.equals(key, kr.getKey()));
+	assertTrue(Arrays.equals(key.toArray(new byte[key.size]), kr.getKey()));
 
 	// a relative name
 	try {
-	    new DNSKEYRecord(r, DClass.IN, 0x24AC, 0x9832, 0x12, 0x67, key);
+	    new DNSKEYRecord(r, DClass.IN, 0x24AC, 0x9832, 0x12, 0x67, key.toArray(new byte[key.size]) );
 	    fail("RelativeNameException not thrown");
 	}
 	catch( RelativeNameException e ){}
@@ -98,8 +98,8 @@ public class DNSKEYRecordTest extends TestCase
 	assertEquals(0xABCD, kr.getFlags());
 	assertEquals(0x81, kr.getProtocol());
 	assertEquals(DNSSEC.Algorithm.RSASHA1, kr.getAlgorithm());
-	def b_a = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] as byte
-	assertTrue(Arrays.equals(b_a, kr.getKey()));
+	def b_a = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ].collect{ entry -> ( byte ) entry }
+	assertTrue(Arrays.equals(b_a.toArray(new byte[b_a.size]), kr.getKey()));
 
 	// invalid algorithm
 	kr = new DNSKEYRecord();
