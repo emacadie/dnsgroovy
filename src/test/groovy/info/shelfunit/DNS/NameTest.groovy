@@ -1001,12 +1001,17 @@ public class NameTest extends TestCase
 
 	public void test_0arg() throws TextParseException
 	{
-	    def raw = [ 1, 'A', 5, 'B', 'a', 's', 'i', 'c', 4, 'N', 'a', 'm', 'e', 0 ] as byte
+	    // def raw = [ 1, 'A', 5, 'B', 'a', 's', 'i', 'c', 4, 'N', 'a', 'm', 'e', 0 ] as byte[]
+	    def raw = [ 1, 'A', 5, 'B', 'a', 's', 'i', 'c', 4, 'N', 'a', 'm', 'e', 0 ].collect { entry -> (byte) entry }
+		println( "raw is a " + raw.getClass().getName() )
 	    Name n = new Name("A.Basic.Name.");
 	    
 	    byte[] out = n.toWire();
+	    println( "out is a " + out.getClass().getName() )
 
-	    assertTrue(Arrays.equals(raw, out));
+		byte[] b_array = raw.toArray(new byte[raw.size()]);
+	    assertTrue(Arrays.equals(b_array, out));
+	    // assertTrue(Arrays.equals(raw.toArray(), out));
 	}
 
 	public void test_root()

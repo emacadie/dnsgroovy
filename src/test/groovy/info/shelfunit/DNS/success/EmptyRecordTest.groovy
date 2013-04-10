@@ -32,54 +32,80 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-package	org.xbill.DNS;
+// package info.shelfunit.DNS
+package org.xbill.DNS;
 
+import  org.xbill.DNS.*
+import  org.xbill.DNS.DNSInput;
+import  org.xbill.DNS.DNSOutput;
+import  org.xbill.DNS.EmptyRecord;
+import  org.xbill.DNS.Record;
+import  org.xbill.DNS.Tokenizer;
+
+import	java.io.IOException;
+import	java.net.InetAddress;
+import	java.net.UnknownHostException;
 import	java.util.Arrays;
 import	junit.framework.TestCase;
 
-public class MXRecordTest extends TestCase
+public class EmptyRecordTest extends TestCase
 {
+    public void test_ctor() throws UnknownHostException
+    {
+	EmptyRecord ar = new EmptyRecord();
+	assertNull(ar.getName());
+	assertEquals(0, ar.getType());
+	assertEquals(0, ar.getDClass());
+	assertEquals(0, ar.getTTL());
+    }
+
     public void test_getObject()
     {
-	MXRecord d = new MXRecord();
-	Record r = d.getObject();
-	assertTrue(r instanceof MXRecord);
+	EmptyRecord ar = new EmptyRecord();
+	Record r = ar.getObject();
+	assertTrue(r instanceof EmptyRecord);
     }
 
-    public void test_ctor_5arg() throws TextParseException
+    public void test_rrFromWire() throws IOException
     {
-	Name n = Name.fromString("My.Name.");
-	Name m = Name.fromString("My.OtherName.");
+	def raw = [ 1, 2, 3, 4, 5 ].collect { entry -> (byte) entry }
+	byte[] b_array = raw.toArray(new byte[raw.size()]);
+	DNSInput i = new DNSInput(b_array)  
+	i.jump(3);
 
-	MXRecord d = new MXRecord(n, DClass.IN, 0xABCDEL, 0xF1, m);
-	assertEquals(n, d.getName());
-	assertEquals(Type.MX, d.getType());
-	assertEquals(DClass.IN, d.getDClass());
-	assertEquals(0xABCDEL, d.getTTL());
-	assertEquals(0xF1, d.getPriority());
-	assertEquals(m, d.getTarget());
-	assertEquals(m, d.getAdditionalName());
+	EmptyRecord er = new EmptyRecord();
+	er.rrFromWire(i);
+	assertEquals(3, i.current());
+	assertNull(er.getName());
+	assertEquals(0, er.getType());
+	assertEquals(0, er.getDClass());
+	assertEquals(0, er.getTTL());
     }
 
-    public void test_rrToWire() throws TextParseException
+    public void test_rdataFromString() throws IOException
     {
-	Name n = Name.fromString("My.Name.");
-	Name m = Name.fromString("M.O.n.");
+	Tokenizer t = new Tokenizer("these are the tokens");
+	EmptyRecord er = new EmptyRecord();
+	er.rdataFromString(t, null);
+	assertNull(er.getName());
+	assertEquals(0, er.getType());
+	assertEquals(0, er.getDClass());
+	assertEquals(0, er.getTTL());
 	
-	MXRecord mr = new MXRecord(n, DClass.IN, 0xB12FL, 0x1F2B, m );
+	assertEquals("these", t.getString());
+    }
 
-	// canonical
-	DNSOutput dout = new DNSOutput();
-	mr.rrToWire(dout, null, true);
-	byte[] out = dout.toByteArray();
-	byte[] exp = new byte[] { 0x1F, 0x2B, 1, 'm', 1, 'o', 1, 'n', 0 };
-	assertTrue(Arrays.equals(exp, out));
+    public void test_rrToString()
+    {
+	EmptyRecord er = new EmptyRecord();
+	assertEquals("", er.rrToString());
+    }
 
-	// case sensitive
-	dout = new DNSOutput();
-	mr.rrToWire(dout, null, false);
-	out = dout.toByteArray();
-	exp = new byte[] { 0x1F, 0x2B, 1, 'M', 1, 'O', 1, 'n', 0 };
-	assertTrue(Arrays.equals(exp, out));
+    public void test_rrToWire()
+    {
+	EmptyRecord er = new EmptyRecord();
+	DNSOutput out = new DNSOutput();
+	er.rrToWire(out, null, true);
+	assertEquals(0, out.toByteArray().length);
     }
 }

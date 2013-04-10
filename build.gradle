@@ -81,4 +81,11 @@ task showProperties {
   }
 }
 
+// you can type "gradle console" and get a console with all your classes
+task(console, dependsOn: 'classes', type: JavaExec) {
+  main = 'groovy.ui.Console'
+  classpath = sourceSets.main.runtimeClasspath
+}
+
+
 // 

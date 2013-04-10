@@ -34,36 +34,53 @@
 //
 package	org.xbill.DNS;
 
+import	java.util.Arrays;
 import	junit.framework.TestCase;
 
-public class CNAMERecordTest extends TestCase
+public class MXRecordTest extends TestCase
 {
-    public void test_ctor_0arg()
-    {
-	CNAMERecord d = new CNAMERecord();
-	assertNull(d.getName());
-	assertNull(d.getTarget());
-	assertNull(d.getAlias());
-    }
-
-    public void test_ctor_4arg() throws TextParseException
-    {
-	Name n = Name.fromString("my.name.");
-	Name a = Name.fromString("my.alias.");
-
-	CNAMERecord d = new CNAMERecord(n, DClass.IN, 0xABCDEL, a);
-	assertEquals(n, d.getName());
-	assertEquals(Type.CNAME, d.getType());
-	assertEquals(DClass.IN, d.getDClass());
-	assertEquals(0xABCDEL, d.getTTL());
-	assertEquals(a, d.getTarget());
-	assertEquals(a, d.getAlias());
-    }
-
     public void test_getObject()
     {
-	CNAMERecord d = new CNAMERecord();
+	MXRecord d = new MXRecord();
 	Record r = d.getObject();
-	assertTrue(r instanceof CNAMERecord);
+	assertTrue(r instanceof MXRecord);
+    }
+
+    public void test_ctor_5arg() throws TextParseException
+    {
+	Name n = Name.fromString("My.Name.");
+	Name m = Name.fromString("My.OtherName.");
+
+	MXRecord d = new MXRecord(n, DClass.IN, 0xABCDEL, 0xF1, m);
+	assertEquals(n, d.getName());
+	assertEquals(Type.MX, d.getType());
+	assertEquals(DClass.IN, d.getDClass());
+	assertEquals(0xABCDEL, d.getTTL());
+	assertEquals(0xF1, d.getPriority());
+	assertEquals(m, d.getTarget());
+	assertEquals(m, d.getAdditionalName());
+    }
+
+    public void test_rrToWire() throws TextParseException
+    {
+	Name n = Name.fromString("My.Name.");
+	Name m = Name.fromString("M.O.n.");
+	
+	MXRecord mr = new MXRecord(n, DClass.IN, 0xB12FL, 0x1F2B, m );
+
+	// canonical
+	DNSOutput dout = new DNSOutput();
+	mr.rrToWire(dout, null, true);
+	byte[] out = dout.toByteArray();
+	def exp = [ 0x1F, 0x2B, 1, 'm', 1, 'o', 1, 'n', 0 ].collect { entry -> (byte) entry }
+	byte[] b_array = exp.toArray(new byte[exp.size()])
+	assertTrue(Arrays.equals(b_array, out));
+
+	// case sensitive
+	dout = new DNSOutput();
+	mr.rrToWire(dout, null, false);
+	out = dout.toByteArray();
+	exp = [ 0x1F, 0x2B, 1, 'M', 1, 'O', 1, 'n', 0 ].collect { entry -> (byte) entry }
+	assertTrue(Arrays.equals(exp.toArray(new byte[exp.size()]), out));
     }
 }

@@ -226,8 +226,8 @@ public class GPOSRecordTest extends TestCase
 	{
 	    def raw = [ 5, '-', '8', '.', '1', '2',
 		      6, '1', '2', '3', '.', '0', '7',
-		      3, '0', '.', '0' ] as byte
-	    DNSInput dnsInput = new DNSInput(raw);
+		      3, '0', '.', '0' ].collect { entry -> (byte) entry }
+	    DNSInput dnsInput = new DNSInput(raw.toArray(new byte[raw.size()]));
 	    
 	    GPOSRecord gr = new GPOSRecord();
 	    gr.rrFromWire(dnsInput);
@@ -240,8 +240,8 @@ public class GPOSRecordTest extends TestCase
 	{
 	    def raw = [ 5, '-', '9', '5', '.', '0',
 				      6, '1', '2', '3', '.', '0', '7',
-				      3, '0', '.', '0' ] as byte
-	    DNSInput dnsInput = new DNSInput(raw);
+				      3, '0', '.', '0' ].collect { entry -> (byte) entry }
+	    DNSInput dnsInput = new DNSInput(raw.toArray(new byte[raw.size()]));
 	    
 	    GPOSRecord gr = new GPOSRecord();
 	    try {
@@ -254,9 +254,9 @@ public class GPOSRecordTest extends TestCase
 	public void test_longitude_toobig() throws IOException
 	{
 	    def raw = [ 5, '1', '8', '5', '.', '0',
-				      6, '1', '2', '3', '.', '0', '7',
-				      3, '0', '.', '0' ] as byte
-	    DNSInput dnsInput = new DNSInput(raw);
+			6, '1', '2', '3', '.', '0', '7',
+			3, '0', '.', '0' ].collect { entry -> (byte) entry }
+	    DNSInput dnsInput = new DNSInput(raw.toArray(new byte[raw.size()]));
 
 	    GPOSRecord gr = new GPOSRecord();
 	    try {
@@ -269,9 +269,9 @@ public class GPOSRecordTest extends TestCase
 	public void test_latitude_toosmall() throws IOException
 	{
 	    def raw = [ 5, '-', '8', '5', '.', '0',
-				      6, '-', '1', '9', '0', '.', '0',
-				      3, '0', '.', '0' ] as byte
-	    DNSInput dnsInput = new DNSInput(raw);
+			6, '-', '1', '9', '0', '.', '0',
+			3, '0', '.', '0' ].collect { entry -> (byte) entry }
+	    DNSInput dnsInput = new DNSInput(raw.toArray(new byte[raw.size()]));
 
 	    GPOSRecord gr = new GPOSRecord();
 	    try {
@@ -284,9 +284,9 @@ public class GPOSRecordTest extends TestCase
 	public void test_latitude_toobig() throws IOException
 	{
 	    def raw = [ 5, '-', '8', '5', '.', '0',
-				      6, '2', '1', '9', '0', '.', '0',
-				      3, '0', '.', '0' ] as byte
-	    DNSInput dnsInput = new DNSInput(raw);
+			6, '2', '1', '9', '0', '.', '0',
+			3, '0', '.', '0' ].collect { entry -> (byte) entry }
+	    DNSInput dnsInput = new DNSInput(raw.toArray(new byte[raw.size()]));
 
 	    GPOSRecord gr = new GPOSRecord();
 	    try {
@@ -379,20 +379,19 @@ public class GPOSRecordTest extends TestCase
 
     public void test_rrToWire() throws TextParseException
     {
-	GPOSRecord gr = new GPOSRecord(Name.fromString("The.Name."), DClass.IN, 0x123,
-				       -10.45, 120.0, 111.0);
+	GPOSRecord gr = new GPOSRecord(Name.fromString("The.Name."), DClass.IN, 0x123, -10.45, 120.0, 111.0);
 
 	def exp = [ 6, '-', '1', '0', '.', '4', '5',
-				  5, '1', '2', '0', '.', '0',
-				  5, '1', '1', '1', '.', '0' ] as byte
+		    5, '1', '2', '0', '.', '0',
+		    5, '1', '1', '1', '.', '0' ].collect { entry -> (byte) entry }
 	
 	DNSOutput out = new DNSOutput();
 	gr.rrToWire(out, null, true);
 
 	byte[] bar = out.toByteArray();
 
-	assertEquals(exp.length, bar.length);
-	for( int i=0; i<exp.length; ++i){
+	assertEquals(exp.size, bar.length);
+	for( int i=0; i<exp.size; ++i){
 	    assertEquals("i=" + i, exp[i], bar[i]);
 	}
     }
