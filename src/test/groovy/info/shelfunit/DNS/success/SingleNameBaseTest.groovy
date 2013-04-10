@@ -32,7 +32,8 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-package info.shelfunit.DNS
+// package info.shelfunit.DNS
+package org.xbill.DNS
 
 import org.xbill.DNS.*
 
@@ -97,7 +98,7 @@ public class SingleNameBaseTest extends TestCase
 
     public void test_rrFromWire() throws IOException
     {
-	def raw = [ 2, 'm', 'y', 6, 's', 'i', 'n', 'g', 'l', 'e', 4, 'n', 'a', 'm', 'e', 0 ] as byte
+	def byte[] raw = [ 2, 'm', 'y', 6, 's', 'i', 'n', 'g', 'l', 'e', 4, 'n', 'a', 'm', 'e', 0 ]
 	DNSInput dnsin = new DNSInput(raw);
 	
 	TestClass tc = new TestClass();
@@ -145,7 +146,7 @@ public class SingleNameBaseTest extends TestCase
 
 	// non-canonical (case sensitive)
 	TestClass tc = new TestClass(n, Type.A, DClass.IN, 100L, sn, "The Description");
-	def exp = [ 2, 'M', 'y', 6, 'S', 'i', 'n', 'g', 'l', 'e', 4, 'N', 'a', 'm', 'e', 0 ] as byte
+	def byte[] exp = [ 2, 'M', 'y', 6, 'S', 'i', 'n', 'g', 'l', 'e', 4, 'N', 'a', 'm', 'e', 0 ] 
 
 	DNSOutput dout = new DNSOutput();
 	tc.rrToWire(dout, null, false);
@@ -155,7 +156,7 @@ public class SingleNameBaseTest extends TestCase
 
 	// canonical (lowercase)
 	tc = new TestClass(n, Type.A, DClass.IN, 100L, sn, "The Description");
-	exp = [ 2, 'm', 'y', 6, 's', 'i', 'n', 'g', 'l', 'e', 4, 'n', 'a', 'm', 'e', 0 ] as byte
+	exp = [ 2, 'm', 'y', 6, 's', 'i', 'n', 'g', 'l', 'e', 4, 'n', 'a', 'm', 'e', 0 ] 
 
 	dout = new DNSOutput();
 	tc.rrToWire(dout, null, true);

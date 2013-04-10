@@ -51,9 +51,9 @@ public class ReverseMapTest extends TestCase
 
 	assertEquals(exp, ReverseMap.fromAddress(addr, Address.IPv4));
 	assertEquals(exp, ReverseMap.fromAddress(InetAddress.getByName(addr)));
-	def b_addr_1 = [ (byte)192, (byte)168, (byte)0, (byte)1 ] as byte
+	def byte[] b_addr_1 = [ (byte)192, (byte)168, (byte)0, (byte)1 ]
 	assertEquals(exp, ReverseMap.fromAddress(b_addr_1));
-	def b_addr_2 = [ 192, 168, 0, 1 ] as int
+	def int [] b_addr_2 = [ 192, 168, 0, 1 ]
 	assertEquals(exp, ReverseMap.fromAddress(b_addr_2));
     }
 
@@ -62,12 +62,12 @@ public class ReverseMapTest extends TestCase
     {
 	Name exp = Name.fromString("4.3.3.7.0.7.3.0.E.2.A.8.9.1.3.1.3.D.8.0.3.A.5.8.8.B.D.0.1.0.0.2.ip6.arpa.");
 	String addr = "2001:0db8:85a3:08d3:1319:8a2e:0370:7334";
-	def dat = [ (byte)32, (byte)1, (byte)13, (byte)184,
-				  (byte)133, (byte)163, (byte)8, (byte)211,
-				  (byte)19, (byte)25, (byte)138, (byte)46, 
-				  (byte)3, (byte)112, (byte)115, (byte)52 ] as byte
-	def idat = [ 32, 1, 13, 184, 133, 163, 8, 211,
-				  19, 25, 138, 46, 3, 112, 115, 52 ] as int
+	def byte[] dat = [ (byte)32, (byte)1, (byte)13, (byte)184,
+		    (byte)133, (byte)163, (byte)8, (byte)211,
+		    (byte)19, (byte)25, (byte)138, (byte)46, 
+		    (byte)3, (byte)112, (byte)115, (byte)52 ] 
+	def int[] idat = [ 32, 1, 13, 184, 133, 163, 8, 211,
+			   19, 25, 138, 46, 3, 112, 115, 52 ]
 	
 
 	assertEquals(exp, ReverseMap.fromAddress(addr, Address.IPv6));
@@ -97,7 +97,7 @@ public class ReverseMapTest extends TestCase
 	catch( IllegalArgumentException e ){}
 
 	try {
-	    int[] dat = [ 0, 1, 2, 256 ] as int
+	    int[] dat = [ 0, 1, 2, 256 ]
 	    ReverseMap.fromAddress(dat);
 	    fail("IllegalArgumentException not thrown");
 	}

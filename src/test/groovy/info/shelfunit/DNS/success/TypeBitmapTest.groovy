@@ -31,7 +31,8 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-package info.shelfunit.DNS
+// package info.shelfunit.DNS
+package org.xbill.DNS
 
 import org.xbill.DNS.*
 
@@ -39,19 +40,19 @@ import junit.framework.TestCase;
 
 public class TypeBitmapTest extends TestCase {
     public void test_empty() {
-      def a_i = [][] as int
+	def int [] a_i = [] // as int
       TypeBitmap typeBitmap = new TypeBitmap(a_i);
       assertEquals(typeBitmap.toString(), "");
     }
     
     public void test_typeA() {
-	def a_i = [][ 1 ] as int
+	def int[] a_i = [ 1 ] 
       TypeBitmap typeBitmap = new TypeBitmap(a_i);
       assertEquals(typeBitmap.toString(), "A");
     }
     
     public void test_typeNSandSOA() {
-	def int_map = [ 2, 6 ] as int
+	def int[] int_map = [ 2, 6 ]
       TypeBitmap typeBitmap = new TypeBitmap(int_map);
       assertEquals(typeBitmap.toString(), "NS SOA");
     }
