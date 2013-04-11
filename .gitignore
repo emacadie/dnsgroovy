@@ -29,7 +29,8 @@ build/reports/*
 build/reports/tests/*
 build/test-results/*
 build/tmp/test/*
+build/docs/*
 # build/*
 .gradle/*
-doc/*
+
 #- EOF
