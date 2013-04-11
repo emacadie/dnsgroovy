@@ -31,4 +31,5 @@ build/test-results/*
 build/tmp/test/*
 # build/*
 .gradle/*
+doc/*
 #- EOF
