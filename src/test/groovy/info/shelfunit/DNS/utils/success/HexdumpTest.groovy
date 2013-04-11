@@ -38,9 +38,9 @@ import org.xbill.DNS.utils.*
 
 import junit.framework.TestCase;
 
-public class hexdumpTest extends TestCase
+public class HexdumpTest extends TestCase
 {
-    public hexdumpTest( String name )
+    public HexdumpTest( String name )
     {
 	super(name);
     }
@@ -53,139 +53,139 @@ public class hexdumpTest extends TestCase
     
     public void test_shortform()
     {
-	def data = [ 1, 1, 1, 1, 1,
-				   2, 2, 2, 2, 2, 
-				   2, 2, 2, 2, 2, 
-				   2, 2, 2, 2, 2, 
-				   2, 2, 2, 2, 2, 
-				   2, 2, 2, 2, 2, 
-				   2, 2, 2, 2, 2, 
-				   2, 2, 2, 2, 2, 
-				   3, 3, 3, 3, 3, 3, 3 ] as byte
+	def byte[] data = [ 1, 1, 1, 1, 1,
+			    2, 2, 2, 2, 2, 
+			    2, 2, 2, 2, 2, 
+			    2, 2, 2, 2, 2, 
+			    2, 2, 2, 2, 2, 
+			    2, 2, 2, 2, 2, 
+			    2, 2, 2, 2, 2, 
+			    2, 2, 2, 2, 2, 
+			    3, 3, 3, 3, 3, 3, 3 ] 
 	String desc = "This Is My Description";
 
 	// compare against output from the long form
-	String long_out = hexdump.dump( desc, data, 0, data.length );
-	String short_out = hexdump.dump( desc, data );
+	String long_out = Hexdump.dump( desc, data, 0, data.length );
+	String short_out = Hexdump.dump( desc, data );
 
 	assertEquals( long_out, short_out );
     }
 
     public void test_0()
     {
-	def data = [ 1, 0, 2 ] as byte
-	String out = hexdump.dump( null, data, 1, 1 );
+	def byte [] data = [ 1, 0, 2 ] 
+	String out = Hexdump.dump( null, data, 1, 1 );
 	assertEquals( "1b:\t00 \n", out );
     }
 
     public void test_1()
     {
-	def data = [ 2, 1, 3 ] as byte
-	String out = hexdump.dump( null, data, 1, 1 );
+	def byte[] data = [ 2, 1, 3 ] 
+	String out = Hexdump.dump( null, data, 1, 1 );
 	assertEquals( "1b:\t01 \n", out );
     }
 
     public void test_2()
     {
-	def data = [ 1, 2, 3 ] as byte
-	String out = hexdump.dump( null, data, 1, 1 );
+	def byte[] data = [ 1, 2, 3 ] 
+	String out = Hexdump.dump( null, data, 1, 1 );
 	assertEquals( "1b:\t02 \n", out );
     }
 
     public void test_3()
     {
-	def data = [ 1, 3, 2 ] as byte
-	String out = hexdump.dump( null, data, 1, 1 );
+	def byte[] data = [ 1, 3, 2 ] 
+	String out = Hexdump.dump( null, data, 1, 1 );
 	assertEquals( "1b:\t03 \n", out );
     }
 
     public void test_4()
     {
-	def data = [ 1, 4, 2 ] as byte
-	String out = hexdump.dump( null, data, 1, 1 );
+	def byte[] data = [ 1, 4, 2 ] 
+	String out = Hexdump.dump( null, data, 1, 1 );
 	assertEquals( "1b:\t04 \n", out );
     }
 
     public void test_5()
     {
-	def data = [ 1, 5, 2 ] as byte
-	String out = hexdump.dump( null, data, 1, 1 );
+	def byte[] data = [ 1, 5, 2 ] 
+	String out = Hexdump.dump( null, data, 1, 1 );
 	assertEquals( "1b:\t05 \n", out );
     }
 
     public void test_6()
     {
-	def data = [ 1, 6, 2 ] as byte
-	String out = hexdump.dump( null, data, 1, 1 );
+	def byte[] data = [ 1, 6, 2 ] 
+	String out = Hexdump.dump( null, data, 1, 1 );
 	assertEquals( "1b:\t06 \n", out );
     }
 
     public void test_7()
     {
-	def data = [ 1, 7, 2 ] as byte
-	String out = hexdump.dump( null, data, 1, 1 );
+	def byte[] data = [ 1, 7, 2 ] 
+	String out = Hexdump.dump( null, data, 1, 1 );
 	assertEquals( "1b:\t07 \n", out );
     }
 
     public void test_8()
     {
-	def data = [ 1, 8, 2 ] as byte
-	String out = hexdump.dump( null, data, 1, 1 );
+	def byte[] data = [ 1, 8, 2 ] 
+	String out = Hexdump.dump( null, data, 1, 1 );
 	assertEquals( "1b:\t08 \n", out );
     }
 
     public void test_9()
     {
-	def data = [ 1, 9, 2 ] as byte
-	String out = hexdump.dump( null, data, 1, 1 );
+	def byte[] data = [ 1, 9, 2 ] 
+	String out = Hexdump.dump( null, data, 1, 1 );
 	assertEquals( "1b:\t09 \n", out );
     }
 
     public void test_10()
     {
-	def data = [ 1, 10, 2 ] as byte
-	String out = hexdump.dump( null, data, 1, 1 );
+	def byte[] data = [ 1, 10, 2 ] 
+	String out = Hexdump.dump( null, data, 1, 1 );
 	assertEquals( "1b:\t0A \n", out );
     }
 
     public void test_11()
     {
-	def data = [ 1, 11, 2 ] as byte
-	String out = hexdump.dump( null, data, 1, 1 );
+	def byte[] data = [ 1, 11, 2 ] 
+	String out = Hexdump.dump( null, data, 1, 1 );
 	assertEquals( "1b:\t0B \n", out );
     }
 
     public void test_12()
     {
-	def data = [ 1, 12, 2 ] as byte
-	String out = hexdump.dump( null, data, 1, 1 );
+	def byte[] data = [ 1, 12, 2 ] 
+	String out = Hexdump.dump( null, data, 1, 1 );
 	assertEquals( "1b:\t0C \n", out );
     }
 
     public void test_13()
     {
-	def data = [ 1, 13, 2 ] as byte
-	String out = hexdump.dump( null, data, 1, 1 );
+	def byte[] data = [ 1, 13, 2 ] 
+	String out = Hexdump.dump( null, data, 1, 1 );
 	assertEquals( "1b:\t0D \n", out );
     }
 
     public void test_14()
     {
-	def data = [ 1, 14, 2 ] as byte
-	String out = hexdump.dump( null, data, 1, 1 );
+	def byte[] data = [ 1, 14, 2 ] 
+	String out = Hexdump.dump( null, data, 1, 1 );
 	assertEquals( "1b:\t0E \n", out );
     }
 
     public void test_15()
     {
-	def data = [ 1, 15, 2 ] as byte
-	String out = hexdump.dump( null, data, 1, 1 );
+	def byte[] data = [ 1, 15, 2 ] 
+	String out = Hexdump.dump( null, data, 1, 1 );
 	assertEquals( "1b:\t0F \n", out );
     }
 
     // strictly for stupid code coverage...a useless test
     public void test_default_constructor()
     {
-	new hexdump();
+	new Hexdump();
     }
 }

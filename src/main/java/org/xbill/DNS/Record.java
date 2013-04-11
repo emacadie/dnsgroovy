@@ -75,7 +75,7 @@ abstract void
 rrFromWire(DNSInput in) throws IOException;
 
 private static Record
-newRecord(Name name, int type, int dclass, long ttl, int length, DNSInput in)
+newRecordPrivate(Name name, int type, int dclass, long ttl, int length, DNSInput in)
 throws IOException
 {
 	Record rec;
@@ -118,7 +118,7 @@ newRecord(Name name, int type, int dclass, long ttl, int length, byte [] data) {
 	else
 		in = null;
 	try {
-		return newRecord(name, type, dclass, ttl, length, in);
+		return newRecordPrivate(name, type, dclass, ttl, length, in);
 	}
 	catch (IOException e) {
 		return null;
@@ -192,7 +192,7 @@ fromWire(DNSInput in, int section, boolean isUpdate) throws IOException {
 	if (length == 0 && isUpdate &&
 	    (section == Section.PREREQ || section == Section.UPDATE))
 		return newRecord(name, type, dclass, ttl);
-	rec = newRecord(name, type, dclass, ttl, length, in);
+	rec = newRecordPrivate(name, type, dclass, ttl, length, in);
 	return rec;
 }
 
@@ -427,7 +427,7 @@ unknownToString(byte [] data) {
 	sb.append("\\# ");
 	sb.append(data.length);
 	sb.append(" ");
-	sb.append(base16.toString(data));
+	sb.append(Base16.toString(data));
 	return sb.toString();
 }
 
@@ -465,7 +465,7 @@ throws IOException
 			throw st.exception("invalid unknown RR encoding: " +
 					   "length mismatch");
 		DNSInput in = new DNSInput(data);
-		return newRecord(name, type, dclass, ttl, length, in);
+		return newRecordPrivate(name, type, dclass, ttl, length, in);
 	}
 	st.unget();
 	rec = getEmptyRecord(name, type, dclass, ttl, true);

@@ -36,9 +36,9 @@ package org.xbill.DNS.utils;
 
 import junit.framework.TestCase;
 
-public class hexdumpTest extends TestCase
+public class HexdumpTest extends TestCase
 {
-    public hexdumpTest( String name )
+    public HexdumpTest( String name )
     {
 	super(name);
     }
@@ -63,8 +63,8 @@ public class hexdumpTest extends TestCase
 	String desc = "This Is My Description";
 
 	// compare against output from the long form
-	String long_out = hexdump.dump( desc, data, 0, data.length );
-	String short_out = hexdump.dump( desc, data );
+	String long_out = Hexdump.dump( desc, data, 0, data.length );
+	String short_out = Hexdump.dump( desc, data );
 
 	assertEquals( long_out, short_out );
     }
@@ -72,118 +72,118 @@ public class hexdumpTest extends TestCase
     public void test_0()
     {
 	byte[] data = new byte[] { 1, 0, 2 };
-	String out = hexdump.dump( null, data, 1, 1 );
+	String out = Hexdump.dump( null, data, 1, 1 );
 	assertEquals( "1b:\t00 \n", out );
     }
 
     public void test_1()
     {
 	byte[] data = new byte[] { 2, 1, 3 };
-	String out = hexdump.dump( null, data, 1, 1 );
+	String out = Hexdump.dump( null, data, 1, 1 );
 	assertEquals( "1b:\t01 \n", out );
     }
 
     public void test_2()
     {
 	byte[] data = new byte[] { 1, 2, 3 };
-	String out = hexdump.dump( null, data, 1, 1 );
+	String out = Hexdump.dump( null, data, 1, 1 );
 	assertEquals( "1b:\t02 \n", out );
     }
 
     public void test_3()
     {
 	byte[] data = new byte[] { 1, 3, 2 };
-	String out = hexdump.dump( null, data, 1, 1 );
+	String out = Hexdump.dump( null, data, 1, 1 );
 	assertEquals( "1b:\t03 \n", out );
     }
 
     public void test_4()
     {
 	byte[] data = new byte[] { 1, 4, 2 };
-	String out = hexdump.dump( null, data, 1, 1 );
+	String out = Hexdump.dump( null, data, 1, 1 );
 	assertEquals( "1b:\t04 \n", out );
     }
 
     public void test_5()
     {
 	byte[] data = new byte[] { 1, 5, 2 };
-	String out = hexdump.dump( null, data, 1, 1 );
+	String out = Hexdump.dump( null, data, 1, 1 );
 	assertEquals( "1b:\t05 \n", out );
     }
 
     public void test_6()
     {
 	byte[] data = new byte[] { 1, 6, 2 };
-	String out = hexdump.dump( null, data, 1, 1 );
+	String out = Hexdump.dump( null, data, 1, 1 );
 	assertEquals( "1b:\t06 \n", out );
     }
 
     public void test_7()
     {
 	byte[] data = new byte[] { 1, 7, 2 };
-	String out = hexdump.dump( null, data, 1, 1 );
+	String out = Hexdump.dump( null, data, 1, 1 );
 	assertEquals( "1b:\t07 \n", out );
     }
 
     public void test_8()
     {
 	byte[] data = new byte[] { 1, 8, 2 };
-	String out = hexdump.dump( null, data, 1, 1 );
+	String out = Hexdump.dump( null, data, 1, 1 );
 	assertEquals( "1b:\t08 \n", out );
     }
 
     public void test_9()
     {
 	byte[] data = new byte[] { 1, 9, 2 };
-	String out = hexdump.dump( null, data, 1, 1 );
+	String out = Hexdump.dump( null, data, 1, 1 );
 	assertEquals( "1b:\t09 \n", out );
     }
 
     public void test_10()
     {
 	byte[] data = new byte[] { 1, 10, 2 };
-	String out = hexdump.dump( null, data, 1, 1 );
+	String out = Hexdump.dump( null, data, 1, 1 );
 	assertEquals( "1b:\t0A \n", out );
     }
 
     public void test_11()
     {
 	byte[] data = new byte[] { 1, 11, 2 };
-	String out = hexdump.dump( null, data, 1, 1 );
+	String out = Hexdump.dump( null, data, 1, 1 );
 	assertEquals( "1b:\t0B \n", out );
     }
 
     public void test_12()
     {
 	byte[] data = new byte[] { 1, 12, 2 };
-	String out = hexdump.dump( null, data, 1, 1 );
+	String out = Hexdump.dump( null, data, 1, 1 );
 	assertEquals( "1b:\t0C \n", out );
     }
 
     public void test_13()
     {
 	byte[] data = new byte[] { 1, 13, 2 };
-	String out = hexdump.dump( null, data, 1, 1 );
+	String out = Hexdump.dump( null, data, 1, 1 );
 	assertEquals( "1b:\t0D \n", out );
     }
 
     public void test_14()
     {
 	byte[] data = new byte[] { 1, 14, 2 };
-	String out = hexdump.dump( null, data, 1, 1 );
+	String out = Hexdump.dump( null, data, 1, 1 );
 	assertEquals( "1b:\t0E \n", out );
     }
 
     public void test_15()
     {
 	byte[] data = new byte[] { 1, 15, 2 };
-	String out = hexdump.dump( null, data, 1, 1 );
+	String out = Hexdump.dump( null, data, 1, 1 );
 	assertEquals( "1b:\t0F \n", out );
     }
 
     // strictly for stupid code coverage...a useless test
     public void test_default_constructor()
     {
-	new hexdump();
+	new Hexdump();
     }
 }

@@ -52,7 +52,7 @@ private byte [] salt;
 private byte [] next;
 private TypeBitmap types;
 
-private static final base32 b32 = new base32(base32.Alphabet.BASE32HEX,
+private static final Base32 b32 = new Base32(Base32.Alphabet.BASE32HEX,
 					     false, false);
 
 NSEC3Record() {}
@@ -167,7 +167,7 @@ rrToString() {
 	if (salt == null)
 		sb.append('-');
 	else
-		sb.append(base16.toString(salt));
+		sb.append(Base16.toString(salt));
 	sb.append(' ');
 	sb.append(b32.toString(next));
 

@@ -172,10 +172,10 @@ rrToString() {
 	if (cert != null) {
 		if (Options.check("multiline")) {
 			sb.append(" (\n");
-			sb.append(base64.formatString(cert, 64, "\t", true));
+			sb.append(Base64.formatString(cert, 64, "\t", true));
 		} else {
 			sb.append(" ");
-			sb.append(base64.toString(cert));
+			sb.append(Base64.toString(cert));
 		}
 	}
 	return sb.toString();

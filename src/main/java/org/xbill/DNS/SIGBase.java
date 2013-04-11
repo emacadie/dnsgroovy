@@ -103,11 +103,11 @@ rrToString() {
 	sb.append (signer);
 	if (Options.check("multiline")) {
 		sb.append("\n");
-		sb.append(base64.formatString(signature, 64, "\t",
+		sb.append(Base64.formatString(signature, 64, "\t",
 					      true));
 	} else {
 		sb.append (" ");
-		sb.append(base64.toString(signature));
+		sb.append(Base64.toString(signature));
 	}
 	return sb.toString();
 }

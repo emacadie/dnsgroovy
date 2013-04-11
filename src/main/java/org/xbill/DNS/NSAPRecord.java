@@ -100,7 +100,7 @@ rrToWire(DNSOutput out, Compression c, boolean canonical) {
 
 String
 rrToString() {
-	return "0x" + base16.toString(address);
+	return "0x" + Base16.toString(address);
 }
 
 }

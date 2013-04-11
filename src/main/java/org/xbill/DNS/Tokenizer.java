@@ -593,7 +593,7 @@ getBase64(boolean required) throws IOException {
 		else
 			return null;
 	}
-	byte [] array = base64.fromString(s);
+	byte [] array = Base64.fromString(s);
 	if (array == null)
 		throw exception("invalid base64 encoding");
 	return array;
@@ -631,7 +631,7 @@ getHex(boolean required) throws IOException {
 		else
 			return null;
 	}
-	byte [] array = base16.fromString(s);
+	byte [] array = Base16.fromString(s);
 	if (array == null)
 		throw exception("invalid hex encoding");
 	return array;
@@ -659,7 +659,7 @@ getHex() throws IOException {
 public byte []
 getHexString() throws IOException {
 	String next = _getIdentifier("a hex string");
-	byte [] array = base16.fromString(next);
+	byte [] array = Base16.fromString(next);
 	if (array == null)
 		throw exception("invalid hex encoding");
 	return array;
@@ -673,7 +673,7 @@ getHexString() throws IOException {
  * @throws IOException An I/O error occurred.
  */
 public byte []
-getBase32String(base32 b32) throws IOException {
+getBase32String(Base32 b32) throws IOException {
 	String next = _getIdentifier("a base32 string");
 	byte [] array = b32.fromString(next);
 	if (array == null)

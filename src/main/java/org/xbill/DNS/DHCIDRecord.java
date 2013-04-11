@@ -3,7 +3,7 @@
 package org.xbill.DNS;
 
 import java.io.*;
-import org.xbill.DNS.utils.base64;
+import org.xbill.DNS.utils.Base64;
 
 /**
  * DHCID - Dynamic Host Configuration Protocol (DHCP) ID (RFC 4701)
@@ -51,7 +51,7 @@ rrToWire(DNSOutput out, Compression c, boolean canonical) {
 
 String
 rrToString() {
-	return base64.toString(data);
+	return Base64.toString(data);
 }
 
 /**

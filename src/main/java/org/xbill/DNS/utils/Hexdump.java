@@ -8,7 +8,7 @@ package org.xbill.DNS.utils;
  * @author Brian Wellington
  */
 
-public class hexdump {
+public class Hexdump {
 
 private static final char [] hex = "0123456789ABCDEF".toCharArray();
 

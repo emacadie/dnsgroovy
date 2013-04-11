@@ -57,12 +57,12 @@ rrToString() {
 	if (key != null) {
 		if (Options.check("multiline")) {
 			sb.append(" (\n");
-			sb.append(base64.formatString(key, 64, "\t", true));
+			sb.append(Base64.formatString(key, 64, "\t", true));
 			sb.append(" ; key_tag = ");
 			sb.append(getFootprint());
 		} else {
 			sb.append(" ");
-			sb.append(base64.toString(key));
+			sb.append(Base64.toString(key));
 		}
 	}
 	return sb.toString();

@@ -76,7 +76,7 @@ rrToString() {
 	sb.append(" ");
 	sb.append(digestType);
 	sb.append(" ");
-	sb.append(base16.toString(fingerprint));
+	sb.append(Base16.toString(fingerprint));
 	return sb.toString();
 }
 

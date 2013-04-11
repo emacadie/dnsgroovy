@@ -116,7 +116,7 @@ TSIG(Name name, byte [] key) {
  */
 public
 TSIG(Name algorithm, String name, String key) {
-	this.key = base64.fromString(key);
+	this.key = Base64.fromString(key);
 	if (this.key == null)
 		throw new IllegalArgumentException("Invalid TSIG key string");
 	try {

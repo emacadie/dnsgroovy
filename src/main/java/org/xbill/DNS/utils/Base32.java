@@ -12,7 +12,7 @@ import java.io.*;
  * @author Brian Wellington
  */
 
-public class base32 {
+public class Base32 {
 
 public static class Alphabet {
 	private Alphabet() {}
@@ -34,7 +34,7 @@ private boolean padding, lowercase;
  * default parameters (The standard base32 alphabet, no padding, uppercase)
  */
 public
-base32(String alphabet, boolean padding, boolean lowercase) {
+Base32(String alphabet, boolean padding, boolean lowercase) {
 	this.alphabet = alphabet;
 	this.padding = padding;
 	this.lowercase = lowercase;

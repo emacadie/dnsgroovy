@@ -5,7 +5,7 @@ package org.xbill.DNS;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 
-import org.xbill.DNS.utils.base16;
+import org.xbill.DNS.utils.Base16;
 
 /**
  * Next SECure name 3 Parameters - this record contains the parameters (hash
@@ -120,7 +120,7 @@ rrToString() {
 	if (salt == null)
 		sb.append('-');
 	else
-		sb.append(base16.toString(salt));
+		sb.append(Base16.toString(salt));
 
 	return sb.toString();
 }

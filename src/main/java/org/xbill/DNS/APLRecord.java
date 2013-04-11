@@ -62,7 +62,7 @@ public static class Element {
 		if (family == Address.IPv4 || family == Address.IPv6)
 			sb.append(((InetAddress) address).getHostAddress());
 		else
-			sb.append(base16.toString((byte []) address));
+			sb.append(Base16.toString((byte []) address));
 		sb.append("/");
 		sb.append(prefixLength);
 		return sb.toString();

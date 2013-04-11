@@ -40,7 +40,7 @@ import org.xbill.DNS.*
 import	java.io.IOException;
 import	java.util.Arrays;
 import	junit.framework.TestCase;
-import	org.xbill.DNS.utils.base64;
+import	org.xbill.DNS.utils.Base64;
 
 public class KEYBaseTest extends TestCase
 {
@@ -129,11 +129,11 @@ public class KEYBaseTest extends TestCase
 	tc = new TestClass(n, Type.KEY, DClass.IN, 100L, 0xFF, 0xF, 0xE, key);
 	out = tc.rrToString();
 
-	assertEquals("255 15 14 " + base64.toString(key), out);
+	assertEquals("255 15 14 " + Base64.toString(key), out);
 
 	Options.set("multiline");
 	out = tc.rrToString();
-	assertEquals("255 15 14 (\n\t" + base64.toString(key) + " ) ; key_tag = 18509", out);
+	assertEquals("255 15 14 (\n\t" + Base64.toString(key) + " ) ; key_tag = 18509", out);
 
 	Options.unset("multiline");
     }

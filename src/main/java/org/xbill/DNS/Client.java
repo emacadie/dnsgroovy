@@ -5,7 +5,7 @@ package org.xbill.DNS;
 import java.io.*;
 import java.net.*;
 import java.nio.channels.*;
-import org.xbill.DNS.utils.hexdump;
+import org.xbill.DNS.utils.Hexdump;
 
 class Client {
 
@@ -46,7 +46,7 @@ blockUntil(SelectionKey key, long endTime) throws IOException {
 static protected void
 verboseLog(String prefix, byte [] data) {
 	if (Options.check("verbosemsg"))
-		System.err.println(hexdump.dump(prefix, data));
+		System.err.println(Hexdump.dump(prefix, data));
 }
 
 void

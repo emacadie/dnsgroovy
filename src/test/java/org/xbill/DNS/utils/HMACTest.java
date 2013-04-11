@@ -59,35 +59,35 @@ public class HMACTest extends TestCase
 	}
 
 	// test_case =     1
-	tests[0].key =		base16.fromString("0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b");
+	tests[0].key =		Base16.fromString("0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b");
 	tests[0].data =		"Hi There".getBytes();
-	tests[0].digest =	base16.fromString("9294727a3638bb1c13f48ef8158bfc9d");
+	tests[0].digest =	Base16.fromString("9294727a3638bb1c13f48ef8158bfc9d");
 
 	// test_case =     2
 	tests[1].key =		"Jefe".getBytes();
 	tests[1].data =		"what do ya want for nothing?".getBytes();
-	tests[1].digest =	base16.fromString("750c783e6ab0b503eaa86e310a5db738");
+	tests[1].digest =	Base16.fromString("750c783e6ab0b503eaa86e310a5db738");
 	
 	// test_case =     3
-	tests[2].key =          base16.fromString("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+	tests[2].key =          Base16.fromString("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 	tests[2].data =		new byte[ 50 ]; // 0xdd repeated 50 times
 	for( int i=0; i<tests[2].data.length; ++i){
 	    tests[2].data[i] = (byte)0xdd;
 	}
-	tests[2].digest =       base16.fromString("56be34521d144c88dbb8c733f0e8b3f6");
+	tests[2].digest =       Base16.fromString("56be34521d144c88dbb8c733f0e8b3f6");
 
 	// test_case =     4
-	tests[3].key =          base16.fromString("0102030405060708090a0b0c0d0e0f10111213141516171819");
+	tests[3].key =          Base16.fromString("0102030405060708090a0b0c0d0e0f10111213141516171819");
 	tests[3].data =         new byte[ 50 ]; // 0xcd repeated 50 times;
 	for( int i=0; i<tests[3].data.length; ++i){
 	    tests[3].data[i] = (byte)0xcd;
 	}
-	tests[3].digest =       base16.fromString("697eaf0aca3a3aea3a75164746ffaa79");
+	tests[3].digest =       Base16.fromString("697eaf0aca3a3aea3a75164746ffaa79");
 	    
 	// test_case =     5
-	tests[4].key =		base16.fromString("0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c");
+	tests[4].key =		Base16.fromString("0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c");
 	tests[4].data =         "Test With Truncation".getBytes();
-	tests[4].digest =       base16.fromString("56461ef2342edc00f9bab995690efd4c");
+	tests[4].digest =       Base16.fromString("56461ef2342edc00f9bab995690efd4c");
 
 	// test_case =     6
 	tests[5].key =		 new byte[ 80 ]; // 0xaa repeated 80 times;
@@ -95,7 +95,7 @@ public class HMACTest extends TestCase
 	    tests[5].key[i] = (byte)0xaa;
 	}
 	tests[5].data =          "Test Using Larger Than Block-Size Key - Hash Key First".getBytes();
-	tests[5].digest =        base16.fromString("6b1ab7fe4bd7bf8f0b62e6ce61b9d0cd");
+	tests[5].digest =        Base16.fromString("6b1ab7fe4bd7bf8f0b62e6ce61b9d0cd");
 
 	// test_case =     7
 	tests[6].key =           new byte [ 80 ]; // 0xaa repeated 80 times;
@@ -103,7 +103,7 @@ public class HMACTest extends TestCase
 	    tests[6].key[i] = (byte)0xaa;
 	}
 	tests[6].data =          "Test Using Larger Than Block-Size Key and Larger Than One Block-Size Data".getBytes();
-	tests[6].digest =        base16.fromString("6f630fad67cda0ee1fb1f562db3aa53e");
+	tests[6].digest =        Base16.fromString("6f630fad67cda0ee1fb1f562db3aa53e");
     }
 
     public HMACTest( String name )

@@ -109,10 +109,10 @@ rrToString() {
 	sb.append (signature.length);
 	if (Options.check("multiline")) {
 		sb.append ("\n");
-		sb.append (base64.formatString(signature, 64, "\t", false));
+		sb.append (Base64.formatString(signature, 64, "\t", false));
 	} else {
 		sb.append (" ");
-		sb.append (base64.toString(signature));
+		sb.append (Base64.toString(signature));
 	}
 	sb.append (" ");
 	sb.append (Rcode.TSIGstring(error));
@@ -141,7 +141,7 @@ rrToString() {
 			}
 		} else {
 			sb.append("<");
-			sb.append(base64.toString(other));
+			sb.append(Base64.toString(other));
 			sb.append(">");
 		}
 	}

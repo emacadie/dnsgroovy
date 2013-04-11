@@ -116,7 +116,7 @@ rrToString() {
 	sb.append(" ");
 	sb.append(matchingType);
 	sb.append(" ");
-	sb.append(base16.toString(certificateAssociationData));
+	sb.append(Base16.toString(certificateAssociationData));
 
 	return sb.toString();
 }

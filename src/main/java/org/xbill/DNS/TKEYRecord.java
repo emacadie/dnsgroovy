@@ -131,20 +131,20 @@ rrToString() {
 	if (Options.check("multiline")) {
 		sb.append("\n");
 		if (key != null) {
-			sb.append(base64.formatString(key, 64, "\t", false));
+			sb.append(Base64.formatString(key, 64, "\t", false));
 			sb.append("\n");
 		}
 		if (other != null)
-			sb.append(base64.formatString(other, 64, "\t", false));
+			sb.append(Base64.formatString(other, 64, "\t", false));
 		sb.append(" )");
 	} else {
 		sb.append(" ");
 		if (key != null) {
-			sb.append(base64.toString(key));
+			sb.append(Base64.toString(key));
 			sb.append(" ");
 		}
 		if (other != null)
-			sb.append(base64.toString(other));
+			sb.append(Base64.toString(other));
 	}
 	return sb.toString();
 }

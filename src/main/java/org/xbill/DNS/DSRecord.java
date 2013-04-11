@@ -106,7 +106,7 @@ rrToString() {
 	sb.append(digestid);
 	if (digest != null) {
 		sb.append(" ");
-		sb.append(base16.toString(digest));
+		sb.append(Base16.toString(digest));
 	}
 
 	return sb.toString();

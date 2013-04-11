@@ -32,71 +32,69 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-package info.shelfunit.DNS.utils
-
-import org.xbill.DNS.utils.*
+package org.xbill.DNS.utils;
 
 import junit.framework.TestCase;
 
-public class base16Test extends TestCase
+public class Base16Test extends TestCase
 {
-    public base16Test( String name )
+    public Base16Test( String name )
     {
 	super(name);
     }
 
     public void test_toString_emptyArray()
     {
-	String out = base16.toString( new byte[ 0 ] );
+	String out = Base16.toString( new byte[ 0 ] );
 	assertEquals( "", out );
     }
 
     public void test_toString_singleByte1()
     {
 	byte[] data = { (byte)1 };
-	String out = base16.toString( data );
+	String out = Base16.toString( data );
 	assertEquals( "01", out );
     }
 
     public void test_toString_singleByte2()
     {
 	byte[] data = { (byte)16 };
-	String out = base16.toString( data );
+	String out = Base16.toString( data );
 	assertEquals( "10", out );
     }
 
     public void test_toString_singleByte3()
     {
 	byte[] data = { (byte)255 };
-	String out = base16.toString( data );
+	String out = Base16.toString( data );
 	assertEquals( "FF", out );
     }
 
     public void test_toString_array1()
     {
-	def data = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ] as byte
-	String out = base16.toString( data );
+	byte[] data = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
+	String out = Base16.toString( data );
 	assertEquals( "0102030405060708090A0B0C0D0E0F", out );
     }
 
     public void test_fromString_emptyString()
     {
 	String data = "";
-	byte[] out = base16.fromString( data );
+	byte[] out = Base16.fromString( data );
 	assertEquals( 0, out.length );
     }
 
     public void test_fromString_invalidStringLength()
     {
 	String data = "1";
-	byte[] out = base16.fromString( data );
+	byte[] out = Base16.fromString( data );
 	assertNull( out );
     }
 
     public void test_fromString_nonHexChars()
     {
 	String data = "GG";
-	byte[] out = base16.fromString( data );
+	byte[] out = Base16.fromString( data );
 	/*
 	 * the output is basically encoded as (-1<<4) + -1, not sure
 	 * we want an assertion for this.
@@ -106,8 +104,8 @@ public class base16Test extends TestCase
     public void test_fromString_normal()
     {
 	String data = "0102030405060708090A0B0C0D0E0F";
-	byte[] out = base16.fromString( data );
-	def exp = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ] as byte
+	byte[] out = Base16.fromString( data );
+	byte[] exp = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
 	assertEquals( exp.length, out.length );
 	for( int i=0; i<exp.length; ++i ){
 	    assertEquals( exp[i], out[i] );

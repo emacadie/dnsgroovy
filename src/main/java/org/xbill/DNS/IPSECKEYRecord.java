@@ -171,7 +171,7 @@ rrToString() {
 	}
 	if (key != null) {
 		sb.append(" ");
-		sb.append(base64.toString(key));
+		sb.append(Base64.toString(key));
 	}
 	return sb.toString();
 }

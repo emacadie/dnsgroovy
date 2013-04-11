@@ -11,12 +11,12 @@ import java.io.*;
  * @author Brian Wellington
  */
 
-public class base64 {
+public class Base64 {
 
 private static final String Base64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
 
 private
-base64() {}
+Base64() {}
 
 /**
  * Convert binary data to a base64-encoded String
