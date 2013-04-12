@@ -11,35 +11,35 @@ package org.xbill.DNS;
 
 class ResolveThread extends Thread {
 
-private Message query;
-private Object id;
-private ResolverListener listener;
-private Resolver res;
-
-/** Creates a new ResolveThread */
-public
-ResolveThread(Resolver res, Message query, Object id,
-	      ResolverListener listener)
-{
-	this.res = res;
-	this.query = query;
-	this.id = id;
-	this.listener = listener;
-}
-
-
-/**
- * Performs the query, and executes the callback.
- */
-public void
-run() {
-	try {
-		Message response = res.send(query);
-		listener.receiveMessage(id, response);
-	}
-	catch (Exception e) {
-		listener.handleException(id, e);
-	}
-}
+    private Message query;
+    private Object id;
+    private ResolverListener listener;
+    private Resolver res;
+    
+    /** Creates a new ResolveThread */
+    public
+    ResolveThread(Resolver res, Message query, Object id,
+              ResolverListener listener)
+    {
+        this.res = res;
+        this.query = query;
+        this.id = id;
+        this.listener = listener;
+    }
+    
+    
+    /**
+     * Performs the query, and executes the callback.
+     */
+    public void
+    run() {
+        try {
+            Message response = res.send(query);
+            listener.receiveMessage(id, response);
+        }
+        catch (Exception e) {
+            listener.handleException(id, e);
+        }
+    }
 
 }

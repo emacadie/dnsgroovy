@@ -13,53 +13,53 @@ import org.xbill.DNS.utils.Base64;
 
 public class DHCIDRecord extends Record {
 
-private static final long serialVersionUID = -8214820200808997707L;
-
-private byte [] data;
-
-DHCIDRecord() {}
-
-Record
-getObject() {
-	return new DHCIDRecord();
-}
-
-/**
- * Creates an DHCID Record from the given data
- * @param data The binary data, which is opaque to DNS.
- */
-public
-DHCIDRecord(Name name, int dclass, long ttl, byte [] data) {
-	super(name, Type.DHCID, dclass, ttl);
-	this.data = data;
-}
-
-void
-rrFromWire(DNSInput in) throws IOException {
-	data = in.readByteArray();
-}
-
-void
-rdataFromString(Tokenizer st, Name origin) throws IOException {
-	data = st.getBase64();
-}
-
-void
-rrToWire(DNSOutput out, Compression c, boolean canonical) {
-	out.writeByteArray(data);
-}
-
-String
-rrToString() {
-	return Base64.toString(data);
-}
-
-/**
- * Returns the binary data.
- */
-public byte []
-getData() {
-	return data;
-}
+    private static final long serialVersionUID = -8214820200808997707L;
+    
+    private byte [] data;
+    
+    DHCIDRecord() {}
+    
+    Record
+    getObject() {
+        return new DHCIDRecord();
+    }
+    
+    /**
+     * Creates an DHCID Record from the given data
+     * @param data The binary data, which is opaque to DNS.
+     */
+    public
+    DHCIDRecord(Name name, int dclass, long ttl, byte [] data) {
+        super(name, Type.DHCID, dclass, ttl);
+        this.data = data;
+    }
+    
+    void
+    rrFromWire(DNSInput in) throws IOException {
+        data = in.readByteArray();
+    }
+    
+    void
+    rdataFromString(Tokenizer st, Name origin) throws IOException {
+        data = st.getBase64();
+    }
+    
+    void
+    rrToWire(DNSOutput out, Compression c, boolean canonical) {
+        out.writeByteArray(data);
+    }
+    
+    String
+    rrToString() {
+        return Base64.toString(data);
+    }
+    
+    /**
+     * Returns the binary data.
+     */
+    public byte []
+    getData() {
+        return data;
+    }
 
 }

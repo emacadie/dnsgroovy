@@ -11,19 +11,18 @@ package org.xbill.DNS;
  */
 public class NSIDOption extends GenericEDNSOption {
 
-private static final long serialVersionUID = 74739759292589056L;
-
-NSIDOption() {
-	super(EDNSOption.Code.NSID);
-}
-
-/**
- * Construct an NSID option.
- * @param data The contents of the option.
- */
-public 
-NSIDOption(byte [] data) {
-	super(EDNSOption.Code.NSID, data);
-}
+    private static final long serialVersionUID = 74739759292589056L;
+    
+    NSIDOption() {
+        super(EDNSOption.Code.NSID);
+    }
+    
+    /**
+     * Construct an NSID option.
+     * @param data The contents of the option.
+     */
+    public NSIDOption(byte [] data) {
+        super(EDNSOption.Code.NSID, data);
+    }
 
 }

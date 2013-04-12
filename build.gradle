@@ -62,6 +62,8 @@ task runGroovy(type: JavaExec) {
      // main = System.properties['mainClass']
      if ( rootProject.hasProperty("mainClass") ) {     
      	main = mainClass
+     } else {
+       main = 'org.lookup'
      }
      // We need to set the classpath.
      classpath sourceSets.main.runtimeClasspath
