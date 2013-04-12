@@ -54,42 +54,42 @@ public class Base64Test extends TestCase
 
     public void test_toString_basic1()
     {
-	byte[] data = { 0 };
+	byte[] data = [ 0 ]
 	String out = Base64.toString( data );
 	assertEquals( "AA==", out );
     }
 
     public void test_toString_basic2()
     {
-	def data = [ 0, 0 ] as byte
+	def byte[] data = [ 0, 0 ] 
 	String out = Base64.toString( data );
 	assertEquals( "AAA=", out );
     }
 
     public void test_toString_basic3()
     {
-	def data = [ 0, 0, 1 ] as byte
+	def byte[] data = [ 0, 0, 1 ] 
 	String out = Base64.toString( data );
 	assertEquals( "AAAB", out );
     }
 
     public void test_toString_basic4()
     {
-	def data = [ (byte)0xFC, 0, 0 ] as byte
+	def byte[] data = [ (byte)0xFC, 0, 0 ] 
 	String out = Base64.toString( data );
 	assertEquals( "/AAA", out );
     }
 
     public void test_toString_basic5()
     {
-	def data = [ (byte)0xFF, (byte)0xFF, (byte)0xFF ] as byte
+	def byte[] data = [ (byte)0xFF, (byte)0xFF, (byte)0xFF ] 
 	String out = Base64.toString( data );
 	assertEquals( "////", out );
     }
 
     public void test_toString_basic6()
     {
-	def data = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] as byte
+	def byte[] data = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] 
 	String out = Base64.toString( data );
 	assertEquals( "AQIDBAUGBwgJ", out );
     }
@@ -102,105 +102,105 @@ public class Base64Test extends TestCase
 
     public void test_formatString_shorter()
     {
-	def b_in = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] as byte // "AQIDBAUGBwgJ" (12 chars)
+	def byte[] b_in = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]  // "AQIDBAUGBwgJ" (12 chars)
 	String out = Base64.formatString( b_in, 13, "", false );
 	assertEquals( "AQIDBAUGBwgJ", out );
     }
 
     public void test_formatString_sameLength()
     {
-	def b_in = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] as byte // "AQIDBAUGBwgJ" (12 chars)
+	def byte[] b_in = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]  // "AQIDBAUGBwgJ" (12 chars)
 	String out = Base64.formatString( b_in, 12, "", false );
 	assertEquals( "AQIDBAUGBwgJ", out );
     }
 
     public void test_formatString_oneBreak()
     {
-	def b_in = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] as byte // "AQIDBAUGBwgJ" (12 chars)
+	def byte[] b_in = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]  // "AQIDBAUGBwgJ" (12 chars)
 	String out = Base64.formatString( b_in, 10, "", false );
 	assertEquals( "AQIDBAUGBw\ngJ", out );
     }
 
     public void test_formatString_twoBreaks1()
     {
-	def b_in = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] as byte // "AQIDBAUGBwgJ" (12 chars)
+	def byte[] b_in = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]  // "AQIDBAUGBwgJ" (12 chars)
 	String out = Base64.formatString( b_in, 5, "", false );
 	assertEquals( "AQIDB\nAUGBw\ngJ", out );
     }
 
     public void test_formatString_twoBreaks2()
     {
-	def b_in = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] as byte // "AQIDBAUGBwgJ" (12 chars)
+	def byte[] b_in = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]  // "AQIDBAUGBwgJ" (12 chars)
 	String out = Base64.formatString( b_in, 4, "", false );
 	assertEquals( "AQID\nBAUG\nBwgJ", out );
     }
 
     public void test_formatString_shorterWithPrefix()
     {
-	def b_in = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] as byte // "AQIDBAUGBwgJ" (12 chars)
+	def byte[] b_in = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]  // "AQIDBAUGBwgJ" (12 chars)
 	String out = Base64.formatString( b_in, 13, "!_", false );
 	assertEquals( "!_AQIDBAUGBwgJ", out );
     }
 
     public void test_formatString_sameLengthWithPrefix()
     {
-	def b_in = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] as byte // "AQIDBAUGBwgJ" (12 chars)
+	def byte[] b_in = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]  // "AQIDBAUGBwgJ" (12 chars)
 	String out = Base64.formatString( b_in, 12, "!_", false );
 	assertEquals( "!_AQIDBAUGBwgJ", out );
     }
 
     public void test_formatString_oneBreakWithPrefix()
     {
-	def b_in = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] as byte // "AQIDBAUGBwgJ" (12 chars)
+	def byte[] b_in = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]  // "AQIDBAUGBwgJ" (12 chars)
 	String out = Base64.formatString( b_in, 10, "!_", false );
 	assertEquals( "!_AQIDBAUGBw\n!_gJ", out );
     }
 
     public void test_formatString_twoBreaks1WithPrefix()
     {
-	def b_in = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] as byte // "AQIDBAUGBwgJ" (12 chars)
+	def byte[] b_in = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]  // "AQIDBAUGBwgJ" (12 chars)
 	String out = Base64.formatString( b_in, 5, "!_", false );
 	assertEquals( "!_AQIDB\n!_AUGBw\n!_gJ", out );
     }
 
     public void test_formatString_twoBreaks2WithPrefix()
     {
-	def b_in = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] as byte // "AQIDBAUGBwgJ" (12 chars)
+	def byte[] b_in = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]  // "AQIDBAUGBwgJ" (12 chars)
 	String out = Base64.formatString( b_in, 4, "!_", false );
 	assertEquals( "!_AQID\n!_BAUG\n!_BwgJ", out );
     }
 
     public void test_formatString_shorterWithPrefixAndClose()
     {
-	def b_in = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] as byte // "AQIDBAUGBwgJ" (12 chars)
+	def byte[] b_in = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]  // "AQIDBAUGBwgJ" (12 chars)
 	String out = Base64.formatString( b_in, 13, "!_", true );
 	assertEquals( "!_AQIDBAUGBwgJ )", out );
     }
 
     public void test_formatString_sameLengthWithPrefixAndClose()
     {
-	def b_in = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] as byte // "AQIDBAUGBwgJ" (12 chars)
+	def byte[] b_in = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]  // "AQIDBAUGBwgJ" (12 chars)
 	String out = Base64.formatString( b_in, 12, "!_", true );
 	assertEquals( "!_AQIDBAUGBwgJ )", out );
     }
 
     public void test_formatString_oneBreakWithPrefixAndClose()
     {
-	def b_in = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] as byte // "AQIDBAUGBwgJ" (12 chars)
+	def byte[] b_in = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]  // "AQIDBAUGBwgJ" (12 chars)
 	String out = Base64.formatString( b_in, 10, "!_", true );
 	assertEquals( "!_AQIDBAUGBw\n!_gJ )", out );
     }
 
     public void test_formatString_twoBreaks1WithPrefixAndClose()
     {
-	def b_in = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] as byte // "AQIDBAUGBwgJ" (12 chars)
+	def byte[] b_in = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]  // "AQIDBAUGBwgJ" (12 chars)
 	String out = Base64.formatString( b_in, 5, "!_", true );
 	assertEquals( "!_AQIDB\n!_AUGBw\n!_gJ )", out );
     }
 
     public void test_formatString_twoBreaks2WithPrefixAndClose()
     {
-	def b_in = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] as byte // "AQIDBAUGBwgJ" (12 chars)
+	def byte[] b_in = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]  // "AQIDBAUGBwgJ" (12 chars)
 	String out = Base64.formatString( b_in, 4, "!_", true );
 	assertEquals( "!_AQID\n!_BAUG\n!_BwgJ )", out );
     }
@@ -215,49 +215,49 @@ public class Base64Test extends TestCase
 
     public void test_fromString_empty1()
     {
-	def data = new byte [ 0 ];
+	def byte[] data = new byte [ 0 ];
 	byte [] out = Base64.fromString( "" );
 	assertEquals( new byte [ 0 ], out );
     }
 
     public void test_fromString_basic1()
     {
-	def exp = [ 0 ] as byte
+	def byte[] exp = [ 0 ] 
 	byte [] out = Base64.fromString( "AA==" );
 	assertEquals( exp, out );
     }
 
     public void test_fromString_basic2()
     {
-	def exp = [ 0, 0 ] as byte
+	def byte[] exp = [ 0, 0 ] 
 	byte[] out = Base64.fromString( "AAA=" );
 	assertEquals( exp, out );
     }
 
     public void test_fromString_basic3()
     {
-	def  exp = [ 0, 0, 1 ] as byte
+	def byte[] exp = [ 0, 0, 1 ] 
 	byte[] out = Base64.fromString( "AAAB" );
 	assertEquals( exp, out );
     }
 
     public void test_fromString_basic4()
     {
-	def exp = [ (byte)0xFC, 0, 0 ] as byte
+	def byte[] exp = [ (byte)0xFC, 0, 0 ] 
 	byte[] out = Base64.fromString( "/AAA" );
 	assertEquals( exp, out );
     }
 
     public void test_fromString_basic5()
     {
-	def exp = [ (byte)0xFF, (byte)0xFF, (byte)0xFF ] as byte
+	def byte[] exp = [ (byte)0xFF, (byte)0xFF, (byte)0xFF ] 
 	byte[] out = Base64.fromString( "////" );
 	assertEquals( exp, out );
     }
 
     public void test_fromString_basic6()
     {
-	def exp = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] as byte
+	def byte[] exp = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] 
 	byte[] out = Base64.fromString( "AQIDBAUGBwgJ" );
 	assertEquals( exp, out );
     }

@@ -53,28 +53,28 @@ public class Base16Test extends TestCase
 
     public void test_toString_singleByte1()
     {
-	byte[] data = { (byte)1 };
+	byte[] data = [ (byte)1 ]
 	String out = Base16.toString( data );
 	assertEquals( "01", out );
     }
 
     public void test_toString_singleByte2()
     {
-	byte[] data = { (byte)16 };
+	byte[] data = [ (byte)16 ]
 	String out = Base16.toString( data );
 	assertEquals( "10", out );
     }
 
     public void test_toString_singleByte3()
     {
-	byte[] data = { (byte)255 };
+	byte[] data = [ (byte)255 ]
 	String out = Base16.toString( data );
 	assertEquals( "FF", out );
     }
 
     public void test_toString_array1()
     {
-	def data = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ] as byte
+	def byte[] data = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ] 
 	String out = Base16.toString( data );
 	assertEquals( "0102030405060708090A0B0C0D0E0F", out );
     }
@@ -107,7 +107,7 @@ public class Base16Test extends TestCase
     {
 	String data = "0102030405060708090A0B0C0D0E0F";
 	byte[] out = Base16.fromString( data );
-	def exp = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ] as byte
+	def byte[] exp = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ] 
 	assertEquals( exp.length, out.length );
 	for( int i=0; i<exp.length; ++i ){
 	    assertEquals( exp[i], out[i] );
