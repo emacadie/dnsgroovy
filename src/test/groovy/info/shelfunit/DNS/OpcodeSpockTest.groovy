@@ -38,36 +38,48 @@ import org.xbill.DNS.*
 
 import spock.lang.Specification
 
-public class MRRecordSpockTest extends Specification {
+public class OpcodeSpockTest extends Specification {
+    
     def mgu = new MyGroovyUtil()
+    def mga = new MyGroovyAssert()
 
-    def "test_ctor_0arg"() {
+    def test_string() {
+	// a regular one
+	mgu.equals("IQUERY", Opcode.string(Opcode.IQUERY));
+
+	// one that doesn't exist
+	mga.that(Opcode.string(6).startsWith("RESERVED"));
+
 	when:
-	MRRecord d = new MRRecord()
+	    Opcode.string(-1);
+	    // fail("IllegalArgumentException not thrown");
 	then:
-	mgu.equals(d.getName(), null)
-	mgu.equals(d.getNewName(), null)
+	    thrown( IllegalArgumentException.class )
+
+	
+	//  (max is 0xF)
+	when:
+	    Opcode.string(0x10);
+	    // fail("IllegalArgumentException not thrown");
+	then:
+	    thrown( IllegalArgumentException.class )
     }
     
-    def "test_ctor_4arg"() throws TextParseException {
-	when:
-	Name n = Name.fromString("my.name.")
-	Name a = Name.fromString("my.alias.")
+    def "test_value"() {
+	// regular one
+	mgu.equals(Opcode.STATUS, Opcode.value("STATUS"));
 
-	MRRecord d = new MRRecord(n, DClass.IN, 0xABCDEL, a)
+	// one thats undefined but within range
+	mgu.equals(6, Opcode.value("RESERVED6"));
 
-	then:
-	mgu.equals(n, d.getName())
-	mgu.equals(Type.MR, d.getType())
-	mgu.equals(DClass.IN, d.getDClass())
-	mgu.equals(0xABCDEL, d.getTTL())
-	mgu.equals(a, d.getNewName())
-    }
+	// one thats undefined but out of range
+	mgu.equals(-1, Opcode.value("RESERVED" + 0x10));
 
-    def "test_getObject"() {
-	MRRecord d = new MRRecord()
-	Record r = d.getObject()
-	expect: r instanceof MRRecord
+	// something that unknown
+	mgu.equals(-1, Opcode.value("THIS IS DEFINITELY UNKNOWN"));
+
+	// empty string
+	mgu.equals(-1, Opcode.value(""));
     }
 
 }

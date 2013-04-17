@@ -39,14 +39,16 @@ import spock.lang.Specification
 
 public class NSRecordSpockTest extends Specification {
 
+    def mgu = new MyGroovyUtil()
+	
     def "test_ctor_0arg"() {
 	when:
 	NSRecord d = new NSRecord()
 
 	then:
-	d.getName().equals(null)
-	d.getTarget().equals(null)
-	d.getAdditionalName().equals(null)
+	mgu.equals( d.getName(), null)
+	mgu.equals( d.getTarget(), null)
+	mgu.equals( d.getAdditionalName(), null)
     }
 
     def "test_ctor_4arg"() throws TextParseException {
@@ -57,12 +59,12 @@ public class NSRecordSpockTest extends Specification {
 	NSRecord d = new NSRecord(n, DClass.IN, 0xABCDEL, a)
 
 	then:
-	n.equals(d.getName())
-	Type.NS.equals(d.getType())
-	DClass.IN.equals(d.getDClass())
-	0xABCDEL.equals(d.getTTL())
-	a.equals(d.getTarget())
-	a.equals(d.getAdditionalName())
+	mgu.equals( n, d.getName())
+	mgu.equals( Type.NS, d.getType())
+	mgu.equals( DClass.IN, d.getDClass())
+	mgu.equals( 0xABCDEL, d.getTTL())
+	mgu.equals( a, d.getTarget())
+	mgu.equals( a, d.getAdditionalName())
     }
 
     def "test_getObject"() {

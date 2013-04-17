@@ -31,10 +31,12 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
+// 
 // package info.shelfunit.DNS
 package org.xbill.DNS
 
 import org.xbill.DNS.*
+import info.shelfunit.DNS.*
 import spock.lang.Specification
 
 public class TypeBitmapSpockTest extends Specification {

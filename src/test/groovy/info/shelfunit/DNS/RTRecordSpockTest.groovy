@@ -42,15 +42,12 @@ import java.lang.reflect.Method
 
 public class RTRecordSpockTest extends  Specification {
 
-    
+    def mgu = new MyGroovyUtil()
+	
     def "test getObject"() {
-	println("PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP")
-        // expect: 1 + 1 == 2
 	RTRecord d = new RTRecord();
 	Record r = d.getObject();
-	println("d is a " + d.getClass() )
 	expect: r instanceof RTRecord
-	println("At the end")
     }
     
     def "test_ctor_5arg"() throws TextParseException {
@@ -60,12 +57,12 @@ public class RTRecordSpockTest extends  Specification {
 	RTRecord d = new RTRecord(n, DClass.IN, 0xABCDEL, 0xF1, m);
 	
 	then:
-	n.equals(d.getName())
-	Type.RT.equals(d.getType())
-	DClass.IN.equals(d.getDClass())
-	d.getTTL().equals(0xABCDEL) 
-	d.getPreference().equals(0xF1) 
-	m.equals(d.getIntermediateHost())
+	mgu.equals( n, d.getName())
+	mgu.equals( Type.RT, d.getType())
+	mgu.equals( DClass.IN, d.getDClass())
+	mgu.equals( d.getTTL(), 0xABCDEL) 
+	mgu.equals( d.getPreference(), 0xF1) 
+	mgu.equals( m, d.getIntermediateHost())
 
     }
 

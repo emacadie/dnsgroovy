@@ -39,32 +39,35 @@ import spock.lang.Specification
 
 public class NSAP_PTRRecordSpockTest extends Specification {
 
+    def mgu = new MyGroovyUtil()
+	
+
     def "test_ctor_0arg"() {
 	when:
-	NSAP_PTRRecord d = new NSAP_PTRRecord();
+	NSAP_PTRRecord d = new NSAP_PTRRecord()
 	then:
-	d.getName().equals(null);
-	d.getTarget().equals(null);
+	mgu.equals( d.getName(), null)
+	mgu.equals( d.getTarget(), null)
     }
 
     def "test_ctor_4arg"() throws TextParseException {
 	when:
-	Name n = Name.fromString("my.name.");
-	Name a = Name.fromString("my.alias.");
+	Name n = Name.fromString("my.name.")
+	Name a = Name.fromString("my.alias.")
 
-	NSAP_PTRRecord d = new NSAP_PTRRecord(n, DClass.IN, 0xABCDEL, a);
+	NSAP_PTRRecord d = new NSAP_PTRRecord(n, DClass.IN, 0xABCDEL, a)
 	
 	then:
-	n.equals(d.getName());
-	Type.NSAP_PTR.equals(d.getType());
-	DClass.IN.equals(d.getDClass());
-	0xABCDEL.equals(d.getTTL());
-	a.equals(d.getTarget());
+	mgu.equals( n, d.getName())
+	mgu.equals( Type.NSAP_PTR, d.getType())
+	mgu.equals( DClass.IN, d.getDClass())
+	mgu.equals( 0xABCDEL, d.getTTL())
+	mgu.equals( a, d.getTarget())
     }
 
     def "test_getObject"() {
-	NSAP_PTRRecord d = new NSAP_PTRRecord();
-	Record r = d.getObject();
+	NSAP_PTRRecord d = new NSAP_PTRRecord()
+	Record r = d.getObject()
 	expect: r instanceof NSAP_PTRRecord
     }
 

@@ -41,6 +41,7 @@ import spock.lang.Specification
 import org.xbill.DNS.*
 
 public class AFSDBRecordSpockTest extends Specification {
+    def mgu = new MyGroovyUtil()
 
     def "test_getObject"() {
 	AFSDBRecord d = new AFSDBRecord();
@@ -56,12 +57,12 @@ public class AFSDBRecordSpockTest extends Specification {
 	AFSDBRecord d = new AFSDBRecord(n, DClass.IN, 0xABCDEL, 0xF1, m);
 	
 	then:
-	n.equals( d.getName());
-	Type.AFSDB.equals( d.getType());
-	DClass.IN.equals( d.getDClass());
-	0xABCDEL.equals( d.getTTL());
-	0xF1.equals( d.getSubtype());
-	m.equals( d.getHost());
+	mgu.equals(n,  d.getName());
+	mgu.equals(Type.AFSDB, d.getType());
+	mgu.equals(DClass.IN, d.getDClass());
+	mgu.equals(0xABCDEL, d.getTTL());
+	mgu.equals(0xF1, d.getSubtype());
+	mgu.equals(m, d.getHost());
     }
 
 }

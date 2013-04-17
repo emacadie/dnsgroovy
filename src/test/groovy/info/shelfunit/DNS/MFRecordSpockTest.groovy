@@ -41,12 +41,14 @@ import spock.lang.Specification
 
 public class MFRecordSpockTest extends Specification {
     
+    def mgu = new MyGroovyUtil()
+	
     def "test_ctor_0arg"() {
 	MFRecord d = new MFRecord();
 	expect:
-	d.getName().equals(null)
-	d.getAdditionalName().equals(null)
-	d.getMailAgent().equals(null)
+	mgu.equals(d.getName(), null)
+	mgu.equals(d.getAdditionalName(), null)
+	mgu.equals(d.getMailAgent(), null)
     }
     
     def "test_ctor_4arg"() throws TextParseException {
@@ -57,12 +59,12 @@ public class MFRecordSpockTest extends Specification {
 	MFRecord d = new MFRecord(n, DClass.IN, 0xABCDEL, a);
 
 	then:
-	n.equals(d.getName());
-	Type.MF.equals(d.getType());
-	DClass.IN.equals(d.getDClass());
-	0xABCDEL.equals(d.getTTL());
-	a.equals(d.getAdditionalName());
-	a.equals(d.getMailAgent());
+	mgu.equals(n, d.getName());
+	mgu.equals(Type.MF, d.getType());
+	mgu.equals(DClass.IN, d.getDClass());
+	mgu.equals(0xABCDEL, d.getTTL());
+	mgu.equals(a, d.getAdditionalName());
+	mgu.equals(a, d.getMailAgent());
     }
 
     def "test_getObject"() {

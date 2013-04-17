@@ -42,6 +42,8 @@ import spock.lang.Specification
 
 public class KXRecordSpockTest extends Specification {
 
+    def mgu = new MyGroovyUtil()
+
     def "test_getObject"() {
 	KXRecord d = new KXRecord()
 	Record r = d.getObject()
@@ -53,15 +55,15 @@ public class KXRecordSpockTest extends Specification {
 	Name n = Name.fromString("My.Name.")
 	Name m = Name.fromString("My.OtherName.")
 	KXRecord d = new KXRecord(n, DClass.IN, 0xABCDEL, 0xF1, m)
-
+	    
 	then:
-	n.equals( d.getName())
-	Type.KX.equals( d.getType())
-	DClass.IN.equals( d.getDClass())
-	0xABCDEL.equals( d.getTTL())
-	0xF1.equals( d.getPreference())
-	m.equals( d.getTarget())
-	m.equals( d.getAdditionalName())
+	mgu.equals(n, d.getName())
+	mgu.equals(Type.KX, d.getType())
+	mgu.equals(DClass.IN, d.getDClass())
+	mgu.equals(0xABCDEL, d.getTTL())
+	mgu.equals(0xF1, d.getPreference())
+	mgu.equals(m, d.getTarget())
+	mgu.equals(m, d.getAdditionalName())
     }
 
 }
