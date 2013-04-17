@@ -18,5 +18,5 @@ To run with Groovy:
 gradle runGroovy -PmainClass="org.lookup"    
     
 
-
+Writing tests in Groovy: http://hamletdarcy.blogspot.com/2008/04/testing-java-from-groovy-2.html   
 
