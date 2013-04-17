@@ -32,12 +32,12 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-package	info.shelfunit.DNS;
+package	info.shelfunit.DNS
 
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.Arrays;
+import java.io.IOException
+import java.net.InetAddress
+import java.net.UnknownHostException
+import java.util.Arrays
 import spock.lang.Specification
 
 import org.xbill.DNS.*
@@ -45,90 +45,90 @@ import org.xbill.DNS.*
 public class A6RecordSpockTest extends Specification {
 
     def mgu = new MyGroovyUtil()
-    Name m_an, m_an2, m_rn;
-    InetAddress m_addr;
-    String m_addr_string, m_addr_string_canonical;
-    byte[] m_addr_bytes;
-    int m_prefix_bits;
-    long m_ttl;
+    Name m_an, m_an2, m_rn
+    InetAddress m_addr
+    String m_addr_string, m_addr_string_canonical
+    byte[] m_addr_bytes
+    int m_prefix_bits
+    long m_ttl
 
     protected void setup() throws TextParseException,
 				  UnknownHostException {
-	m_an = Name.fromString("My.Absolute.Name.");
-	m_an2 = Name.fromString("My.Second.Absolute.Name.");
-	m_rn = Name.fromString("My.Relative.Name");
-	m_addr_string = "2001:0db8:85a3:08d3:1319:8a2e:0370:7334";
-	m_addr_string_canonical = "2001:db8:85a3:8d3:1319:8a2e:370:7334";
-	m_addr = InetAddress.getByName(m_addr_string);
-	m_addr_bytes = m_addr.getAddress();
-	m_ttl = 0x13579;
-	m_prefix_bits = 9;
+	m_an = Name.fromString("My.Absolute.Name.")
+	m_an2 = Name.fromString("My.Second.Absolute.Name.")
+	m_rn = Name.fromString("My.Relative.Name")
+	m_addr_string = "2001:0db8:85a3:08d3:1319:8a2e:0370:7334"
+	m_addr_string_canonical = "2001:db8:85a3:8d3:1319:8a2e:370:7334"
+	m_addr = InetAddress.getByName(m_addr_string)
+	m_addr_bytes = m_addr.getAddress()
+	m_ttl = 0x13579
+	m_prefix_bits = 9
     }
 
     def "test_ctor_0arg"() {
 	when:
-	A6Record ar = new A6Record();
+	A6Record ar = new A6Record()
 	then:
 	
-	mgu.equals( ar.getName(), null);
-	mgu.equals( 0, ar.getType());
-	mgu.equals( 0, ar.getDClass());
-	mgu.equals( 0, ar.getTTL().intValue());
+	mgu.equals( ar.getName(), null)
+	mgu.equals( 0, ar.getType())
+	mgu.equals( 0, ar.getDClass())
+	mgu.equals( 0, ar.getTTL().intValue())
     }
     
     def "test_getObject"()
     {
-	A6Record ar = new A6Record();
-	Record r = ar.getObject();
+	A6Record ar = new A6Record()
+	Record r = ar.getObject()
 	expect: r instanceof A6Record
     }
 
     def "test_ctor_6arg"() {
 	when:
-	A6Record ar = new A6Record(m_an, DClass.IN, m_ttl, m_prefix_bits, m_addr, null);
+	A6Record ar = new A6Record(m_an, DClass.IN, m_ttl, m_prefix_bits, m_addr, null)
 	then:
-	mgu.equals( m_an, ar.getName());
-	mgu.equals( Type.A6, ar.getType());
-	mgu.equals( DClass.IN, ar.getDClass());
-	mgu.equals( m_ttl, ar.getTTL());
-	mgu.equals( m_prefix_bits, ar.getPrefixBits());
-	mgu.equals( m_addr, ar.getSuffix());
-	mgu.equals( ar.getPrefix(), null);
+	mgu.equals( m_an, ar.getName())
+	mgu.equals( Type.A6, ar.getType())
+	mgu.equals( DClass.IN, ar.getDClass())
+	mgu.equals( m_ttl, ar.getTTL())
+	mgu.equals( m_prefix_bits, ar.getPrefixBits())
+	mgu.equals( m_addr, ar.getSuffix())
+	mgu.equals( ar.getPrefix(), null)
 
 	// with the prefix name
 	when:
-	ar = new A6Record(m_an, DClass.IN, m_ttl, m_prefix_bits, m_addr, m_an2);
+	ar = new A6Record(m_an, DClass.IN, m_ttl, m_prefix_bits, m_addr, m_an2)
 	then:
-	mgu.equals( m_an, ar.getName());
-	mgu.equals( Type.A6, ar.getType());
-	mgu.equals( DClass.IN, ar.getDClass());
-	mgu.equals( m_ttl, ar.getTTL());
-	mgu.equals( m_prefix_bits, ar.getPrefixBits());
-	mgu.equals( m_addr, ar.getSuffix());
-	mgu.equals( m_an2, ar.getPrefix());
+	mgu.equals( m_an, ar.getName())
+	mgu.equals( Type.A6, ar.getType())
+	mgu.equals( DClass.IN, ar.getDClass())
+	mgu.equals( m_ttl, ar.getTTL())
+	mgu.equals( m_prefix_bits, ar.getPrefixBits())
+	mgu.equals( m_addr, ar.getSuffix())
+	mgu.equals( m_an2, ar.getPrefix())
 
 	// a relative name
 	when: 
-	    new A6Record(m_rn, DClass.IN, m_ttl, m_prefix_bits, m_addr, null);
+	    new A6Record(m_rn, DClass.IN, m_ttl, m_prefix_bits, m_addr, null)
 	then:
 	    thrown( RelativeNameException.class )
 
 	// a relative prefix name
 	when:
-	    new A6Record(m_an, DClass.IN, m_ttl, m_prefix_bits, m_addr, m_rn);
+	    new A6Record(m_an, DClass.IN, m_ttl, m_prefix_bits, m_addr, m_rn)
 	then:
 	    thrown( RelativeNameException.class )
 
 	// invalid prefix bits
 	when:
-	    new A6Record(m_rn, DClass.IN, m_ttl, 0x100, m_addr, null);
+	    new A6Record(m_rn, DClass.IN, m_ttl, 0x100, m_addr, null)
 	then:
 	    thrown( RelativeNameException.class )
 
 	// an IPv4 address
 	when:
 	    new A6Record(m_an, DClass.IN, m_ttl, m_prefix_bits,
-			InetAddress.getByName("192.168.0.1"), null);
+			InetAddress.getByName("192.168.0.1"), null)
 	then:
 	    thrown( IllegalArgumentException.class )
 	    // thrown( UnknownHostException.class )
@@ -140,38 +140,38 @@ public class A6RecordSpockTest extends Specification {
 					 UnknownHostException {
 	// record with no prefix
 	when:
-	DNSOutput dout = new DNSOutput();
-	dout.writeU8(0);
-	dout.writeByteArray(m_addr_bytes);
+	DNSOutput dout = new DNSOutput()
+	dout.writeU8(0)
+	dout.writeByteArray(m_addr_bytes)
 
-	DNSInput din = new DNSInput(dout.toByteArray());
-	A6Record ar = new A6Record();
-	ar.rrFromWire(din);
+	DNSInput din = new DNSInput(dout.toByteArray())
+	A6Record ar = new A6Record()
+	ar.rrFromWire(din)
 	then:
-	mgu.equals(0, ar.getPrefixBits());
-	mgu.equals(m_addr, ar.getSuffix());
-	mgu.equals(ar.getPrefix(), null);
+	mgu.equals(0, ar.getPrefixBits())
+	mgu.equals(m_addr, ar.getSuffix())
+	mgu.equals(ar.getPrefix(), null)
 
 	// record with 9 bit prefix (should result in 15 bytes of the address)
 	when:
-	dout = new DNSOutput();
-	dout.writeU8(9);
-	dout.writeByteArray(m_addr_bytes, 1, 15);
-	dout.writeByteArray(m_an2.toWire());
+	dout = new DNSOutput()
+	dout.writeU8(9)
+	dout.writeByteArray(m_addr_bytes, 1, 15)
+	dout.writeByteArray(m_an2.toWire())
 
-	din = new DNSInput(dout.toByteArray());
-	ar = new A6Record();
-	ar.rrFromWire(din);
+	din = new DNSInput(dout.toByteArray())
+	ar = new A6Record()
+	ar.rrFromWire(din)
 	then:
-	mgu.equals(9, ar.getPrefixBits());
+	mgu.equals(9, ar.getPrefixBits())
 
 	when:
-	byte[] addr_bytes = (byte[])m_addr_bytes.clone();
-	addr_bytes[0] = 0;
-	InetAddress exp = InetAddress.getByAddress(addr_bytes);
+	byte[] addr_bytes = (byte[])m_addr_bytes.clone()
+	addr_bytes[0] = 0
+	InetAddress exp = InetAddress.getByAddress(addr_bytes)
 	then:
-	mgu.equals(exp, ar.getSuffix());
-	mgu.equals(m_an2, ar.getPrefix());
+	mgu.equals(exp, ar.getSuffix())
+	mgu.equals(m_an2, ar.getPrefix())
     }
     
     def "test_rdataFromString"() throws CloneNotSupportedException,
@@ -179,74 +179,74 @@ public class A6RecordSpockTest extends Specification {
 					      UnknownHostException {
 	// record with no prefix
 	when:
-	Tokenizer t = new Tokenizer("0 " + m_addr_string);
-	A6Record ar = new A6Record();
-	ar.rdataFromString(t, null);
+	Tokenizer t = new Tokenizer("0 " + m_addr_string)
+	A6Record ar = new A6Record()
+	ar.rdataFromString(t, null)
 	then:
-	mgu.equals(0, ar.getPrefixBits());
-	mgu.equals(m_addr, ar.getSuffix());
-	mgu.equals(ar.getPrefix(), null);
+	mgu.equals(0, ar.getPrefixBits())
+	mgu.equals(m_addr, ar.getSuffix())
+	mgu.equals(ar.getPrefix(), null)
 
 	// record with 9 bit prefix.  In contrast to the rrFromWire method,
 	// rdataFromString expects the entire 128 bits to be represented
 	// in the string
 	when:
-	t = new Tokenizer("9 " + m_addr_string + " " + m_an2);
-	ar = new A6Record();
-	ar.rdataFromString(t, null);
+	t = new Tokenizer("9 " + m_addr_string + " " + m_an2)
+	ar = new A6Record()
+	ar.rdataFromString(t, null)
 	then:
-	mgu.equals(9, ar.getPrefixBits());
-	mgu.equals(m_addr, ar.getSuffix());
-	mgu.equals(m_an2, ar.getPrefix());
+	mgu.equals(9, ar.getPrefixBits())
+	mgu.equals(m_addr, ar.getSuffix())
+	mgu.equals(m_an2, ar.getPrefix())
 
 	// record with invalid prefixBits
 	when:
-	t = new Tokenizer("129");
-	ar = new A6Record();
-	ar.rdataFromString(t, null);
+	t = new Tokenizer("129")
+	ar = new A6Record()
+	ar.rdataFromString(t, null)
 	then:
 	thrown( TextParseException.class )
 
 	// record with invalid ipv6 address
 	when:
-	t = new Tokenizer("0 " + m_addr_string.substring(4));
-	ar = new A6Record();
-	ar.rdataFromString(t, null);
+	t = new Tokenizer("0 " + m_addr_string.substring(4))
+	ar = new A6Record()
+	ar.rdataFromString(t, null)
 	then:
 	    thrown( TextParseException.class )
     }
     def "test_rrToString"() {
-	A6Record ar = new A6Record(m_an, DClass.IN, m_ttl, m_prefix_bits, m_addr, m_an2);
-	String exp = "" + m_prefix_bits + " " + m_addr_string_canonical + " " + m_an2;
-	String out = ar.rrToString();
-	mgu.equals(exp, out);
+	A6Record ar = new A6Record(m_an, DClass.IN, m_ttl, m_prefix_bits, m_addr, m_an2)
+	String exp = "" + m_prefix_bits + " " + m_addr_string_canonical + " " + m_an2
+	String out = ar.rrToString()
+	mgu.equals(exp, out)
     }
     
     def "test_rrToWire"() {
 	// canonical form
-	A6Record ar = new A6Record(m_an, DClass.IN, m_ttl, m_prefix_bits, m_addr, m_an2);
-	DNSOutput dout = new DNSOutput();
-	dout.writeU8(m_prefix_bits);
-	dout.writeByteArray(m_addr_bytes, 1, 15);
-	dout.writeByteArray(m_an2.toWireCanonical());
+	A6Record ar = new A6Record(m_an, DClass.IN, m_ttl, m_prefix_bits, m_addr, m_an2)
+	DNSOutput dout = new DNSOutput()
+	dout.writeU8(m_prefix_bits)
+	dout.writeByteArray(m_addr_bytes, 1, 15)
+	dout.writeByteArray(m_an2.toWireCanonical())
 
-	byte[] exp = dout.toByteArray();
+	byte[] exp = dout.toByteArray()
 	
-	dout = new DNSOutput();
-	ar.rrToWire(dout, null, true);
+	dout = new DNSOutput()
+	ar.rrToWire(dout, null, true)
 	
-	assertTrue(Arrays.equals(exp, dout.toByteArray()));
+	assertTrue(Arrays.equals(exp, dout.toByteArray()))
 
 	// case sensitiveform
-	dout = new DNSOutput();
-	dout.writeU8(m_prefix_bits);
-	dout.writeByteArray(m_addr_bytes, 1, 15);
-	dout.writeByteArray(m_an2.toWire());
+	dout = new DNSOutput()
+	dout.writeU8(m_prefix_bits)
+	dout.writeByteArray(m_addr_bytes, 1, 15)
+	dout.writeByteArray(m_an2.toWire())
 
-	exp = dout.toByteArray();
+	exp = dout.toByteArray()
 	
-	dout = new DNSOutput();
-	ar.rrToWire(dout, null, false);
+	dout = new DNSOutput()
+	ar.rrToWire(dout, null, false)
 	mgu.equals(exp, dout.toByteArray())
     }
 

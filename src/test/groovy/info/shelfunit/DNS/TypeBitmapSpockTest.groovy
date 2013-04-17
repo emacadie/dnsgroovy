@@ -44,19 +44,19 @@ public class TypeBitmapSpockTest extends Specification {
 
     def "test_empty"() {
       def int [] a_i = [] // as int
-      TypeBitmap typeBitmap = new TypeBitmap(a_i);
-      expect: mgu.equals(typeBitmap.toString(), "");
+      TypeBitmap typeBitmap = new TypeBitmap(a_i)
+      expect: mgu.equals(typeBitmap.toString(), "")
     }
     
     def "test_typeA"() {
       def int[] a_i = [ 1 ] 
-      TypeBitmap typeBitmap = new TypeBitmap(a_i);
-      expect: mgu.equals(typeBitmap.toString(), "A");
+      TypeBitmap typeBitmap = new TypeBitmap(a_i)
+      expect: mgu.equals(typeBitmap.toString(), "A")
     }
     
     def "test_typeNSandSOA"() {
       def int[] int_map = [ 2, 6 ]
-      TypeBitmap typeBitmap = new TypeBitmap(int_map);
-      expect: mgu.equals(typeBitmap.toString(), "NS SOA");
+      TypeBitmap typeBitmap = new TypeBitmap(int_map)
+      expect: mgu.equals(typeBitmap.toString(), "NS SOA")
     }
 }

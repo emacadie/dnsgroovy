@@ -11,7 +11,7 @@ A few gradle commands. I will update this when I add more classes:
 
 To run a single test, do this:  
 gradle -Dtest.single=HelloSpock test -info   
-gradle -Dtest.single=StepwiseExtension test -info  
+gradle -Dtest.single=DSRecordSpockTest test -info  
    
 
 To run with Groovy:   
@@ -19,4 +19,6 @@ gradle runGroovy -PmainClass="org.lookup"
     
 
 Writing tests in Groovy: http://hamletdarcy.blogspot.com/2008/04/testing-java-from-groovy-2.html   
+
+A good presentation on Spock: http://www.slideshare.net/elizhender/spock-pres-15236797    
 

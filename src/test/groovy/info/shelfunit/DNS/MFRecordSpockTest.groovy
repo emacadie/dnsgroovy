@@ -44,7 +44,7 @@ public class MFRecordSpockTest extends Specification {
     def mgu = new MyGroovyUtil()
 	
     def "test_ctor_0arg"() {
-	MFRecord d = new MFRecord();
+	MFRecord d = new MFRecord()
 	expect:
 	mgu.equals(d.getName(), null)
 	mgu.equals(d.getAdditionalName(), null)
@@ -53,23 +53,23 @@ public class MFRecordSpockTest extends Specification {
     
     def "test_ctor_4arg"() throws TextParseException {
 	when:
-	Name n = Name.fromString("my.name.");
-	Name a = Name.fromString("my.alias.");
+	Name n = Name.fromString("my.name.")
+	Name a = Name.fromString("my.alias.")
 
-	MFRecord d = new MFRecord(n, DClass.IN, 0xABCDEL, a);
+	MFRecord d = new MFRecord(n, DClass.IN, 0xABCDEL, a)
 
 	then:
-	mgu.equals(n, d.getName());
-	mgu.equals(Type.MF, d.getType());
-	mgu.equals(DClass.IN, d.getDClass());
-	mgu.equals(0xABCDEL, d.getTTL());
-	mgu.equals(a, d.getAdditionalName());
-	mgu.equals(a, d.getMailAgent());
+	mgu.equals(n, d.getName())
+	mgu.equals(Type.MF, d.getType())
+	mgu.equals(DClass.IN, d.getDClass())
+	mgu.equals(0xABCDEL, d.getTTL())
+	mgu.equals(a, d.getAdditionalName())
+	mgu.equals(a, d.getMailAgent())
     }
 
     def "test_getObject"() {
-	MFRecord d = new MFRecord();
-	Record r = d.getObject();
+	MFRecord d = new MFRecord()
+	Record r = d.getObject()
 	expect: r instanceof MFRecord
     }
 

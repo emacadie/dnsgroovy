@@ -43,16 +43,16 @@ public class SectionSpockTest extends Specification {
     
     def "test_string"() {
 	// a regular one
-	expect: mgu.equals("au", Section.string(Section.AUTHORITY));
+	expect: mgu.equals("au", Section.string(Section.AUTHORITY))
 
 	when:
-	    Section.string(-1);
+	    Section.string(-1)
 	then:
 	thrown( IllegalArgumentException.class )
 	
 	//  (max is 3)
 	when:
-	    Section.string(4);
+	    Section.string(4)
 	then:
 	    thrown( IllegalArgumentException.class )
     }
@@ -60,18 +60,18 @@ public class SectionSpockTest extends Specification {
     def "test_value"() {
 	expect:
 	// regular one
-	mgu.equals(Section.ADDITIONAL, Section.value("ad"));
+	mgu.equals(Section.ADDITIONAL, Section.value("ad"))
 
 	// something that unknown
-	mgu.equals(-1, Section.value("THIS IS DEFINITELY UNKNOWN"));
+	mgu.equals(-1, Section.value("THIS IS DEFINITELY UNKNOWN"))
 
 	// empty string
-	mgu.equals(-1, Section.value(""));
+	mgu.equals(-1, Section.value(""))
     }
 
     def "test_longString"() {
 	expect:
-	mgu.equals("ADDITIONAL RECORDS", Section.longString(Section.ADDITIONAL));
+	mgu.equals("ADDITIONAL RECORDS", Section.longString(Section.ADDITIONAL))
 	
 	when:
 	    Section.longString(-1)
@@ -86,7 +86,7 @@ public class SectionSpockTest extends Specification {
 
     def "test_updString"() {
 	expect:
-	mgu.equals("ZONE", Section.updString(Section.ZONE));
+	mgu.equals("ZONE", Section.updString(Section.ZONE))
 	
 	when:
 	Section.longString(-1)

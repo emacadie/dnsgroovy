@@ -35,8 +35,8 @@
 package info.shelfunit.DNS
 
 import org.xbill.DNS.*
-import java.util.Arrays;
-import junit.framework.TestCase;
+import java.util.Arrays
+import junit.framework.TestCase
 import spock.lang.Specification
 import java.lang.reflect.Method
 
@@ -45,16 +45,16 @@ public class RTRecordSpockTest extends  Specification {
     def mgu = new MyGroovyUtil()
 	
     def "test getObject"() {
-	RTRecord d = new RTRecord();
-	Record r = d.getObject();
+	RTRecord d = new RTRecord()
+	Record r = d.getObject()
 	expect: r instanceof RTRecord
     }
     
     def "test_ctor_5arg"() throws TextParseException {
 	when:
-	Name n = Name.fromString("My.Name.");
-	Name m = Name.fromString("My.OtherName.");
-	RTRecord d = new RTRecord(n, DClass.IN, 0xABCDEL, 0xF1, m);
+	Name n = Name.fromString("My.Name.")
+	Name m = Name.fromString("My.OtherName.")
+	RTRecord d = new RTRecord(n, DClass.IN, 0xABCDEL, 0xF1, m)
 	
 	then:
 	mgu.equals( n, d.getName())

@@ -36,10 +36,10 @@ package info.shelfunit.DNS
 
 import	org.xbill.DNS.*
 
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.Arrays;
+import java.io.IOException
+import java.net.InetAddress
+import java.net.UnknownHostException
+import java.util.Arrays
 import spock.lang.Specification
 
 public class DNSKEYRecordSpockTest extends Specification {
@@ -49,50 +49,50 @@ public class DNSKEYRecordSpockTest extends Specification {
 
     def "test_ctor_0arg"() throws UnknownHostException {
 	when:
-	DNSKEYRecord ar = new DNSKEYRecord();
+	DNSKEYRecord ar = new DNSKEYRecord()
 
 	then:
-	mgu.equals(ar.getName(), null);
-	mgu.equals(0, ar.getType());
-	mgu.equals(0, ar.getDClass());
-	mgu.equals(0, ar.getTTL().intValue());
-	mgu.equals(0, ar.getAlgorithm());
-	mgu.equals(0, ar.getFlags());
-	mgu.equals(0, ar.getFootprint());
-	mgu.equals(0, ar.getProtocol());
-	mgu.equals(ar.getKey(), null);
+	mgu.equals(ar.getName(), null)
+	mgu.equals(0, ar.getType())
+	mgu.equals(0, ar.getDClass())
+	mgu.equals(0, ar.getTTL().intValue())
+	mgu.equals(0, ar.getAlgorithm())
+	mgu.equals(0, ar.getFlags())
+	mgu.equals(0, ar.getFootprint())
+	mgu.equals(0, ar.getProtocol())
+	mgu.equals(ar.getKey(), null)
     }
     
     def "test_getObject"() {
 	when:
-	DNSKEYRecord ar = new DNSKEYRecord();
-	Record r = ar.getObject();
+	DNSKEYRecord ar = new DNSKEYRecord()
+	Record r = ar.getObject()
 	then:
-	mga.that(r instanceof DNSKEYRecord);
+	mga.that(r instanceof DNSKEYRecord)
     }
     
     def "test_ctor_7arg"() throws TextParseException {
 	when:
-	Name n = Name.fromString("My.Absolute.Name.");
-	Name r = Name.fromString("My.Relative.Name");
+	Name n = Name.fromString("My.Absolute.Name.")
+	Name r = Name.fromString("My.Relative.Name")
 	def key = [ 0, 1, 3, 5, 7, 9 ].collect{ entry -> (byte) entry }
 
-	DNSKEYRecord kr = new DNSKEYRecord(n, DClass.IN, 0x24AC, 0x9832, 0x12, 0x67, key.toArray(new byte[key.size]));
+	DNSKEYRecord kr = new DNSKEYRecord(n, DClass.IN, 0x24AC, 0x9832, 0x12, 0x67, key.toArray(new byte[key.size]))
 	
 	then:
-	mgu.equals(n, kr.getName());
-	mgu.equals(Type.DNSKEY, kr.getType());
-	mgu.equals(DClass.IN, kr.getDClass());
-	mgu.equals(0x24AC, kr.getTTL().intValue());
-	mgu.equals(0x9832, kr.getFlags());
-	mgu.equals(0x12, kr.getProtocol());
-	mgu.equals(0x67, kr.getAlgorithm());
-	mga.that(Arrays.equals(key.toArray(new byte[key.size]), kr.getKey()));
+	mgu.equals(n, kr.getName())
+	mgu.equals(Type.DNSKEY, kr.getType())
+	mgu.equals(DClass.IN, kr.getDClass())
+	mgu.equals(0x24AC, kr.getTTL().intValue())
+	mgu.equals(0x9832, kr.getFlags())
+	mgu.equals(0x12, kr.getProtocol())
+	mgu.equals(0x67, kr.getAlgorithm())
+	mga.that(Arrays.equals(key.toArray(new byte[key.size]), kr.getKey()))
 
 	// a relative name
 	when:
-	    new DNSKEYRecord(r, DClass.IN, 0x24AC, 0x9832, 0x12, 0x67, key.toArray(new byte[key.size]) );
-	    // fail("RelativeNameException not thrown");
+	    new DNSKEYRecord(r, DClass.IN, 0x24AC, 0x9832, 0x12, 0x67, key.toArray(new byte[key.size]) )
+	    // fail("RelativeNameException not thrown")
 	then:
 	thrown( RelativeNameException.class )
     }
@@ -100,24 +100,24 @@ public class DNSKEYRecordSpockTest extends Specification {
     def "test_rdataFromString"() throws IOException, TextParseException {
 	when:
 	// basic
-	DNSKEYRecord kr = new DNSKEYRecord();
-	Tokenizer st = new Tokenizer(0xABCD + " " + 0x81 + " RSASHA1 AQIDBAUGBwgJ");
-	kr.rdataFromString(st, null);
+	DNSKEYRecord kr = new DNSKEYRecord()
+	Tokenizer st = new Tokenizer(0xABCD + " " + 0x81 + " RSASHA1 AQIDBAUGBwgJ")
+	kr.rdataFromString(st, null)
 	def b_a = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ].collect{ entry -> ( byte ) entry }
 
 	then:
-	mgu.equals(0xABCD, kr.getFlags());
-	mgu.equals(0x81, kr.getProtocol());
-	mgu.equals(DNSSEC.Algorithm.RSASHA1, kr.getAlgorithm());
-	mga.that(Arrays.equals(b_a.toArray(new byte[b_a.size]), kr.getKey()));
+	mgu.equals(0xABCD, kr.getFlags())
+	mgu.equals(0x81, kr.getProtocol())
+	mgu.equals(DNSSEC.Algorithm.RSASHA1, kr.getAlgorithm())
+	mga.that(Arrays.equals(b_a.toArray(new byte[b_a.size]), kr.getKey()))
 
 	// invalid algorithm
 
 	when:
-	    kr = new DNSKEYRecord();
-	    st = new Tokenizer(0x1212 + " " + 0xAA + " ZONE AQIDBAUGBwgJ");
-	    kr.rdataFromString(st, null);
-	    // fail("TextParseException not thrown");
+	    kr = new DNSKEYRecord()
+	    st = new Tokenizer(0x1212 + " " + 0xAA + " ZONE AQIDBAUGBwgJ")
+	    kr.rdataFromString(st, null)
+	    // fail("TextParseException not thrown")
 	then:
 	thrown( TextParseException.class )
     }

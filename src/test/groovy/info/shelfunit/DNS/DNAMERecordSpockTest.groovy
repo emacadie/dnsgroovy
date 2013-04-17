@@ -45,32 +45,32 @@ public class DNAMERecordSpockTest extends Specification {
 
     def "test_ctor_0arg"() {
 	when:
-	DNAMERecord d = new DNAMERecord();
+	DNAMERecord d = new DNAMERecord()
 	then:
-	mgu.equals(d.getName(), null);
-	mgu.equals(d.getTarget(), null);
-	mgu.equals(d.getAlias(), null);
+	mgu.equals(d.getName(), null)
+	mgu.equals(d.getTarget(), null)
+	mgu.equals(d.getAlias(), null)
     }
     
     def "test_ctor_4arg"() throws TextParseException {
 	when:
-	Name n = Name.fromString("my.name.");
-	Name a = Name.fromString("my.alias.");
+	Name n = Name.fromString("my.name.")
+	Name a = Name.fromString("my.alias.")
 
-	DNAMERecord d = new DNAMERecord(n, DClass.IN, 0xABCDEL, a);
+	DNAMERecord d = new DNAMERecord(n, DClass.IN, 0xABCDEL, a)
 	then:
-	mgu.equals(n, d.getName());
-	mgu.equals(Type.DNAME, d.getType());
-	mgu.equals(DClass.IN, d.getDClass());
-	mgu.equals(0xABCDEL, d.getTTL());
-	mgu.equals(a, d.getTarget());
-	mgu.equals(a, d.getAlias());
+	mgu.equals(n, d.getName())
+	mgu.equals(Type.DNAME, d.getType())
+	mgu.equals(DClass.IN, d.getDClass())
+	mgu.equals(0xABCDEL, d.getTTL())
+	mgu.equals(a, d.getTarget())
+	mgu.equals(a, d.getAlias())
     }
 
     def "test_getObject"() {
-	DNAMERecord d = new DNAMERecord();
-	Record r = d.getObject();
-	expect: mga.that(r instanceof DNAMERecord);
+	DNAMERecord d = new DNAMERecord()
+	Record r = d.getObject()
+	expect: mga.that(r instanceof DNAMERecord)
     }
 
 }

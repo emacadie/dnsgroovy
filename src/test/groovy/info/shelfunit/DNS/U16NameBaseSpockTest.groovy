@@ -32,13 +32,13 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// package info.shelfunit.DNS;
+// package info.shelfunit.DNS
 package org.xbill.DNS
 
 import org.xbill.DNS.*
 
-import java.io.IOException;
-import java.util.Arrays;
+import java.io.IOException
+import java.util.Arrays
 import spock.lang.Specification
 import org.spockframework.util.Assert
 import info.shelfunit.DNS.MyGroovyUtil
@@ -49,7 +49,7 @@ public class U16NameBaseSpockTest extends Specification {
     /*
     private void assertEquals( byte[] exp, byte[] act )
     {
-	assertTrue(java.util.Arrays.equals(exp, act));
+	assertTrue(java.util.Arrays.equals(exp, act))
     }
 */
     private static class TestSpockClass extends U16NameBase {
@@ -57,89 +57,89 @@ public class U16NameBaseSpockTest extends Specification {
 
 	public TestSpockClass(Name name, int type, int dclass, long ttl)
 	{
-	    super(name, type, dclass, ttl);
+	    super(name, type, dclass, ttl)
 	}
 	
 	public TestSpockClass(Name name, int type, int dclass, long ttl, int u16Field,
 			 String u16Description, Name nameField, String nameDescription) {
-	    super(name, type, dclass, ttl, u16Field, u16Description, nameField, nameDescription);
+	    super(name, type, dclass, ttl, u16Field, u16Description, nameField, nameDescription)
 	}
 	
 	public int getU16Field() {
-	    return super.getU16Field();
+	    return super.getU16Field()
 	}
 
 	public Name getNameField() {
-	    return super.getNameField();
+	    return super.getNameField()
 	}
 
 	public Record getObject() {
-	    return null;
+	    return null
 	}
     }
 
     def "test_ctor_0arg"() {
 	when:
-	TestSpockClass tc = new TestSpockClass();
+	TestSpockClass tc = new TestSpockClass()
 	def getTTL = tc.getTTL()
 	
 	then:
-	// tc.getName().equals(null);
+	// tc.getName().equals(null)
 	mgu.equals(tc.getName(), null) 
-	mgu.equals(0, tc.getType());
-	mgu.equals(0, tc.getDClass());
+	mgu.equals(0, tc.getType())
+	mgu.equals(0, tc.getDClass())
 	// tc.getTTL returns java.lang.Long, 
 	// 0 is a java.lang.Integer
 	mgu.equals(tc.getTTL().intValue(), 0)
-        mgu.equals(0, tc.getU16Field());
-	mgu.equals(tc.getNameField(), null);
+        mgu.equals(0, tc.getU16Field())
+	mgu.equals(tc.getNameField(), null)
     }
     
     def "test_ctor_4arg"() throws TextParseException {
 	when:
-	Name n = Name.fromString("My.Name.");
-	TestSpockClass tc = new TestSpockClass(n, Type.MX, DClass.IN, 0xBCDA);
+	Name n = Name.fromString("My.Name.")
+	TestSpockClass tc = new TestSpockClass(n, Type.MX, DClass.IN, 0xBCDA)
 	
 	then:
-	mgu.equals( n, tc.getName());
-	mgu.equals( Type.MX,  tc.getType());
-	mgu.equals( DClass.IN,  tc.getDClass());
+	mgu.equals( n, tc.getName())
+	mgu.equals( Type.MX,  tc.getType())
+	mgu.equals( DClass.IN,  tc.getDClass())
 	mgu.equals( tc.getTTL().intValue(), 0xBCDA)
-	mgu.equals( 0,  tc.getU16Field());
-	mgu.equals( tc.getNameField(), null);
+	mgu.equals( 0,  tc.getU16Field())
+	mgu.equals( tc.getNameField(), null)
     }
     
     def "test_ctor_8arg"() throws TextParseException {
 	when:
-	Name n = Name.fromString("My.Name.");
-	Name m = Name.fromString("My.Other.Name.");
+	Name n = Name.fromString("My.Name.")
+	Name m = Name.fromString("My.Other.Name.")
 	
 	TestSpockClass tc = new TestSpockClass(
 	    n, Type.MX, DClass.IN, 0xB12FL,
 	    0x1F2B, "u16 description",
-	    m, "name description");
+	    m, "name description")
 	then:
-	mgu.equals( n, tc.getName());
-	mgu.equals( Type.MX,  tc.getType());
-	mgu.equals( DClass.IN,  tc.getDClass());
+	mgu.equals( n, tc.getName())
+	mgu.equals( Type.MX,  tc.getType())
+	mgu.equals( DClass.IN,  tc.getDClass())
         mgu.equals( tc.getTTL(), 0xB12FL) 
-	mgu.equals( 0x1F2B,  tc.getU16Field());
-	mgu.equals( m,  tc.getNameField());
+	mgu.equals( 0x1F2B,  tc.getU16Field())
+	mgu.equals( m,  tc.getNameField())
 
 	// an invalid u16 value
 	when: 
 	  new TestSpockClass(n, Type.MX, DClass.IN, 0xB12FL,
 		0x10000, "u16 description",
-		m, "name description");
+		m, "name description")
 	then:
 	  thrown( IllegalArgumentException.class )
 
 	// a relative name
 	when:
-	Name rel = Name.fromString("My.relative.Name");
+	Name rel = Name.fromString("My.relative.Name")
 	new TestSpockClass(n, Type.MX, DClass.IN, 0xB12FL,
 			  0x1F2B, "u16 description",
-			  rel, "name description");
+			  rel, "name description")
 	then:
 	    thrown( RelativeNameException.class )
     }
@@ -147,74 +147,74 @@ public class U16NameBaseSpockTest extends Specification {
     def "test_rrFromWire"() throws IOException {
 	when:
 	def raw = [ (byte)0xBC, (byte)0x1F, 2, 'M', 'y', 6, 's', 'i', 'N', 'g', 'l', 'E', 4, 'n', 'A', 'm', 'E', 0 ].collect{ entry -> (byte) entry }
-	DNSInput dnsin = new DNSInput(raw.toArray(new byte[raw.size] ) );
+	DNSInput dnsin = new DNSInput(raw.toArray(new byte[raw.size] ) )
 	
-	TestSpockClass tc = new TestSpockClass();
-	tc.rrFromWire(dnsin);
+	TestSpockClass tc = new TestSpockClass()
+	tc.rrFromWire(dnsin)
 
-	Name exp = Name.fromString("My.single.name.");
+	Name exp = Name.fromString("My.single.name.")
 	then:
-	mgu.equals( 0xBC1FL.intValue(), tc.getU16Field());
-	mgu.equals( exp, tc.getNameField());
+	mgu.equals( 0xBC1FL.intValue(), tc.getU16Field())
+	mgu.equals( exp, tc.getNameField())
     }
     
     def "test_rdataFromString"() throws IOException {
 	when:
-	Name exp = Name.fromString("My.Single.Name.");
+	Name exp = Name.fromString("My.Single.Name.")
 
-	Tokenizer t = new Tokenizer(0x19A2 + " My.Single.Name.");
-	TestSpockClass tc = new TestSpockClass();
-	tc.rdataFromString(t, null);
+	Tokenizer t = new Tokenizer(0x19A2 + " My.Single.Name.")
+	TestSpockClass tc = new TestSpockClass()
+	tc.rdataFromString(t, null)
 	then:
-	    mgu.equals( 0x19A2, tc.getU16Field());
-	    mgu.equals( exp, tc.getNameField());
+	    mgu.equals( 0x19A2, tc.getU16Field())
+	    mgu.equals( exp, tc.getNameField())
 
 	when:
-	t = new Tokenizer("10 My.Relative.Name");
-	tc = new TestSpockClass();
-	tc.rdataFromString(t, null);
+	t = new Tokenizer("10 My.Relative.Name")
+	tc = new TestSpockClass()
+	tc.rdataFromString(t, null)
 	then:
 	    thrown( RelativeNameException.class )
     }
     
     def "test_rrToString"() throws IOException, TextParseException {
-	Name n = Name.fromString("My.Name.");
-	Name m = Name.fromString("My.Other.Name.");
+	Name n = Name.fromString("My.Name.")
+	Name m = Name.fromString("My.Other.Name.")
 	
 	TestSpockClass tc = new TestSpockClass(
 	    n, Type.MX, DClass.IN, 0xB12FL,
 	    0x1F2B, "u16 description",
-	    m, "name description");
+	    m, "name description")
 
-	String out = tc.rrToString();
-	String exp = 0x1F2B + " My.Other.Name.";
+	String out = tc.rrToString()
+	String exp = 0x1F2B + " My.Other.Name."
 	
-	expect: mgu.equals( exp, out);
+	expect: mgu.equals( exp, out)
     }
     
     def "test_rrToWire"() throws IOException, TextParseException
     {
-	Name n = Name.fromString("My.Name.");
-	Name m = Name.fromString("M.O.n.");
+	Name n = Name.fromString("My.Name.")
+	Name m = Name.fromString("M.O.n.")
 	
 	TestSpockClass tc = new TestSpockClass(n, Type.MX, DClass.IN, 0xB12FL,
 				     0x1F2B, "u16 description",
-				     m, "name description");
+				     m, "name description")
 
 	// canonical
 	when:
-	DNSOutput dout = new DNSOutput();
-	tc.rrToWire(dout, null, true);
-	byte[] out = dout.toByteArray();
+	DNSOutput dout = new DNSOutput()
+	tc.rrToWire(dout, null, true)
+	byte[] out = dout.toByteArray()
 	def exp = [ 0x1F, 0x2B, 1, 'm', 1, 'o', 1, 'n', 0 ].collect{ entry -> (byte) entry }
 	then:
 	Arrays.equals(exp.toArray(new byte[exp.size]), out )
 
 	// case sensitive
 	when:
-	dout = new DNSOutput();
-	tc.rrToWire(dout, null, false);
-	out = dout.toByteArray();
+	dout = new DNSOutput()
+	tc.rrToWire(dout, null, false)
+	out = dout.toByteArray()
 	exp = [ 0x1F, 0x2B, 1, 'M', 1, 'O', 1, 'n', 0 ].collect{ entry -> (byte) entry }
         then:
 	Arrays.equals(exp.toArray(new byte[exp.size]), out )
