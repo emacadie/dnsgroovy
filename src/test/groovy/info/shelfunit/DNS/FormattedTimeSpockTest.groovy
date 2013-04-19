@@ -36,53 +36,53 @@ package info.shelfunit.DNS
 
 import org.xbill.DNS.*
 
-import java.util.Date;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.TimeZone;
+import java.util.Date
+import java.util.Calendar
+import java.util.GregorianCalendar
+import java.util.TimeZone
 import spock.lang.Specification
-// import org.xbill.DNS.FormattedTime;
+// import org.xbill.DNS.FormattedTime
 
 public class FormattedTimeSpockTest extends Specification {
 
     def mgu = new MyGroovyUtil()
 
     def "test_format"() {
-	GregorianCalendar cal = new GregorianCalendar(TimeZone.getTimeZone("UTC"));
-	cal.set(2005, 2, 19, 4, 4, 5);
-	String out = FormattedTime.format(cal.getTime());
-	expect: mgu.equals("20050319040405", out);
+	GregorianCalendar cal = new GregorianCalendar(TimeZone.getTimeZone("UTC"))
+	cal.set(2005, 2, 19, 4, 4, 5)
+	String out = FormattedTime.format(cal.getTime())
+	expect: mgu.equals("20050319040405", out)
     }
     
     def "test_parse"() throws TextParseException {
 	// have to make sure to clear out the milliseconds since there
 	// is occasionally a difference between when cal and cal2 are
 	// instantiated.
-	GregorianCalendar cal = new GregorianCalendar(TimeZone.getTimeZone("UTC"));
-	cal.set(2005, 2, 19, 4, 4, 5);
-	cal.set(Calendar.MILLISECOND, 0);
+	GregorianCalendar cal = new GregorianCalendar(TimeZone.getTimeZone("UTC"))
+	cal.set(2005, 2, 19, 4, 4, 5)
+	cal.set(Calendar.MILLISECOND, 0)
 	
-	Date out = FormattedTime.parse("20050319040405");
-	GregorianCalendar cal2 = new GregorianCalendar(TimeZone.getTimeZone("UTC"));
-	cal2.setTimeInMillis(out.getTime());
-	cal2.set(Calendar.MILLISECOND, 0);
-	expect: mgu.equals(cal, cal2);
+	Date out = FormattedTime.parse("20050319040405")
+	GregorianCalendar cal2 = new GregorianCalendar(TimeZone.getTimeZone("UTC"))
+	cal2.setTimeInMillis(out.getTime())
+	cal2.set(Calendar.MILLISECOND, 0)
+	expect: mgu.equals(cal, cal2)
     }
 
     
     def "test_parse_invalid"() {
 	when:
-	    FormattedTime.parse("2004010101010");
+	    FormattedTime.parse("2004010101010")
 	then:
 	thrown( TextParseException.class )
 	
 	when:
-	    FormattedTime.parse("200401010101010");
+	    FormattedTime.parse("200401010101010")
 	then:
 	thrown( TextParseException.class )
 	
 	when:
-	    FormattedTime.parse("2004010101010A");
+	    FormattedTime.parse("2004010101010A")
 	then:
 	thrown( TextParseException.class )
 	
