@@ -230,8 +230,7 @@ public class KEYRecord extends KEYBase {
          * @param s The textual representation of the protocol
          * @return The protocol code, or -1 on error.
          */
-        public static int
-        value(String s) {
+        public static int value(String s) {
             int value;
             try {
                 value = Integer.parseInt(s);
@@ -291,8 +290,7 @@ public class KEYRecord extends KEYBase {
     
     KEYRecord() {}
     
-    Record
-    getObject() {
+    Record getObject() {
         return new KEYRecord();
     }
     
@@ -303,8 +301,7 @@ public class KEYRecord extends KEYBase {
      * @param alg The key's algorithm
      * @param key Binary data representing the key
      */
-    public
-    KEYRecord(Name name, int dclass, long ttl, int flags, int proto, int alg,
+    public KEYRecord(Name name, int dclass, long ttl, int flags, int proto, int alg,
           byte [] key)
     {
         super(name, Type.KEY, dclass, ttl, flags, proto, alg, key);
@@ -319,8 +316,7 @@ public class KEYRecord extends KEYBase {
      * @throws DNSSEC.DNSSECException The PublicKey could not be converted into DNS
      * format.
      */
-    public
-    KEYRecord(Name name, int dclass, long ttl, int flags, int proto, int alg,
+    public KEYRecord(Name name, int dclass, long ttl, int flags, int proto, int alg,
           PublicKey key) throws DNSSEC.DNSSECException
     {
         super(name, Type.KEY, dclass, ttl, flags, proto, alg,
