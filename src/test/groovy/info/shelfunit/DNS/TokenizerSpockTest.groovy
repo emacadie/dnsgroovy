@@ -52,7 +52,6 @@ public class TokenizerSpockTest extends Specification {
     def setup() {
 	m_t = null
     }
-
     
     public void test_get() throws IOException
     {
@@ -364,153 +363,153 @@ public class TokenizerSpockTest extends Specification {
 	
 	when:
 	    m_t = new Tokenizer("; just a comment")
-	    out = m_t.getString();
+	    out = m_t.getString()
 	then:
 	    thrown( TextParseException.class )
     }
     
     def "test_getIdentifier"() throws IOException {
 	m_t = new Tokenizer("just_an_identifier")
-	String out = m_t.getIdentifier();
+	String out = m_t.getIdentifier()
 	expect: mgu.equals("just_an_identifier", out)
 
 	when:
 	    m_t = new Tokenizer("\"just a string\"")
-	    m_t.getIdentifier();
+	    m_t.getIdentifier()
 	then:
 	    thrown( TextParseException.class )
     }
     
     def "test_getLong"() throws IOException {
-	m_t = new Tokenizer((Integer.MAX_VALUE+1L) + "");
-	long out = m_t.getLong();
-	expect: mgu.equals((Integer.MAX_VALUE+1L), out);
+	m_t = new Tokenizer((Integer.MAX_VALUE+1L) + "")
+	long out = m_t.getLong()
+	expect: mgu.equals((Integer.MAX_VALUE+1L), out)
 	
 	when:
-	    m_t = new Tokenizer("-10");
-	    m_t.getLong();
+	    m_t = new Tokenizer("-10")
+	    m_t.getLong()
 	then:
 	    thrown( TextParseException.class )
 
 	when:
-	    m_t = new Tokenizer("19_identifier");
-	    m_t.getLong();
+	    m_t = new Tokenizer("19_identifier")
+	    m_t.getLong()
 	then:
 	    thrown( TextParseException.class )
     }
     
     def "test_getUInt32"() throws IOException {
-	m_t = new Tokenizer(0xABCDEF12L + "");
-	long out = m_t.getUInt32();
-	expect: mgu.equals(0xABCDEF12L, out);
+	m_t = new Tokenizer(0xABCDEF12L + "")
+	long out = m_t.getUInt32()
+	expect: mgu.equals(0xABCDEF12L, out)
 
 	when:
-	    m_t = new Tokenizer(0x100000000L + "");
-	    m_t.getUInt32();
+	    m_t = new Tokenizer(0x100000000L + "")
+	    m_t.getUInt32()
 	then:
 	    thrown( TextParseException.class )
 
 	when:
-	    m_t = new Tokenizer("-12345");
-	    m_t.getUInt32();
+	    m_t = new Tokenizer("-12345")
+	    m_t.getUInt32()
 	then:
 	    thrown( TextParseException.class )
     }
     
     def "test_getUInt16"() throws IOException {
-	m_t = new Tokenizer(0xABCDL + "");
-	int out = m_t.getUInt16();
-	mgu.equals(0xABCDL, out);
+	m_t = new Tokenizer(0xABCDL + "")
+	int out = m_t.getUInt16()
+	mgu.equals(0xABCDL, out)
 	
 	when:
-	    m_t = new Tokenizer(0x10000 + "");
-	    m_t.getUInt16();
+	    m_t = new Tokenizer(0x10000 + "")
+	    m_t.getUInt16()
 	then:
 	    thrown( TextParseException.class )
 
 	when:
-	    m_t = new Tokenizer("-125");
-	    m_t.getUInt16();
+	    m_t = new Tokenizer("-125")
+	    m_t.getUInt16()
 	then:
 	    thrown( TextParseException.class )
     }
     
     def "test_getUInt8"() throws IOException {
-	m_t = new Tokenizer(0xCDL + "");
-	int out = m_t.getUInt8();
-	mgu.equals(0xCDL, out);
+	m_t = new Tokenizer(0xCDL + "")
+	int out = m_t.getUInt8()
+	mgu.equals(0xCDL, out)
 
 	when:
-	m_t = new Tokenizer(0x100 + "");
-	m_t.getUInt8();
+	m_t = new Tokenizer(0x100 + "")
+	m_t.getUInt8()
 	then:
 	thrown( TextParseException.class )
 	
 	when:
-	    m_t = new Tokenizer("-12");
-	    m_t.getUInt8();
+	    m_t = new Tokenizer("-12")
+	    m_t.getUInt8()
 	then:
 	    thrown( TextParseException.class )
     }
     
     def "test_getTTL"() throws IOException {
 	when:
-	m_t = new Tokenizer("59S");
-	then: mgu.equals(59, m_t.getTTL().intValue());
+	m_t = new Tokenizer("59S")
+	then: mgu.equals(59, m_t.getTTL().intValue())
 
 	when:
-	m_t = new Tokenizer(TTL.MAX_VALUE + "");
-	then: mgu.equals(TTL.MAX_VALUE, m_t.getTTL());
+	m_t = new Tokenizer(TTL.MAX_VALUE + "")
+	then: mgu.equals(TTL.MAX_VALUE, m_t.getTTL())
 
 	when:
-	m_t = new Tokenizer((TTL.MAX_VALUE+1L) + "");
-	then: mgu.equals(TTL.MAX_VALUE, m_t.getTTL());
+	m_t = new Tokenizer((TTL.MAX_VALUE+1L) + "")
+	then: mgu.equals(TTL.MAX_VALUE, m_t.getTTL())
 
 	when:
-	m_t = new Tokenizer("Junk");
-	m_t.getTTL();
+	m_t = new Tokenizer("Junk")
+	m_t.getTTL()
 	then:
 	thrown( TextParseException.class )
     }
     
     def "test_getTTLLike"() throws IOException {
 	when:
-	m_t = new Tokenizer("59S");
-	then: mgu.equals(59, m_t.getTTLLike().intValue());
+	m_t = new Tokenizer("59S")
+	then: mgu.equals(59, m_t.getTTLLike().intValue())
 
 	when:
-	m_t = new Tokenizer(TTL.MAX_VALUE + "");
-	then: mgu.equals(TTL.MAX_VALUE, m_t.getTTLLike());
+	m_t = new Tokenizer(TTL.MAX_VALUE + "")
+	then: mgu.equals(TTL.MAX_VALUE, m_t.getTTLLike())
 
 	when:
-	m_t = new Tokenizer((TTL.MAX_VALUE+1L) + "");
-	then: mgu.equals(TTL.MAX_VALUE+1L, m_t.getTTLLike());
+	m_t = new Tokenizer((TTL.MAX_VALUE+1L) + "")
+	then: mgu.equals(TTL.MAX_VALUE+1L, m_t.getTTLLike())
 	
 	when:
-	m_t = new Tokenizer("Junk");
-	m_t.getTTLLike();
+	m_t = new Tokenizer("Junk")
+	m_t.getTTLLike()
 	then:
 	thrown( TextParseException.class )
     }
     
     def "test_getName"() throws IOException, TextParseException {
-	Name root = Name.fromString(".");
-	m_t = new Tokenizer("junk");
-	Name exp = Name.fromString("junk.");
-	Name out = m_t.getName(root);
+	Name root = Name.fromString(".")
+	m_t = new Tokenizer("junk")
+	Name exp = Name.fromString("junk.")
+	Name out = m_t.getName(root)
 	expect: mgu.equals(exp, out)
 
-	Name rel = Name.fromString("you.dig");
+	Name rel = Name.fromString("you.dig")
 
 	when:
-    	    m_t = new Tokenizer("junk");
-	    m_t.getName(rel);
+    	    m_t = new Tokenizer("junk")
+	    m_t.getName(rel)
 	then:
 	    thrown( RelativeNameException.class )
 	
 	when:
-	    m_t = new Tokenizer("");
-	    m_t.getName(root);
+	    m_t = new Tokenizer("")
+	    m_t.getName(root)
 	then:
 	    thrown( TextParseException.class )
     }
@@ -518,23 +517,23 @@ public class TokenizerSpockTest extends Specification {
     def "test_getEOL"() throws IOException {
 	/*
 	when:
-	m_t = new Tokenizer("id");
-	m_t.getIdentifier();
-	m_t.getEOL();
+	m_t = new Tokenizer("id")
+	m_t.getIdentifier()
+	m_t.getEOL()
 	then:
 	thrown( TextParseException.class )
 	*/
 	/*	
 	when:
-	m_t = new Tokenizer("\n");
-	m_t.getEOL();
-	m_t.getEOL();
+	m_t = new Tokenizer("\n")
+	m_t.getEOL()
+	m_t.getEOL()
 	then:
 	thrown( TextParseException.class )
 */
 	when:
-	m_t = new Tokenizer("id");
-	m_t.getEOL();
+	m_t = new Tokenizer("id")
+	m_t.getEOL()
 	then:
 	thrown( TextParseException.class )
     }
@@ -543,47 +542,47 @@ public class TokenizerSpockTest extends Specification {
 	def exp_raw = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ].collect{ entry -> (byte) entry }
 	byte[] exp = exp_raw.toArray(new byte[exp_raw.size] )
 	// basic
-	m_t = new Tokenizer("AQIDBAUGBwgJ");
-	byte[] out = m_t.getBase64();
+	m_t = new Tokenizer("AQIDBAUGBwgJ")
+	byte[] out = m_t.getBase64()
 	expect: mga.that(java.util.Arrays.equals(exp, out))
 
 	// with some whitespace
 	when:
-	m_t = new Tokenizer("AQIDB AUGB   wgJ");
-	out = m_t.getBase64();
+	m_t = new Tokenizer("AQIDB AUGB   wgJ")
+	out = m_t.getBase64()
 	then:
 	mga.that(java.util.Arrays.equals(exp, out))
 
 	// two base64s separated by newline
 	when:
-	m_t = new Tokenizer("AQIDBAUGBwgJ\nAB23DK");
-	out = m_t.getBase64();
+	m_t = new Tokenizer("AQIDBAUGBwgJ\nAB23DK")
+	out = m_t.getBase64()
 	then:
 	mga.that(java.util.Arrays.equals(exp, out))
 	
 
 	// no remaining strings
 	when:
-	m_t = new Tokenizer("\n");
+	m_t = new Tokenizer("\n")
 	then: 
-	mgu.equals(null,  m_t.getBase64() );
+	mgu.equals(null,  m_t.getBase64() )
 
 	when:
-	m_t = new Tokenizer("\n");
-	m_t.getBase64(true);
+	m_t = new Tokenizer("\n")
+	m_t.getBase64(true)
 	then:
 	thrown( TextParseException.class )
 
 	// invalid encoding
 	when:
-	m_t = new Tokenizer("not_base64");
-	m_t.getBase64(false);
+	m_t = new Tokenizer("not_base64")
+	m_t.getBase64(false)
 	then:
 	thrown( TextParseException.class )
 
 	when:
-	m_t = new Tokenizer("not_base64");
-	m_t.getBase64(true);
+	m_t = new Tokenizer("not_base64")
+	m_t.getBase64(true)
 	then:
 	thrown( TextParseException.class )
     }
@@ -592,50 +591,50 @@ public class TokenizerSpockTest extends Specification {
 	def exp_raw = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ].collect{ entry -> (byte) entry }
 	// basic
 	byte [] exp = exp_raw.toArray(new byte[exp_raw.size])
-	m_t = new Tokenizer("0102030405060708090A0B0C0D0E0F");
-	byte[] out = m_t.getHex();
-	expect: // mgu.equals(exp, out);
+	m_t = new Tokenizer("0102030405060708090A0B0C0D0E0F")
+	byte[] out = m_t.getHex()
+	expect: // mgu.equals(exp, out)
 	mga.that(java.util.Arrays.equals(exp, out))
 	
 	when:
 	// with some whitespace
-	m_t = new Tokenizer("0102030 405 060708090A0B0C      0D0E0F");
-	out = m_t.getHex();
+	m_t = new Tokenizer("0102030 405 060708090A0B0C      0D0E0F")
+	out = m_t.getHex()
 	then:
-	// mgu.equals(exp, out);
+	// mgu.equals(exp, out)
 	mga.that(java.util.Arrays.equals(exp, out))
 
 	// two hexs separated by newline
 	when:
-	m_t = new Tokenizer("0102030405060708090A0B0C0D0E0F\n01AB3FE");
-	out = m_t.getHex();
+	m_t = new Tokenizer("0102030405060708090A0B0C0D0E0F\n01AB3FE")
+	out = m_t.getHex()
 	then:
-	// mgu.equals(exp, out);
+	// mgu.equals(exp, out)
 	mga.that(java.util.Arrays.equals(exp, out))
 
 	// no remaining strings
 	when:
-	m_t = new Tokenizer("\n");
+	m_t = new Tokenizer("\n")
 	then:
-	mgu.equals(null,  m_t.getHex() );
+	mgu.equals(null,  m_t.getHex() )
 
 	when:
-	m_t = new Tokenizer("\n");
-	m_t.getHex(true);
+	m_t = new Tokenizer("\n")
+	m_t.getHex(true)
 	
 	then:
 	thrown( TextParseException.class )
 
 	// invalid encoding
 	when:
-	m_t = new Tokenizer("not_hex");
-	m_t.getHex(false);
+	m_t = new Tokenizer("not_hex")
+	m_t.getHex(false)
 	then:
 	thrown( TextParseException.class )
 
 	when:
-	m_t = new Tokenizer("not_hex");
-	m_t.getHex(true);
+	m_t = new Tokenizer("not_hex")
+	m_t.getHex(true)
 	
 	then:
 	thrown( TextParseException.class )
