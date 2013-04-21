@@ -81,62 +81,65 @@ public class OptionsSpockTest extends Specification {
 	mgu.equals("value1", Options.value("Option1"));
 	mgu.equals("value2b", Options.value("option2"));
     }
-    /*
-    public void test_check()
-    {
-	assertFalse(Options.check("No Options yet"));
+    
+    def "test_check"() {
+	expect: mga.that(!Options.check("No Options yet"));
 
+	when:
 	Options.set("First Option");
-	assertFalse(Options.check("Not a valid option name"));
-	assertTrue(Options.check("First Option"));
-	assertTrue(Options.check("FIRST option"));
+	then:
+	mga.that(!Options.check("Not a valid option name"));
+	mga.that(Options.check("First Option"));
+	mga.that(Options.check("FIRST option"));
     }
-
-    public void test_unset()
-    {
+    
+    def "test_unset"() {
 	// unset something non-existant
 	Options.unset("Not an option Name");
-
+	when:
 	Options.set("Temporary Option");
-	assertTrue(Options.check("Temporary Option"));
+	then: mga.that(Options.check("Temporary Option"));
+	when:
 	Options.unset("Temporary Option");
-	assertFalse(Options.check("Temporary Option"));
+	then: mga.that(!Options.check("Temporary Option"));
 	
+	when:
 	Options.set("Temporary Option");
-	assertTrue(Options.check("Temporary Option"));
+	then:mga.that(Options.check("Temporary Option"));
+	when:
 	Options.unset("temporary option");
-	assertFalse(Options.check("Temporary Option"));
+	then: mga.that(!Options.check("Temporary Option"));
 
 	// unset something now that the table is non-null
 	Options.unset("Still Not an Option Name");
     }
 
-    public void test_value()
-    {
-	assertNull(Options.value("Table is Null"));
-
+    def "test_value"() {
+       
 	Options.set("Testing Option");
-	assertNull(Options.value("Not an Option Name"));
+	expect:
+	mgu.equals(null, Options.value("Table is Null"));
+	mgu.equals(null, Options.value("Not an Option Name"));
 
 	mgu.equals("true", Options.value("Testing OPTION"));
     }
 
-    public void test_intValue()
-    {
-	mgu.equals(-1, Options.intValue("Table is Null"));
-
+    def "test_intValue"() {
+	expect: mgu.equals(-1, Options.intValue("Table is Null"));
+	
+	when:
 	Options.set("A Boolean Option");
 	Options.set("An Int Option", "13");
 	Options.set("Not An Int Option", "NotAnInt");
 	Options.set("A Negative Int Value", "-1000");
-
+	then:
 	mgu.equals(-1, Options.intValue("A Boolean Option"));
 	mgu.equals(-1, Options.intValue("Not an Option NAME"));
 	mgu.equals(13, Options.intValue("an int option"));
 	mgu.equals(-1, Options.intValue("NOT an INT option"));
 	mgu.equals(-1, Options.intValue("A negative int Value"));
     }
-*/
+
     def "test_systemProperty"() {
 	System.setProperty("dnsjava.options", "booleanOption,valuedOption1=10,valuedOption2=NotAnInteger");
 	
