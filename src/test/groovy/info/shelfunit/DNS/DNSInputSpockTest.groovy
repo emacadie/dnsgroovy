@@ -36,78 +36,78 @@ package info.shelfunit.DNS
 
 import org.xbill.DNS.*
 
-import java.util.Arrays;
+import java.util.Arrays
 import spock.lang.Specification
 
 public class DNSInputSpockTest extends Specification {
 
     def mgu = new MyGroovyUtil()
     def mga = new MyGroovyAssert()
-    private byte[]	m_raw;
-    private DNSInput	m_di;
+    private byte[]	m_raw
+    private DNSInput	m_di
 
     private void assertEquals( byte[] exp, byte[] act )
     {
-	assertTrue(Arrays.equals(exp, act));
+	assertTrue(Arrays.equals(exp, act))
     }
 
     def setup() {
 	def m_raw_orig = [ 0, 1, 2, 3, 4, 5, (byte)255, (byte)255, (byte)255, (byte)255 ].collect{ entry -> (byte) entry }
-	m_raw = m_raw_orig.toArray(new byte[m_raw_orig.size] ) ;
-	    m_di = new DNSInput( m_raw) ;
+	m_raw = m_raw_orig.toArray(new byte[m_raw_orig.size] ) 
+	    m_di = new DNSInput( m_raw) 
     }
 
     def "test_initial_state"() {
 	expect:
-	mgu.equals( 0, m_di.current() );
-	mgu.equals( 10, m_di.remaining() );
+	mgu.equals( 0, m_di.current() )
+	mgu.equals( 10, m_di.remaining() )
     }
 
     def "test_jump1"() {
-	m_di.jump( 1 );
+	m_di.jump( 1 )
 	expect:
-	mgu.equals( 1, m_di.current() );
-	mgu.equals( 9, m_di.remaining() );
+	mgu.equals( 1, m_di.current() )
+	mgu.equals( 9, m_di.remaining() )
     }
     
     def "test_jump2"() {
-	m_di.jump( 9 );
+	m_di.jump( 9 )
 	expect:
-	mgu.equals( 9, m_di.current() );
-	mgu.equals( 1, m_di.remaining() );
+	mgu.equals( 9, m_di.current() )
+	mgu.equals( 1, m_di.remaining() )
     }
 
     def "test_jump_invalid"() {
 	when:
-	    m_di.jump( 10 );
+	    m_di.jump( 10 )
 	then:
 	thrown( IllegalArgumentException.class )
     }
 
     def "test_setActive"() {
-	m_di.setActive( 5 );
+	m_di.setActive( 5 )
 	expect:
-	mgu.equals( 0, m_di.current() );
-	mgu.equals( 5, m_di.remaining() );
+	mgu.equals( 0, m_di.current() )
+	mgu.equals( 5, m_di.remaining() )
     }
     
     def "test_setActive_boundary1"() {
-	m_di.setActive( 10 );
+	m_di.setActive( 10 )
 	expect:
-	mgu.equals( 0, m_di.current() );
-	mgu.equals( 10, m_di.remaining() );
+	mgu.equals( 0, m_di.current() )
+	mgu.equals( 10, m_di.remaining() )
     }
 
     def "test_setActive_boundary2"() {
-	m_di.setActive( 0 );
+	m_di.setActive( 0 )
 	expect:
-	mgu.equals( 0, m_di.current() );
-	mgu.equals( 0, m_di.remaining() );
+	mgu.equals( 0, m_di.current() )
+	mgu.equals( 0, m_di.remaining() )
     }
     
     def "test_setActive_invalid"() {
 	when:
-	    m_di.setActive( 11 );
+	    m_di.setActive( 11 )
 	then:
 	thrown( IllegalArgumentException.class )
     }
@@ -115,186 +115,186 @@ public class DNSInputSpockTest extends Specification {
     def "test_clearActive"() {
 	when:
 	// first without setting active:
-	m_di.clearActive();
+	m_di.clearActive()
 	then:
-	mgu.equals( 0, m_di.current() );
-	mgu.equals( 10, m_di.remaining() );
+	mgu.equals( 0, m_di.current() )
+	mgu.equals( 10, m_di.remaining() )
 
 	when:
-	m_di.setActive( 5 );
-	m_di.clearActive();
+	m_di.setActive( 5 )
+	m_di.clearActive()
 	then:
-	mgu.equals( 0, m_di.current() );
-	mgu.equals( 10, m_di.remaining() );
+	mgu.equals( 0, m_di.current() )
+	mgu.equals( 10, m_di.remaining() )
     }
 
     def "test_restore_invalid"() {
 	when:
-	    m_di.restore();
+	    m_di.restore()
 	then:
 	thrown( IllegalStateException.class )
     }
 
     def "test_save_restore"() {
 	when:
-	m_di.jump( 4 );
+	m_di.jump( 4 )
 	then:
-	mgu.equals( 4, m_di.current() );
-	mgu.equals( 6, m_di.remaining() );
+	mgu.equals( 4, m_di.current() )
+	mgu.equals( 6, m_di.remaining() )
 	when:
-	m_di.save();
-	m_di.jump( 0 );
+	m_di.save()
+	m_di.jump( 0 )
 	then:
-	mgu.equals( 0, m_di.current() );
-	mgu.equals( 10, m_di.remaining() );
+	mgu.equals( 0, m_di.current() )
+	mgu.equals( 10, m_di.remaining() )
 	when:
-	m_di.restore();
+	m_di.restore()
 	then:
-	mgu.equals( 4, m_di.current() );
-	mgu.equals( 6, m_di.remaining() );
+	mgu.equals( 4, m_di.current() )
+	mgu.equals( 6, m_di.remaining() )
     }
 
     def "test_readU8_basic"() throws WireParseException {
-	int v1 = m_di.readU8();
+	int v1 = m_di.readU8()
 	expect:
-	mgu.equals( 1, m_di.current() );
-	mgu.equals( 9, m_di.remaining() );
-	mgu.equals( 0, v1 );
+	mgu.equals( 1, m_di.current() )
+	mgu.equals( 9, m_di.remaining() )
+	mgu.equals( 0, v1 )
     }
 
     def "test_readU8_maxval"() throws WireParseException {
-	m_di.jump( 9 );
-	int v1 = m_di.readU8();
+	m_di.jump( 9 )
+	int v1 = m_di.readU8()
 	expect:
-	mgu.equals( 10, m_di.current() );
-	mgu.equals( 0, m_di.remaining() );
-	mgu.equals( 255, v1 );
+	mgu.equals( 10, m_di.current() )
+	mgu.equals( 0, m_di.remaining() )
+	mgu.equals( 255, v1 )
 
 	when:
-	    v1 = m_di.readU8();
+	    v1 = m_di.readU8()
 	then:
 	thrown( WireParseException.class  )
     }
     
     def "test_readU16_basic"() throws WireParseException {
-	int v1 = m_di.readU16();
+	int v1 = m_di.readU16()
 	expect:
-	mgu.equals( 2, m_di.current() );
-	mgu.equals( 8, m_di.remaining() );
-	mgu.equals( 1, v1 );
+	mgu.equals( 2, m_di.current() )
+	mgu.equals( 8, m_di.remaining() )
+	mgu.equals( 1, v1 )
 	when:
-	m_di.jump( 1 );
-	v1 = m_di.readU16();
-	then: mgu.equals( 258, v1 );
+	m_di.jump( 1 )
+	v1 = m_di.readU16()
+	then: mgu.equals( 258, v1 )
     }
 
     def "test_readU16_maxval"() throws WireParseException  {
-	m_di.jump(8);
-	int v = m_di.readU16();
+	m_di.jump(8)
+	int v = m_di.readU16()
 	expect:
-	mgu.equals( 10, m_di.current() );
-	mgu.equals( 0, m_di.remaining() );
-	mgu.equals( 0xFFFF, v );
+	mgu.equals( 10, m_di.current() )
+	mgu.equals( 0, m_di.remaining() )
+	mgu.equals( 0xFFFF, v )
 	
 	when:
-	    m_di.jump( 9 );
-	    m_di.readU16();
+	    m_di.jump( 9 )
+	    m_di.readU16()
 	then:
 	thrown( WireParseException.class )
     }
 
     def "test_readU32_basic"() throws WireParseException {
-	long v1 = m_di.readU32();
+	long v1 = m_di.readU32()
 	expect:
-	mgu.equals( 4, m_di.current() );
-	mgu.equals( 6, m_di.remaining() );
-	mgu.equals( 66051, v1.intValue() );
+	mgu.equals( 4, m_di.current() )
+	mgu.equals( 6, m_di.remaining() )
+	mgu.equals( 66051, v1.intValue() )
     }
 
     def "test_readU32_maxval"() throws WireParseException {
-	m_di.jump(6);
-	long v = m_di.readU32();
+	m_di.jump(6)
+	long v = m_di.readU32()
 	expect:
-	mgu.equals( 10, m_di.current() );
-	mgu.equals( 0, m_di.remaining() );
-	mgu.equals( 0xFFFFFFFFL, v );
+	mgu.equals( 10, m_di.current() )
+	mgu.equals( 0, m_di.remaining() )
+	mgu.equals( 0xFFFFFFFFL, v )
 	
 	when:
-	    m_di.jump( 7 );
-	    m_di.readU32();
+	    m_di.jump( 7 )
+	    m_di.readU32()
 	then:
 	thrown( WireParseException.class )
     }
     
     def "test_readByteArray_0arg"() throws WireParseException {
 	when:
-	m_di.jump( 1 );
-	byte[] out = m_di.readByteArray();
+	m_di.jump( 1 )
+	byte[] out = m_di.readByteArray()
 	then:
-	mgu.equals( 10, m_di.current() );
-	mgu.equals( 0, m_di.remaining() );
-	mgu.equals( 9, out.length );
-	for( int i=0; i<9; ++i ){
-	    mgu.equals( m_raw[i+1], out[i] );
+	mgu.equals( 10, m_di.current() )
+	mgu.equals( 0, m_di.remaining() )
+	mgu.equals( 9, out.length )
+	for( int i=0; i < 9; ++i ){
+	    mgu.equals( m_raw[i+1], out[i] )
 	}
     }
     
     def "test_readByteArray_0arg_boundary"() throws WireParseException {
-	m_di.jump(9);
-	m_di.readU8();
-	byte[] out = m_di.readByteArray();
+	m_di.jump(9)
+	m_di.readU8()
+	byte[] out = m_di.readByteArray()
 	expect:
-	mgu.equals( 0, out.length );
+	mgu.equals( 0, out.length )
     }
 
     def "test_readByteArray_1arg"() throws WireParseException {
-	byte[] out = m_di.readByteArray( 2 );
+	byte[] out = m_di.readByteArray( 2 )
 	expect:
-	mgu.equals( 2, m_di.current() );
-	mgu.equals( 8, m_di.remaining() );
-	mgu.equals( 2, out.length );
-	mgu.equals( 0.byteValue(), out[0] );
-	mgu.equals( 1.byteValue(), out[1] );
+	mgu.equals( 2, m_di.current() )
+	mgu.equals( 8, m_di.remaining() )
+	mgu.equals( 2, out.length )
+	mgu.equals( 0.byteValue(), out[0] )
+	mgu.equals( 1.byteValue(), out[1] )
     }
 
     def "test_readByteArray_1arg_boundary"() throws WireParseException {
-	byte[] out = m_di.readByteArray( 10 );
+	byte[] out = m_di.readByteArray( 10 )
 	expect:
-	mgu.equals( 10, m_di.current() );
-	mgu.equals( 0, m_di.remaining() );
-	// mgu.equals( m_raw, out );
-	mga.that(Arrays.equals(m_raw, out));
+	mgu.equals( 10, m_di.current() )
+	mgu.equals( 0, m_di.remaining() )
+	// mgu.equals( m_raw, out )
+	mga.that(Arrays.equals(m_raw, out))
     }
 
     def "test_readByteArray_1arg_invalid"() {
 	when:
-	    m_di.readByteArray( 11 );
+	    m_di.readByteArray( 11 )
 	then:
 	thrown( WireParseException.class )
     }
     /*
     public void test_readByteArray_3arg() throws WireParseException
     {
-	byte[] data = new byte [ 5 ];
-	m_di.jump(4);
+	byte[] data = new byte [ 5 ]
+	m_di.jump(4)
 	
-	m_di.readByteArray( data, 1, 4 );
-	mgu.equals( 8, m_di.current() );
-	mgu.equals( 0, data[0] );
+	m_di.readByteArray( data, 1, 4 )
+	mgu.equals( 8, m_di.current() )
+	mgu.equals( 0, data[0] )
 	for( int i=0; i<4; ++i ){
-	    mgu.equals( m_raw[i+4], data[i+1] );
+	    mgu.equals( m_raw[i+4], data[i+1] )
 	}
     }
     */
     def "test_readCountedSting"() throws WireParseException {
-	m_di.jump( 1 );
-	byte[] out = m_di.readCountedString();
+	m_di.jump( 1 )
+	byte[] out = m_di.readCountedString()
 	// println("out[0]: " + out[0].getClass().getName())
 	// println("2: " + 2.getClass().getName())
 
 	expect:
-	mgu.equals( 1, out.length );
-	mgu.equals( 3, m_di.current() );
-	mgu.equals( out[0], 2.byteValue() );
+	mgu.equals( 1, out.length )
+	mgu.equals( 3, m_di.current() )
+	mgu.equals( out[0], 2.byteValue() )
     }
 }

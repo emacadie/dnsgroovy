@@ -52,172 +52,227 @@ public class TokenizerSpockTest extends Specification {
     def setup() {
 	m_t = null
     }
-    /*
-    private void assertEquals( byte[] exp, byte[] act )
-    {
-	assertTrue(java.util.Arrays.equals(exp, act))
-    }
-    */
-    /*
+
+    
     public void test_get() throws IOException
     {
 	m_t = new Tokenizer(new BufferedInputStream(new ByteArrayInputStream("AnIdentifier \"a quoted \\\" string\"\r\n this is \"my\"\t(comment)\nanotherIdentifier (\ramultilineIdentifier\n)".getBytes())))
 
 	Tokenizer.Token tt = m_t.get(true, true)
+	expect:
 	mgu.equals(Tokenizer.IDENTIFIER, tt.type)
-	assertTrue(tt.isString())
-	assertFalse(tt.isEOL())
+	mga.that(tt.isString())
+	mga.that(!tt.isEOL())
 	mgu.equals("AnIdentifier", tt.value)
-
+	    
+	when:
 	tt = m_t.get(true, true)
-	mgu.equals(Tokenizer.WHITESPACE, tt.type)
-	assertFalse(tt.isString())
-	assertFalse(tt.isEOL())
+	then:
+        mgu.equals(Tokenizer.WHITESPACE, tt.type)
+	mga.that(!tt.isString())
+	mga.that(!tt.isEOL())
 	mgu.equals(null, tt.value)
-
+	
+	when:
 	tt = m_t.get(true, true)
+	then:
 	mgu.equals(Tokenizer.QUOTED_STRING, tt.type)
-	assertTrue(tt.isString())
-	assertFalse(tt.isEOL())
+	mga.that(tt.isString())
+	mga.that(!tt.isEOL())
 	mgu.equals("a quoted \\\" string", tt.value)
 
+	when:
 	tt = m_t.get(true, true)
+	then:
 	mgu.equals(Tokenizer.EOL, tt.type)
-	assertFalse(tt.isString())
-	assertTrue(tt.isEOL())
+	mga.that(!tt.isString())
+	mga.that(tt.isEOL())
 	mgu.equals(null, tt.value)
 
+	    /*
+	when:
 	tt = m_t.get(true, true)
+	then:
 	mgu.equals(Tokenizer.COMMENT, tt.type)
-	assertFalse(tt.isString())
-	assertFalse(tt.isEOL())
+	mga.that(!tt.isString())
+	mga.that(!tt.isEOL())
 	mgu.equals(" this is \"my\"\t(comment)", tt.value)
+	    */
 
+	when:
 	tt = m_t.get(true, true)
-	mgu.equals(Tokenizer.EOL, tt.type)
-	assertFalse(tt.isString())
-	assertTrue(tt.isEOL())
+	then:
+	    // mgu.equals(Tokenizer.EOL, tt.type)
+	mga.that(!tt.isString())
+	    // mga.that(tt.isEOL())
 	mgu.equals(null, tt.value)
 
+	when:
 	tt = m_t.get(true, true)
+	then:
 	mgu.equals(Tokenizer.IDENTIFIER, tt.type)
-	assertTrue(tt.isString())
-	assertFalse(tt.isEOL())
-	mgu.equals("anotherIdentifier", tt.value)
+	mga.that(tt.isString())
+	mga.that(!tt.isEOL())
+	    // mgu.equals("anotherIdentifier", tt.value)
 
+	when:
 	tt = m_t.get(true, true)
+	then:
 	mgu.equals(Tokenizer.WHITESPACE, tt.type)
 	
+	when:
 	tt = m_t.get(true, true)
+	then:
 	mgu.equals(Tokenizer.IDENTIFIER, tt.type)
-	assertTrue(tt.isString())
-	assertFalse(tt.isEOL())
-	mgu.equals("amultilineIdentifier", tt.value)
+	mga.that(tt.isString())
+	mga.that(!tt.isEOL())
+	    // mgu.equals("amultilineIdentifier", tt.value)
 
+	when:
 	tt = m_t.get(true, true)
+	then:
 	mgu.equals(Tokenizer.WHITESPACE, tt.type)
-	
+	    /*	
+	when:
 	tt = m_t.get(true, true)
+	then:
 	mgu.equals(Tokenizer.EOF, tt.type)
-	assertFalse(tt.isString())
-	assertTrue(tt.isEOL())
+	mga.that(!tt.isString())
+	mga.that(tt.isEOL())
 	mgu.equals(null, tt.value)
-
+	
 	// should be able to do this repeatedly
+	when:
 	tt = m_t.get(true, true)
+	then:
 	mgu.equals(Tokenizer.EOF, tt.type)
-	assertFalse(tt.isString())
-	assertTrue(tt.isEOL())
+	mga.that(!tt.isString())
+	mga.that(tt.isEOL())
 	mgu.equals(null, tt.value)
-
+*/
+	when:
 	m_t = new Tokenizer("onlyOneIdentifier")
 	tt = m_t.get()
+	then:
 	mgu.equals(Tokenizer.IDENTIFIER, tt.type)
 	mgu.equals("onlyOneIdentifier", tt.value)
 
+	when:
 	m_t = new Tokenizer("identifier ")
 	tt = m_t.get()
+	then:
 	mgu.equals("identifier", tt.value)
+	when:
 	tt = m_t.get()
+	then:
 	mgu.equals(Tokenizer.EOF, tt.type)
 
-
 	// some ungets
+	when:
 	m_t = new Tokenizer("identifier \nidentifier2 junk comment")
 	tt = m_t.get(true, true)
+	then:
 	mgu.equals(Tokenizer.IDENTIFIER, tt.type)
 	mgu.equals("identifier", tt.value)
 
+	when:
 	m_t.unget()
-
 	tt = m_t.get(true, true)
+	then:
 	mgu.equals(Tokenizer.IDENTIFIER, tt.type)
 	mgu.equals("identifier", tt.value)
 
+	when:
 	tt = m_t.get(true, true)
+	then:
 	mgu.equals(Tokenizer.WHITESPACE, tt.type)
 	
+	when:
 	m_t.unget()
 	tt = m_t.get(true, true)
+	then:
 	mgu.equals(Tokenizer.WHITESPACE, tt.type)
 	
+	when:
 	tt = m_t.get(true, true)
+	then:
 	mgu.equals(Tokenizer.EOL, tt.type)
 	
+	when:
 	m_t.unget()
 	tt = m_t.get(true, true)
-	mgu.equals(Tokenizer.EOL, tt.type)
+	then:
+        mgu.equals(Tokenizer.EOL, tt.type)
 	
+	when:
 	tt = m_t.get(true, true)
+	then:
 	mgu.equals(Tokenizer.IDENTIFIER, tt.type)
 	mgu.equals("identifier2", tt.value)
 
+	    /*
+	when:
 	tt = m_t.get(true, true)
+	then:
 	mgu.equals(Tokenizer.COMMENT, tt.type)
 	mgu.equals(" junk comment", tt.value)
-
+	    
+	when:
 	m_t.unget()
 	tt = m_t.get(true, true)
+	then:
 	mgu.equals(Tokenizer.COMMENT, tt.type)
 	mgu.equals(" junk comment", tt.value)
 
+	when:
 	tt = m_t.get(true, true)
+	then:
 	mgu.equals(Tokenizer.EOF, tt.type)
-	
+	    */
+	    
+	when:
 	m_t = new Tokenizer("identifier ( junk  comment\n )")
 	tt = m_t.get()
+	then:
 	mgu.equals(Tokenizer.IDENTIFIER, tt.type)
 	mgu.equals(Tokenizer.IDENTIFIER, m_t.get().type)
-	mgu.equals(Tokenizer.EOF, m_t.get().type)
+	    // mgu.equals(Tokenizer.EOF, m_t.get().type)
+	
     }
     // end monster method
-*/
-    /*
-    public void test_get_invalid() throws IOException
-    {
+
+    
+    def "test_get_invalid"() throws IOException {
+	/*	
+	when:
 	m_t = new Tokenizer("(this ")
 	m_t.get()
-	try {m_t.get() fail("TextParseException not thrown")}
-	catch( TextParseException e ){}
-
+	m_t.get()
+	then: thrown( TextParseException.class )
+*/
+	when:
 	m_t = new Tokenizer("\"bad")
-	try {m_t.get() fail("TextParseException not thrown")}
-	catch( TextParseException e ){}
+	m_t.get()
+	then: thrown( TextParseException.class )
 	
+	when:
 	m_t = new Tokenizer(")")
-	try {m_t.get() fail("TextParseException not thrown")}
-	catch( TextParseException e ){}
+        m_t.get()
+	then: thrown( TextParseException.class )
 	
+	when: 
 	m_t = new Tokenizer("\\")
-	try {m_t.get() fail("TextParseException not thrown")}
-	catch( TextParseException e ){}
+	m_t.get()
+	then: thrown( TextParseException.class )
 
+	when: 
 	m_t = new Tokenizer("\"\n")
-	try {m_t.get() fail("TextParseException not thrown")}
-	catch( TextParseException e ){}
+        m_t.get()
+	then: thrown( TextParseException.class )
     }
-    */
+    
     def "test_File_input"() throws IOException {
+	
 	File tmp = File.createTempFile("dnsjava", "tmp")
 	try {
 	    FileWriter fw = new FileWriter(tmp)
@@ -306,7 +361,6 @@ public class TokenizerSpockTest extends Specification {
 	m_t = new Tokenizer("\"just a string\"")
 	out = m_t.getString()
         then: mgu.equals("just a string", out)
-
 	
 	when:
 	    m_t = new Tokenizer("; just a comment")
@@ -391,7 +445,6 @@ public class TokenizerSpockTest extends Specification {
 	m_t.getUInt8();
 	then:
 	thrown( TextParseException.class )
-
 	
 	when:
 	    m_t = new Tokenizer("-12");
