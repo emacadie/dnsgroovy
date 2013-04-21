@@ -46,22 +46,22 @@ public class RcodeSpockTest extends Specification {
     def "test_string"() {
 	expect:
 	// a regular one
-	mgu.equals("NXDOMAIN", Rcode.string(Rcode.NXDOMAIN));
+	mgu.equals("NXDOMAIN", Rcode.string(Rcode.NXDOMAIN))
 
 	// one with an alias
-	mgu.equals("NOTIMP", Rcode.string(Rcode.NOTIMP));
+	mgu.equals("NOTIMP", Rcode.string(Rcode.NOTIMP))
 
 	// one that doesn't exist
-	mga.that(Rcode.string(20).startsWith("RESERVED"));
+	mga.that(Rcode.string(20).startsWith("RESERVED"))
 
 	when:
-	    Rcode.string(-1);
+	    Rcode.string(-1)
 	then:
 	    thrown( IllegalArgumentException.class )
 	
 	//  (max is 0xFFF)
 	when:
-	    Rcode.string(0x1000);
+	    Rcode.string(0x1000)
 	then:
 	    thrown( IllegalArgumentException.class )
     }
@@ -69,19 +69,19 @@ public class RcodeSpockTest extends Specification {
     def "test_TSIGstring"() {
 	expect:
 	// a regular one
-	mgu.equals("BADSIG", Rcode.TSIGstring(Rcode.BADSIG));
+	mgu.equals("BADSIG", Rcode.TSIGstring(Rcode.BADSIG))
 
 	// one that doesn't exist
-	mga.that(Rcode.TSIGstring(20).startsWith("RESERVED"));
+	mga.that(Rcode.TSIGstring(20).startsWith("RESERVED"))
 
 	when:
-	    Rcode.TSIGstring(-1);
+	    Rcode.TSIGstring(-1)
 	then:
 	    thrown( IllegalArgumentException.class )
 	
 	//  (max is 0xFFFF)
 	when:
-	    Rcode.string(0x10000);
+	    Rcode.string(0x10000)
 	then:
 	    thrown( IllegalArgumentException.class )
     }
@@ -89,22 +89,22 @@ public class RcodeSpockTest extends Specification {
     def "test_value"() {
 	expect:
 	// regular one
-	mgu.equals(Rcode.FORMERR, Rcode.value("FORMERR"));
+	mgu.equals(Rcode.FORMERR, Rcode.value("FORMERR"))
 
 	// one with alias
-	mgu.equals(Rcode.NOTIMP, Rcode.value("NOTIMP"));
-	mgu.equals(Rcode.NOTIMP, Rcode.value("NOTIMPL"));
+	mgu.equals(Rcode.NOTIMP, Rcode.value("NOTIMP"))
+	mgu.equals(Rcode.NOTIMP, Rcode.value("NOTIMPL"))
 
 	// one thats undefined but within range
-	mgu.equals(35, Rcode.value("RESERVED35"));
+	mgu.equals(35, Rcode.value("RESERVED35"))
 
 	// one thats undefined but out of range
-	mgu.equals(-1, Rcode.value("RESERVED" + 0x1000));
+	mgu.equals(-1, Rcode.value("RESERVED" + 0x1000))
 
 	// something that unknown
-	mgu.equals(-1, Rcode.value("THIS IS DEFINITELY UNKNOWN"));
+	mgu.equals(-1, Rcode.value("THIS IS DEFINITELY UNKNOWN"))
 
 	// empty string
-	mgu.equals(-1, Rcode.value(""));
+	mgu.equals(-1, Rcode.value(""))
     }
 }
