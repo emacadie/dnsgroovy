@@ -17,44 +17,36 @@ abstract class SingleNameBase extends Record {
     
     protected Name singleName;
     
-    protected
-    SingleNameBase() {}
+    protected SingleNameBase() {}
     
-    protected
-    SingleNameBase(Name name, int type, int dclass, long ttl) {
+    protected SingleNameBase(Name name, int type, int dclass, long ttl) {
         super(name, type, dclass, ttl);
     }
     
-    protected
-    SingleNameBase(Name name, int type, int dclass, long ttl, Name singleName,
+    protected SingleNameBase(Name name, int type, int dclass, long ttl, Name singleName,
             String description)
     {
         super(name, type, dclass, ttl);
         this.singleName = checkName(description, singleName);
     }
     
-    void
-    rrFromWire(DNSInput in) throws IOException {
+    void rrFromWire(DNSInput in) throws IOException {
         singleName = new Name(in);
     }
     
-    void
-    rdataFromString(Tokenizer st, Name origin) throws IOException {
+    void rdataFromString(Tokenizer st, Name origin) throws IOException {
         singleName = st.getName(origin);
     }
     
-    String
-    rrToString() {
+    String rrToString() {
         return singleName.toString();
     }
     
-    protected Name
-    getSingleName() {
+    protected Name getSingleName() {
         return singleName;
     }
     
-    void
-    rrToWire(DNSOutput out, Compression c, boolean canonical) {
+    void rrToWire(DNSOutput out, Compression c, boolean canonical) {
         singleName.toWire(out, null, canonical);
     }
 
