@@ -28,8 +28,7 @@ public abstract class Record implements Cloneable, Comparable, Serializable {
         byteFormat.setMinimumIntegerDigits(3);
     }
     
-    protected
-    Record() {}
+    protected Record() {}
     
     Record(Name name, int type, int dclass, long ttl) {
         if (!name.isAbsolute())
@@ -328,14 +327,12 @@ public abstract class Record implements Cloneable, Comparable, Serializable {
     /**
      * Converts the text format of an RR to the internal format - must be overriden
      */
-    abstract void
-    rdataFromString(Tokenizer st, Name origin) throws IOException;
+    abstract void rdataFromString(Tokenizer st, Name origin) throws IOException;
     
     /**
      * Converts a String into a byte array.
      */
-    protected static byte []
-    byteArrayFromString(String s) throws TextParseException {
+    protected static byte [] byteArrayFromString(String s) throws TextParseException {
         byte [] array = s.getBytes();
         boolean escaped = false;
         boolean hasEscapes = false;
@@ -364,28 +361,29 @@ public abstract class Record implements Cloneable, Comparable, Serializable {
                     digits++; 
                     intval *= 10;
                     intval += (b - '0');
-                    if (intval > 255)
-                        throw new TextParseException
-                                    ("bad escape");
-                    if (digits < 3)
+                    if (intval > 255) {
+                        throw new TextParseException ("bad escape");
+		    }
+                    if (digits < 3) {
                         continue;
+		    }
                     b = (byte) intval;
-                }
-                else if (digits > 0 && digits < 3)
+                }   else if (digits > 0 && digits < 3) {
                     throw new TextParseException("bad escape");
+		}
                 os.write(b);
                 escaped = false;
-            }
-            else if (array[i] == '\\') {
+            } else if (array[i] == '\\') {
                 escaped = true;
                 digits = 0;
                 intval = 0;
-            }
-            else
+            } else {
                 os.write(array[i]);
+	    }
         }
-        if (digits > 0 && digits < 3)
+        if (digits > 0 && digits < 3) {
             throw new TextParseException("bad escape");
+	}
         array = os.toByteArray();
         if (array.length > 255) {
             throw new TextParseException("text string too long");
@@ -397,11 +395,11 @@ public abstract class Record implements Cloneable, Comparable, Serializable {
     /**
      * Converts a byte array into a String.
      */
-    protected static String
-    byteArrayToString(byte [] array, boolean quote) {
+    protected static String byteArrayToString(byte [] array, boolean quote) {
         StringBuffer sb = new StringBuffer();
-        if (quote)
+        if (quote) {
             sb.append('"');
+	}
         for (int i = 0; i < array.length; i++) {
             int b = array[i] & 0xFF;
             if (b < 0x20 || b >= 0x7f) {
@@ -410,19 +408,20 @@ public abstract class Record implements Cloneable, Comparable, Serializable {
             } else if (b == '"' || b == '\\') {
                 sb.append('\\');
                 sb.append((char)b);
-            } else
+            } else {
                 sb.append((char)b);
+	    }
         }
-        if (quote)
+        if (quote) {
             sb.append('"');
+	}
         return sb.toString();
     }
     
     /**
      * Converts a byte array into the unknown RR format.
      */
-    protected static String
-    unknownToString(byte [] data) {
+    protected static String unknownToString(byte [] data) {
         StringBuffer sb = new StringBuffer();
         sb.append("\\# ");
         sb.append(data.length);
@@ -442,14 +441,13 @@ public abstract class Record implements Cloneable, Comparable, Serializable {
      * @return The new record
      * @throws IOException The text format was invalid.
      */
-    public static Record
-    fromString(Name name, int type, int dclass, long ttl, Tokenizer st, Name origin)
-    throws IOException
-    {
+    public static Record fromString(Name name, int type, int dclass, long ttl, Tokenizer st, Name origin)
+    throws IOException {
         Record rec;
     
-        if (!name.isAbsolute())
+        if (!name.isAbsolute()) {
             throw new RelativeNameException(name);
+	}
         Type.check(type);
         DClass.check(dclass);
         TTL.check(ttl);
@@ -488,10 +486,8 @@ public abstract class Record implements Cloneable, Comparable, Serializable {
      * @return The new record
      * @throws IOException The text format was invalid.
      */
-    public static Record
-    fromString(Name name, int type, int dclass, long ttl, String s, Name origin)
-    throws IOException
-    {
+    public static Record fromString(Name name, int type, int dclass, long ttl, String s, Name origin)
+    throws IOException {
         return fromString(name, type, dclass, ttl, new Tokenizer(s), origin);
     }
     
@@ -499,8 +495,7 @@ public abstract class Record implements Cloneable, Comparable, Serializable {
      * Returns the record's name
      * @see Name
      */
-    public Name
-    getName() {
+    public Name getName() {
         return name;
     }
     
@@ -508,8 +503,7 @@ public abstract class Record implements Cloneable, Comparable, Serializable {
      * Returns the record's type
      * @see Type
      */
-    public int
-    getType() {
+    public int getType() {
         return type;
     }
     
@@ -522,8 +516,7 @@ public abstract class Record implements Cloneable, Comparable, Serializable {
      * @see RRset
      * @see SIGRecord
      */
-    public int
-    getRRsetType() {
+    public int getRRsetType() {
         if (type == Type.RRSIG) {
             RRSIGRecord sig = (RRSIGRecord) this;
             return sig.getTypeCovered();
@@ -534,32 +527,28 @@ public abstract class Record implements Cloneable, Comparable, Serializable {
     /**
      * Returns the record's class
      */
-    public int
-    getDClass() {
+    public int getDClass() {
         return dclass;
     }
     
     /**
      * Returns the record's TTL
      */
-    public long
-    getTTL() {
+    public long getTTL() {
         return ttl;
     }
     
     /**
      * Converts the type-specific RR to wire format - must be overriden
      */
-    abstract void
-    rrToWire(DNSOutput out, Compression c, boolean canonical);
+    abstract void rrToWire(DNSOutput out, Compression c, boolean canonical);
     
     /**
      * Determines if two Records could be part of the same RRset.
      * This compares the name, type, and class of the Records; the ttl and
      * rdata are not compared.
      */
-    public boolean
-    sameRRset(Record rec) {
+    public boolean sameRRset(Record rec) {
         return (getRRsetType() == rec.getRRsetType() &&
             dclass == rec.dclass &&
             name.equals(rec.name));
@@ -571,13 +560,14 @@ public abstract class Record implements Cloneable, Comparable, Serializable {
      * @param arg The record to compare to
      * @return true if the records are equal, false otherwise.
      */
-    public boolean
-    equals(Object arg) {
-        if (arg == null || !(arg instanceof Record))
+    public boolean equals(Object arg) {
+        if (arg == null || !(arg instanceof Record)) {
             return false;
+	}
         Record r = (Record) arg;
-        if (type != r.type || dclass != r.dclass || !name.equals(r.name))
+        if (type != r.type || dclass != r.dclass || !name.equals(r.name)) {
             return false;
+	}
         byte [] array1 = rdataToWireCanonical();
         byte [] array2 = r.rdataToWireCanonical();
         return Arrays.equals(array1, array2);
@@ -586,21 +576,19 @@ public abstract class Record implements Cloneable, Comparable, Serializable {
     /**
      * Generates a hash code based on the Record's data.
      */
-    public int
-    hashCode() {
+    public int hashCode() {
         byte [] array = toWireCanonical(true);
         int code = 0;
-        for (int i = 0; i < array.length; i++)
+        for (int i = 0; i < array.length; i++) {
             code += ((code << 3) + (array[i] & 0xFF));
+	}
         return code;
     }
     
-    Record
-    cloneRecord() {
+    Record cloneRecord() {
         try {
             return (Record) clone();
-        }
-        catch (CloneNotSupportedException e) {
+        } catch (CloneNotSupportedException e) {
             throw new IllegalStateException();
         }
     }
@@ -609,10 +597,10 @@ public abstract class Record implements Cloneable, Comparable, Serializable {
      * Creates a new record identical to the current record, but with a different
      * name.  This is most useful for replacing the name of a wildcard record.
      */
-    public Record
-    withName(Name name) {
-        if (!name.isAbsolute())
+    public Record withName(Name name) {
+        if (!name.isAbsolute()) {
             throw new RelativeNameException(name);
+	}
         Record rec = cloneRecord();
         rec.name = name;
         return rec;
@@ -622,17 +610,15 @@ public abstract class Record implements Cloneable, Comparable, Serializable {
      * Creates a new record identical to the current record, but with a different
      * class and ttl.  This is most useful for dynamic update.
      */
-    Record
-    withDClass(int dclass, long ttl) {
+    Record withDClass(int dclass, long ttl) {
         Record rec = cloneRecord();
         rec.dclass = dclass;
         rec.ttl = ttl;
         return rec;
     }
     
-    /* Sets the TTL to the specified value.  This is intentionally not public. */
-    void
-    setTTL(long ttl) {
+    /** Sets the TTL to the specified value.  This is intentionally not public. */
+    void setTTL(long ttl) {
         this.ttl = ttl;
     }
     
@@ -646,28 +632,31 @@ public abstract class Record implements Cloneable, Comparable, Serializable {
      * is defined to compare by name, class, type, and rdata.
      * @throws ClassCastException if the argument is not a Record.
      */
-    public int
-    compareTo(Object o) {
+    public int compareTo(Object o) {
         Record arg = (Record) o;
     
-        if (this == arg)
+        if (this == arg) {
             return (0);
-    
+	}
         int n = name.compareTo(arg.name);
-        if (n != 0)
+        if (n != 0) {
             return (n);
+	}
         n = dclass - arg.dclass;
-        if (n != 0)
+        if (n != 0) {
             return (n);
+	}
         n = type - arg.type;
-        if (n != 0)
+        if (n != 0) {
             return (n);
+	}
         byte [] rdata1 = rdataToWireCanonical();
         byte [] rdata2 = arg.rdataToWireCanonical();
         for (int i = 0; i < rdata1.length && i < rdata2.length; i++) {
             n = (rdata1[i] & 0xFF) - (rdata2[i] & 0xFF);
-            if (n != 0)
+            if (n != 0) {
                 return (n);
+	    }
         }
         return (rdata1.length - rdata2.length);
     }
@@ -679,14 +668,12 @@ public abstract class Record implements Cloneable, Comparable, Serializable {
      * @return The name to used for additional data processing, or null if this
      * record type does not require additional data processing.
      */
-    public Name
-    getAdditionalName() {
+    public Name getAdditionalName() {
         return null;
     }
     
-    /* Checks that an int contains an unsigned 8 bit value */
-    static int
-    checkU8(String field, int val) {
+    /** Checks that an int contains an unsigned 8 bit value */
+    static int checkU8(String field, int val) {
         if (val < 0 || val > 0xFF)
             throw new IllegalArgumentException("\"" + field + "\" " + val + 
                                " must be an unsigned 8 " +
@@ -694,9 +681,8 @@ public abstract class Record implements Cloneable, Comparable, Serializable {
         return val;
     }
     
-    /* Checks that an int contains an unsigned 16 bit value */
-    static int
-    checkU16(String field, int val) {
+    /** Checks that an int contains an unsigned 16 bit value */
+    static int checkU16(String field, int val) {
         if (val < 0 || val > 0xFFFF)
             throw new IllegalArgumentException("\"" + field + "\" " + val + 
                                " must be an unsigned 16 " +
@@ -704,9 +690,8 @@ public abstract class Record implements Cloneable, Comparable, Serializable {
         return val;
     }
     
-    /* Checks that a long contains an unsigned 32 bit value */
-    static long
-    checkU32(String field, long val) {
+    /** Checks that a long contains an unsigned 32 bit value */
+    static long checkU32(String field, long val) {
         if (val < 0 || val > 0xFFFFFFFFL)
             throw new IllegalArgumentException("\"" + field + "\" " + val + 
                                " must be an unsigned 32 " +
@@ -714,16 +699,15 @@ public abstract class Record implements Cloneable, Comparable, Serializable {
         return val;
     }
     
-    /* Checks that a name is absolute */
-    static Name
-    checkName(String field, Name name) {
-        if (!name.isAbsolute())
+    /** Checks that a name is absolute */
+    static Name checkName(String field, Name name) {
+        if (!name.isAbsolute()) {
             throw new RelativeNameException(name);
+	}
         return name;
     }
     
-    static byte []
-    checkByteArrayLength(String field, byte [] array, int maxLength) {
+    static byte []  checkByteArrayLength(String field, byte [] array, int maxLength) {
         if (array.length > 0xFFFF)
             throw new IllegalArgumentException("\"" + field + "\" array " +
                                "must have no more than " +
