@@ -100,12 +100,10 @@ public class FlagsSpockTest extends Specification {
 	mga.that( !Flags.isFlag(13))
 	mga.that( !Flags.isFlag(14))
 	mga.that( !Flags.isFlag(14))
-	try {
+        when:
 	    Flags.isFlag(16)
-	    fail("IllegalArgumentException not thrown");
-	}
-	catch( IllegalArgumentException e ){
-	}
+	then:
+	    thrown( IllegalArgumentException.class )
     }
 
 }
