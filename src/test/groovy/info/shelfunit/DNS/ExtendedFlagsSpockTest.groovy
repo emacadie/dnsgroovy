@@ -46,20 +46,20 @@ public class ExtendedFlagsSpockTest extends Specification {
     def "test_string"() {
 	expect:
 	// a regular one
-	mgu.equals("do", ExtendedFlags.string(ExtendedFlags.DO));
+	mgu.equals("do", ExtendedFlags.string(ExtendedFlags.DO))
 
 	// one that doesn't exist
-	mga.that(ExtendedFlags.string(1).startsWith("flag"));
+	mga.that(ExtendedFlags.string(1).startsWith("flag"))
 
 	when:
-	    ExtendedFlags.string(-1);
+	    ExtendedFlags.string(-1)
 	then:
 	    thrown( IllegalArgumentException.class )
 	
 	//  (max is 0xFFFF)
 	try {
-	    ExtendedFlags.string(0x10000);
-	    fail("IllegalArgumentException not thrown");
+	    ExtendedFlags.string(0x10000)
+	    fail("IllegalArgumentException not thrown")
 	}
 	catch( IllegalArgumentException e ){
 	}
@@ -68,18 +68,18 @@ public class ExtendedFlagsSpockTest extends Specification {
     def "test_value"() {
 	expect:
 	// regular one
-	mgu.equals(ExtendedFlags.DO, ExtendedFlags.value("do"));
+	mgu.equals(ExtendedFlags.DO, ExtendedFlags.value("do"))
 
 	// one thats undefined but within range
-	mgu.equals(16, ExtendedFlags.value("FLAG16"));
+	mgu.equals(16, ExtendedFlags.value("FLAG16"))
 
 	// one thats undefined but out of range
-	mgu.equals(-1, ExtendedFlags.value("FLAG" + 0x10000));
+	mgu.equals(-1, ExtendedFlags.value("FLAG" + 0x10000))
 
 	// something that unknown
-	mgu.equals(-1, ExtendedFlags.value("THIS IS DEFINITELY UNKNOWN"));
+	mgu.equals(-1, ExtendedFlags.value("THIS IS DEFINITELY UNKNOWN"))
 
 	// empty string
-	mgu.equals(-1, ExtendedFlags.value(""));
+	mgu.equals(-1, ExtendedFlags.value(""))
     }
 }
