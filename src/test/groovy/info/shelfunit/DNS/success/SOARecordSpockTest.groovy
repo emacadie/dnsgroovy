@@ -46,9 +46,8 @@ public class SOARecordSpockTest extends Specification  {
     def mgu = new MyGroovyUtil()
     def mga = new MyGroovyAssert()
 
-	private Name m_an, m_rn, m_host, m_admin
+	private Name m_an, m_rn, m_host, m_admin, m_origin
 	private long m_ttl, m_serial, m_refresh, m_retry, m_expire, m_minimum
-
     private final static Random m_random = new Random()
 
     private static long randomU16() {
@@ -74,7 +73,7 @@ public class SOARecordSpockTest extends Specification  {
 	    m_minimum = randomU32()
     }
 	
-    def "test_0arg"() throws UnknownHostException {
+    def "test_0arg_init"() throws UnknownHostException {
 	
 	    setup_init()
 	    SOARecord ar = new SOARecord()
@@ -91,19 +90,21 @@ public class SOARecordSpockTest extends Specification  {
 	    mgu.equals(0, ar.getExpire().intValue())
 	    mgu.equals(0, ar.getMinimum().intValue())
 	}
-    /*
-	public void test_getObject()
-	{
+    
+    def "test_getObject_init"() {
+	setup_init()
 	    SOARecord ar = new SOARecord()
 	    Record r = ar.getObject()
-	    mga.that(r instanceof SOARecord)
-	}
+		expect:
+		mga.that(r instanceof SOARecord)
+    }
 	
-	public void test_10arg()
-	{
+    def "test_10arg_init"() {
+	setup_init()
 	    SOARecord ar = new SOARecord(m_an, DClass.IN, m_ttl,
 					 m_host, m_admin, m_serial, m_refresh,
 					 m_retry, m_expire, m_minimum)
+	    expect:
 	    mgu.equals(m_an, ar.getName())
 	    mgu.equals(Type.SOA, ar.getType())
 	    mgu.equals(DClass.IN, ar.getDClass())
@@ -116,159 +117,138 @@ public class SOARecordSpockTest extends Specification  {
 	    mgu.equals(m_expire, ar.getExpire())
 	    mgu.equals(m_minimum, ar.getMinimum())
 	}
-	
-	public void test_10arg_relative_name()
-	{
-	    try {
+    
+    def "test_10arg_relative_name_init"() {
+	setup_init()
+	    when:
 		new SOARecord(m_rn, DClass.IN, m_ttl,
 			      m_host, m_admin, m_serial, m_refresh,
 			      m_retry, m_expire, m_minimum)
-		fail("RelativeNameException not thrown")
-	    }
-	    catch( RelativeNameException e ){}
-	}
+	    then: thrown( RelativeNameException.class )
+    }
 	
-	public void test_10arg_relative_host()
-	{
-	    try {
+    def "test_10arg_relative_host_init"() {
+	setup_init()
+	    when:
 		new SOARecord(m_an, DClass.IN, m_ttl,
 			      m_rn, m_admin, m_serial, m_refresh,
 			      m_retry, m_expire, m_minimum)
-		fail("RelativeNameException not thrown")
-	    }
-	    catch( RelativeNameException e ){}
-	}
-	
-	public void test_10arg_relative_admin()
-	{
-	    try {
+	    then:
+	    thrown( RelativeNameException.class )
+    }
+
+    def "test_10arg_relative_admin_init"() {
+	setup_init()
+	    when:
 		new SOARecord(m_an, DClass.IN, m_ttl,
 			      m_host, m_rn, m_serial, m_refresh,
 			      m_retry, m_expire, m_minimum)
-		fail("RelativeNameException not thrown")
-	    }
-	    catch( RelativeNameException e ){}
-	}
-	
-	public void test_10arg_negative_serial()
-	{
-	    try {
+	    then:
+	    thrown( RelativeNameException.class )
+    }
+
+    def "test_10arg_negative_serial_init"() {
+	setup_init()
+	    when:
 		new SOARecord(m_an, DClass.IN, m_ttl,
 			      m_host, m_admin, -1, m_refresh,
 			      m_retry, m_expire, m_minimum)
-		fail("IllegalArgumentException not thrown")
-	    }
-	    catch( IllegalArgumentException e ){}
-	}
+	    then:   
+	    thrown( IllegalArgumentException.class )
+    }
 	
-	public void test_10arg_toobig_serial()
-	{
-	    try {
+    def "test_10arg_toobig_serial"() {
+	setup_init()
+	when:
 		new SOARecord(m_an, DClass.IN, m_ttl,
 			      m_host, m_admin, 0x100000000L, m_refresh,
 			      m_retry, m_expire, m_minimum)
-		fail("IllegalArgumentException not thrown")
-	    }
-	    catch( IllegalArgumentException e ){}
-	}
-	
-	public void test_10arg_negative_refresh()
-	{
-	    try {
+	then:
+	thrown( IllegalArgumentException.class )
+    }
+    
+    def "test_10arg_negative_refresh_init"() {
+	setup_init()
+	    when:
 		new SOARecord(m_an, DClass.IN, m_ttl,
 			      m_host, m_admin, m_serial, -1,
 			      m_retry, m_expire, m_minimum)
-		fail("IllegalArgumentException not thrown")
-	    }
-	    catch( IllegalArgumentException e ){}
+	    then:
+	    thrown( IllegalArgumentException.class )
 	}
 	
-	public void test_10arg_toobig_refresh()
-	{
-	    try {
+    def "test_10arg_toobig_refresh_init"() {
+	setup_init()
+	when:
 		new SOARecord(m_an, DClass.IN, m_ttl,
 			      m_host, m_admin, m_serial, 0x100000000L,
 			      m_retry, m_expire, m_minimum)
-		fail("IllegalArgumentException not thrown")
-	    }
-	    catch( IllegalArgumentException e ){}
-	}
+        then:
+	thrown( IllegalArgumentException.class )
+    }
 	
-	public void test_10arg_negative_retry()
-	{
-	    try {
+    def "test_10arg_negative_retry_init"() {
+	setup_init()
+	    when:
 		new SOARecord(m_an, DClass.IN, m_ttl,
 			      m_host, m_admin, m_serial, m_refresh,
 			      -1, m_expire, m_minimum)
-		fail("IllegalArgumentException not thrown")
-	    }
-	    catch( IllegalArgumentException e ){}
+	    then:
+	    thrown( IllegalArgumentException.class )
 	}
 	
-	public void test_10arg_toobig_retry()
-	{
-	    try {
+    def "test_10arg_toobig_retry_init"() {
+	setup_init()
+	    when:
 		new SOARecord(m_an, DClass.IN, m_ttl,
 			      m_host, m_admin, m_serial, m_refresh,
 			      0x100000000L, m_expire, m_minimum)
-		fail("IllegalArgumentException not thrown")
-	    }
-	    catch( IllegalArgumentException e ){}
+	    then:
+	    thrown( IllegalArgumentException.class )
 	}
 	
-	public void test_10arg_negative_expire()
-	{
-	    try {
+    def "test_10arg_negative_expire_init"() {
+	setup_init()
+	    when:
 		new SOARecord(m_an, DClass.IN, m_ttl,
 			      m_host, m_admin, m_serial, m_refresh,
 			      m_retry, -1, m_minimum)
-		fail("IllegalArgumentException not thrown")
-	    }
-	    catch( IllegalArgumentException e ){}
+	    then:
+	    thrown( IllegalArgumentException.class )
 	}
 	
-	public void test_10arg_toobig_expire()
-	{
-	    try {
+    def "test_10arg_toobig_expire_init"() {
+	setup_init()
+	    when:
 		new SOARecord(m_an, DClass.IN, m_ttl,
 			      m_host, m_admin, m_serial, m_refresh,
 			      m_retry, 0x100000000L, m_minimum)
-		fail("IllegalArgumentException not thrown")
-	    }
-	    catch( IllegalArgumentException e ){}
-	}
+	    then:	
+	    thrown( IllegalArgumentException.class )
+    }
 	
-	public void test_10arg_negative_minimun()
-	{
-	    try {
+    def "test_10arg_negative_minimun_init"() {
+	setup_init()
+	    when:
 		new SOARecord(m_an, DClass.IN, m_ttl,
 			      m_host, m_admin, m_serial, m_refresh,
 			      m_retry, m_expire, -1)
-		fail("IllegalArgumentException not thrown")
-	    }
-	    catch( IllegalArgumentException e ){}
+	    then:
+	    thrown( IllegalArgumentException.class )
 	}
 	
-	public void test_10arg_toobig_minimum()
-	{
-	    try {
+    def "test_10arg_toobig_minimum_init"() {
+	setup_init()
+	    when:
 		new SOARecord(m_an, DClass.IN, m_ttl,
 			      m_host, m_admin, m_serial, m_refresh,
 			      m_retry, m_expire, 0x100000000L)
-		fail("IllegalArgumentException not thrown")
-	    }
-	    catch( IllegalArgumentException e ){}
-	}
+	    then:
+	    thrown( IllegalArgumentException.class )	
     }
 
-    public static class Test_rrFromWire extends TestCase
-    {
-	private Name m_host, m_admin
-	private long m_serial, m_refresh, m_retry, m_expire, m_minimum
-
-	protected void setUp() throws TextParseException,
-				      UnknownHostException
-	{
+	protected void setup_rrFromWire() throws TextParseException,
+				      UnknownHostException {
 	    m_host    = Name.fromString("M.h.N.")
 	    m_admin   = Name.fromString("M.a.n.")
 	    m_serial  = 0xABCDEF12L
@@ -278,8 +258,8 @@ public class SOARecordSpockTest extends Specification  {
 	    m_minimum = 0x3456789AL
 	}
 	
-	public void test() throws IOException
-	{
+	def "test_rrFromWire"() throws IOException {
+	    setup_rrFromWire()
 	    def raw = [
 		1, 'm', 1, 'h', 1, 'n', 0, // host
 		1, 'm', 1, 'a', 1, 'n', 0, // admin
@@ -293,7 +273,7 @@ public class SOARecordSpockTest extends Specification  {
 	    SOARecord ar = new SOARecord()
 	    
 	    ar.rrFromWire(di)
-	    
+		expect:
 	    mgu.equals(m_host, ar.getHost())
 	    mgu.equals(m_admin, ar.getAdmin())
 	    mgu.equals(m_serial, ar.getSerial())
@@ -302,17 +282,9 @@ public class SOARecordSpockTest extends Specification  {
 	    mgu.equals(m_expire, ar.getExpire())
 	    mgu.equals(m_minimum, ar.getMinimum())
 	}
-    }
-    //////////////////////////////////////////////
-    /*
-    public static class Test_rdataFromString extends TestCase
-    {
-	private Name m_host, m_admin, m_origin
-	private long m_serial, m_refresh, m_retry, m_expire, m_minimum
-
-	protected void setUp() throws TextParseException,
-				      UnknownHostException
-	{
+    
+    protected void setup_rdataFromString() throws TextParseException,
+				      UnknownHostException {
 	    m_origin = Name.fromString("O.")
 	    m_host = Name.fromString("M.h", m_origin)
 	    m_admin = Name.fromString("M.a.n.")
@@ -323,8 +295,8 @@ public class SOARecordSpockTest extends Specification  {
 	    m_minimum = 0x3456789AL
 	}
 	
-	public void test_valid() throws IOException
-	{
+    def "test_valid_setup_rdataFromString"() throws IOException {
+	setup_rdataFromString()
 	    Tokenizer t = new Tokenizer("M.h " + m_admin + " " +
 					m_serial + " " +
 					m_refresh + " " +
@@ -335,6 +307,7 @@ public class SOARecordSpockTest extends Specification  {
 	    
 	    ar.rdataFromString(t, m_origin)
 	    
+	    expect:
 	    mgu.equals(m_host, ar.getHost())
 	    mgu.equals(m_admin, ar.getAdmin())
 	    mgu.equals(m_serial, ar.getSerial())
@@ -344,8 +317,8 @@ public class SOARecordSpockTest extends Specification  {
 	    mgu.equals(m_minimum, ar.getMinimum())
 	}
 
-	public void test_relative_name() throws IOException
-	{
+	def "test_relative_name_setup_rdataFromString"() throws IOException {
+	    setup_rdataFromString()
 	    Tokenizer t = new Tokenizer("M.h " + m_admin + " " +
 					m_serial + " " +
 					m_refresh + " " +
@@ -354,23 +327,14 @@ public class SOARecordSpockTest extends Specification  {
 					m_minimum)
 	    SOARecord ar = new SOARecord()
 	    
-	    try {
-		ar.rdataFromString(t, null)
-		fail("RelativeNameException not thrown")
-	    }
-	    catch(RelativeNameException e){}
-	}
-    }
-    */
-    //////////////////////////////////////////////
-    /*
-    public static class Test_rrToString extends TestCase
-    {
-	private Name m_an, m_host, m_admin
-	private long m_ttl, m_serial, m_refresh, m_retry, m_expire, m_minimum
+	    when:
+		ar.rdataFromString(t, null)	
+	    then:
+	    thrown(RelativeNameException.class )
+       }
 
-	protected void setUp() throws TextParseException
-	{
+
+    protected void setup_rrToString() throws TextParseException {
 	    m_an      = Name.fromString("My.absolute.name.")
 	    m_ttl     = 0x13A8
 	    m_host    = Name.fromString("M.h.N.")
@@ -380,10 +344,10 @@ public class SOARecordSpockTest extends Specification  {
 	    m_retry   = 0xEF123456L
 	    m_expire  = 0x12345678L
 	    m_minimum = 0x3456789AL
-	}
+    }
 
-	public void test_singleLine()
-	{
+    def "test_singleLine_rrToString"() 	{
+	setup_rrToString()
 	    SOARecord ar = new SOARecord(m_an, DClass.IN, m_ttl,
 					 m_host, m_admin, m_serial, m_refresh,
 					 m_retry, m_expire, m_minimum)
@@ -393,12 +357,12 @@ public class SOARecordSpockTest extends Specification  {
 
 	    String exp = m_host.toString() + " " + m_admin.toString() + " " + m_serial + " " +
 		m_refresh + " " + m_retry + " " + m_expire + " " + m_minimum
-    
+	    expect:
 	    mgu.equals(exp, out)
 	}
 
-	public void test_multiLine()
-	{
+    def "test_multiLine_rrToString"() {
+	setup_rrToString()
 	    SOARecord ar = new SOARecord(m_an, DClass.IN, m_ttl,
 					 m_host, m_admin, m_serial, m_refresh,
 					 m_retry, m_expire, m_minimum)
@@ -412,20 +376,11 @@ public class SOARecordSpockTest extends Specification  {
 	    Options.set("multiline")
 	    String out = ar.rrToString()
 	    Options.unset("multiline")
-
+	    expect:
 	    mga.that(out.matches(re))
 	}
-    }
-    */
-    //////////////////////////////////////////////
-    /*
-    public static class Test_rrToWire extends TestCase
-    {
-	private Name m_an, m_host, m_admin
-	private long m_ttl, m_serial, m_refresh, m_retry, m_expire, m_minimum
 
-	protected void setUp() throws TextParseException
-	{
+	protected void setup_rrToWire() throws TextParseException {
 	    m_an = Name.fromString("My.Abs.Name.")
 	    m_ttl = 0x13A8
 	    m_host = Name.fromString("M.h.N.")
@@ -437,8 +392,9 @@ public class SOARecordSpockTest extends Specification  {
 	    m_minimum = 0x3456789AL
 	}
 
-	public void test_canonical()
-	{
+    def "test_canonical_rrToWire"() {
+	setup_rrToWire()
+	
 	    def exp = [
 		1, 'm', 1, 'h', 1, 'n', 0, // host
 		1, 'm', 1, 'a', 1, 'n', 0, // admin
@@ -453,12 +409,12 @@ public class SOARecordSpockTest extends Specification  {
 					 m_retry, m_expire, m_minimum)
 	    DNSOutput o = new DNSOutput()
 	    ar.rrToWire(o, null, true)
-
+	    expect:
 	    mga.that(Arrays.equals(exp.toArray(new byte[exp.size]), o.toByteArray()))
 	}
-
-	public void test_case_sensitive()
-	{
+    
+    def "test_case_sensitive_rrToWire"() {
+	setup_rrToWire()
 	    def exp = [
 		1, 'M', 1, 'h', 1, 'N', 0, // host
 		1, 'M', 1, 'a', 1, 'n', 0, // admin
@@ -473,21 +429,7 @@ public class SOARecordSpockTest extends Specification  {
 					 m_retry, m_expire, m_minimum)
 	    DNSOutput o = new DNSOutput()
 	    ar.rrToWire(o, null, false)
-
+	    expect:
 	    mga.that(Arrays.equals(exp.toArray(new byte[exp.size]), o.toByteArray()))
-	}
-    }
-    */
-    /*
-    public static Test suite()
-    {
-	TestSuite s = new TestSuite()
-	s.addTestSuite(Test_init.class)
-	s.addTestSuite(Test_rrFromWire.class)
-	s.addTestSuite(Test_rdataFromString.class)
-	s.addTestSuite(Test_rrToString.class)
-	s.addTestSuite(Test_rrToWire.class)
-	return s
-    }
-    */
+	} 
 }
