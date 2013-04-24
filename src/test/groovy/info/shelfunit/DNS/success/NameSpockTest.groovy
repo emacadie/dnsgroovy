@@ -32,15 +32,15 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-package org.xbill.DNS;
+package org.xbill.DNS
 
 import info.shelfunit.DNS.*
 
-import java.io.IOException;
-import java.util.Arrays;
+import java.io.IOException
+import java.util.Arrays
 import spock.lang.Specification
-import org.xbill.DNS.Name;
-import org.xbill.DNS.TextParseException;
+import org.xbill.DNS.Name
+import org.xbill.DNS.TextParseException
 
 public class NameSpockTest extends Specification {
 
@@ -50,237 +50,237 @@ public class NameSpockTest extends Specification {
 	/*    
     public static class Test_String_init extends TestCase
     {
-	private final String	m_abs = "WWW.DnsJava.org.";
-	private Name		m_abs_origin;
-	private final String	m_rel = "WWW.DnsJava";
-	private Name		m_rel_origin;
+	private final String	m_abs = "WWW.DnsJava.org."
+	private Name		m_abs_origin
+	private final String	m_rel = "WWW.DnsJava"
+	private Name		m_rel_origin
 
 	protected void setUp() throws TextParseException
 	{
-	    m_abs_origin = Name.fromString("Orig.");
-	    m_rel_origin = Name.fromString("Orig");
+	    m_abs_origin = Name.fromString("Orig.")
+	    m_rel_origin = Name.fromString("Orig")
 	}
 	    
 	public void test_ctor_empty()
 	{
 	    try {
-		new Name("");
-		fail("TextParseException not thrown");
+		new Name("")
+		fail("TextParseException not thrown")
 	    }
 	    catch(TextParseException e ){}
 	}
 
 	public void test_ctor_at_null_origin() throws TextParseException
 	{
-	    Name n = new Name("@");
-	    assertFalse(n.isAbsolute());
-	    assertFalse(n.isWild());
-	    mgu.equals(0, n.labels());
-	    mgu.equals(0, n.length());
+	    Name n = new Name("@")
+	    assertFalse(n.isAbsolute())
+	    assertFalse(n.isWild())
+	    mgu.equals(0, n.labels())
+	    mgu.equals(0, n.length())
 	}
 
 	public void test_ctor_at_abs_origin() throws TextParseException
 	{
-	    Name n = new Name("@", m_abs_origin);
-	    mgu.equals(m_abs_origin, n);
+	    Name n = new Name("@", m_abs_origin)
+	    mgu.equals(m_abs_origin, n)
 	}
 	    
 	public void test_ctor_at_rel_origin() throws TextParseException
 	{
-	    Name n = new Name("@", m_rel_origin);
-	    mgu.equals(m_rel_origin, n);
+	    Name n = new Name("@", m_rel_origin)
+	    mgu.equals(m_rel_origin, n)
 	}
 
 	public void test_ctor_dot() throws TextParseException
 	{
-	    Name n = new Name(".");
-	    mgu.equals(Name.root, n);
-	    assertNotSame(Name.root, n);
-	    mgu.equals(1, n.labels());
-	    mgu.equals(1, n.length());
+	    Name n = new Name(".")
+	    mgu.equals(Name.root, n)
+	    assertNotSame(Name.root, n)
+	    mgu.equals(1, n.labels())
+	    mgu.equals(1, n.length())
 	}
 
 	public void test_ctor_wildcard() throws TextParseException
 	{
-	    Name n = new Name("*");
-	    assertFalse(n.isAbsolute());
-	    assertTrue(n.isWild());
-	    mgu.equals(1, n.labels());
-	    mgu.equals(2, n.length());
+	    Name n = new Name("*")
+	    assertFalse(n.isAbsolute())
+	    mga.that(n.isWild())
+	    mgu.equals(1, n.labels())
+	    mgu.equals(2, n.length())
 	    def byte[] b1 = [ 1, '*' ]
-	    assertTrue(Arrays.equals(b1, n.getLabel(0)));
-	    mgu.equals("*", n.getLabelString(0));
+	    mga.that(Arrays.equals(b1, n.getLabel(0)))
+	    mgu.equals("*", n.getLabelString(0))
 	}
 
 	public void test_ctor_abs() throws TextParseException
 	{
-	    Name n = new Name(m_abs);
-	    assertTrue(n.isAbsolute());
-	    assertFalse(n.isWild());
-	    mgu.equals(4, n.labels());
-	    mgu.equals(17, n.length());
+	    Name n = new Name(m_abs)
+	    mga.that(n.isAbsolute())
+	    assertFalse(n.isWild())
+	    mgu.equals(4, n.labels())
+	    mgu.equals(17, n.length())
 	    def byte[] b1 = [ 3, 'W', 'W', 'W' ]
-	    assertTrue(Arrays.equals(b1, n.getLabel(0)));
-	    mgu.equals("WWW", n.getLabelString(0));
+	    mga.that(Arrays.equals(b1, n.getLabel(0)))
+	    mgu.equals("WWW", n.getLabelString(0))
 	    def byte[] b2 = [ 7, 'D', 'n', 's', 'J', 'a', 'v', 'a' ]
-	    assertTrue(Arrays.equals(b2, n.getLabel(1)));
-	    mgu.equals("DnsJava", n.getLabelString(1));
+	    mga.that(Arrays.equals(b2, n.getLabel(1)))
+	    mgu.equals("DnsJava", n.getLabelString(1))
 	    def byte[] b3 = [ 3, 'o', 'r', 'g' ]
-	    assertTrue(Arrays.equals(b3, n.getLabel(2)));
-	    mgu.equals("org", n.getLabelString(2));
+	    mga.that(Arrays.equals(b3, n.getLabel(2)))
+	    mgu.equals("org", n.getLabelString(2))
 	    def byte[] b4 = [ 0 ]
-	    assertTrue(Arrays.equals(b4, n.getLabel(3)));
-	    mgu.equals("", n.getLabelString(3));
+	    mga.that(Arrays.equals(b4, n.getLabel(3)))
+	    mgu.equals("", n.getLabelString(3))
 	}
 
 	public void test_ctor_rel() throws TextParseException
 	{
-	    Name n = new Name(m_rel);
-	    assertFalse(n.isAbsolute());
-	    assertFalse(n.isWild());
-	    mgu.equals(2, n.labels());
-	    mgu.equals(12, n.length());
+	    Name n = new Name(m_rel)
+	    assertFalse(n.isAbsolute())
+	    assertFalse(n.isWild())
+	    mgu.equals(2, n.labels())
+	    mgu.equals(12, n.length())
 	    def byte[] b1 = [ 3, 'W', 'W', 'W' ]
-	    assertTrue(Arrays.equals(b1, n.getLabel(0)));
-	    mgu.equals("WWW", n.getLabelString(0));
+	    mga.that(Arrays.equals(b1, n.getLabel(0)))
+	    mgu.equals("WWW", n.getLabelString(0))
 	    def byte[] b2 = [ 7, 'D', 'n', 's', 'J', 'a', 'v', 'a' ]
-	    assertTrue(Arrays.equals(b2, n.getLabel(1)));
-	    mgu.equals("DnsJava", n.getLabelString(1));
+	    mga.that(Arrays.equals(b2, n.getLabel(1)))
+	    mgu.equals("DnsJava", n.getLabelString(1))
 	}
 
 	public void test_ctor_7label() throws TextParseException
 	{
 	    // 7 is the number of label positions that are cached
-	    Name n = new Name("a.b.c.d.e.f.");
-	    assertTrue(n.isAbsolute());
-	    assertFalse(n.isWild());
-	    mgu.equals(7, n.labels());
-	    mgu.equals(13, n.length());
+	    Name n = new Name("a.b.c.d.e.f.")
+	    mga.that(n.isAbsolute())
+	    assertFalse(n.isWild())
+	    mgu.equals(7, n.labels())
+	    mgu.equals(13, n.length())
 	    def byte[] b1 = [ 1, 'a' ]
-		assertTrue(Arrays.equals(b1, n.getLabel(0)));
-	    mgu.equals("a", n.getLabelString(0));
+		mga.that(Arrays.equals(b1, n.getLabel(0)))
+	    mgu.equals("a", n.getLabelString(0))
 	    b1 = [ 1, 'b' ]
-		assertTrue(Arrays.equals(b1, n.getLabel(1)));
-	    mgu.equals("b", n.getLabelString(1));
+		mga.that(Arrays.equals(b1, n.getLabel(1)))
+	    mgu.equals("b", n.getLabelString(1))
 	    b1 = [ 1, 'c' ]
-	    assertTrue(Arrays.equals(b1, n.getLabel(2)));
-	    mgu.equals("c", n.getLabelString(2));
+	    mga.that(Arrays.equals(b1, n.getLabel(2)))
+	    mgu.equals("c", n.getLabelString(2))
 	    b1 = [ 1, 'd' ]
-		assertTrue(Arrays.equals(b1,  n.getLabel(3)));
-	    mgu.equals("d", n.getLabelString(3));
+		mga.that(Arrays.equals(b1,  n.getLabel(3)))
+	    mgu.equals("d", n.getLabelString(3))
 	    b1 = [ 1, 'e' ]
-	    assertTrue(Arrays.equals(b1, n.getLabel(4)));
-	    mgu.equals("e", n.getLabelString(4));
+	    mga.that(Arrays.equals(b1, n.getLabel(4)))
+	    mgu.equals("e", n.getLabelString(4))
 	    b1 = [ 1, 'f' ]
-		assertTrue(Arrays.equals(b1, n.getLabel(5)));
-	    mgu.equals("f", n.getLabelString(5));
+		mga.that(Arrays.equals(b1, n.getLabel(5)))
+	    mgu.equals("f", n.getLabelString(5))
 	    b1 = [ 0 ]
-		assertTrue(Arrays.equals(b1, n.getLabel(6)));
-	    mgu.equals("", n.getLabelString(6));
+		mga.that(Arrays.equals(b1, n.getLabel(6)))
+	    mgu.equals("", n.getLabelString(6))
 	}
 
 	public void test_ctor_8label() throws TextParseException
 	{
 	    // 7 is the number of label positions that are cached
-	    Name n = new Name("a.b.c.d.e.f.g.");
-	    assertTrue(n.isAbsolute());
-	    assertFalse(n.isWild());
-	    mgu.equals(8, n.labels());
-	    mgu.equals(15, n.length());
+	    Name n = new Name("a.b.c.d.e.f.g.")
+	    mga.that(n.isAbsolute())
+	    assertFalse(n.isWild())
+	    mgu.equals(8, n.labels())
+	    mgu.equals(15, n.length())
 	    def byte[] b1 = [ 1, 'a' ]
-	    assertTrue(Arrays.equals(b1, n.getLabel(0)));
-	    mgu.equals("a", n.getLabelString(0));
+	    mga.that(Arrays.equals(b1, n.getLabel(0)))
+	    mgu.equals("a", n.getLabelString(0))
 	    b1 = [ 1, 'b' ]
-	    assertTrue(Arrays.equals(b1, n.getLabel(1)));
-	    mgu.equals("b", n.getLabelString(1));
+	    mga.that(Arrays.equals(b1, n.getLabel(1)))
+	    mgu.equals("b", n.getLabelString(1))
 	    b1 = [ 1, 'c' ]
-	    assertTrue(Arrays.equals(b1, n.getLabel(2)));
-	    mgu.equals("c", n.getLabelString(2));
+	    mga.that(Arrays.equals(b1, n.getLabel(2)))
+	    mgu.equals("c", n.getLabelString(2))
 	    b1 = [ 1, 'd' ]
-	    assertTrue(Arrays.equals(b1, n.getLabel(3)));
-	    mgu.equals("d", n.getLabelString(3));
+	    mga.that(Arrays.equals(b1, n.getLabel(3)))
+	    mgu.equals("d", n.getLabelString(3))
 	    b1 = [ 1, 'e' ]
-	    assertTrue(Arrays.equals(b1, n.getLabel(4)));
-	    mgu.equals("e", n.getLabelString(4));
+	    mga.that(Arrays.equals(b1, n.getLabel(4)))
+	    mgu.equals("e", n.getLabelString(4))
 	    b1 = [ 1, 'f' ]
-	    assertTrue(Arrays.equals(b1, n.getLabel(5)));
-	    mgu.equals("f", n.getLabelString(5));
+	    mga.that(Arrays.equals(b1, n.getLabel(5)))
+	    mgu.equals("f", n.getLabelString(5))
 	    b1 = [ 1, 'g' ]
-	    assertTrue(Arrays.equals(b1, n.getLabel(6)));
-	    mgu.equals("g", n.getLabelString(6));
+	    mga.that(Arrays.equals(b1, n.getLabel(6)))
+	    mgu.equals("g", n.getLabelString(6))
 	    b1 = [ 0 ]
-	    assertTrue(Arrays.equals(b1, n.getLabel(7)));
-	    mgu.equals("", n.getLabelString(7));
+	    mga.that(Arrays.equals(b1, n.getLabel(7)))
+	    mgu.equals("", n.getLabelString(7))
 	}
 
 	public void test_ctor_abs_abs_origin() throws TextParseException
 	{
-	    Name n = new Name(m_abs, m_abs_origin);
-	    assertTrue(n.isAbsolute());
-	    assertFalse(n.isWild());
-	    mgu.equals(4, n.labels());
-	    mgu.equals(17, n.length());
+	    Name n = new Name(m_abs, m_abs_origin)
+	    mga.that(n.isAbsolute())
+	    assertFalse(n.isWild())
+	    mgu.equals(4, n.labels())
+	    mgu.equals(17, n.length())
 	    def byte[] b1 = [ 3, 'W', 'W', 'W' ] 
-	    assertTrue(Arrays.equals(b1, n.getLabel(0)));
-	    mgu.equals("WWW", n.getLabelString(0));
+	    mga.that(Arrays.equals(b1, n.getLabel(0)))
+	    mgu.equals("WWW", n.getLabelString(0))
 	    def byte[] b2 = [ 7, 'D', 'n', 's', 'J', 'a', 'v', 'a' ]
-	    assertTrue(Arrays.equals(b2, n.getLabel(1) ) );
-	    mgu.equals("DnsJava", n.getLabelString(1));
+	    mga.that(Arrays.equals(b2, n.getLabel(1) ) )
+	    mgu.equals("DnsJava", n.getLabelString(1))
 	    b1 = [ 3, 'o', 'r', 'g' ]
-		assertTrue(Arrays.equals(b1, n.getLabel(2)));
-	    mgu.equals("org", n.getLabelString(2));
+		mga.that(Arrays.equals(b1, n.getLabel(2)))
+	    mgu.equals("org", n.getLabelString(2))
 	    b1 = [ 0 ]
-	    assertTrue(Arrays.equals(b1, n.getLabel(3)));
-	    mgu.equals("", n.getLabelString(3));
+	    mga.that(Arrays.equals(b1, n.getLabel(3)))
+	    mgu.equals("", n.getLabelString(3))
 	}
 
 	public void test_ctor_abs_rel_origin() throws TextParseException
 	{
-	    Name n = new Name(m_abs, m_rel_origin);
-	    assertTrue(n.isAbsolute());
-	    assertFalse(n.isWild());
-	    mgu.equals(4, n.labels());
-	    mgu.equals(17, n.length());
+	    Name n = new Name(m_abs, m_rel_origin)
+	    mga.that(n.isAbsolute())
+	    assertFalse(n.isWild())
+	    mgu.equals(4, n.labels())
+	    mgu.equals(17, n.length())
 	    def byte[] b1 = [ 3, 'W', 'W', 'W' ]
-	    assertTrue(Arrays.equals( b1, n.getLabel(0)));
-	    mgu.equals("WWW", n.getLabelString(0));
+	    mga.that(Arrays.equals( b1, n.getLabel(0)))
+	    mgu.equals("WWW", n.getLabelString(0))
 	    def byte[] b2 = [ 7, 'D', 'n', 's', 'J', 'a', 'v', 'a' ]
-	    assertTrue(Arrays.equals(b2, n.getLabel( 1 ) ) );
-	    mgu.equals("DnsJava", n.getLabelString(1));
+	    mga.that(Arrays.equals(b2, n.getLabel( 1 ) ) )
+	    mgu.equals("DnsJava", n.getLabelString(1))
 	    b1 = [ 3, 'o', 'r', 'g' ]
-	    assertTrue(Arrays.equals(b1, n.getLabel(2)));
-	    mgu.equals("org", n.getLabelString(2));
+	    mga.that(Arrays.equals(b1, n.getLabel(2)))
+	    mgu.equals("org", n.getLabelString(2))
 	    b1 = [ 0 ]
-	    assertTrue(Arrays.equals( b1, n.getLabel(3)));
-	    mgu.equals("", n.getLabelString(3));
+	    mga.that(Arrays.equals( b1, n.getLabel(3)))
+	    mgu.equals("", n.getLabelString(3))
 	}
 
 	public void test_ctor_rel_abs_origin() throws TextParseException
 	{
-	    Name n = new Name(m_rel, m_abs_origin);
-	    assertTrue(n.isAbsolute());
-	    assertFalse(n.isWild());
-	    mgu.equals(4, n.labels());
-	    mgu.equals(18, n.length());
+	    Name n = new Name(m_rel, m_abs_origin)
+	    mga.that(n.isAbsolute())
+	    assertFalse(n.isWild())
+	    mgu.equals(4, n.labels())
+	    mgu.equals(18, n.length())
 	    def byte[] b1 = [ 3, 'W', 'W', 'W' ]
-	    assertTrue(Arrays.equals( b1, n.getLabel(0)));
-	    mgu.equals("WWW", n.getLabelString(0));
+	    mga.that(Arrays.equals( b1, n.getLabel(0)))
+	    mgu.equals("WWW", n.getLabelString(0))
 	    def byte[] b2 = [ 7, 'D', 'n', 's', 'J', 'a', 'v', 'a' ]
-	    assertTrue(Arrays.equals(b2, n.getLabel( 1 ) ) );
-	    mgu.equals("DnsJava", n.getLabelString(1));
+	    mga.that(Arrays.equals(b2, n.getLabel( 1 ) ) )
+	    mgu.equals("DnsJava", n.getLabelString(1))
 	    b1 = [ 4, 'O', 'r', 'i', 'g' ]
-		assertTrue(Arrays.equals(b1, n.getLabel(2)));
-	    mgu.equals("Orig", n.getLabelString(2));
+		mga.that(Arrays.equals(b1, n.getLabel(2)))
+	    mgu.equals("Orig", n.getLabelString(2))
 	    b1 = [ 0 ]
-	    assertTrue(Arrays.equals(b1, n.getLabel(3)));
-	    mgu.equals("", n.getLabelString(3));
+	    mga.that(Arrays.equals(b1, n.getLabel(3)))
+	    mgu.equals("", n.getLabelString(3))
 	}
 
 	public void test_ctor_invalid_label()
 	{
 	    try {
-		new Name("junk..junk.");
-		fail("TextParseException not thrown");
+		new Name("junk..junk.")
+		fail("TextParseException not thrown")
 	    }
 	    catch(TextParseException e){}
 	}
@@ -288,32 +288,32 @@ public class NameSpockTest extends Specification {
 	public void test_ctor_max_label() throws TextParseException
 	{
 	    // name with a 63 char label
-	    Name n = new Name("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.b.");
-	    assertTrue(n.isAbsolute());
-	    assertFalse(n.isWild());
-	    mgu.equals(3, n.labels());
-	    mgu.equals(67, n.length());
+	    Name n = new Name("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.b.")
+	    mga.that(n.isAbsolute())
+	    assertFalse(n.isWild())
+	    mgu.equals(3, n.labels())
+	    mgu.equals(67, n.length())
 	    def byte[] b1 = [ 63, 'a','a','a','a','a','a','a','a','a','a','a','a',
 			      'a','a','a','a','a','a','a','a','a','a','a','a','a',
 			      'a','a','a','a','a','a','a','a','a','a','a','a','a',
 			      'a','a','a','a','a','a','a','a','a','a','a','a','a',
 			      'a','a','a','a','a','a','a','a','a','a','a','a' ]
-		assertTrue(Arrays.equals(b1, n.getLabel(0)));
-	    mgu.equals("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", n.getLabelString(0));
+		mga.that(Arrays.equals(b1, n.getLabel(0)))
+	    mgu.equals("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", n.getLabelString(0))
 	    b1 = [ 1, 'b' ]
-	    assertTrue(Arrays.equals(b1, n.getLabel(1)));
-	    mgu.equals("b", n.getLabelString(1));
+	    mga.that(Arrays.equals(b1, n.getLabel(1)))
+	    mgu.equals("b", n.getLabelString(1))
 	    b1 = [ 0 ]
-	    assertTrue(Arrays.equals(b1, n.getLabel(2)));
-	    mgu.equals("", n.getLabelString(2));
+	    mga.that(Arrays.equals(b1, n.getLabel(2)))
+	    mgu.equals("", n.getLabelString(2))
 	}
 
 	public void test_ctor_toobig_label()
 	{
 	    // name with a 64 char label
 	    try {
-		new Name("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.b.");
-		fail("TextParseException not thrown");
+		new Name("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.b.")
+		fail("TextParseException not thrown")
 	    }
 	    catch(TextParseException e ){}
 	}
@@ -321,50 +321,50 @@ public class NameSpockTest extends Specification {
 	public void test_ctor_max_length_rel() throws TextParseException
 	{
 	    // relative name with three 63-char labels and a 62-char label
-	    Name n = new Name("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc.dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd");
-	    assertFalse(n.isAbsolute());
-	    assertFalse(n.isWild());
-	    mgu.equals(4, n.labels());
-	    mgu.equals(255, n.length());
+	    Name n = new Name("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc.dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd")
+	    assertFalse(n.isAbsolute())
+	    assertFalse(n.isWild())
+	    mgu.equals(4, n.labels())
+	    mgu.equals(255, n.length())
 	}
 	    
 	public void test_ctor_max_length_abs() throws TextParseException
 	{
 	    // absolute name with three 63-char labels and a 61-char label
-	    Name n = new Name("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc.ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd.");
-	    assertTrue(n.isAbsolute());
-	    assertFalse(n.isWild());
-	    mgu.equals(5, n.labels());
-	    mgu.equals(255, n.length());
+	    Name n = new Name("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc.ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd.")
+	    mga.that(n.isAbsolute())
+	    assertFalse(n.isWild())
+	    mgu.equals(5, n.labels())
+	    mgu.equals(255, n.length())
 	}
 
 	public void test_ctor_escaped() throws TextParseException
 	{
-	    Name n = new Name("ab\\123cd");
-	    assertFalse(n.isAbsolute());
-	    assertFalse(n.isWild());
-	    mgu.equals(1, n.labels());
-	    mgu.equals(6, n.length());
+	    Name n = new Name("ab\\123cd")
+	    assertFalse(n.isAbsolute())
+	    assertFalse(n.isWild())
+	    mgu.equals(1, n.labels())
+	    mgu.equals(6, n.length())
 	    def byte[] b1 = [ 5, 'a', 'b', (byte)123, 'c', 'd' ]
-	    assertTrue(Arrays.equals(b1, n.getLabel(0)));
+	    mga.that(Arrays.equals(b1, n.getLabel(0)))
 	}
 	    
 	public void test_ctor_escaped_end() throws TextParseException
 	{
-	    Name n = new Name("abcd\\123");
-	    assertFalse(n.isAbsolute());
-	    assertFalse(n.isWild());
-	    mgu.equals(1, n.labels());
-	    mgu.equals(6, n.length());
+	    Name n = new Name("abcd\\123")
+	    assertFalse(n.isAbsolute())
+	    assertFalse(n.isWild())
+	    mgu.equals(1, n.labels())
+	    mgu.equals(6, n.length())
 	    def byte[] b1 = [ 5, 'a', 'b', 'c', 'd', (byte)123 ]
-	    assertTrue(Arrays.equals(b1, n.getLabel(0)));
+	    mga.that(Arrays.equals(b1, n.getLabel(0)))
 	}
 
 	public void test_ctor_short_escaped() throws TextParseException
 	{
 	    try {
-		new Name("ab\\12cd");
-		fail("TextParseException not throw");
+		new Name("ab\\12cd")
+		fail("TextParseException not throw")
 	    }
 	    catch(TextParseException e){}
 	}
@@ -372,8 +372,8 @@ public class NameSpockTest extends Specification {
 	public void test_ctor_short_escaped_end() throws TextParseException
 	{
 	    try {
-		new Name("ab\\12");
-		fail("TextParseException not throw");
+		new Name("ab\\12")
+		fail("TextParseException not throw")
 	    }
 	    catch(TextParseException e){}
 	}
@@ -381,8 +381,8 @@ public class NameSpockTest extends Specification {
 	public void test_ctor_empty_escaped_end() throws TextParseException
 	{
 	    try {
-		new Name("ab\\");
-		fail("TextParseException not throw");
+		new Name("ab\\")
+		fail("TextParseException not throw")
 	    }
 	    catch(TextParseException e){}
 	}
@@ -390,8 +390,8 @@ public class NameSpockTest extends Specification {
 	public void test_ctor_toobig_escaped() throws TextParseException
 	{
 	    try {
-		new Name("ab\\256cd");
-		fail("TextParseException not throw");
+		new Name("ab\\256cd")
+		fail("TextParseException not throw")
 	    }
 	    catch(TextParseException e){}
 	}
@@ -399,8 +399,8 @@ public class NameSpockTest extends Specification {
 	public void test_ctor_toobig_escaped_end() throws TextParseException
 	{
 	    try {
-		new Name("ab\\256");
-		fail("TextParseException not throw");
+		new Name("ab\\256")
+		fail("TextParseException not throw")
 	    }
 	    catch(TextParseException e){}
 	}
@@ -408,51 +408,51 @@ public class NameSpockTest extends Specification {
 	public void test_ctor_max_label_escaped() throws TextParseException
 	{
 	    // name with a 63 char label containing an escape
-	    Name n = new Name("aaaa\\100aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.b.");
-	    assertTrue(n.isAbsolute());
-	    assertFalse(n.isWild());
-	    mgu.equals(3, n.labels());
-	    mgu.equals(67, n.length());
+	    Name n = new Name("aaaa\\100aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.b.")
+	    mga.that(n.isAbsolute())
+	    assertFalse(n.isWild())
+	    mgu.equals(3, n.labels())
+	    mgu.equals(67, n.length())
 	    def byte[] b1 = [ 63, 'a','a','a','a',(byte)100,'a','a','a','a','a','a','a','a','a',
 			      'a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a',
 			      'a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a',
 			      'a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a' ] 
-	    assertTrue(Arrays.equals(b1, n.getLabel(0)));
+	    mga.that(Arrays.equals(b1, n.getLabel(0)))
 	    b1 = [ 1, 'b' ]
-	    assertTrue(Arrays.equals(b1, n.getLabel(1)));
-	    mgu.equals("b", n.getLabelString(1));
+	    mga.that(Arrays.equals(b1, n.getLabel(1)))
+	    mgu.equals("b", n.getLabelString(1))
 	    b1 = [ 0 ]
-	    assertTrue(Arrays.equals(b1, n.getLabel(2)));
-	    mgu.equals("", n.getLabelString(2));
+	    mga.that(Arrays.equals(b1, n.getLabel(2)))
+	    mgu.equals("", n.getLabelString(2))
 	}
 
 	public void test_ctor_max_labels() throws TextParseException
 	{
-	    StringBuffer sb = new StringBuffer();
+	    StringBuffer sb = new StringBuffer()
 	    for(int i=0; i<127; ++i){
 		sb.append("a.");
 	    }
-	    Name n = new Name(sb.toString());
-	    assertTrue(n.isAbsolute());
-	    assertFalse(n.isWild());
-	    mgu.equals(128, n.labels());
-	    mgu.equals(255, n.length());
+	    Name n = new Name(sb.toString())
+	    mga.that(n.isAbsolute())
+	    assertFalse(n.isWild())
+	    mgu.equals(128, n.labels())
+	    mgu.equals(255, n.length())
 	    def byte[] b1 = [ 1, 'a' ]
 	    for(int i=0; i<127; ++i){
-		assertTrue(Arrays.equals(b1, n.getLabel(i)));
-		mgu.equals("a", n.getLabelString(i));
+		mga.that(Arrays.equals(b1, n.getLabel(i)))
+		mgu.equals("a", n.getLabelString(i))
 	    }
 	    b1 = [ 0 ]
-	    assertTrue(Arrays.equals(b1, n.getLabel(127)));
-	    mgu.equals("", n.getLabelString(127));
+	    mga.that(Arrays.equals(b1, n.getLabel(127)))
+	    mgu.equals("", n.getLabelString(127))
 	}
 
 	public void test_ctor_toobig_label_escaped_end() throws TextParseException
 	{
 	    try {
 		// name with a 64 char label containing an escape at the end
-		new Name("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\\090.b.");
-		fail("TextParseException not thrown");
+		new Name("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\\090.b.")
+		fail("TextParseException not thrown")
 	    }
 	    catch(TextParseException e){}
 	}
@@ -461,43 +461,43 @@ public class NameSpockTest extends Specification {
 	{
 	    try {
 		// name with a 64 char label containing an escape at the end
-		new Name("aaaaaaaaaaaaaaaaaaaaaaaaaaaa\\001aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.b.");
-		fail("TextParseException not thrown");
+		new Name("aaaaaaaaaaaaaaaaaaaaaaaaaaaa\\001aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.b.")
+		fail("TextParseException not thrown")
 	    }
 	    catch(TextParseException e){}
 	}
 
 	public void test_fromString() throws TextParseException
 	{
-	    Name n = new Name(m_rel, m_abs_origin);
-	    Name n2 = Name.fromString(m_rel, m_abs_origin);
-	    mgu.equals(n, n2);
+	    Name n = new Name(m_rel, m_abs_origin)
+	    Name n2 = Name.fromString(m_rel, m_abs_origin)
+	    mgu.equals(n, n2)
 	}
 
 	public void test_fromString_at() throws TextParseException
 	{
-	    Name n = Name.fromString("@", m_rel_origin);
-	    assertSame(m_rel_origin, n);
+	    Name n = Name.fromString("@", m_rel_origin)
+	    assertSame(m_rel_origin, n)
 	}
 
 	public void test_fromString_dot() throws TextParseException
 	{
-	    Name n = Name.fromString(".");
-	    assertSame(Name.root, n);
+	    Name n = Name.fromString(".")
+	    assertSame(Name.root, n)
 	}
 
 	public void test_fromConstantString() throws TextParseException
 	{
-	    Name n = new Name(m_abs);
-	    Name n2 = Name.fromConstantString(m_abs);
-	    mgu.equals(n, n2);
+	    Name n = new Name(m_abs)
+	    Name n2 = Name.fromConstantString(m_abs)
+	    mgu.equals(n, n2)
 	}
 
 	public void test_fromConstantString_invalid()
 	{
 	    try {
-		Name.fromConstantString("junk..junk");
-		fail("IllegalArgumentException not thrown");
+		Name.fromConstantString("junk..junk")
+		fail("IllegalArgumentException not thrown")
 	    }
 	    catch(IllegalArgumentException e){}
 	}
@@ -510,18 +510,18 @@ public class NameSpockTest extends Specification {
 	{
 	    
 	    final byte[] raw = [ 3, 'W', 'w', 'w', 7, 'D', 'n', 's', 'J', 'a', 'v', 'a', 3, 'o', 'r', 'g', 0 ]
-	    Name e = Name.fromString("Www.DnsJava.org.");
+	    Name e = Name.fromString("Www.DnsJava.org.")
 
-	    Name n = new Name(raw);
-	    mgu.equals(e, n);
+	    Name n = new Name(raw)
+	    mgu.equals(e, n)
 	}
 
 	public void test_incomplete() throws IOException
 	{
 	    try {
 		def byte[] b1 = [ 3, 'W', 'W', 'W' ]
-		new Name( b1 ); 
-		fail("WireParseException not thrown");
+		new Name( b1 ) 
+		fail("WireParseException not thrown")
 	    }
 	    catch(WireParseException e ){}
 	}
@@ -529,16 +529,16 @@ public class NameSpockTest extends Specification {
 	public void test_root() throws WireParseException
 	{
 	    final byte[] raw = [ 0 ]
-	    Name n = new Name(new DNSInput(raw));
-	    mgu.equals(Name.root, n);
+	    Name n = new Name(new DNSInput(raw))
+	    mgu.equals(Name.root, n)
 	}
 
 	public void test_invalid_length() throws IOException
 	{
 	    try {
 		def byte[] b1 = [ 4, 'W', 'w', 'w' ]
-		new Name( b1 ); 
-		fail("WireParseException not thrown");
+		new Name( b1 ) 
+		fail("WireParseException not thrown")
 	    }
 	    catch(WireParseException e ){}
 	}
@@ -546,20 +546,20 @@ public class NameSpockTest extends Specification {
 	public void test_max_label_length() throws TextParseException, WireParseException
 	{
 	    byte[] raw = [ 63, 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 0 ]
-	    Name e = Name.fromString("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.");
+	    Name e = Name.fromString("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.")
 	    
-	    Name n = new Name(new DNSInput(raw));
-	    mgu.equals(e, n);
+	    Name n = new Name(new DNSInput(raw))
+	    mgu.equals(e, n)
 	}
 
 	public void test_max_name() throws TextParseException, WireParseException
 	{
 	    // absolute name with three 63-char labels and a 61-char label
-	    Name e = new Name("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc.ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd.");
+	    Name e = new Name("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc.ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd.")
 	    byte[] raw = [ 63, 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 63, 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 63, 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 61, 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 0 ]
 	    
-	    Name n = new Name(new DNSInput(raw));
-	    mgu.equals(e, n);
+	    Name n = new Name(new DNSInput(raw))
+	    mgu.equals(e, n)
 	}
 
 	public void test_toolong_name() throws TextParseException, WireParseException
@@ -568,8 +568,8 @@ public class NameSpockTest extends Specification {
 	    byte[] raw = [ 63, 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 63, 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 63, 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 62, 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 0 ]
 	    
 	    try {
-		new Name(new DNSInput(raw));
-		fail("WireParseException not thrown");
+		new Name(new DNSInput(raw))
+		fail("WireParseException not thrown")
 	    }
 	    catch(WireParseException e ){}
 	}
@@ -577,18 +577,18 @@ public class NameSpockTest extends Specification {
 	public void test_max_labels() throws TextParseException, WireParseException
 	{
 	    byte[] raw = [ 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 0 ]
-	    Name e = Name.fromString("a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.");
-	    Name n = new Name(new DNSInput(raw));
-	    mgu.equals(128, n.labels());
-	    mgu.equals(e, n);
+	    Name e = Name.fromString("a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.")
+	    Name n = new Name(new DNSInput(raw))
+	    mgu.equals(128, n.labels())
+	    mgu.equals(e, n)
 	}
 
 	public void test_toomany_labels() throws TextParseException, WireParseException
 	{
 	    byte[] raw = [ 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 1, 'a', 0 ]
 	    try {
-		new Name(new DNSInput(raw));
-		fail("WireParseException not thrown");
+		new Name(new DNSInput(raw))
+		fail("WireParseException not thrown")
 	    }
 	    catch(WireParseException e ){}
 	}
@@ -596,59 +596,59 @@ public class NameSpockTest extends Specification {
 	public void test_basic_compression() throws TextParseException, WireParseException
 	{
 	    byte[] raw = [ 10, 3, 'a', 'b', 'c', 0, (byte)0xC0, 1 ]
-	    Name e = Name.fromString("abc.");
+	    Name e = Name.fromString("abc.")
 	    
-	    DNSInput dnsin = new DNSInput(raw);
-	    dnsin.jump(6);
+	    DNSInput dnsin = new DNSInput(raw)
+	    dnsin.jump(6)
 	    
-	    Options.set("verbosecompression");
-	    Name n = new Name(dnsin);
-	    Options.unset("verbosecompression");
-	    mgu.equals(e, n);
+	    Options.set("verbosecompression")
+	    Name n = new Name(dnsin)
+	    Options.unset("verbosecompression")
+	    mgu.equals(e, n)
 	}
 
 	public void test_two_pointer_compression() throws TextParseException, WireParseException
 	{
 	    byte[] raw = [ 10, 3, 'a', 'b', 'c', 0, (byte)0xC0, 1, (byte)0xC0, 6 ]
-	    Name e = Name.fromString("abc.");
+	    Name e = Name.fromString("abc.")
 	    
-	    DNSInput dnsin = new DNSInput(raw);
-	    dnsin.jump(8);
+	    DNSInput dnsin = new DNSInput(raw)
+	    dnsin.jump(8)
 	    
-	    Name n = new Name(dnsin);
-	    mgu.equals(e, n);
+	    Name n = new Name(dnsin)
+	    mgu.equals(e, n)
 	}
 
 	public void test_two_part_compression() throws TextParseException, WireParseException
 	{
 	    byte[] raw = [ 10, 3, 'a', 'b', 'c', 0, 1, 'B', (byte)0xC0, 1 ]
-	    Name e = Name.fromString("B.abc.");
+	    Name e = Name.fromString("B.abc.")
 	    
-	    DNSInput dnsin = new DNSInput(raw);
-	    dnsin.jump(6);
+	    DNSInput dnsin = new DNSInput(raw)
+	    dnsin.jump(6)
 	    
-	    Name n = new Name(dnsin);
-	    mgu.equals(e, n);
+	    Name n = new Name(dnsin)
+	    mgu.equals(e, n)
 	}
 
 	public void test_long_jump_compression() throws TextParseException, WireParseException
 	{
 	    // pointer to name beginning at index 256
 	    byte[] raw = [ 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 3, 'a', 'b', 'c', 0, (byte)0xC1, 0 ]
-	    Name e = Name.fromString("abc.");
+	    Name e = Name.fromString("abc.")
 	    
-	    DNSInput dnsin = new DNSInput(raw);
-	    dnsin.jump(261);
-	    Name n = new Name(dnsin);
-	    mgu.equals(e, n);
+	    DNSInput dnsin = new DNSInput(raw)
+	    dnsin.jump(261)
+	    Name n = new Name(dnsin)
+	    mgu.equals(e, n)
 	}
 
 	public void test_bad_compression() throws TextParseException, WireParseException
 	{
 	    byte[] raw = [ (byte)0xC0, 2, 0 ]
 	    try {
-		new Name(new DNSInput(raw));
-		fail("WireParseException not thrown");
+		new Name(new DNSInput(raw))
+		fail("WireParseException not thrown")
 	    }
 	    catch(WireParseException e ){}
 	}
@@ -656,583 +656,556 @@ public class NameSpockTest extends Specification {
 	public void test_basic_compression_state_restore() throws TextParseException, WireParseException
 	{
 	    byte[] raw = [ 10, 3, 'a', 'b', 'c', 0, (byte)0xC0, 1, 3, 'd', 'e', 'f', 0 ]
-	    Name e = Name.fromString("abc.");
-	    Name e2 = Name.fromString("def.");
+	    Name e = Name.fromString("abc.")
+	    Name e2 = Name.fromString("def.")
 	    
-	    DNSInput dnsin = new DNSInput(raw);
-	    dnsin.jump(6);
+	    DNSInput dnsin = new DNSInput(raw)
+	    dnsin.jump(6)
 	    
-	    Name n = new Name(dnsin);
-	    mgu.equals(e, n);
+	    Name n = new Name(dnsin)
+	    mgu.equals(e, n)
 
-	    n = new Name(dnsin);
-	    mgu.equals(e2, n);
+	    n = new Name(dnsin)
+	    mgu.equals(e2, n)
 	}
 
 	public void test_two_part_compression_state_restore() throws TextParseException, WireParseException
 	{
 	    byte[] raw = [ 10, 3, 'a', 'b', 'c', 0, 1, 'B', (byte)0xC0, 1, 3, 'd', 'e', 'f', 0 ]
-	    Name e = Name.fromString("B.abc.");
-	    Name e2 = Name.fromString("def.");
+	    Name e = Name.fromString("B.abc.")
+	    Name e2 = Name.fromString("def.")
 	    
-	    DNSInput dnsin = new DNSInput(raw);
-	    dnsin.jump(6);
+	    DNSInput dnsin = new DNSInput(raw)
+	    dnsin.jump(6)
 	    
-	    Name n = new Name(dnsin);
-	    mgu.equals(e, n);
+	    Name n = new Name(dnsin)
+	    mgu.equals(e, n)
 
-	    n = new Name(dnsin);
-	    mgu.equals(e2, n);
+	    n = new Name(dnsin)
+	    mgu.equals(e2, n)
 	}
     }
 
     public void test_init_from_name() throws TextParseException
     {
-	Name n = new Name("A.B.c.d.");
-	Name e = new Name("B.c.d.");
-	Name o = new Name(n, 1);
-	mgu.equals(e, o);
+	Name n = new Name("A.B.c.d.")
+	Name e = new Name("B.c.d.")
+	Name o = new Name(n, 1)
+	mgu.equals(e, o)
     }
 
     public void test_init_from_name_root() throws TextParseException
     {
-	Name n = new Name("A.B.c.d.");
-	Name o = new Name(n, 4);
-	mgu.equals(Name.root, o);
+	Name n = new Name("A.B.c.d.")
+	Name o = new Name(n, 4)
+	mgu.equals(Name.root, o)
     }
 
     public void test_init_from_name_empty() throws TextParseException
     {
-	Name n = new Name("A.B.c.d.");
-	Name n2 = new Name(n, 5);
+	Name n = new Name("A.B.c.d.")
+	Name n2 = new Name(n, 5)
 
-	assertFalse(n2.isAbsolute());
-	assertFalse(n2.isWild());
-	mgu.equals(0, n2.labels());
-	mgu.equals(0, n2.length());
+	assertFalse(n2.isAbsolute())
+	assertFalse(n2.isWild())
+	mgu.equals(0, n2.labels())
+	mgu.equals(0, n2.length())
     }
 
     public void test_concatenate_basic() throws NameTooLongException, TextParseException
     {
-	Name p = Name.fromString("A.B");
-	Name s = Name.fromString("c.d.");
-	Name e = Name.fromString("A.B.c.d.");
+	Name p = Name.fromString("A.B")
+	Name s = Name.fromString("c.d.")
+	Name e = Name.fromString("A.B.c.d.")
 	
-	Name n = Name.concatenate(p, s);
-	mgu.equals(e, n);
+	Name n = Name.concatenate(p, s)
+	mgu.equals(e, n)
     }
 
     public void test_concatenate_abs_prefix() throws NameTooLongException, TextParseException
     {
-	Name p = Name.fromString("A.B.");
-	Name s = Name.fromString("c.d.");
-	Name e = Name.fromString("A.B.");
+	Name p = Name.fromString("A.B.")
+	Name s = Name.fromString("c.d.")
+	Name e = Name.fromString("A.B.")
 	
-	Name n = Name.concatenate(p, s);
-	mgu.equals(e, n);
+	Name n = Name.concatenate(p, s)
+	mgu.equals(e, n)
     }
 
     public void test_concatenate_too_long() throws TextParseException
     {
-	Name p = Name.fromString("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
-	Name s = Name.fromString("ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc.ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd.");
+	Name p = Name.fromString("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb")
+	Name s = Name.fromString("ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc.ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd.")
 
 	try {
-	    Name.concatenate(p, s);
-	    fail("NameTooLongException not thrown");
+	    Name.concatenate(p, s)
+	    fail("NameTooLongException not thrown")
 	}
 	catch(NameTooLongException e ){}
     }
 
     public void test_relativize() throws TextParseException
     {
-	Name sub = Name.fromString("a.b.c.");
-	Name dom = Name.fromString("c.");
-	Name exp = Name.fromString("a.b");
+	Name sub = Name.fromString("a.b.c.")
+	Name dom = Name.fromString("c.")
+	Name exp = Name.fromString("a.b")
 
-	Name n = sub.relativize(dom);
-	mgu.equals(exp, n);
+	Name n = sub.relativize(dom)
+	mgu.equals(exp, n)
     }
 
     public void test_relativize_null_origin() throws TextParseException
     {
-	Name sub = Name.fromString("a.b.c.");
-	Name dom = null;
+	Name sub = Name.fromString("a.b.c.")
+	Name dom = null
 
-	Name n = sub.relativize(dom);
-	mgu.equals(sub, n);
+	Name n = sub.relativize(dom)
+	mgu.equals(sub, n)
     }
 
     public void test_relativize_disjoint() throws TextParseException
     {
-	Name sub = Name.fromString("a.b.c.");
-	Name dom = Name.fromString("e.f.");
+	Name sub = Name.fromString("a.b.c.")
+	Name dom = Name.fromString("e.f.")
 
-	Name n = sub.relativize(dom);
-	mgu.equals(sub, n);
+	Name n = sub.relativize(dom)
+	mgu.equals(sub, n)
     }
 
     public void test_relativize_root() throws TextParseException
     {
-	Name sub = Name.fromString("a.b.c.");
-	Name dom = Name.fromString(".");
-	Name exp = Name.fromString("a.b.c");
+	Name sub = Name.fromString("a.b.c.")
+	Name dom = Name.fromString(".")
+	Name exp = Name.fromString("a.b.c")
 
-	Name n = sub.relativize(dom);
-	mgu.equals(exp, n);
+	Name n = sub.relativize(dom)
+	mgu.equals(exp, n)
     }
 
     public void test_wild() throws TextParseException
     {
-	Name sub = Name.fromString("a.b.c.");
-	Name exp = Name.fromString("*.b.c.");
+	Name sub = Name.fromString("a.b.c.")
+	Name exp = Name.fromString("*.b.c.")
 
-	Name n = sub.wild(1);
-	mgu.equals(exp, n);
+	Name n = sub.wild(1)
+	mgu.equals(exp, n)
     }
 
     public void test_wild_abs() throws TextParseException
     {
-	Name sub = Name.fromString("a.b.c.");
-	Name exp = Name.fromString("*.");
+	Name sub = Name.fromString("a.b.c.")
+	Name exp = Name.fromString("*.")
 
-	Name n = sub.wild(3);
-	mgu.equals(exp, n);
+	Name n = sub.wild(3)
+	mgu.equals(exp, n)
     }
 
     public void test_wild_toobig() throws TextParseException
     {
-	Name sub = Name.fromString("a.b.c.");
+	Name sub = Name.fromString("a.b.c.")
 	try {
-	    sub.wild(4);
-	    fail("IllegalArgumentException not thrown");
+	    sub.wild(4)
+	    fail("IllegalArgumentException not thrown")
 	}
 	catch(IllegalArgumentException e){}
     }
 
     public void test_wild_toosmall() throws TextParseException
     {
-	Name sub = Name.fromString("a.b.c.");
+	Name sub = Name.fromString("a.b.c.")
 	try {
-	    sub.wild(0);
-	    fail("IllegalArgumentException not thrown");
+	    sub.wild(0)
+	    fail("IllegalArgumentException not thrown")
 	}
 	catch(IllegalArgumentException e){}
     }
 
     public void test_fromDNAME() throws NameTooLongException, TextParseException
     {
-	Name own = new Name("the.owner.");
-	Name alias = new Name("the.alias.");
-	DNAMERecord dnr = new DNAMERecord(own, DClass.IN, 0xABCD, alias);
-	Name sub = new Name("sub.the.owner.");
-	Name exp = new Name("sub.the.alias.");
+	Name own = new Name("the.owner.")
+	Name alias = new Name("the.alias.")
+	DNAMERecord dnr = new DNAMERecord(own, DClass.IN, 0xABCD, alias)
+	Name sub = new Name("sub.the.owner.")
+	Name exp = new Name("sub.the.alias.")
 
-	Name n = sub.fromDNAME(dnr);
-	mgu.equals(exp, n);
+	Name n = sub.fromDNAME(dnr)
+	mgu.equals(exp, n)
     }
 
     public void test_fromDNAME_toobig() throws NameTooLongException, TextParseException
     {
-	Name own = new Name("the.owner.");
-	Name alias = new Name("the.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc.");
-	DNAMERecord dnr = new DNAMERecord(own, DClass.IN, 0xABCD, alias);
-	Name sub = new Name("ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd.the.owner.");
+	Name own = new Name("the.owner.")
+	Name alias = new Name("the.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc.")
+	DNAMERecord dnr = new DNAMERecord(own, DClass.IN, 0xABCD, alias)
+	Name sub = new Name("ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd.the.owner.")
 
 	try {
-	    sub.fromDNAME(dnr);
-	    fail("NameTooLongException not thrown");
+	    sub.fromDNAME(dnr)
+	    fail("NameTooLongException not thrown")
 	}
 	catch(NameTooLongException e){}
     }
 
     public void test_fromDNAME_disjoint() throws NameTooLongException, TextParseException
     {
-	Name own = new Name("the.owner.");
-	Name alias = new Name("the.alias.");
-	DNAMERecord dnr = new DNAMERecord(own, DClass.IN, 0xABCD, alias);
+	Name own = new Name("the.owner.")
+	Name alias = new Name("the.alias.")
+	DNAMERecord dnr = new DNAMERecord(own, DClass.IN, 0xABCD, alias)
 	
-	Name sub = new Name("sub.the.other");
+	Name sub = new Name("sub.the.other")
 
-	assertNull(sub.fromDNAME(dnr));
+	assertNull(sub.fromDNAME(dnr))
     }
 
     public void test_subdomain_abs() throws TextParseException
     {
-	Name dom = new Name("the.domain.");
-	Name sub = new Name("sub.of.the.domain.");
-	assertTrue(sub.subdomain(dom));
-	assertFalse(dom.subdomain(sub));
+	Name dom = new Name("the.domain.")
+	Name sub = new Name("sub.of.the.domain.")
+	mga.that(sub.subdomain(dom))
+	assertFalse(dom.subdomain(sub))
     }
 
     public void test_subdomain_rel() throws TextParseException
     {
-	Name dom = new Name("the.domain");
-	Name sub = new Name("sub.of.the.domain");
-	assertTrue(sub.subdomain(dom));
-	assertFalse(dom.subdomain(sub));
+	Name dom = new Name("the.domain")
+	Name sub = new Name("sub.of.the.domain")
+	mga.that(sub.subdomain(dom))
+	assertFalse(dom.subdomain(sub))
     }
 
     public void test_subdomain_equal() throws TextParseException
     {
-	Name dom = new Name("the.domain");
-	Name sub = new Name("the.domain");
-	assertTrue(sub.subdomain(dom));
-	assertTrue(dom.subdomain(sub));
+	Name dom = new Name("the.domain")
+	Name sub = new Name("the.domain")
+	mga.that(sub.subdomain(dom))
+	mga.that(dom.subdomain(sub))
     }
 
     public void test_toString_abs() throws TextParseException
     {
-	String stin = "This.Is.My.Absolute.Name.";
-	Name n = new Name(stin);
+	String stin = "This.Is.My.Absolute.Name."
+	Name n = new Name(stin)
 	
-	mgu.equals(stin, n.toString());
+	mgu.equals(stin, n.toString())
     }
 
     public void test_toString_rel() throws TextParseException
     {
-	String stin = "This.Is.My.Relative.Name";
-	Name n = new Name(stin);
+	String stin = "This.Is.My.Relative.Name"
+	Name n = new Name(stin)
 	
-	mgu.equals(stin, n.toString());
+	mgu.equals(stin, n.toString())
     }
 
     public void test_toString_at() throws TextParseException
     {
-	Name n = new Name("@", null);
-	mgu.equals("@", n.toString());
+	Name n = new Name("@", null)
+	mgu.equals("@", n.toString())
     }
 
     public void test_toString_root() throws TextParseException
     {
-	mgu.equals(".", Name.root.toString());
+	mgu.equals(".", Name.root.toString())
     }
 
     public void test_toString_wild() throws TextParseException
     {
-	String stin = "*.A.b.c.e";
-	Name n = new Name(stin);
-	mgu.equals(stin, n.toString());
+	String stin = "*.A.b.c.e"
+	Name n = new Name(stin)
+	mgu.equals(stin, n.toString())
     }
 
     public void test_toString_escaped() throws TextParseException
     {
-	String stin = "my.escaped.junk\\128.label.";
-	Name n = new Name(stin);
-	mgu.equals(stin, n.toString());
+	String stin = "my.escaped.junk\\128.label."
+	Name n = new Name(stin)
+	mgu.equals(stin, n.toString())
     }
 
     public void test_toString_special_char() throws TextParseException, WireParseException
     {
 	byte[] raw = [ 1, '"', 1, '(', 1, ')', 1, '.', 1, ';', 1, '\\', 1, '@', 1, '$', 0 ]
 	String exp = "\\\".\\(.\\).\\..\\;.\\\\.\\@.\\\$.";
-	Name n = new Name(new DNSInput(raw));
-	mgu.equals(exp, n.toString());
+	Name n = new Name(new DNSInput(raw))
+	mgu.equals(exp, n.toString())
     }
-
-    public static class Test_toWire extends TestCase
-    {
-	public void test_rel() throws TextParseException
-	{
-	    Name n = new Name("A.Relative.Name");
-	    try {
-		n.toWire(new DNSOutput(), null);
-		fail("IllegalArgumentException not thrown");
-	    }
-	    catch(IllegalArgumentException e){}
+    */
+   
+	def "test_rel_toWire"() throws TextParseException {
+	    Name n = new Name("A.Relative.Name")
+	    when:
+		n.toWire(new DNSOutput(), null)
+	    then: thrown(IllegalArgumentException.class)
 	}
 
-	public void test_null_Compression() throws TextParseException
-	{
+	def "test_null_Compression_toWire"() throws TextParseException {
 	    byte[] raw = [ 1, 'A', 5, 'B', 'a', 's', 'i', 'c', 4, 'N', 'a', 'm', 'e', 0 ]
-	    Name n = new Name("A.Basic.Name.");
+	    Name n = new Name("A.Basic.Name.")
 	    
-	    DNSOutput o = new DNSOutput();
-	    n.toWire(o, null);
-
-	    assertTrue(Arrays.equals(raw, o.toByteArray()));
+	    DNSOutput o = new DNSOutput()
+	    n.toWire(o, null)
+	    expect:
+	    mga.that(Arrays.equals(raw, o.toByteArray()))
 	}
 
-	public void test_empty_Compression() throws TextParseException
-	{
+	def "test_empty_Compression_toWire"() throws TextParseException {
 	    byte[] raw = [ 1, 'A', 5, 'B', 'a', 's', 'i', 'c', 4, 'N', 'a', 'm', 'e', 0 ]
-	    Name n = new Name("A.Basic.Name.");
+	    Name n = new Name("A.Basic.Name.")
 	    
-	    Compression c = new Compression();
-	    DNSOutput o = new DNSOutput();
-	    n.toWire(o, c);
-
-	    assertTrue(Arrays.equals(raw, o.toByteArray()));
-	    mgu.equals(0, c.get(n));
+	    Compression c = new Compression()
+	    DNSOutput o = new DNSOutput()
+	    n.toWire(o, c)
+	    expect:
+	    mga.that(Arrays.equals(raw, o.toByteArray()))
+	    mgu.equals(0, c.get(n))
 	}
 
-	public void test_with_exact_Compression() throws TextParseException
-	{
-	    Name n = new Name("A.Basic.Name.");
+	def "test_with_exact_Compression_toWire"() throws TextParseException {
+	    Name n = new Name("A.Basic.Name.")
 	    
-	    Compression c = new Compression();
-	    c.add(256, n);
+	    Compression c = new Compression()
+	    c.add(256, n)
 	    byte[] exp = [ (byte)0xC1, 0x0 ]
 
-	    DNSOutput o = new DNSOutput();
-	    n.toWire(o, c);
-	    assertTrue(Arrays.equals(exp, o.toByteArray()));
-	    mgu.equals(256, c.get(n));
+	    DNSOutput o = new DNSOutput()
+	    n.toWire(o, c)
+	    expect:
+	    mga.that(Arrays.equals(exp, o.toByteArray()))
+	    mgu.equals(256, c.get(n))
 	}
 
-	public void test_with_partial_Compression() throws TextParseException
-	{
-	    Name d = new Name("Basic.Name.");
-	    Name n = new Name("A.Basic.Name.");
+	def "test_with_partial_Compression_toWire"() throws TextParseException {
+	    Name d = new Name("Basic.Name.")
+	    Name n = new Name("A.Basic.Name.")
 	    
-	    Compression c = new Compression();
-	    c.add(257, d);
+	    Compression c = new Compression()
+	    c.add(257, d)
 	    byte[] exp = [ 1, 'A', (byte)0xC1, 0x1 ]
 
-	    DNSOutput o = new DNSOutput();
-	    n.toWire(o, c);
-	    assertTrue(Arrays.equals(exp, o.toByteArray()));
-	    mgu.equals(257, c.get(d));
-	    mgu.equals(0, c.get(n));
+	    DNSOutput o = new DNSOutput()
+	    n.toWire(o, c)
+	    expect:
+	    mga.that(Arrays.equals(exp, o.toByteArray()))
+	    mgu.equals(257, c.get(d))
+	    mgu.equals(0, c.get(n))
 	}
 
-	public void test_0arg_rel() throws TextParseException
-	{
-	    Name n = new Name("A.Relative.Name");
-	    try {
-		n.toWire();
-		fail("IllegalArgumentException not thrown");
-	    }
-	    catch(IllegalArgumentException e){}
+	def "test_0arg_rel_toWire"() throws TextParseException {
+	    Name n = new Name("A.Relative.Name")
+	    when:
+		n.toWire()
+	    then: thrown(IllegalArgumentException.class)
 	}
 
-	public void test_0arg() throws TextParseException
-	{
+	def "test_0arg_toWire"() throws TextParseException {
 	    byte[] raw = [ 1, 'A', 5, 'B', 'a', 's', 'i', 'c', 4, 'N', 'a', 'm', 'e', 0 ]
-	    Name n = new Name("A.Basic.Name.");
+	    Name n = new Name("A.Basic.Name.")
 	    
-	    byte[] out = n.toWire();
-
-	    assertTrue(Arrays.equals(raw, out));
+	    byte[] out = n.toWire()
+	    expect:
+	    mga.that(Arrays.equals(raw, out))
 	}
 
-	public void test_root()
-	{
-	    byte[] out = Name.root.toWire();
+	def "test_root_toWire"() {
+	    byte[] out = Name.root.toWire()
 	    def byte[] b1 = [ 0 ]
-	    assertTrue(Arrays.equals( b1, out));
+	    expect:
+	    mga.that(Arrays.equals( b1, out))
 	}
 
-	public void test_3arg() throws TextParseException
-	{
-	    Name d = new Name("Basic.Name.");
-	    Name n = new Name("A.Basic.Name.");
+	def "test_3arg_toWire"() throws TextParseException {
+	    Name d = new Name("Basic.Name.")
+	    Name n = new Name("A.Basic.Name.")
 	    
-	    Compression c = new Compression();
-	    c.add(257, d);
+	    Compression c = new Compression()
+	    c.add(257, d)
 	    byte[] exp = [ 1, 'A', (byte)0xC1, 0x1 ]
 
-	    DNSOutput o = new DNSOutput();
-	    n.toWire(o, c, false);
-	    assertTrue(Arrays.equals(exp, o.toByteArray()));
-	    mgu.equals(257, c.get(d));
-	    mgu.equals(0, c.get(n));
+	    DNSOutput o = new DNSOutput()
+	    n.toWire(o, c, false)
+
+	    expect:
+	    mga.that(Arrays.equals(exp, o.toByteArray()))
+	    mgu.equals(257, c.get(d))
+	    mgu.equals(0, c.get(n))
 	}
-    }
-*/
-    /*
-    public static class Test_toWireCanonical extends TestCase
-    {
-	public void test_basic() throws TextParseException
-	{
+    
+	def "test_basic_toWireCanonical"() throws TextParseException {
 	    byte[] raw = [ 1, 'a', 5, 'b', 'a', 's', 'i', 'c', 4, 'n', 'a', 'm', 'e', 0 ]
-	    Name n = new Name("A.Basic.Name.");
+	    Name n = new Name("A.Basic.Name.")
 	    
-	    DNSOutput o = new DNSOutput();
-	    n.toWireCanonical(o);
-
-	    assertTrue(Arrays.equals(raw, o.toByteArray()));
+	    DNSOutput o = new DNSOutput()
+	    n.toWireCanonical(o)
+	    expect:
+	    mga.that(Arrays.equals(raw, o.toByteArray()))
 	}
 
-	public void test_0arg() throws TextParseException
-	{
+	def "test_0arg_toWireCanonical"() throws TextParseException {
 	    byte[] raw = [ 1, 'a', 5, 'b', 'a', 's', 'i', 'c', 4, 'n', 'a', 'm', 'e', 0 ]
-	    Name n = new Name("A.Basic.Name.");
+	    Name n = new Name("A.Basic.Name.")
 	    
-	    byte[] out = n.toWireCanonical();
-
-	    assertTrue(Arrays.equals(raw, out));
+	    byte[] out = n.toWireCanonical()
+	    expect:
+	    mga.that(Arrays.equals(raw, out))
 	}
 
-	public void test_root()
-	{
-	    byte[] out = Name.root.toWireCanonical();
-	    // assertTrue(Arrays.equals(new byte[] { 0 }, out));
+	def "test_root_toWireCanonical"() {
+	    byte[] out = Name.root.toWireCanonical()
+	    // mga.that(Arrays.equals(new byte[] { 0 }, out))
 	    def byte[] b1 = [ 0 ]
-	    assertTrue(Arrays.equals(b1 , out));
+	    expect:
+	    mga.that(Arrays.equals(b1 , out))
 	}
 
-	public void test_empty() throws TextParseException
-	{
-	    Name n = new Name("@", null);
-	    byte[] out = n.toWireCanonical();
+	def "test_empty_toWireCanonical"() throws TextParseException {
+	    Name n = new Name("@", null)
+	    byte[] out = n.toWireCanonical()
 	    println("Here is out: " + out)
 	    
 	    def byte[] b1 = [ ]
-	    assertTrue(Arrays.equals(b1, out));
+	    expect:
+	    mga.that(Arrays.equals(b1, out))
 	}
 
-	public void test_3arg() throws TextParseException
-	{
-	    Name d = new Name("Basic.Name.");
-	    Name n = new Name("A.Basic.Name.");
+	def "test_3arg_toWireCanonical"() throws TextParseException {
+	    Name d = new Name("Basic.Name.")
+	    Name n = new Name("A.Basic.Name.")
 	    
-	    Compression c = new Compression();
-	    c.add(257, d);
+	    Compression c = new Compression()
+	    c.add(257, d)
 	    byte[] exp = [ 1, 'a', 5, 'b', 'a', 's', 'i', 'c', 4, 'n', 'a', 'm', 'e', 0 ]
 
-	    DNSOutput o = new DNSOutput();
-	    n.toWire(o, c, true);
-	    assertTrue(Arrays.equals(exp, o.toByteArray()));
-	    mgu.equals(257, c.get(d));
-	    mgu.equals(-1, c.get(n));
+	    DNSOutput o = new DNSOutput()
+	    n.toWire(o, c, true)
+	    expect:
+	    mga.that(Arrays.equals(exp, o.toByteArray()))
+	    mgu.equals(257, c.get(d))
+	    mgu.equals(-1, c.get(n))
 	}
-    }
-*/
-    /*
-    public static class Test_equals extends TestCase
-    {
-	public void test_same() throws TextParseException
-	{
-	    Name n = new Name("A.Name.");
-	    assertTrue(n.equals(n));
-	}
-
-	public void test_null() throws TextParseException
-	{
-	    Name n = new Name("A.Name.");
-	    assertFalse(n.equals(null));
-	}
-
-	public void test_notName() throws TextParseException
-	{
-	    Name n = new Name("A.Name.");
-	    assertFalse(n.equals(new Object()));
-	}
-
-	public void test_abs() throws TextParseException
-	{
-	    Name n = new Name("A.Name.");
-	    Name n2 = new Name("a.name.");
-
-	    assertTrue(n.equals(n2));
-	    assertTrue(n2.equals(n));
-	}
-
-	public void test_rel() throws TextParseException
-	{
-	    Name n1 = new Name("A.Relative.Name");
-	    Name n2 = new Name("a.relative.name");
-
-	    assertTrue(n1.equals(n2));
-	    assertTrue(n2.equals(n1));
-	}
-
-	public void test_mixed() throws TextParseException
-	{
-	    Name n1 = new Name("A.Name");
-	    Name n2 = new Name("a.name.");
-
-	    assertFalse(n1.equals(n2));
-	    assertFalse(n2.equals(n1));
-	}
-
-	public void test_weird() throws TextParseException
-	{
-	    Name n1 = new Name("ab.c");
-	    Name n2 = new Name("abc.");
-
-	    assertFalse(n1.equals(n2));
-	    assertFalse(n2.equals(n1));
-	}
-    }
-
-*/
-
     
+	def "test_same_equals"() throws TextParseException {
+	    Name n = new Name("A.Name.")
+	    expect:
+	    mga.that(n.equals(n))
+	}
+
+	def "test_null_equals"() throws TextParseException {
+	    Name n = new Name("A.Name.")
+	    !mgu.equals( n, null)
+		// assertFalse(n.equals(null))
+	}
+
+	def "test_notName_equals"() throws TextParseException {
+	    Name n = new Name("A.Name.")
+	    expect:
+	    !mgu.equals(n, new Object())
+		// assertFalse(n.equals(new Object()))
+	}
+
+        def "test_abs_equals"() throws TextParseException {
+	    Name n = new Name("A.Name.")
+	    Name n2 = new Name("a.name.")
+	    expect:
+	    mga.that(n.equals(n2))
+	    mga.that(n2.equals(n))
+	}
+
+	def "test_rel_equals"() throws TextParseException {
+	    Name n1 = new Name("A.Relative.Name")
+	    Name n2 = new Name("a.relative.name")
+	    expect:
+	    mga.that(n1.equals(n2))
+	    mga.that(n2.equals(n1))
+	}
+
+	def "test_mixed_equals"() throws TextParseException {
+	    Name n1 = new Name("A.Name")
+	    Name n2 = new Name("a.name.")
+
+	    expect:
+		// assertFalse(n1.equals(n2))
+		// assertFalse(n2.equals(n1))
+	    !mgu.equals(n1 ,n2)
+	    !mgu.equals(n2, n1)
+	}
+
+	def "test_weird_equals"() throws TextParseException {
+	    Name n1 = new Name("ab.c")
+	    Name n2 = new Name("abc.")
+
+	    expect:
+	    !mgu.equals(n1 ,n2)
+	    !mgu.equals(n2, n1)
+		// assertFalse(n1.equals(n2))
+		// assertFalse(n2.equals(n1))
+	}
     
 	def "test_notName_compareTo"() throws TextParseException {
-	    Name n = new Name("A.Name");
+	    Name n = new Name("A.Name")
 	    when:
-		n.compareTo(new Object());
+	    n.compareTo(new Object())
 	    then:
 	    thrown(ClassCastException.class )
 	}
 
-	def "test_same_compareTo"() throws TextParseException
-	{
-	    Name n = new Name("A.Name");
+	def "test_same_compareTo"() throws TextParseException {
+	    Name n = new Name("A.Name")
 	    expect:
-	    mgu.equals(0, n.compareTo(n));
+	    mgu.equals(0, n.compareTo(n))
 	}
 
-	def "test_equal_compareTo"() throws TextParseException
-	{
-	    Name n1 = new Name("A.Name.");
-	    Name n2 = new Name("a.name.");
+	def "test_equal_compareTo"() throws TextParseException {
+	    Name n1 = new Name("A.Name.")
+	    Name n2 = new Name("a.name.")
 	    expect:
-	    mgu.equals(0, n1.compareTo(n2));
-	    mgu.equals(0, n2.compareTo(n1));
+	    mgu.equals(0, n1.compareTo(n2))
+	    mgu.equals(0, n2.compareTo(n1))
 	}
 
-	def "test_close_compareTo"() throws TextParseException
-	{
-	    Name n1 = new Name("a.name");
-	    Name n2 = new Name("a.name.");
+	def "test_close_compareTo"() throws TextParseException {
+	    Name n1 = new Name("a.name")
+	    Name n2 = new Name("a.name.")
 	    expect:
-	    mga.that(n1.compareTo(n2) > 0);
-	    mga.that(n2.compareTo(n1) < 0);
+	    mga.that(n1.compareTo(n2) > 0)
+	    mga.that(n2.compareTo(n1) < 0)
 	}
 
-	def "test_disjoint_compareTo"() throws TextParseException
-	{
-	    Name n1 = new Name("b");
-	    Name n2 = new Name("c");
+	def "test_disjoint_compareTo"() throws TextParseException {
+	    Name n1 = new Name("b")
+	    Name n2 = new Name("c")
 	    expect:
-	    mga.that(n1.compareTo(n2) < 0);
-	    mga.that(n2.compareTo(n1) > 0);
+	    mga.that(n1.compareTo(n2) < 0)
+	    mga.that(n2.compareTo(n1) > 0)
 	}
 
-	def "test_label_prefix_compareTo"() throws TextParseException
-	{
-	    Name n1 = new Name("thisIs.a.");
-	    Name n2 = new Name("thisIsGreater.a.");
+	def "test_label_prefix_compareTo"() throws TextParseException {
+	    Name n1 = new Name("thisIs.a.")
+	    Name n2 = new Name("thisIsGreater.a.")
 	    expect:
-	    mga.that(n1.compareTo(n2) < 0);
-	    mga.that(n2.compareTo(n1) > 0);
+	    mga.that(n1.compareTo(n2) < 0)
+	    mga.that(n2.compareTo(n1) > 0)
 	}
 
-	def "test_more_labels_compareTo"() throws TextParseException
-	{
-	    Name n1 = new Name("c.b.a.");
-	    Name n2 = new Name("d.c.b.a.");
+	def "test_more_labels_compareTo"() throws TextParseException {
+	    Name n1 = new Name("c.b.a.")
+	    Name n2 = new Name("d.c.b.a.")
 	    expect:
-	    mga.that(n1.compareTo(n2) < 0);
-	    mga.that(n2.compareTo(n1) > 0);
+	    mga.that(n1.compareTo(n2) < 0)
+	    mga.that(n2.compareTo(n1) > 0)
 	}
     
 /*
     public static Test suite()
     {
-	TestSuite s = new TestSuite();
-	s.addTestSuite(Test_String_init.class);
-	s.addTestSuite(Test_DNSInput_init.class);
-	s.addTestSuite(NameTest.class);
-	s.addTestSuite(Test_toWire.class);
-	s.addTestSuite(Test_toWireCanonical.class);
-	s.addTestSuite(Test_equals.class);
-	s.addTestSuite(Test_compareTo.class);
-	return s;
+	TestSuite s = new TestSuite()
+	s.addTestSuite(Test_String_init.class)
+	s.addTestSuite(Test_DNSInput_init.class)
+	s.addTestSuite(NameTest.class)
+	s.addTestSuite(Test_toWire.class)
+	s.addTestSuite(Test_toWireCanonical.class)
+	s.addTestSuite(Test_equals.class)
+	s.addTestSuite(Test_compareTo.class)
+	return s
     }
     */
 }
