@@ -24,3 +24,8 @@ Writing tests in Groovy: http://hamletdarcy.blogspot.com/2008/04/testing-java-fr
 
 A good presentation on Spock: http://www.slideshare.net/elizhender/spock-pres-15236797    
 
+assertEquals becomes mgu.equals  
+assertNull(XXX) becomes mgu.equals(null, XXX)   
+assertTrue becomes mga.assertTrue
+assertFalse(x == y) becomes mga.that( x != y)    
+assertFalse(XX.YY) becomes mga.that(!XX.YY)   

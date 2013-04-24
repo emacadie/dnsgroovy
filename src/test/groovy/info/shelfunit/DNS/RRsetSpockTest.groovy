@@ -116,13 +116,12 @@ public class RRsetSpockTest extends Specification {
 	mga.that(!itr.hasNext())
     }
 
-    /*
+    
 // begin monster method
-    public void test_basics() throws TextParseException,
-				     UnknownHostException
-    {
+    def "test_basics"() throws TextParseException, UnknownHostException {
+	when:
 	m_rs.addRR(m_a1)
-
+	then:
 	mgu.equals(1, m_rs.size())
 	mgu.equals(DClass.IN, m_rs.getDClass())
 	mgu.equals(m_a1, m_rs.first())
@@ -130,9 +129,10 @@ public class RRsetSpockTest extends Specification {
 	mgu.equals(m_ttl, m_rs.getTTL())
 	mgu.equals(Type.A, m_rs.getType())
 
+	when:
 	// add it again, and make sure nothing changed
 	m_rs.addRR(m_a1)
-
+	then:
 	mgu.equals(1, m_rs.size())
 	mgu.equals(DClass.IN, m_rs.getDClass())
 	mgu.equals(m_a1, m_rs.first())
@@ -140,29 +140,41 @@ public class RRsetSpockTest extends Specification {
 	mgu.equals(m_ttl, m_rs.getTTL())
 	mgu.equals(Type.A, m_rs.getType())
 
+	when:
 	m_rs.addRR(m_a2)
-
+	then:
 	mgu.equals(2, m_rs.size())
 	mgu.equals(DClass.IN, m_rs.getDClass())
+	when:
 	Record r = m_rs.first()
+	then:
 	mgu.equals(m_a1, r)
 	mgu.equals(m_name, m_rs.getName())
 	mgu.equals(m_ttl, m_rs.getTTL())
 	mgu.equals(Type.A, m_rs.getType())
 
+	when:
 	Iterator itr = m_rs.rrs()
+	then:
 	mgu.equals(m_a1, itr.next())
 	mgu.equals(m_a2, itr.next())
 
+	when:
 	// make sure that it rotates
 	itr = m_rs.rrs()
+	then:
 	mgu.equals(m_a2, itr.next())
 	mgu.equals(m_a1, itr.next())
+
+	when:
 	itr = m_rs.rrs()
+	then:
 	mgu.equals(m_a1, itr.next())
 	mgu.equals(m_a2, itr.next())
 
+	when:
 	m_rs.deleteRR(m_a1)
+	then:
 	mgu.equals(1, m_rs.size())
 	mgu.equals(DClass.IN, m_rs.getDClass())
 	mgu.equals(m_a2, m_rs.first())
@@ -171,37 +183,49 @@ public class RRsetSpockTest extends Specification {
 	mgu.equals(Type.A, m_rs.getType())
 
 	// the signature records
+	when:
 	m_rs.addRR(m_s1)
+	then:
 	mgu.equals(1, m_rs.size())
+	when:
 	itr = m_rs.sigs()
+	then:
 	mgu.equals(m_s1, itr.next())
-	assertFalse(itr.hasNext())
+	mga.that(!itr.hasNext())
 
+	when:
 	m_rs.addRR(m_s1)
 	itr = m_rs.sigs()
+	then:
 	mgu.equals(m_s1, itr.next())
-	assertFalse(itr.hasNext())
+	mga.that(!itr.hasNext())
 
+	when:
 	m_rs.addRR(m_s2)
 	itr = m_rs.sigs()
+	then:
 	mgu.equals(m_s1, itr.next())
 	mgu.equals(m_s2, itr.next())
-	assertFalse(itr.hasNext())
+	mga.that(!itr.hasNext())
 
+	when:
 	m_rs.deleteRR(m_s1)
 	itr = m_rs.sigs()
+	then:
 	mgu.equals(m_s2, itr.next())
-	assertFalse(itr.hasNext())
+	mga.that(!itr.hasNext())
 
 	
 	// clear it all
+	when:
 	m_rs.clear()
+	then:
 	mgu.equals(0, m_rs.size())
-	assertFalse(m_rs.rrs().hasNext())
-	assertFalse(m_rs.sigs().hasNext())
+	mga.that(!m_rs.rrs().hasNext())
+	mga.that(!m_rs.sigs().hasNext())
 
     } // end monster method
-    */
+    
     
     def "test_ctor_1arg"() {
 	m_rs.addRR(m_a1)
