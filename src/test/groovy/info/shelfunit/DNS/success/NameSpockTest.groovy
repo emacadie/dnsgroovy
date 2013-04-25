@@ -56,17 +56,15 @@ public class NameSpockTest extends Specification {
 	    m_abs_origin = Name.fromString("Orig.")
 	    m_rel_origin = Name.fromString("Orig")
 	}
-    /*
+
         def "test_ctor_empty_init"() {
 	setup_init()
 
-	    try {
+	    when:
 		new Name("")
-		fail("TextParseException not thrown")
-	    }
-	    catch(TextParseException e ){}
+	    then: thrown(TextParseException.class)
 	}
-	*/
+
 	def "test_ctor_at_null_origin_init"() throws TextParseException {
 	setup_init()
 	    Name n = new Name("@")
@@ -90,12 +88,12 @@ public class NameSpockTest extends Specification {
 	    expect:	    
 	    mgu.equals(m_rel_origin, n)
 	}
-	/*
+
 	def "test_ctor_dot_init"() throws TextParseException {
 	setup_init()
 	    Name n = new Name(".")
 	    mgu.equals(Name.root, n)
-	    assertNotSame(Name.root, n)
+	    !mgu.equals(Name.root, n)
 	    mgu.equals(1, n.labels())
 	    mgu.equals(1, n.length())
 	}
@@ -103,11 +101,14 @@ public class NameSpockTest extends Specification {
 	def "test_ctor_wildcard_init"() throws TextParseException {
 	setup_init()
 	    Name n = new Name("*")
+	    expect:
 	    mga.that(!n.isAbsolute())
 	    mga.that(n.isWild())
 	    mgu.equals(1, n.labels())
-	    mgu.equals(2, n.length())
+	    mgu.equals(2.shortValue(), n.length())
+	    when:
 	    def byte[] b1 = [ 1, '*' ]
+	    then:
 	    mga.that(Arrays.equals(b1, n.getLabel(0)))
 	    mgu.equals("*", n.getLabelString(0))
 	}
@@ -115,20 +116,29 @@ public class NameSpockTest extends Specification {
 	def "test_ctor_abs_init"() throws TextParseException {
 	setup_init()
 	    Name n = new Name(m_abs)
+	    expect:
 	    mga.that(n.isAbsolute())
 	    mga.that(!n.isWild())
 	    mgu.equals(4, n.labels())
-	    mgu.equals(17, n.length())
+	    mgu.equals(17.shortValue(), n.length())
+	    when:
 	    def byte[] b1 = [ 3, 'W', 'W', 'W' ]
+	    then:
 	    mga.that(Arrays.equals(b1, n.getLabel(0)))
 	    mgu.equals("WWW", n.getLabelString(0))
+	    when:
 	    def byte[] b2 = [ 7, 'D', 'n', 's', 'J', 'a', 'v', 'a' ]
+	    then:
 	    mga.that(Arrays.equals(b2, n.getLabel(1)))
 	    mgu.equals("DnsJava", n.getLabelString(1))
+	    when:
 	    def byte[] b3 = [ 3, 'o', 'r', 'g' ]
+	    then:
 	    mga.that(Arrays.equals(b3, n.getLabel(2)))
 	    mgu.equals("org", n.getLabelString(2))
+	    when:
 	    def byte[] b4 = [ 0 ]
+	    then:
 	    mga.that(Arrays.equals(b4, n.getLabel(3)))
 	    mgu.equals("", n.getLabelString(3))
 	}
@@ -136,14 +146,19 @@ public class NameSpockTest extends Specification {
 	def "test_ctor_rel_init"() throws TextParseException {
 	setup_init()
 	    Name n = new Name(m_rel)
+	    expect:
 	    mga.that(!n.isAbsolute())
 	    mga.that(!n.isWild())
 	    mgu.equals(2, n.labels())
-	    mgu.equals(12, n.length())
+	    mgu.equals(12.shortValue(), n.length())
+	    when:
 	    def byte[] b1 = [ 3, 'W', 'W', 'W' ]
+	    then:
 	    mga.that(Arrays.equals(b1, n.getLabel(0)))
 	    mgu.equals("WWW", n.getLabelString(0))
+	    when:
 	    def byte[] b2 = [ 7, 'D', 'n', 's', 'J', 'a', 'v', 'a' ]
+	    then:
 	    mga.that(Arrays.equals(b2, n.getLabel(1)))
 	    mgu.equals("DnsJava", n.getLabelString(1))
 	}
@@ -152,29 +167,44 @@ public class NameSpockTest extends Specification {
 	setup_init()
 	    // 7 is the number of label positions that are cached
 	    Name n = new Name("a.b.c.d.e.f.")
+	    expect:
 	    mga.that(n.isAbsolute())
 	    mga.that(!n.isWild())
 	    mgu.equals(7, n.labels())
-	    mgu.equals(13, n.length())
+	    mgu.equals(13.shortValue(), n.length())
+	    when:
 	    def byte[] b1 = [ 1, 'a' ]
+	    then:
 	    mga.that(Arrays.equals(b1, n.getLabel(0)))
 	    mgu.equals("a", n.getLabelString(0))
+	    when:
 	    b1 = [ 1, 'b' ]
+	    then:
 	    mga.that(Arrays.equals(b1, n.getLabel(1)))
 	    mgu.equals("b", n.getLabelString(1))
+	    when:
 	    b1 = [ 1, 'c' ]
+	    then:
 	    mga.that(Arrays.equals(b1, n.getLabel(2)))
 	    mgu.equals("c", n.getLabelString(2))
+	    when:
 	    b1 = [ 1, 'd' ]
+	    then:
 	    mga.that(Arrays.equals(b1,  n.getLabel(3)))
 	    mgu.equals("d", n.getLabelString(3))
+	    when:
 	    b1 = [ 1, 'e' ]
+	    then:
 	    mga.that(Arrays.equals(b1, n.getLabel(4)))
 	    mgu.equals("e", n.getLabelString(4))
+	    when:
 	    b1 = [ 1, 'f' ]
+	    then:
 	    mga.that(Arrays.equals(b1, n.getLabel(5)))
 	    mgu.equals("f", n.getLabelString(5))
+	    when:
 	    b1 = [ 0 ]
+	    then:
 	    mga.that(Arrays.equals(b1, n.getLabel(6)))
 	    mgu.equals("", n.getLabelString(6))
 	}
@@ -183,32 +213,49 @@ public class NameSpockTest extends Specification {
 	setup_init()
 	    // 7 is the number of label positions that are cached
 	    Name n = new Name("a.b.c.d.e.f.g.")
+	    expect:
 	    mga.that(n.isAbsolute())
 	    mga.that(!n.isWild())
 	    mgu.equals(8, n.labels())
-	    mgu.equals(15, n.length())
+	    mgu.equals(15.shortValue(), n.length())
+	    when:
 	    def byte[] b1 = [ 1, 'a' ]
+	    then:
 	    mga.that(Arrays.equals(b1, n.getLabel(0)))
 	    mgu.equals("a", n.getLabelString(0))
+	    when:
 	    b1 = [ 1, 'b' ]
+	    then:
 	    mga.that(Arrays.equals(b1, n.getLabel(1)))
 	    mgu.equals("b", n.getLabelString(1))
+	    when:
 	    b1 = [ 1, 'c' ]
+	    then:
 	    mga.that(Arrays.equals(b1, n.getLabel(2)))
 	    mgu.equals("c", n.getLabelString(2))
+	    when:
 	    b1 = [ 1, 'd' ]
+	    then:
 	    mga.that(Arrays.equals(b1, n.getLabel(3)))
 	    mgu.equals("d", n.getLabelString(3))
+	    when:
 	    b1 = [ 1, 'e' ]
+	    then:
 	    mga.that(Arrays.equals(b1, n.getLabel(4)))
 	    mgu.equals("e", n.getLabelString(4))
+	    when:
 	    b1 = [ 1, 'f' ]
+	    then:
 	    mga.that(Arrays.equals(b1, n.getLabel(5)))
 	    mgu.equals("f", n.getLabelString(5))
+	    when:
 	    b1 = [ 1, 'g' ]
+	    then:
 	    mga.that(Arrays.equals(b1, n.getLabel(6)))
 	    mgu.equals("g", n.getLabelString(6))
+	    when:
 	    b1 = [ 0 ]
+	    then:
 	    mga.that(Arrays.equals(b1, n.getLabel(7)))
 	    mgu.equals("", n.getLabelString(7))
 	}
@@ -216,20 +263,29 @@ public class NameSpockTest extends Specification {
 	def "test_ctor_abs_abs_origin_init"() throws TextParseException {
 	setup_init()
 	    Name n = new Name(m_abs, m_abs_origin)
+	    expect:
 	    mga.that(n.isAbsolute())
 	    mga.that(!n.isWild())
 	    mgu.equals(4, n.labels())
-	    mgu.equals(17, n.length())
+	    mgu.equals(17.shortValue(), n.length())
+	    when:
 	    def byte[] b1 = [ 3, 'W', 'W', 'W' ] 
-	    mga.that(Arrays.equals(b1, n.getLabel(0)))
+	    then:
+     	    mga.that(Arrays.equals(b1, n.getLabel(0)))
 	    mgu.equals("WWW", n.getLabelString(0))
+	    when:
 	    def byte[] b2 = [ 7, 'D', 'n', 's', 'J', 'a', 'v', 'a' ]
+	    then:
 	    mga.that(Arrays.equals(b2, n.getLabel(1) ) )
 	    mgu.equals("DnsJava", n.getLabelString(1))
+	    when:
 	    b1 = [ 3, 'o', 'r', 'g' ]
+	    then:
 	    mga.that(Arrays.equals(b1, n.getLabel(2)))
 	    mgu.equals("org", n.getLabelString(2))
+	    when:
 	    b1 = [ 0 ]
+	    then:
 	    mga.that(Arrays.equals(b1, n.getLabel(3)))
 	    mgu.equals("", n.getLabelString(3))
 	}
@@ -237,20 +293,29 @@ public class NameSpockTest extends Specification {
 	def "test_ctor_abs_rel_origin_init"() throws TextParseException {
 	setup_init()
 	    Name n = new Name(m_abs, m_rel_origin)
+	    expect:
 	    mga.that(n.isAbsolute())
 	    mga.that(!n.isWild())
 	    mgu.equals(4, n.labels())
-	    mgu.equals(17, n.length())
+	    mgu.equals(17.shortValue(), n.length())
+	    when:
 	    def byte[] b1 = [ 3, 'W', 'W', 'W' ]
+	    then:
 	    mga.that(Arrays.equals( b1, n.getLabel(0)))
 	    mgu.equals("WWW", n.getLabelString(0))
+	    when:
 	    def byte[] b2 = [ 7, 'D', 'n', 's', 'J', 'a', 'v', 'a' ]
+	    then:
 	    mga.that(Arrays.equals(b2, n.getLabel( 1 ) ) )
 	    mgu.equals("DnsJava", n.getLabelString(1))
+	    when:
 	    b1 = [ 3, 'o', 'r', 'g' ]
+	    then:
 	    mga.that(Arrays.equals(b1, n.getLabel(2)))
 	    mgu.equals("org", n.getLabelString(2))
+	    when:
 	    b1 = [ 0 ]
+	    then:
 	    mga.that(Arrays.equals( b1, n.getLabel(3)))
 	    mgu.equals("", n.getLabelString(3))
 	}
@@ -258,66 +323,78 @@ public class NameSpockTest extends Specification {
 	def "test_ctor_rel_abs_origin_init"() throws TextParseException {
 	setup_init()
 	    Name n = new Name(m_rel, m_abs_origin)
+	    expect:
 	    mga.that(n.isAbsolute())
 	    mga.that(!n.isWild())
 	    mgu.equals(4, n.labels())
-	    mgu.equals(18, n.length())
+	    mgu.equals(18.shortValue(), n.length())
+	    when:
 	    def byte[] b1 = [ 3, 'W', 'W', 'W' ]
+	    then:
 	    mga.that(Arrays.equals( b1, n.getLabel(0)))
 	    mgu.equals("WWW", n.getLabelString(0))
+	    when:
 	    def byte[] b2 = [ 7, 'D', 'n', 's', 'J', 'a', 'v', 'a' ]
+	    then:
 	    mga.that(Arrays.equals(b2, n.getLabel( 1 ) ) )
 	    mgu.equals("DnsJava", n.getLabelString(1))
+	    when:
 	    b1 = [ 4, 'O', 'r', 'i', 'g' ]
+	    then:
 	    mga.that(Arrays.equals(b1, n.getLabel(2)))
 	    mgu.equals("Orig", n.getLabelString(2))
+	    when:
 	    b1 = [ 0 ]
+	    then:
 	    mga.that(Arrays.equals(b1, n.getLabel(3)))
 	    mgu.equals("", n.getLabelString(3))
 	}
 
-	def "test_ctor_invalid_label() {
+	def "test_ctor_invalid_label"() {
 	setup_init()
-	    try {
+	    when:
 		new Name("junk..junk.")
-		fail("TextParseException not thrown")
-	    }
-	    catch(TextParseException e){}
+	    then: thrown(TextParseException.class)
 	}
 
 	def "test_ctor_max_label_init"() throws TextParseException {
 	setup_init()
 	    // name with a 63 char label
 	    Name n = new Name("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.b.")
+	    expect:
 	    mga.that(n.isAbsolute())
 	    mga.that(!n.isWild())
 	    mgu.equals(3, n.labels())
-	    mgu.equals(67, n.length())
+	    mgu.equals(67.shortValue(), n.length())
+	    when:
 	    def byte[] b1 = [ 63, 'a','a','a','a','a','a','a','a','a','a','a','a',
 			      'a','a','a','a','a','a','a','a','a','a','a','a','a',
 			      'a','a','a','a','a','a','a','a','a','a','a','a','a',
 			      'a','a','a','a','a','a','a','a','a','a','a','a','a',
 			      'a','a','a','a','a','a','a','a','a','a','a','a' ]
-		mga.that(Arrays.equals(b1, n.getLabel(0)))
+	    then:
+            mga.that(Arrays.equals(b1, n.getLabel(0)))
 	    mgu.equals("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", n.getLabelString(0))
+	    when:
 	    b1 = [ 1, 'b' ]
+	    then:
 	    mga.that(Arrays.equals(b1, n.getLabel(1)))
 	    mgu.equals("b", n.getLabelString(1))
+	    when:
 	    b1 = [ 0 ]
+	    then:
 	    mga.that(Arrays.equals(b1, n.getLabel(2)))
 	    mgu.equals("", n.getLabelString(2))
 	}
 
-	def "test_ctor_toobig_label() {
+	def "test_ctor_toobig_label"() {
 	setup_init()
 	    // name with a 64 char label
-	    try {
+	    when:
 		new Name("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.b.")
-		fail("TextParseException not thrown")
-	    }
-	    catch(TextParseException e ){}
+	    then: thrown(TextParseException.class)
 	}
-	*/
+
 	def "test_ctor_max_length_rel_init"() throws TextParseException {
 	setup_init()
 	    // relative name with three 63-char labels and a 62-char label
@@ -339,91 +416,94 @@ public class NameSpockTest extends Specification {
 	    mgu.equals(5, n.labels())
 	    mgu.equals(255.shortValue(), n.length())
 	}
-	/*
+
 	def "test_ctor_escaped_init"() throws TextParseException {
 	setup_init()
 	    Name n = new Name("ab\\123cd")
+	    expect:
 	    mga.that(!n.isAbsolute())
 	    mga.that(!n.isWild())
 	    mgu.equals(1, n.labels())
-	    mgu.equals(6, n.length())
+	    mgu.equals(6.shortValue(), n.length())
+	    when:
 	    def byte[] b1 = [ 5, 'a', 'b', (byte)123, 'c', 'd' ]
+	    then:
 	    mga.that(Arrays.equals(b1, n.getLabel(0)))
 	}
 	    
 	def "test_ctor_escaped_end_init"() throws TextParseException {
 	setup_init()
 	    Name n = new Name("abcd\\123")
+	    expect:
 	    mga.that(!n.isAbsolute())
 	    mga.that(!n.isWild())
 	    mgu.equals(1, n.labels())
-	    mgu.equals(6, n.length())
+	    mgu.equals(6.shortValue(), n.length())
+	    when:
 	    def byte[] b1 = [ 5, 'a', 'b', 'c', 'd', (byte)123 ]
+	    then:
 	    mga.that(Arrays.equals(b1, n.getLabel(0)))
 	}
 
 	def "test_ctor_short_escaped_init"() throws TextParseException {
 	setup_init()
-	    try {
+	    when:
 		new Name("ab\\12cd")
-		fail("TextParseException not throw")
-	    }
-	    catch(TextParseException e){}
+	    then: thrown(TextParseException.class)
 	}
 	    
 	def "test_ctor_short_escaped_end_init"() throws TextParseException {
 	setup_init()
-	    try {
+	    when:
 		new Name("ab\\12")
-		fail("TextParseException not throw")
-	    }
-	    catch(TextParseException e){}
+	    then: thrown(TextParseException.class)
 	}
 	    
 	def "test_ctor_empty_escaped_end_init"() throws TextParseException {
 	setup_init()
-	    try {
+	    when:
 		new Name("ab\\")
-		fail("TextParseException not throw")
-	    }
-	    catch(TextParseException e){}
+	    then: thrown(TextParseException.class)
 	}
 	    
 	def "test_ctor_toobig_escaped_init"() throws TextParseException {
 	setup_init()
-	    try {
+	    when:
 		new Name("ab\\256cd")
-		fail("TextParseException not throw")
-	    }
-	    catch(TextParseException e){}
+	    then: thrown(TextParseException.class)
 	}
 
 	def "test_ctor_toobig_escaped_end_init"() throws TextParseException {
 	setup_init()
-	    try {
+	    when:
 		new Name("ab\\256")
-		fail("TextParseException not throw")
-	    }
-	    catch(TextParseException e){}
+	    then: thrown(TextParseException.class)
 	}
 
 	def "test_ctor_max_label_escaped_init"() throws TextParseException {
 	setup_init()
 	    // name with a 63 char label containing an escape
 	    Name n = new Name("aaaa\\100aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.b.")
+	    expect:
 	    mga.that(n.isAbsolute())
 	    mga.that(!n.isWild())
 	    mgu.equals(3, n.labels())
-	    mgu.equals(67, n.length())
+	    mgu.equals(67.shortValue(), n.length())
+	    when:
 	    def byte[] b1 = [ 63, 'a','a','a','a',(byte)100,'a','a','a','a','a','a','a','a','a',
 			      'a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a',
 			      'a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a',
 			      'a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a' ] 
+	    then:
 	    mga.that(Arrays.equals(b1, n.getLabel(0)))
+	    when:
 	    b1 = [ 1, 'b' ]
+	    then:
 	    mga.that(Arrays.equals(b1, n.getLabel(1)))
 	    mgu.equals("b", n.getLabelString(1))
+	    when:
 	    b1 = [ 0 ]
+	    then:
 	    mga.that(Arrays.equals(b1, n.getLabel(2)))
 	    mgu.equals("", n.getLabelString(2))
 	}
@@ -435,40 +515,41 @@ public class NameSpockTest extends Specification {
 		sb.append("a.");
 	    }
 	    Name n = new Name(sb.toString())
+	    expect:
 	    mga.that(n.isAbsolute())
 	    mga.that(!n.isWild())
 	    mgu.equals(128, n.labels())
-	    mgu.equals(255, n.length())
+	    mgu.equals(255.shortValue(), n.length())
+	    when:
 	    def byte[] b1 = [ 1, 'a' ]
+	    then:
 	    for( int i = 0; i < 127; ++i ) {
 		mga.that(Arrays.equals(b1, n.getLabel(i)))
 		mgu.equals("a", n.getLabelString(i))
 	    }
+	    when:
 	    b1 = [ 0 ]
+	    then:
 	    mga.that(Arrays.equals(b1, n.getLabel(127)))
 	    mgu.equals("", n.getLabelString(127))
 	}
 
 	def "test_ctor_toobig_label_escaped_end_init"() throws TextParseException {
 	setup_init()
-	    try {
+	    when:
 		// name with a 64 char label containing an escape at the end
 		new Name("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\\090.b.")
-		fail("TextParseException not thrown")
-	    }
-	    catch(TextParseException e){}
+	    then: thrown(TextParseException.class)
 	}
 
 	def "test_ctor_toobig_label_escaped_init"() throws TextParseException {
 	setup_init()
-	    try {
+	    when:
 		// name with a 64 char label containing an escape at the end
 		new Name("aaaaaaaaaaaaaaaaaaaaaaaaaaaa\\001aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.b.")
-		fail("TextParseException not thrown")
-	    }
-	    catch(TextParseException e){}
+	    then: thrown(TextParseException.class)
 	}
-	*/
+	
 	def "test_fromString_init"() throws TextParseException {
 	setup_init()
 	    Name n = new Name(m_rel, m_abs_origin)
@@ -476,19 +557,21 @@ public class NameSpockTest extends Specification {
 	    expect:
 	    mgu.equals(n, n2)
 	}
-	/*
+
 	def "test_fromString_at_init"() throws TextParseException {
 	setup_init()
 	    Name n = Name.fromString("@", m_rel_origin)
-	    assertSame(m_rel_origin, n)
+	    expect:
+	    mgu.equals(m_rel_origin, n)
 	}
 
 	def "test_fromString_dot_init"() throws TextParseException {
 	setup_init()
 	    Name n = Name.fromString(".")
-	    assertSame(Name.root, n)
+	    expect:
+	    mgu.equals(Name.root, n)
 	}
-	*/
+
 	def "test_fromConstantString_init"() throws TextParseException {
 	setup_init()
 	    Name n = new Name(m_abs)
@@ -496,16 +579,15 @@ public class NameSpockTest extends Specification {
 	    expect:
 	    mgu.equals(n, n2)
 	}
-	/*
-	def "test_fromConstantString_invalid() {
+	
+	def "test_fromConstantString_invalid_init"() {
 	setup_init()
-	    try {
+	    when:
 		Name.fromConstantString("junk..junk")
-		fail("IllegalArgumentException not thrown")
-	    }
-	    catch(IllegalArgumentException e){}
+	    then:
+	    thrown(IllegalArgumentException.class)
 	}
-	*/
+	
 	def "test_basic_DNSInput_init"() throws IOException, TextParseException, WireParseException {	    
 	    final byte[] raw = [ 3, 'W', 'w', 'w', 7, 'D', 'n', 's', 'J', 'a', 'v', 'a', 3, 'o', 'r', 'g', 0 ]
 	    Name e = Name.fromString("Www.DnsJava.org.")

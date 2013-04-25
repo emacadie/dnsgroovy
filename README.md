@@ -29,3 +29,6 @@ assertNull(XXX) becomes mgu.equals(null, XXX)
 assertTrue becomes mga.assertTrue
 assertFalse(x == y) becomes mga.that( x != y)    
 assertFalse(XX.YY) becomes mga.that(!XX.YY)   
+assertNotSame(m_h, h2) becomes !mgu.equals(m_h, h2)    
+assertSame(x, y) becomes mgu.equals(x, y)    
+

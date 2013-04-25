@@ -137,7 +137,7 @@ public class SetResponseSpockTest extends Specification {
 	    mgu.equals(types[i] == SetResponse.SUCCESSFUL, sr.isSuccessful())
 
 	    SetResponse sr2 = SetResponse.ofType(types[i])
-	    mgu.equals(sr, sr2) // was assertSame
+	    !mgu.equals(sr, sr2) // was assertSame
 	}
     }
 	
