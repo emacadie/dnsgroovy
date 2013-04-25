@@ -34,14 +34,15 @@
 //
 package info.shelfunit.DNS.utils
 
+import info.shelfunit.DNS.*
+
 import org.xbill.DNS.utils.*
 
-import	java.security.MessageDigest;
-import	java.security.NoSuchAlgorithmException;
-import	junit.framework.TestCase;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import spock.lang.Specification
 
-public class HMACTest extends TestCase
-{
+public class HMACSpockTest extends Specification {
     /*
     // ORIG: private static class test_data
     static class test_data
@@ -52,9 +53,9 @@ public class HMACTest extends TestCase
     }
 
     // ORIG: private static test_data[] tests;
-    test_data[] tests;
+    static test_data[] tests;
 
-    def setup() {
+    static {
 	// These test cases come directly from RFC 2202 (for MD5)
 
 	tests = new test_data[7];
@@ -158,7 +159,7 @@ public class HMACTest extends TestCase
 	    do_test(i, h);
 	}
     }
-    */    
+    */
     public void test_ctor_digestName_key_invalid()
     {
 	try {
