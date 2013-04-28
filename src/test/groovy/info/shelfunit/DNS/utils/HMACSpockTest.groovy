@@ -38,8 +38,8 @@ import info.shelfunit.DNS.*
 
 import org.xbill.DNS.utils.*
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import java.security.MessageDigest
+import java.security.NoSuchAlgorithmException
 import spock.lang.Specification
 
 public class HMACSpockTest extends Specification {
@@ -50,81 +50,81 @@ public class HMACSpockTest extends Specification {
     // //*
     // ORIG: private static class test_data
     static class Test_data {
-	public byte[] key;
-	public byte[] data;
-	public byte[] digest;
+	public byte[] key
+	public byte[] data
+	public byte[] digest
     }
 
-    // ORIG: private static Test_data[] tests;
-    static Test_data[] tests;
+    // ORIG: private static Test_data[] tests
+    static Test_data[] tests
 
     static {
 	// These test cases come directly from RFC 2202 (for MD5)
 
-	tests = new Test_data[7];
+	tests = new Test_data[7]
 
 	for ( int i = 0; i < tests.length; ++i ) {
-	    tests[i] = new Test_data();
+	    tests[i] = new Test_data()
 	}
 
 	// test_case =     1
-	tests[0].key =		Base16.fromString("0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b");
-	tests[0].data =		"Hi There".getBytes();
-	tests[0].digest =	Base16.fromString("9294727a3638bb1c13f48ef8158bfc9d");
+	tests[0].key =		Base16.fromString("0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b")
+	tests[0].data =		"Hi There".getBytes()
+	tests[0].digest =	Base16.fromString("9294727a3638bb1c13f48ef8158bfc9d")
 
 	// test_case =     2
-	tests[1].key =		"Jefe".getBytes();
-	tests[1].data =		"what do ya want for nothing?".getBytes();
-	tests[1].digest =	Base16.fromString("750c783e6ab0b503eaa86e310a5db738");
+	tests[1].key =		"Jefe".getBytes()
+	tests[1].data =		"what do ya want for nothing?".getBytes()
+	tests[1].digest =	Base16.fromString("750c783e6ab0b503eaa86e310a5db738")
 	
 	// test_case =     3
-	tests[2].key =          Base16.fromString("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-	tests[2].data =		new byte[ 50 ]; // 0xdd repeated 50 times
+	tests[2].key =          Base16.fromString("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+	tests[2].data =		new byte[ 50 ] // 0xdd repeated 50 times
 	for ( int i = 0; i < tests[2].data.length; ++i ) {
-	    tests[2].data[i] = (byte)0xdd;
+	    tests[2].data[i] = (byte)0xdd
 	}
-	tests[2].digest =       Base16.fromString("56be34521d144c88dbb8c733f0e8b3f6");
+	tests[2].digest =       Base16.fromString("56be34521d144c88dbb8c733f0e8b3f6")
 
 	// test_case =     4
-	tests[3].key =          Base16.fromString("0102030405060708090a0b0c0d0e0f10111213141516171819");
-	tests[3].data =         new byte[ 50 ]; // 0xcd repeated 50 times;
+	tests[3].key =          Base16.fromString("0102030405060708090a0b0c0d0e0f10111213141516171819")
+	tests[3].data =         new byte[ 50 ] // 0xcd repeated 50 times
 	for ( int i = 0; i < tests[3].data.length; ++i ) {
-	    tests[3].data[i] = (byte)0xcd;
+	    tests[3].data[i] = (byte)0xcd
 	}
-	tests[3].digest =       Base16.fromString("697eaf0aca3a3aea3a75164746ffaa79");
+	tests[3].digest =       Base16.fromString("697eaf0aca3a3aea3a75164746ffaa79")
 	    
 	// test_case =     5
-	tests[4].key =		Base16.fromString("0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c");
-	tests[4].data =         "Test With Truncation".getBytes();
-	tests[4].digest =       Base16.fromString("56461ef2342edc00f9bab995690efd4c");
+	tests[4].key =		Base16.fromString("0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c")
+	tests[4].data =         "Test With Truncation".getBytes()
+	tests[4].digest =       Base16.fromString("56461ef2342edc00f9bab995690efd4c")
 
 	// test_case =     6
-	tests[5].key =		 new byte[ 80 ]; // 0xaa repeated 80 times;
+	tests[5].key =		 new byte[ 80 ] // 0xaa repeated 80 times
 	for ( int i = 0; i < tests[5].key.length; ++i ) {
-	    tests[5].key[i] = (byte)0xaa;
+	    tests[5].key[i] = (byte)0xaa
 	}
-	tests[5].data =          "Test Using Larger Than Block-Size Key - Hash Key First".getBytes();
-	tests[5].digest =        Base16.fromString("6b1ab7fe4bd7bf8f0b62e6ce61b9d0cd");
+	tests[5].data =          "Test Using Larger Than Block-Size Key - Hash Key First".getBytes()
+	tests[5].digest =        Base16.fromString("6b1ab7fe4bd7bf8f0b62e6ce61b9d0cd")
 
 	// test_case =     7
-	tests[6].key =           new byte [ 80 ]; // 0xaa repeated 80 times;
+	tests[6].key =           new byte [ 80 ] // 0xaa repeated 80 times
 	for ( int i = 0; i < tests[6].key.length; ++i ) {
-	    tests[6].key[i] = (byte)0xaa;
+	    tests[6].key[i] = (byte)0xaa
 	}
-	tests[6].data =          "Test Using Larger Than Block-Size Key and Larger Than One Block-Size Data".getBytes();
-	tests[6].digest =        Base16.fromString("6f630fad67cda0ee1fb1f562db3aa53e");
+	tests[6].data =          "Test Using Larger Than Block-Size Key and Larger Than One Block-Size Data".getBytes()
+	tests[6].digest =        Base16.fromString("6f630fad67cda0ee1fb1f562db3aa53e")
     }
     /*
     public HMACTest( String name )
     {
-	super(name);
+	super(name)
     }
 */
 
     private boolean do_test(int i, HMAC h) throws CloneNotSupportedException {
 	def boolean result = true
-	h.update(tests[i].data, 0, tests[i].data.length);
-	byte[] out = h.sign();
+	h.update(tests[i].data, 0, tests[i].data.length)
+	byte[] out = h.sign()
 	
 	if (!mgu.equals(tests[i].digest.length, out.length) ) {
 	    result = false
@@ -136,17 +136,17 @@ public class HMACSpockTest extends Specification {
 	}
 	
 	// clear and do it again to make sure verify() agrees
-	h.clear();
-	h.update(tests[i].data);
+	h.clear()
+	h.update(tests[i].data)
 	if ( !h.verify(tests[i].digest) ) {
 	    result = false
 	}
 	
 	// clear and do it again to make sure verify() 
-	h.clear();
-	h.update(tests[i].data, 0, tests[i].data.length);
-	byte[] tmp = (byte[])tests[i].digest.clone();
-	tmp[tmp.length/2] = (byte)0xAB;
+	h.clear()
+	h.update(tests[i].data, 0, tests[i].data.length)
+	byte[] tmp = (byte[])tests[i].digest.clone()
+	tmp[tmp.length/2] = (byte)0xAB
 		
 	if ( !h.verify(tmp) ) {
 	    result = false
@@ -160,8 +160,8 @@ public class HMACSpockTest extends Specification {
 	
 	println("In digest_key")
 	for ( int i = 0; i< tests.length; ++i ) {
-	    MessageDigest md = MessageDigest.getInstance("md5");
-	    HMAC h = new HMAC(md, tests[i].key);
+	    MessageDigest md = MessageDigest.getInstance("md5")
+	    HMAC h = new HMAC(md, tests[i].key)
 	    println("about to call do_test from digest_key")
 	    expect:
 	    mga.that( do_test(i, h) )
@@ -172,15 +172,15 @@ public class HMACSpockTest extends Specification {
 					      CloneNotSupportedException {
 	
 	for ( int i = 0; i < tests.length; ++i ) {
-	    HMAC h = new HMAC("md5", tests[i].key);
+	    HMAC h = new HMAC("md5", tests[i].key)
 	    expect:
-	    mga.that(do_test(i, h));
+	    mga.that(do_test(i, h))
 	}
     }
     //     */
     def "test_ctor_digestName_key_invalid"() {
 	when:
-	    new HMAC("no name", new byte[ 0 ]);
+	    new HMAC("no name", new byte[ 0 ])
 	then:	thrown( IllegalArgumentException.class )
     }
 
