@@ -29,6 +29,7 @@ build/reports/*
 build/reports/tests/*
 build/test-results/*
 build/tmp/test/*
+build/tmp/*
 build/docs/*
 # build/*
 .gradle/*
