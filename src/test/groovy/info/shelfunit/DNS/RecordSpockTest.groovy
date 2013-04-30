@@ -528,7 +528,7 @@ public class RecordSpockTest extends Specification {
 
     def "test_byteArrayFromString_invalid"() {
 	StringBuffer b = new StringBuffer()
-	for( int i = 0; i < 257; ++i){
+	for ( i in 0..257 ) {
 	    b.append('A')
 	}
 	

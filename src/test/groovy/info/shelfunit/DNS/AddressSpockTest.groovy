@@ -52,8 +52,9 @@ public class AddressSpockTest extends Specification {
     }
 */
     private void assertEquals( int[] exp, int[] act ) {
+	    println("In the method ------------------")
 	assertEquals( exp.length, act.length )
-	for( int i=0; i<exp.length; ++i ){
+	for( int i = 0; i < exp.length; ++i ) {
 	    expect: mgu.equals( "i=" + i, exp[i], act[i] )
 	}
     }
@@ -326,9 +327,10 @@ public class AddressSpockTest extends Specification {
 	out = Address.getAllByName("cnn.com")
 	then:
 	mga.that(out.length > 1)
-	for( int i=0; i<out.length; ++i){
-	    mga.that(out[i].getHostName().endsWith("cnn.com"))
-	}
+	out.each() {
+	    mga.that(it.getHostName().endsWith("cnn.com")) 
+	};
+	    
     }
     
     def "test_getAllByName_invalid"() throws UnknownHostException {

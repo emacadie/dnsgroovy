@@ -54,17 +54,19 @@ public class SetResponseSpockTest extends Specification {
 					SetResponse.DNAME,
 					SetResponse.SUCCESSFUL ] 
 	expect:
-	for( int i = 0; i < types.size; ++i ) {
-	    SetResponse sr = new SetResponse(types[i])
+	types.each() {
+	    nextType -> 
+	    SetResponse sr = new SetResponse(nextType)
 	    mgu.equals(null, sr.getNS())
-	    mgu.equals(types[i] == SetResponse.UNKNOWN, sr.isUnknown())
-	    mgu.equals(types[i] == SetResponse.NXDOMAIN, sr.isNXDOMAIN())
-	    mgu.equals(types[i] == SetResponse.NXRRSET, sr.isNXRRSET())
-	    mgu.equals(types[i] == SetResponse.DELEGATION, sr.isDelegation())
-	    mgu.equals(types[i] == SetResponse.CNAME, sr.isCNAME())
-	    mgu.equals(types[i] == SetResponse.DNAME, sr.isDNAME())
-	    mgu.equals(types[i] == SetResponse.SUCCESSFUL, sr.isSuccessful())
+	    mgu.equals(nextType == SetResponse.UNKNOWN, sr.isUnknown())
+	    mgu.equals(nextType == SetResponse.NXDOMAIN, sr.isNXDOMAIN())
+	    mgu.equals(nextType == SetResponse.NXRRSET, sr.isNXRRSET())
+	    mgu.equals(nextType == SetResponse.DELEGATION, sr.isDelegation())
+	    mgu.equals(nextType == SetResponse.CNAME, sr.isCNAME())
+	    mgu.equals(nextType == SetResponse.DNAME, sr.isDNAME())
+	    mgu.equals(nextType == SetResponse.SUCCESSFUL, sr.isSuccessful())
 	}
+
     }
 	
     def "test_ctor_1arg_toosmall"() {
@@ -91,17 +93,18 @@ public class SetResponseSpockTest extends Specification {
 			SetResponse.SUCCESSFUL ]
 
 	expect:
-	for( int i = 0; i < types.size; ++i ) {
+	types.each() {
+	    nextType -> 
 	    RRset rs = new RRset()
-	    SetResponse sr = new SetResponse(types[i], rs)
+	    SetResponse sr = new SetResponse(nextType, rs)
 	    mgu.equals(rs, sr.getNS()) // was: assertSame
-	    mgu.equals(types[i] == SetResponse.UNKNOWN, sr.isUnknown())
-	    mgu.equals(types[i] == SetResponse.NXDOMAIN, sr.isNXDOMAIN())
-	    mgu.equals(types[i] == SetResponse.NXRRSET, sr.isNXRRSET())
-	    mgu.equals(types[i] == SetResponse.DELEGATION, sr.isDelegation())
-	    mgu.equals(types[i] == SetResponse.CNAME, sr.isCNAME())
-	    mgu.equals(types[i] == SetResponse.DNAME, sr.isDNAME())
-	    mgu.equals(types[i] == SetResponse.SUCCESSFUL, sr.isSuccessful())
+	    mgu.equals(nextType == SetResponse.UNKNOWN, sr.isUnknown())
+	    mgu.equals(nextType == SetResponse.NXDOMAIN, sr.isNXDOMAIN())
+	    mgu.equals(nextType == SetResponse.NXRRSET, sr.isNXRRSET())
+	    mgu.equals(nextType == SetResponse.DELEGATION, sr.isDelegation())
+	    mgu.equals(nextType == SetResponse.CNAME, sr.isCNAME())
+	    mgu.equals(nextType == SetResponse.DNAME, sr.isDNAME())
+	    mgu.equals(nextType == SetResponse.SUCCESSFUL, sr.isSuccessful())
 	}
     }
 	
@@ -125,18 +128,19 @@ public class SetResponseSpockTest extends Specification {
 			SetResponse.DNAME,
 			SetResponse.SUCCESSFUL ] 
 	expect:
-	for(int i = 0; i < types.size; ++i ) {
-	    SetResponse sr = SetResponse.ofType(types[i])
+	types.each() {
+	    nextType -> 
+	    SetResponse sr = SetResponse.ofType(nextType)
 	    mgu.equals(null, sr.getNS())
-	    mgu.equals(types[i] == SetResponse.UNKNOWN, sr.isUnknown())
-	    mgu.equals(types[i] == SetResponse.NXDOMAIN, sr.isNXDOMAIN())
-	    mgu.equals(types[i] == SetResponse.NXRRSET, sr.isNXRRSET())
-	    mgu.equals(types[i] == SetResponse.DELEGATION, sr.isDelegation())
-	    mgu.equals(types[i] == SetResponse.CNAME, sr.isCNAME())
-	    mgu.equals(types[i] == SetResponse.DNAME, sr.isDNAME())
-	    mgu.equals(types[i] == SetResponse.SUCCESSFUL, sr.isSuccessful())
+	    mgu.equals(nextType == SetResponse.UNKNOWN, sr.isUnknown())
+	    mgu.equals(nextType == SetResponse.NXDOMAIN, sr.isNXDOMAIN())
+	    mgu.equals(nextType == SetResponse.NXRRSET, sr.isNXRRSET())
+	    mgu.equals(nextType == SetResponse.DELEGATION, sr.isDelegation())
+	    mgu.equals(nextType == SetResponse.CNAME, sr.isCNAME())
+	    mgu.equals(nextType == SetResponse.DNAME, sr.isDNAME())
+	    mgu.equals(nextType == SetResponse.SUCCESSFUL, sr.isSuccessful())
 
-	    SetResponse sr2 = SetResponse.ofType(types[i])
+	    SetResponse sr2 = SetResponse.ofType(nextType)
 	    !mgu.equals(sr, sr2) // was assertSame
 	}
     }
@@ -146,18 +150,19 @@ public class SetResponseSpockTest extends Specification {
 			SetResponse.NXDOMAIN,
 			SetResponse.NXRRSET ] 
 	expect:
-	for(int i = 0; i < types.size; ++i ) {
-	    SetResponse sr = SetResponse.ofType(types[i])
+	types.each() {
+	    nextType ->
+	    SetResponse sr = SetResponse.ofType(nextType)
 	    mgu.equals(null, sr.getNS())
-	    mgu.equals(types[i] == SetResponse.UNKNOWN, sr.isUnknown())
-	    mgu.equals(types[i] == SetResponse.NXDOMAIN, sr.isNXDOMAIN())
-	    mgu.equals(types[i] == SetResponse.NXRRSET, sr.isNXRRSET())
-	    mgu.equals(types[i] == SetResponse.DELEGATION, sr.isDelegation())
-	    mgu.equals(types[i] == SetResponse.CNAME, sr.isCNAME())
-	    mgu.equals(types[i] == SetResponse.DNAME, sr.isDNAME())
-	    mgu.equals(types[i] == SetResponse.SUCCESSFUL, sr.isSuccessful())
+	    mgu.equals(nextType == SetResponse.UNKNOWN, sr.isUnknown())
+	    mgu.equals(nextType == SetResponse.NXDOMAIN, sr.isNXDOMAIN())
+	    mgu.equals(nextType == SetResponse.NXRRSET, sr.isNXRRSET())
+	    mgu.equals(nextType == SetResponse.DELEGATION, sr.isDelegation())
+	    mgu.equals(nextType == SetResponse.CNAME, sr.isCNAME())
+	    mgu.equals(nextType == SetResponse.DNAME, sr.isDNAME())
+	    mgu.equals(nextType == SetResponse.SUCCESSFUL, sr.isSuccessful())
 
-	    SetResponse sr2 = SetResponse.ofType(types[i])
+	    SetResponse sr2 = SetResponse.ofType(nextType)
 	    mgu.equals(sr, sr2) // was assertSame
 	}
     }
@@ -297,8 +302,9 @@ This was commented out
 */
 
 	expect:
-	for( int i=0; i<types.size; ++i){
-	    SetResponse sr = new SetResponse(types[i], rrs)
+        types.eachWithIndex() {
+	    nextType, i ->
+	    SetResponse sr = new SetResponse(nextType, rrs)
 	    // println("-- here is labels[ " + i + " ]: " + labels[i])
 	    // println("-- here is sr.toString():   " + sr.toString())
 	    mgu.equals(labels[i], sr.toString())

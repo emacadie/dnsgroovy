@@ -349,9 +349,12 @@ public class GPOSRecordSpockTest extends Specification {
 
 	expect:    
 	mgu.equals(exp.size, bar.length)
-	for( int i = 0; i < exp.size; ++i ) {
-	    mgu.equals(exp[i], bar[i])
+	exp.eachWithIndex() { 
+	    next, idx -> 
+	    // println("next is $next, bar is " + bar[idx])
+	    mgu.equals(next, bar[idx]) 
 	}
+
     }
     /*
     public static Test suite()

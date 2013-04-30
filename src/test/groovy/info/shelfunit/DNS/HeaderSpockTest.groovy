@@ -61,9 +61,7 @@ public class HeaderSpockTest extends Specification {
 	when:
 	boolean[] flags = m_h.getFlags()
 	then:
-	for( int i=0; i<flags.length; ++i){
-	    mga.that(!flags[i])
-	}
+	flags.each() { nextFlag -> mga.that(!nextFlag) } 
 	mgu.equals(0, m_h.getRcode())
 	mgu.equals(0, m_h.getOpcode())
 	mgu.equals(0, m_h.getCount(0))
@@ -80,9 +78,7 @@ public class HeaderSpockTest extends Specification {
 	when:
 	boolean[] flags = m_h.getFlags()
 	then:
-	for( int i = 0; i < flags.length; ++i){
-	    mga.that(!flags[i])
-	}
+	flags.each() { nextFlag -> mga.that(!nextFlag) }
 	mgu.equals(0, m_h.getRcode())
 	mgu.equals(0, m_h.getOpcode())
 	mgu.equals(0, m_h.getCount(0))
@@ -138,8 +134,9 @@ public class HeaderSpockTest extends Specification {
 	byte[] out = dout.toByteArray()
 	then:
 	mgu.equals(12, out.length)
-	for( int i=0; i<out.length; ++i){
-	    mgu.equals(raw[i], out[i])
+	out.eachWithIndex() {
+	    nextOut, i ->
+	    mgu.equals(raw[i], nextOut)
 	}
 	
 	when:
@@ -157,8 +154,9 @@ public class HeaderSpockTest extends Specification {
 	out = m_h.toWire()
         then:
 	mgu.equals(12, out.length)
-	for( int i = 0; i < out.length; ++i){
-	    mgu.equals(raw[i], out[i])
+	out.eachWithIndex() {
+	    nextOut, i ->
+	    mgu.equals(raw[i], nextOut)
 	}
     }
 
@@ -190,12 +188,12 @@ public class HeaderSpockTest extends Specification {
 	when:
 	boolean[] flags = m_h.getFlags()
         then:
-	for( int i=0; i<flags.length; ++i){
-	    if( (i > 0 && i < 5) || i > 11 ){
-		continue
+	flags.eachWithIndex() {
+	    nextFlag, i ->
+	    if ( !( ( i > 0 && i < 5 ) || i > 11 ) ) {
+		mga.that(!nextFlag)
 	    }
-	    mga.that(!flags[i])
-	}
+	} 
     }
     
     def "test_flags_invalid"() {
@@ -255,8 +253,8 @@ public class HeaderSpockTest extends Specification {
 	m_h.setRcode(0xA) // 1010
 	then:
 	mgu.equals(0xA, m_h.getRcode())
-	for( int i = 0; i < 12; ++i ) {
-	    if( ( i > 0 && i < 5 ) || i > 11 ){
+	for ( i in 0..12 ) {
+	    if ( ( i > 0 && i < 5 ) || i > 11 ){
 		continue
 	    }
 	    mga.that(!m_h.getFlag(i))
@@ -285,7 +283,7 @@ public class HeaderSpockTest extends Specification {
 	mgu.equals(0xE, m_h.getOpcode())
 
 	mga.that(!m_h.getFlag(0))
-	for( int i=5; i<12; ++i){
+	for ( i in 5..11 ) {
 	    mga.that(!m_h.getFlag(i))
 	}
 	mgu.equals(0, m_h.getRcode())
@@ -393,13 +391,13 @@ public class HeaderSpockTest extends Specification {
 	then:
 	!mgu.equals(m_h, h2)
 	mgu.equals(m_h.getID(), h2.getID())
-	for( int i=0; i<16; ++i){
-	    if( (i>0 && i<5) || i > 11){
+	for ( i in 0..16 ) {
+	    if ( ( i > 0 && i < 5 ) || i > 11 ) {
 		continue
 	    }
 	    mgu.equals(m_h.getFlag(i), h2.getFlag(i))
 	}
-	for( int i=0; i<4; ++i){
+	for ( i in 0..3 ) {
 	    mgu.equals(m_h.getCount(i), h2.getCount(i))
 	}
     }

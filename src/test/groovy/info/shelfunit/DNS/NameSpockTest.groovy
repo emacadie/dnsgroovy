@@ -511,7 +511,8 @@ public class NameSpockTest extends Specification {
 	def "test_ctor_max_labels_init"() throws TextParseException {
 	setup_init()
 	    StringBuffer sb = new StringBuffer()
-	    for(int i = 0; i < 127; ++i ) {
+	    // for ( int i = 0; i < 127; ++i ) {
+	    for ( i in 0..126 ) {
 		sb.append("a.");
 	    }
 	    Name n = new Name(sb.toString())
@@ -523,7 +524,7 @@ public class NameSpockTest extends Specification {
 	    when:
 	    def byte[] b1 = [ 1, 'a' ]
 	    then:
-	    for( int i = 0; i < 127; ++i ) {
+	    for ( i in 0..126 ) {
 		mga.that(Arrays.equals(b1, n.getLabel(i)))
 		mgu.equals("a", n.getLabelString(i))
 	    }

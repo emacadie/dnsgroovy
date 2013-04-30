@@ -234,7 +234,7 @@ public class DNSInputSpockTest extends Specification {
 	mgu.equals( 10, m_di.current() )
 	mgu.equals( 0, m_di.remaining() )
 	mgu.equals( 9, out.length )
-	for( int i=0; i < 9; ++i ){
+        for ( i in 0..8 ) {
 	    mgu.equals( m_raw[i+1], out[i] )
 	}
     }
@@ -272,20 +272,21 @@ public class DNSInputSpockTest extends Specification {
 	then:
 	thrown( WireParseException.class )
     }
-    /*
-    public void test_readByteArray_3arg() throws WireParseException
+    
+    def "test_readByteArray_3arg"() throws WireParseException
     {
 	byte[] data = new byte [ 5 ]
 	m_di.jump(4)
 	
 	m_di.readByteArray( data, 1, 4 )
+	expect:
 	mgu.equals( 8, m_di.current() )
-	mgu.equals( 0, data[0] )
-	for( int i=0; i<4; ++i ){
+	mgu.equals( 0.byteValue(), data[0] )
+	for ( i in 0..3 ) {
 	    mgu.equals( m_raw[i+4], data[i+1] )
 	}
     }
-    */
+    
     def "test_readCountedSting"() throws WireParseException {
 	m_di.jump( 1 )
 	byte[] out = m_di.readCountedString()
