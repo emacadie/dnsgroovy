@@ -33,7 +33,8 @@ allprojects {
   tasks.withType(Compile) { Compile compile ->
     compile.options.debug = true
     compile.options.compilerArgs = [
-      '-Xlint:deprecation' //,
+      '-Xlint:deprecation',
+      '-Xlint:unchecked'
       // '-implicit:class',
       // '-Awarns', '-Xmaxwarns', '10000',
       // '-J-Xbootclasspath/p:$CHECKERS/binary/jsr308-all.jar',
