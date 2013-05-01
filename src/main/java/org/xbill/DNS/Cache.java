@@ -112,8 +112,7 @@ public class Cache {
             return credibility - cred;
         }
     
-        public String
-        toString() {
+        public String toString() {
             StringBuffer sb = new StringBuffer();
             if (type == 0)
                 sb.append("NXDOMAIN " + name);

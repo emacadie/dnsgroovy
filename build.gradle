@@ -29,6 +29,20 @@ allprojects {
 
      compile 'org.codehaus.groovy:groovy-all:2.1.0'
   }
+
+  tasks.withType(Compile) { Compile compile ->
+    compile.options.debug = true
+    compile.options.compilerArgs = [
+      '-Xlint:deprecation' //,
+      // '-implicit:class',
+      // '-Awarns', '-Xmaxwarns', '10000',
+      // '-J-Xbootclasspath/p:$CHECKERS/binary/jsr308-all.jar',
+      // '-processor', 'checkers.nullness.NullnessChecker',
+      // '-Xbootclasspath/p:$CHECKERS/jdk/jdk.jar',	
+      // '-version'
+      ]
+  }
+
 }
 
 test {
@@ -88,6 +102,7 @@ task(console, dependsOn: 'classes', type: JavaExec) {
   main = 'groovy.ui.Console'
   classpath = sourceSets.main.runtimeClasspath
 }
+
 
 
 // 
