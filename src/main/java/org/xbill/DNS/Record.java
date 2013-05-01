@@ -111,13 +111,13 @@ public abstract class Record implements Cloneable, Comparable, Serializable {
         DClass.check(dclass);
         TTL.check(ttl);
     
-        DNSInput in;
+        DNSInput dnsin;
         if (data != null)
-            in = new DNSInput(data);
+            dnsin = new DNSInput(data);
         else
-            in = null;
+            dnsin = null;
         try {
-            return newRecordPrivate(name, type, dclass, ttl, length, in);
+            return newRecordPrivate(name, type, dclass, ttl, length, dnsin);
         }
         catch (IOException e) {
             return null;
@@ -462,8 +462,8 @@ public abstract class Record implements Cloneable, Comparable, Serializable {
             if (length != data.length)
                 throw st.exception("invalid unknown RR encoding: " +
                            "length mismatch");
-            DNSInput in = new DNSInput(data);
-            return newRecordPrivate(name, type, dclass, ttl, length, in);
+            DNSInput dnsin = new DNSInput(data);
+            return newRecordPrivate(name, type, dclass, ttl, length, dnsin);
         }
         st.unget();
         rec = getEmptyRecord(name, type, dclass, ttl, true);

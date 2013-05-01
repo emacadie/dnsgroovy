@@ -238,29 +238,28 @@ public class SimpleResolver implements Resolver {
     
         query = (Message) query.clone();
         applyEDNS(query);
-        if (tsig != null)
+        if (tsig != null) {
             tsig.apply(query, null);
+	}
     
         byte [] out = query.toWire(Message.MAXLENGTH);
         int udpSize = maxUDPSize(query);
         boolean tcp = false;
         long endTime = System.currentTimeMillis() + timeoutValue;
         do {
-            byte [] in;
+            byte [] b_in;
     
-            if (useTCP || out.length > udpSize)
-                tcp = true;
-            if (tcp)
-                in = TCPClient.sendrecv(localAddress, address, out,
-                            endTime);
-            else
-                in = UDPClient.sendrecv(localAddress, address, out,
-                            udpSize, endTime);
+            if (useTCP || out.length > udpSize) { tcp = true; }
+            if (tcp) {
+                b_in = TCPClient.sendrecv(localAddress, address, out, endTime);
+            } else {
+                b_in = UDPClient.sendrecv(localAddress, address, out, udpSize, endTime);
+	    }
     
             /*
              * Check that the response is long enough.
              */
-            if (in.length < Header.LENGTH) {
+            if (b_in.length < Header.LENGTH) {
                 throw new WireParseException("invalid DNS header - " +
                                  "too short");
             }
@@ -270,7 +269,7 @@ public class SimpleResolver implements Resolver {
              * if there's a malformed response that's not ours, it
              * doesn't confuse us.
              */
-            int id = ((in[0] & 0xFF) << 8) + (in[1] & 0xFF);
+            int id = ((b_in[0] & 0xFF) << 8) + (b_in[1] & 0xFF);
             int qid = query.getHeader().getID();
             if (id != qid) {
                 String error = "invalid message id: expected " + qid +
@@ -284,8 +283,8 @@ public class SimpleResolver implements Resolver {
                     continue;
                 }
             }
-            Message response = parseMessage(in);
-            verifyTSIG(query, response, in, tsig);
+            Message response = parseMessage(b_in);
+            verifyTSIG(query, response, b_in, tsig);
             if (!tcp && !ignoreTruncation &&
                 response.getHeader().getFlag(Flags.TC))
             {

@@ -83,8 +83,7 @@ public class ZoneTransferIn {
         /** A list of records deleted between the start and end versions */
         public List deletes;
     
-        private
-        Delta() {
+        private Delta() {
             adds = new ArrayList();
             deletes = new ArrayList();
         }
@@ -153,32 +152,26 @@ public class ZoneTransferIn {
             List list;
             if (ixfr != null) {
                 Delta delta = (Delta) ixfr.get(ixfr.size() - 1);
-                if (delta.adds.size() > 0)
+                if (delta.adds.size() > 0) {
                     list = delta.adds;
-                else
-                    list = delta.deletes;
-            } else
-                list = axfr;
+		} else { list = delta.deletes; }
+            } else { list = axfr; }
             list.add(r);
         }
     };
     
-    private
-    ZoneTransferIn() {}
+    private ZoneTransferIn() {}
     
-    private
-    ZoneTransferIn(Name zone, int xfrtype, long serial, boolean fallback,
+    private  ZoneTransferIn(Name zone, int xfrtype, long serial, boolean fallback,
                SocketAddress address, TSIG key)
     {
         this.address = address;
         this.tsig = key;
-        if (zone.isAbsolute())
-            zname = zone;
+        if (zone.isAbsolute()) { zname = zone; }
         else {
             try {
                 zname = Name.concatenate(zone, Name.root);
-            }
-            catch (NameTooLongException e) {
+            } catch (NameTooLongException e) {
                 throw new IllegalArgumentException("ZoneTransferIn: " +
                                    "name too long");
             }
@@ -198,8 +191,7 @@ public class ZoneTransferIn {
      * @return The ZoneTransferIn object.
      * @throws UnknownHostException The host does not exist.
      */
-    public static ZoneTransferIn
-    newAXFR(Name zone, SocketAddress address, TSIG key) {
+    public static ZoneTransferIn newAXFR(Name zone, SocketAddress address, TSIG key) {
         return new ZoneTransferIn(zone, Type.AXFR, 0, false, address, key);
     }
     
@@ -212,12 +204,9 @@ public class ZoneTransferIn {
      * @return The ZoneTransferIn object.
      * @throws UnknownHostException The host does not exist.
      */
-    public static ZoneTransferIn
-    newAXFR(Name zone, String host, int port, TSIG key)
-    throws UnknownHostException
-    {
-        if (port == 0)
-            port = SimpleResolver.DEFAULT_PORT;
+    public static ZoneTransferIn newAXFR(Name zone, String host, int port, TSIG key)
+    throws UnknownHostException {
+        if (port == 0) { port = SimpleResolver.DEFAULT_PORT; }
         return newAXFR(zone, new InetSocketAddress(host, port), key);
     }
     
@@ -229,10 +218,8 @@ public class ZoneTransferIn {
      * @return The ZoneTransferIn object.
      * @throws UnknownHostException The host does not exist.
      */
-    public static ZoneTransferIn
-    newAXFR(Name zone, String host, TSIG key)
-    throws UnknownHostException
-    {
+    public static ZoneTransferIn newAXFR(Name zone, String host, TSIG key)
+    throws UnknownHostException {
         return newAXFR(zone, host, 0, key);
     }
     
@@ -270,10 +257,8 @@ public class ZoneTransferIn {
     public static ZoneTransferIn
     newIXFR(Name zone, long serial, boolean fallback, String host, int port,
         TSIG key)
-    throws UnknownHostException
-    {
-        if (port == 0)
-            port = SimpleResolver.DEFAULT_PORT;
+    throws UnknownHostException {
+        if (port == 0) {  port = SimpleResolver.DEFAULT_PORT; }
         return newIXFR(zone, serial, fallback,
                    new InetSocketAddress(host, port), key);
     }
@@ -299,16 +284,14 @@ public class ZoneTransferIn {
     /**
      * Gets the name of the zone being transferred.
      */
-    public Name
-    getName() {
+    public Name getName() {
         return zname;
     }
     
     /**
      * Gets the type of zone transfer (either AXFR or IXFR).
      */
-    public int
-    getType() {
+    public int getType() {
         return qtype;
     }
     
@@ -317,11 +300,11 @@ public class ZoneTransferIn {
      * minutes).
      * @param secs The maximum amount of time that this zone transfer can take.
      */
-    public void
-    setTimeout(int secs) {
-        if (secs < 0)
+    public void setTimeout(int secs) {
+        if (secs < 0) {
             throw new IllegalArgumentException("timeout cannot be " +
                                "negative");
+	}
         timeout = 1000L * secs;
     }
     
@@ -329,8 +312,7 @@ public class ZoneTransferIn {
      * Sets an alternate DNS class for this zone transfer.
      * @param dclass The class to use instead of class IN.
      */
-    public void
-    setDClass(int dclass) {
+    public void setDClass(int dclass) {
         DClass.check(dclass);
         this.dclass = dclass;
     }
@@ -339,22 +321,20 @@ public class ZoneTransferIn {
      * Sets the local address to bind to when sending messages.
      * @param addr The local address to send messages from.
      */
-    public void
-    setLocalAddress(SocketAddress addr) {
+    public void setLocalAddress(SocketAddress addr) {
         this.localAddress = addr;
     }
     
-    private void
-    openConnection() throws IOException {
+    private void openConnection() throws IOException {
         long endTime = System.currentTimeMillis() + timeout;
         client = new TCPClient(endTime);
-        if (localAddress != null)
+        if (localAddress != null) {
             client.bind(localAddress);
+	}
         client.connect(address);
     }
     
-    private void
-    sendQuery() throws IOException {
+    private void sendQuery() throws IOException {
         Record question = Record.newRecord(zname, qtype, dclass);
     
         Message query = new Message();
@@ -374,42 +354,39 @@ public class ZoneTransferIn {
         client.send(out);
     }
     
-    private static long
-    getSOASerial(Record rec) {
+    private static long getSOASerial(Record rec) {
         SOARecord soa = (SOARecord) rec;
         return soa.getSerial();
     }
     
-    private void
-    logxfr(String s) {
+    private void logxfr(String s) {
         if (Options.check("verbose"))
             System.out.println(zname + ": " + s);
     }
     
-    private void
-    fail(String s) throws ZoneTransferException {
+    private void fail(String s) throws ZoneTransferException {
         throw new ZoneTransferException(s);
     }
     
-    private void
-    fallback() throws ZoneTransferException {
-        if (!want_fallback)
+    private void fallback() throws ZoneTransferException {
+        if (!want_fallback) {
             fail("server doesn't support IXFR");
+	}
     
         logxfr("falling back to AXFR");
         qtype = Type.AXFR;
         state = INITIALSOA;
     }
     
-    private void
-    parseRR(Record rec) throws ZoneTransferException {
+    private void parseRR(Record rec) throws ZoneTransferException {
         int type = rec.getType();
         Delta delta;
     
         switch (state) {
         case INITIALSOA:
-            if (type != Type.SOA)
+            if (type != Type.SOA) {
                 fail("missing initial SOA");
+	    }
             initialsoa = rec;
             // Remember the serial number in the initial SOA; we need it
             // to recognize the end of an IXFR.
@@ -502,42 +479,38 @@ public class ZoneTransferIn {
         }
     }
     
-    private void
-    closeConnection() {
+    private void closeConnection() {
         try {
-            if (client != null)
-                client.cleanup();
-        }
-        catch (IOException e) {
+            if (client != null) { client.cleanup(); }
+        } catch (IOException e) {
         }
     }
     
-    private Message
-    parseMessage(byte [] b) throws WireParseException {
+    private Message parseMessage(byte [] b) throws WireParseException {
         try {
             return new Message(b);
-        }
-        catch (IOException e) {
-            if (e instanceof WireParseException)
+        } catch (IOException e) {
+            if (e instanceof WireParseException) {
                 throw (WireParseException) e;
+	    }
             throw new WireParseException("Error parsing message");
         }
     }
     
-    private void
-    doxfr() throws IOException, ZoneTransferException {
+    private void doxfr() throws IOException, ZoneTransferException {
         sendQuery();
         while (state != END) {
-            byte [] in = client.recv();
-            Message response =  parseMessage(in);
+            byte [] b_in = client.recv();
+            Message response =  parseMessage(b_in);
             if (response.getHeader().getRcode() == Rcode.NOERROR &&
                 verifier != null)
             {
                 TSIGRecord tsigrec = response.getTSIG();
     
-                int error = verifier.verify(response, in);
-                if (error != Rcode.NOERROR)
+                int error = verifier.verify(response, b_in);
+                if (error != Rcode.NOERROR) {
                     fail("TSIG failure");
+		}
             }
     
             Record [] answers = response.getSectionArray(Section.ANSWER);
@@ -545,9 +518,7 @@ public class ZoneTransferIn {
             if (state == INITIALSOA) {
                 int rcode = response.getRcode();
                 if (rcode != Rcode.NOERROR) {
-                    if (qtype == Type.IXFR &&
-                        rcode == Rcode.NOTIMP)
-                    {
+                    if (qtype == Type.IXFR && rcode == Rcode.NOTIMP) {
                         fallback();
                         doxfr();
                         return;
@@ -572,8 +543,9 @@ public class ZoneTransferIn {
             }
     
             if (state == END && verifier != null &&
-                !response.isVerified())
+                !response.isVerified()) {
                 fail("last message must be signed");
+	    }
         }
     }
     
@@ -584,14 +556,12 @@ public class ZoneTransferIn {
      * @throws ZoneTransferException The zone transfer failed to due a problem
      * with the zone transfer itself.
      */
-    public void
-    run(ZoneTransferHandler handler) throws IOException, ZoneTransferException {
+    public void run(ZoneTransferHandler handler) throws IOException, ZoneTransferException {
         this.handler = handler;
         try {
             openConnection();
             doxfr();
-        }
-        finally {
+        } finally {
             closeConnection();
         }
     }
@@ -605,19 +575,17 @@ public class ZoneTransferIn {
      * @throws ZoneTransferException The zone transfer failed to due a problem
      * with the zone transfer itself.
      */
-    public List
-    run() throws IOException, ZoneTransferException {
+    public List run() throws IOException, ZoneTransferException {
         BasicHandler handler = new BasicHandler();
         run(handler);
-        if (handler.axfr != null)
-            return handler.axfr;
+        if (handler.axfr != null) { return handler.axfr; }
         return handler.ixfr;
     }
     
-    private BasicHandler
-    getBasicHandler() throws IllegalArgumentException {
-        if (handler instanceof BasicHandler)
+    private BasicHandler getBasicHandler() throws IllegalArgumentException {
+        if (handler instanceof BasicHandler) {
             return (BasicHandler) handler;
+	}
         throw new IllegalArgumentException("ZoneTransferIn used callback " +
                            "interface");
     }
@@ -628,8 +596,7 @@ public class ZoneTransferIn {
      * and the server provided a full zone transfer, or an IXFR failed and
      * fallback to AXFR occurred.
      */
-    public boolean
-    isAXFR() {
+    public boolean isAXFR() {
         return (rtype == Type.AXFR);
     }
     
@@ -638,8 +605,7 @@ public class ZoneTransferIn {
      * @throws IllegalArgumentException The transfer used the callback interface,
      * so the response was not stored.
      */
-    public List
-    getAXFR() {
+    public List getAXFR() {
         BasicHandler handler = getBasicHandler();
         return handler.axfr;
     }
@@ -649,8 +615,7 @@ public class ZoneTransferIn {
      * This will be true only if an IXFR was performed and the server provided
      * an incremental zone transfer.
      */
-    public boolean
-    isIXFR() {
+    public boolean isIXFR() {
         return (rtype == Type.IXFR);
     }
     
@@ -659,8 +624,7 @@ public class ZoneTransferIn {
      * @throws IllegalArgumentException The transfer used the callback interface,
      * so the response was not stored.
      */
-    public List
-    getIXFR() {
+    public List getIXFR() {
         BasicHandler handler = getBasicHandler();
         return handler.ixfr;
     }
@@ -671,10 +635,10 @@ public class ZoneTransferIn {
      * @throws IllegalArgumentException The transfer used the callback interface,
      * so the response was not stored.
      */
-    public boolean
-    isCurrent() {
+    public boolean isCurrent() {
         BasicHandler handler = getBasicHandler();
         return (handler.axfr == null && handler.ixfr == null);
     }
 
 }
+//  line 681

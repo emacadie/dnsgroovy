@@ -320,14 +320,14 @@ public class DNSSEC {
     }
     
     private static BigInteger
-    readBigInteger(DNSInput in, int len) throws IOException {
-        byte [] b = in.readByteArray(len);
+    readBigInteger(DNSInput dnsin, int len) throws IOException {
+        byte [] b = dnsin.readByteArray(len);
         return new BigInteger(1, b);
     }
     
     private static BigInteger
-    readBigInteger(DNSInput in) {
-        byte [] b = in.readByteArray();
+    readBigInteger(DNSInput dnsin) {
+        byte [] b = dnsin.readByteArray();
         return new BigInteger(1, b);
     }
     
@@ -342,12 +342,12 @@ public class DNSSEC {
     
     private static PublicKey
     toRSAPublicKey(KEYBase r) throws IOException, GeneralSecurityException {
-        DNSInput in = new DNSInput(r.getKey());
-        int exponentLength = in.readU8();
+        DNSInput dnsin = new DNSInput(r.getKey());
+        int exponentLength = dnsin.readU8();
         if (exponentLength == 0)
-            exponentLength = in.readU16();
-        BigInteger exponent = readBigInteger(in, exponentLength);
-        BigInteger modulus = readBigInteger(in);
+            exponentLength = dnsin.readU16();
+        BigInteger exponent = readBigInteger(dnsin, exponentLength);
+        BigInteger modulus = readBigInteger(dnsin);
     
         KeyFactory factory = KeyFactory.getInstance("RSA");
         return factory.generatePublic(new RSAPublicKeySpec(modulus, exponent));
@@ -357,16 +357,16 @@ public class DNSSEC {
     toDSAPublicKey(KEYBase r) throws IOException, GeneralSecurityException,
         MalformedKeyException
     {
-        DNSInput in = new DNSInput(r.getKey());
+        DNSInput dnsin = new DNSInput(r.getKey());
     
-        int t = in.readU8();
+        int t = dnsin.readU8();
         if (t > 8)
             throw new MalformedKeyException(r);
     
-        BigInteger q = readBigInteger(in, 20);
-        BigInteger p = readBigInteger(in, 64 + t*8);
-        BigInteger g = readBigInteger(in, 64 + t*8);
-        BigInteger y = readBigInteger(in, 64 + t*8);
+        BigInteger q = readBigInteger(dnsin, 20);
+        BigInteger p = readBigInteger(dnsin, 64 + t*8);
+        BigInteger g = readBigInteger(dnsin, 64 + t*8);
+        BigInteger y = readBigInteger(dnsin, 64 + t*8);
     
         KeyFactory factory = KeyFactory.getInstance("DSA");
         return factory.generatePublic(new DSAPublicKeySpec(y, p, q, g));
@@ -415,11 +415,11 @@ public class DNSSEC {
     toECDSAPublicKey(KEYBase r, ECKeyInfo keyinfo) throws IOException,
         GeneralSecurityException, MalformedKeyException
     {
-        DNSInput in = new DNSInput(r.getKey());
+        DNSInput dnsin = new DNSInput(r.getKey());
     
         // RFC 6605 Section 4
-        BigInteger x = readBigInteger(in, keyinfo.length);
-        BigInteger y = readBigInteger(in, keyinfo.length);
+        BigInteger x = readBigInteger(dnsin, keyinfo.length);
+        BigInteger y = readBigInteger(dnsin, keyinfo.length);
         ECPoint q = new ECPoint(x, y);
     
         KeyFactory factory = KeyFactory.getInstance("EC");
@@ -575,17 +575,17 @@ public class DNSSEC {
         if (dns.length != 1 + DSA_LEN * 2)
             throw new SignatureVerificationException();
     
-        DNSInput in = new DNSInput(dns);
+        DNSInput dnsin = new DNSInput(dns);
         DNSOutput out = new DNSOutput();
     
-        int t = in.readU8();
+        int t = dnsin.readU8();
     
-        byte [] r = in.readByteArray(DSA_LEN);
+        byte [] r = dnsin.readByteArray(DSA_LEN);
         int rlen = DSA_LEN;
         if (r[0] < 0)
             rlen++;
     
-        byte [] s = in.readByteArray(DSA_LEN);
+        byte [] s = dnsin.readByteArray(DSA_LEN);
             int slen = DSA_LEN;
             if (s[0] < 0)
                     slen++;

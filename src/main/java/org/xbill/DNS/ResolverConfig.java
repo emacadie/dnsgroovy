@@ -214,14 +214,13 @@ public class ResolverConfig {
      */
     private void
     findResolvConf(String file) {
-        InputStream in = null;
+        InputStream instream = null;
         try {
-            in = new FileInputStream(file);
-        }
-        catch (FileNotFoundException e) {
+            instream = new FileInputStream(file);
+        } catch (FileNotFoundException e) {
             return;
         }
-        InputStreamReader isr = new InputStreamReader(in);
+        InputStreamReader isr = new InputStreamReader(instream);
         BufferedReader br = new BufferedReader(isr);
         List lserver = new ArrayList(0);
         List lsearch = new ArrayList(0);
@@ -438,8 +437,8 @@ public class ResolverConfig {
             ArrayList lsearch = new ArrayList(); 
             String line; 
             Process p = Runtime.getRuntime().exec("getprop"); 
-            InputStream in = p.getInputStream();
-            InputStreamReader isr = new InputStreamReader(in);
+            InputStream inpstrm = p.getInputStream();
+            InputStreamReader isr = new InputStreamReader(inpstrm);
             BufferedReader br = new BufferedReader(isr);
             while ((line = br.readLine()) != null ) { 
                 StringTokenizer t = new StringTokenizer(line, ":");
