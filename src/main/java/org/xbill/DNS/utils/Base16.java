@@ -50,17 +50,17 @@ public class Base16 {
             if (!Character.isWhitespace((char)raw[i]))
                 bs.write(raw[i]);
         }
-        byte [] in = bs.toByteArray();
-        if (in.length % 2 != 0) {
+        byte [] b_in = bs.toByteArray();
+        if (b_in.length % 2 != 0) {
             return null;
         }
     
         bs.reset();
         DataOutputStream ds = new DataOutputStream(bs);
     
-        for (int i = 0; i < in.length; i += 2) {
-            byte high = (byte) Base16String.indexOf(Character.toUpperCase((char)in[i]));
-            byte low = (byte) Base16String.indexOf(Character.toUpperCase((char)in[i+1]));
+        for (int i = 0; i < b_in.length; i += 2) {
+            byte high = (byte) Base16String.indexOf(Character.toUpperCase((char)b_in[i]));
+            byte low = (byte) Base16String.indexOf(Character.toUpperCase((char)b_in[i+1]));
             try {
                 ds.writeByte((high << 4) + low);
             }

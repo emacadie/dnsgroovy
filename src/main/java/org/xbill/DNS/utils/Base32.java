@@ -165,21 +165,21 @@ public class Base32 {
                 bs.write('=');
         }
     
-        byte [] in = bs.toByteArray();
+        byte [] b_in = bs.toByteArray();
     
         bs.reset();
         DataOutputStream ds = new DataOutputStream(bs);
     
-        for (int i = 0; i < in.length / 8; i++) {
+        for (int i = 0; i < b_in.length / 8; i++) {
             short[] s = new short[8];
             int[] t = new int[5];
     
             int padlen = 8;
             for (int j = 0; j < 8; j++) {
-                char c = (char) in[i * 8 + j];
+                char c = (char) b_in[i * 8 + j];
                 if (c == '=')
                     break;
-                s[j] = (short) alphabet.indexOf(in[i * 8 + j]);
+                s[j] = (short) alphabet.indexOf(b_in[i * 8 + j]);
                 if (s[j] < 0)
                     return null;
                 padlen--;
