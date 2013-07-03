@@ -33,5 +33,14 @@ build/tmp/*
 build/docs/*
 # build/*
 .gradle/*
+build/classes/*
+build/dependency-cache/*
+build/libs/*
+build/reports/*
+build/reports/tests/*
+build/test-results/*
+build/tmp/test/*
+build/tmp/*
+build/docs/*
 
 #- EOF
