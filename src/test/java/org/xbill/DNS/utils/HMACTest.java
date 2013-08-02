@@ -140,7 +140,7 @@ public class HMACTest extends TestCase
     {
 	for( int i=0; i<tests.length; ++i){
 	    MessageDigest md = MessageDigest.getInstance("md5");
-	    HMAC h = new HMAC(md, tests[i].key);
+	    HMAC h = new HMAC(md, 64, tests[i].key);
 	    do_test(i, h);
 	}
     }
@@ -149,7 +149,7 @@ public class HMACTest extends TestCase
 					      CloneNotSupportedException
     {
 	for( int i=0; i<tests.length; ++i){
-	    HMAC h = new HMAC("md5", tests[i].key);
+	    HMAC h = new HMAC("md5", 64, tests[i].key);
 	    do_test(i, h);
 	}
     }
@@ -157,7 +157,7 @@ public class HMACTest extends TestCase
     public void test_ctor_digestName_key_invalid()
     {
 	try {
-	    new HMAC("no name", new byte[ 0 ]);
+	    new HMAC("no name", 64, new byte[ 0 ]);
 	    fail("IllegalArgumentException not thrown");
 	}
 	catch( IllegalArgumentException e ){}
