@@ -42,8 +42,6 @@ import java.util.Arrays
 import spock.lang.Specification
 
 public class DSRecordSpockAdditionalTest extends Specification {
-    def mgu = new MyGroovyUtil()
-    def mga = new MyGroovyAssert()
     
     def private Name m_n
     def private long m_ttl
@@ -69,14 +67,14 @@ public class DSRecordSpockAdditionalTest extends Specification {
 	    DSRecord dr = new DSRecord(m_n, DClass.IN, m_ttl,
 				       m_footprint, m_algorithm, m_digestid, m_digest)
 	    then:
-	    mgu.equals(m_n, dr.getName())
-	    mgu.equals(DClass.IN, dr.getDClass())
-	    mgu.equals(Type.DS, dr.getType())
-	    mgu.equals(m_ttl, dr.getTTL())
-	    mgu.equals(m_footprint, dr.getFootprint())
-	    mgu.equals(m_algorithm, dr.getAlgorithm())
-	    mgu.equals(m_digestid, dr.getDigestID())
-	    mga.that(Arrays.equals(m_digest, dr.getDigest()))
+	    m_n == dr.getName()
+	    DClass.IN == dr.getDClass()
+	    Type.DS == dr.getType()
+	    m_ttl == dr.getTTL()
+	    m_footprint == dr.getFootprint()
+	    m_algorithm == dr.getAlgorithm()
+	    m_digestid == dr.getDigestID()
+	    m_digest == dr.getDigest()
 	}
     
 	def "test_toosmall_footprint"() throws TextParseException {
@@ -135,14 +133,14 @@ public class DSRecordSpockAdditionalTest extends Specification {
 	    DSRecord dr = new DSRecord(m_n, DClass.IN, m_ttl,
 				       m_footprint, m_algorithm, m_digestid, null)
 	    then:
-	    mgu.equals(m_n, dr.getName())
-	    mgu.equals(DClass.IN, dr.getDClass())
-	    mgu.equals(Type.DS, dr.getType())
-	    mgu.equals(m_ttl, dr.getTTL())
-	    mgu.equals(m_footprint, dr.getFootprint())
-	    mgu.equals(m_algorithm, dr.getAlgorithm())
-	    mgu.equals(m_digestid, dr.getDigestID())
-	    mgu.equals(null, dr.getDigest())
+	    m_n == dr.getName()
+	    DClass.IN == dr.getDClass()
+	    Type.DS == dr.getType()
+	    m_ttl == dr.getTTL()
+	    m_footprint == dr.getFootprint()
+	    m_algorithm == dr.getAlgorithm()
+	    m_digestid == dr.getDigestID()
+	    null == dr.getDigest()
        }
 
 }

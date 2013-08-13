@@ -41,28 +41,27 @@ import java.util.Arrays
 import spock.lang.Specification
 
 public class DSRecordSpockTest extends Specification {
-    def mgu = new MyGroovyUtil()
-    def mga = new MyGroovyAssert()
 
     def "test_ctor_0arg"() {
 	when:
 	DSRecord dr = new DSRecord()
 
 	then:
-	mgu.equals(null, dr.getName())
-	mgu.equals(0, dr.getType())
-	mgu.equals(0, dr.getDClass())
-	mgu.equals(0, dr.getTTL().intValue())
-	mgu.equals(0, dr.getAlgorithm())
-	mgu.equals(0, dr.getDigestID())
-	mgu.equals(null, dr.getDigest())
-	mgu.equals(0, dr.getFootprint())
+	null == dr.getName()
+	0 == dr.getType()
+	0 == dr.getDClass()
+	0 == dr.getTTL().intValue()
+	0 == dr.getAlgorithm()
+	0 == dr.getDigestID()
+	null == dr.getDigest()
+	0 == dr.getFootprint()
     }
     
     def "test_getObject"() {
 	DSRecord dr = new DSRecord()
 	Record r = dr.getObject()
-	expect: mga.that(r instanceof DSRecord)
+	expect: 
+	    r instanceof DSRecord
     }
     /*
     public static class Test_Ctor_7argSpock extends TestCase
@@ -91,13 +90,13 @@ public class DSRecordSpockTest extends Specification {
 	{
 	    DSRecord dr = new DSRecord(m_n, DClass.IN, m_ttl,
 				       m_footprint, m_algorithm, m_digestid, m_digest)
-	    mgu.equals(m_n, dr.getName())
-	    mgu.equals(DClass.IN, dr.getDClass())
-	    mgu.equals(Type.DS, dr.getType())
-	    mgu.equals(m_ttl, dr.getTTL().intValue())
-	    mgu.equals(m_footprint, dr.getFootprint())
-	    mgu.equals(m_algorithm, dr.getAlgorithm())
-	    mgu.equals(m_digestid, dr.getDigestID())
+	    m_n == dr.getName()
+	    DClass.IN == dr.getDClass()
+	    Type.DS == dr.getType()
+	    m_ttl == dr.getTTL().intValue()
+	    m_footprint == dr.getFootprint()
+	    m_algorithm == dr.getAlgorithm()
+	    m_digestid == dr.getDigestID()
 	    assertTrue(Arrays.equals(m_digest, dr.getDigest()))
 	}
 
@@ -165,14 +164,14 @@ public class DSRecordSpockTest extends Specification {
 	{
 	    DSRecord dr = new DSRecord(m_n, DClass.IN, m_ttl,
 				       m_footprint, m_algorithm, m_digestid, null)
-	    mgu.equals(m_n, dr.getName())
-	    mgu.equals(DClass.IN, dr.getDClass())
-	    mgu.equals(Type.DS, dr.getType())
-	    mgu.equals(m_ttl, dr.getTTL().intValue())
-	    mgu.equals(m_footprint, dr.getFootprint())
-	    mgu.equals(m_algorithm, dr.getAlgorithm())
-	    mgu.equals(m_digestid, dr.getDigestID())
-	    mgu.equals(null, dr.getDigest())
+	    m_n == dr.getName()
+	    DClass.IN == dr.getDClass()
+	    Type.DS == dr.getType()
+	    m_ttl == dr.getTTL().intValue()
+	    m_footprint == dr.getFootprint()
+	    m_algorithm == dr.getAlgorithm()
+	    m_digestid == dr.getDigestID()
+	    null == dr.getDigest()
 	}
     }
 */
@@ -189,11 +188,10 @@ public class DSRecordSpockTest extends Specification {
 	def answer = [ (byte)0x23, (byte)0x45, (byte)0x67, (byte)0x89 ].collect { entry -> (byte) entry }
 	
 	then:
-	mgu.equals(0xABCD, dr.getFootprint())
-	mgu.equals(0xEF, dr.getAlgorithm())
-	mgu.equals(0x01, dr.getDigestID())
-
-	mga.that(Arrays.equals( answer.toArray(new byte[answer.size]), dr.getDigest()))
+	0xABCD == dr.getFootprint()
+	0xEF == dr.getAlgorithm()
+	0x01 == dr.getDigestID()
+	answer.toArray(new byte[answer.size]) == dr.getDigest()
     }
 
     def "test_rdataFromString"() throws IOException {
@@ -208,11 +206,10 @@ public class DSRecordSpockTest extends Specification {
 	def answer = [ (byte)0x23, (byte)0x45, (byte)0x67, (byte)0x89, (byte)0xAB ].collect { entry -> (byte) entry }
 
 	then:
-	mgu.equals(0xABCD, dr.getFootprint())
-	mgu.equals(0xEF, dr.getAlgorithm())
-	mgu.equals(0x01, dr.getDigestID())
-
-	mga.that(Arrays.equals( answer.toArray(new byte[answer.size]), dr.getDigest()))
+	0xABCD == dr.getFootprint()
+	0xEF == dr.getAlgorithm()
+	0x01 == dr.getDigestID()
+	answer.toArray(new byte[answer.size]) == dr.getDigest()
     }
 
     def "test_rrToString"() throws TextParseException {
@@ -222,7 +219,7 @@ public class DSRecordSpockTest extends Specification {
 	DSRecord dr = new DSRecord(Name.fromString("The.Name."), DClass.IN, 0x123,
 				   0xABCD, 0xEF, 0x01,
 				   byteArray.toArray(new byte[byteArray.size]) )
-        expect: mgu.equals(exp, dr.rrToString())
+        expect: exp == dr.rrToString()
     }
     
     def test_rrToWire() throws TextParseException {
@@ -230,7 +227,6 @@ public class DSRecordSpockTest extends Specification {
 			  (byte)0x89, (byte)0xAB ].collect { entry -> (byte) entry }
 	DSRecord dr = new DSRecord(Name.fromString("The.Name."), DClass.IN, 0x123,
 				   0xABCD, 0xEF, 0x01, byteArray.toArray(new byte[byteArray.size]) )
-				   
 
 	def byte[] exp = [ (byte)0xAB, (byte)0xCD, (byte)0xEF, 
 			   (byte)0x01, (byte)0x23, (byte)0x45,
@@ -238,9 +234,9 @@ public class DSRecordSpockTest extends Specification {
 
 	DNSOutput out = new DNSOutput()
 	dr.rrToWire(out, null, true)
-
 	// mga.that(Arrays.equals(exp.toArray(new byte[exp.size]), out.toByteArray()))
-	expect: mga.that(Arrays.equals(exp, out.toByteArray()))
+	expect: 
+	    exp == out.toByteArray()
     }
 
 }

@@ -51,22 +51,21 @@ import java.util.Arrays
 import spock.lang.Specification
 
 public class EmptyRecordSpockTest extends Specification {
-    def mgu = new MyGroovyUtil()
-    def mga = new MyGroovyAssert()
 	
     def "test_ctor"() throws UnknownHostException {
 	EmptyRecord ar = new EmptyRecord()
 	expect:
-	mgu.equals(null, ar.getName())
-	mgu.equals(0, ar.getType())
-	mgu.equals(0, ar.getDClass())
-	mgu.equals(0, ar.getTTL().intValue())
+	null == ar.getName()
+	0 == ar.getType()
+	0 == ar.getDClass()
+	0 == ar.getTTL().intValue()
     }
 
     def "test_getObject"() {
 	EmptyRecord ar = new EmptyRecord()
 	Record r = ar.getObject()
-	expect: mga.that(r instanceof EmptyRecord)
+	expect: 
+	    r instanceof EmptyRecord
     }
 
     def "test_rrFromWire"() throws IOException {
@@ -79,11 +78,11 @@ public class EmptyRecordSpockTest extends Specification {
 	er.rrFromWire(i)
 	
 	expect:
-	mgu.equals(3, i.current())
-	mgu.equals(null, er.getName())
-	mgu.equals(0, er.getType())
-	mgu.equals(0, er.getDClass())
-	mgu.equals(0, er.getTTL().intValue())
+	3 == i.current()
+	null == er.getName()
+	0 == er.getType()
+	0 == er.getDClass()
+	0 == er.getTTL().intValue()
     }
 
     def "test_rdataFromString"() throws IOException {
@@ -92,22 +91,24 @@ public class EmptyRecordSpockTest extends Specification {
 	er.rdataFromString(t, null)
 
 	expect:
-	mgu.equals(null, er.getName())
-	mgu.equals(0, er.getType())
-	mgu.equals(0, er.getDClass())
-	mgu.equals(0, er.getTTL().intValue())	
-	mgu.equals("these", t.getString())
+	null == er.getName()
+	0 == er.getType()
+	0 == er.getDClass()
+	0 == er.getTTL().intValue()	
+	"these" == t.getString()
     }
 
     def "test_rrToString"() {
 	EmptyRecord er = new EmptyRecord()
-	expect: mgu.equals("", er.rrToString())
+	expect: 
+	    "" == er.rrToString()
     }
 
     def "test_rrToWire"() {
 	EmptyRecord er = new EmptyRecord()
 	DNSOutput out = new DNSOutput()
 	er.rrToWire(out, null, true)
-	expect: mgu.equals(0, out.toByteArray().length)
+	expect: 
+	    0 == out.toByteArray().length
     }
 }

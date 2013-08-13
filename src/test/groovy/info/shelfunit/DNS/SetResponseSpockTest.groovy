@@ -43,7 +43,6 @@ import info.shelfunit.DNS.*
 public class SetResponseSpockTest extends Specification {
 
     def mgu = new MyGroovyUtil()
-    def mga = new MyGroovyAssert()
 	
     def "test_ctor_1arg"() {
 	final types = [ SetResponse.UNKNOWN,
@@ -198,7 +197,7 @@ public class SetResponseSpockTest extends Specification {
 	// RRset[] exp = new RRset[] { rrs }
 	def RRset[] exp = [ rrs ] // as RRset
 	then:
-	mga.that(Arrays.equals(exp, sr.answers()))
+	exp == sr.answers()
     }
 	
     def "test_addRRset_multiple"() throws TextParseException, UnknownHostException {
@@ -229,7 +228,7 @@ public class SetResponseSpockTest extends Specification {
 
 	def RRset[] exp = [ rrs, rrs2 ] 
 	then:
-	mga.that(Arrays.equals(exp, sr.answers()))
+	exp == sr.answers()
     }
 	
     def "test_answers_nonSUCCESSFUL"() {

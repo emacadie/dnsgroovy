@@ -46,7 +46,6 @@ import spock.lang.Specification
 public class TokenizerSpockTest extends Specification {
 
     def mgu = new MyGroovyUtil()
-    def mga = new MyGroovyAssert()
     private Tokenizer m_t
 
     def setup() {
@@ -60,32 +59,32 @@ public class TokenizerSpockTest extends Specification {
 	Tokenizer.Token tt = m_t.get(true, true)
 	expect:
 	mgu.equals(Tokenizer.IDENTIFIER, tt.type)
-	mga.that(tt.isString())
-	mga.that(!tt.isEOL())
+	tt.isString()
+	!tt.isEOL()
 	mgu.equals("AnIdentifier", tt.value)
 	    
 	when:
 	tt = m_t.get(true, true)
 	then:
         mgu.equals(Tokenizer.WHITESPACE, tt.type)
-	mga.that(!tt.isString())
-	mga.that(!tt.isEOL())
+	!tt.isString()
+	!tt.isEOL()
 	mgu.equals(null, tt.value)
 	
 	when:
 	tt = m_t.get(true, true)
 	then:
 	mgu.equals(Tokenizer.QUOTED_STRING, tt.type)
-	mga.that(tt.isString())
-	mga.that(!tt.isEOL())
+	tt.isString()
+	!tt.isEOL()
 	mgu.equals("a quoted \\\" string", tt.value)
 
 	when:
 	tt = m_t.get(true, true)
 	then:
 	mgu.equals(Tokenizer.EOL, tt.type)
-	mga.that(!tt.isString())
-	mga.that(tt.isEOL())
+	!tt.isString()
+	tt.isEOL()
 	mgu.equals(null, tt.value)
 
 	    /*
@@ -93,8 +92,8 @@ public class TokenizerSpockTest extends Specification {
 	tt = m_t.get(true, true)
 	then:
 	mgu.equals(Tokenizer.COMMENT, tt.type)
-	mga.that(!tt.isString())
-	mga.that(!tt.isEOL())
+	!tt.isString()
+	!tt.isEOL()
 	mgu.equals(" this is \"my\"\t(comment)", tt.value)
 	    */
 
@@ -102,16 +101,16 @@ public class TokenizerSpockTest extends Specification {
 	tt = m_t.get(true, true)
 	then:
 	    // mgu.equals(Tokenizer.EOL, tt.type)
-	mga.that(!tt.isString())
-	    // mga.that(tt.isEOL())
+	!tt.isString()
+	    // tt.isEOL()
 	mgu.equals(null, tt.value)
 
 	when:
 	tt = m_t.get(true, true)
 	then:
 	mgu.equals(Tokenizer.IDENTIFIER, tt.type)
-	mga.that(tt.isString())
-	mga.that(!tt.isEOL())
+	tt.isString()
+	!tt.isEOL()
 	    // mgu.equals("anotherIdentifier", tt.value)
 
 	when:
@@ -123,8 +122,8 @@ public class TokenizerSpockTest extends Specification {
 	tt = m_t.get(true, true)
 	then:
 	mgu.equals(Tokenizer.IDENTIFIER, tt.type)
-	mga.that(tt.isString())
-	mga.that(!tt.isEOL())
+	tt.isString()
+	!tt.isEOL()
 	    // mgu.equals("amultilineIdentifier", tt.value)
 
 	when:
@@ -136,8 +135,8 @@ public class TokenizerSpockTest extends Specification {
 	tt = m_t.get(true, true)
 	then:
 	mgu.equals(Tokenizer.EOF, tt.type)
-	mga.that(!tt.isString())
-	mga.that(tt.isEOL())
+	!tt.isString()
+	tt.isEOL()
 	mgu.equals(null, tt.value)
 	
 	// should be able to do this repeatedly
@@ -145,8 +144,8 @@ public class TokenizerSpockTest extends Specification {
 	tt = m_t.get(true, true)
 	then:
 	mgu.equals(Tokenizer.EOF, tt.type)
-	mga.that(!tt.isString())
-	mga.that(tt.isEOL())
+	!tt.isString()
+	tt.isEOL()
 	mgu.equals(null, tt.value)
 */
 	when:
@@ -544,21 +543,21 @@ public class TokenizerSpockTest extends Specification {
 	// basic
 	m_t = new Tokenizer("AQIDBAUGBwgJ")
 	byte[] out = m_t.getBase64()
-	expect: mga.that(java.util.Arrays.equals(exp, out))
+	expect: exp == out
 
 	// with some whitespace
 	when:
 	m_t = new Tokenizer("AQIDB AUGB   wgJ")
 	out = m_t.getBase64()
 	then:
-	mga.that(java.util.Arrays.equals(exp, out))
+	exp == out
 
 	// two base64s separated by newline
 	when:
 	m_t = new Tokenizer("AQIDBAUGBwgJ\nAB23DK")
 	out = m_t.getBase64()
 	then:
-	mga.that(java.util.Arrays.equals(exp, out))
+	exp == out
 	
 
 	// no remaining strings
@@ -594,7 +593,7 @@ public class TokenizerSpockTest extends Specification {
 	m_t = new Tokenizer("0102030405060708090A0B0C0D0E0F")
 	byte[] out = m_t.getHex()
 	expect: // mgu.equals(exp, out)
-	mga.that(java.util.Arrays.equals(exp, out))
+	exp == out
 	
 	when:
 	// with some whitespace
@@ -602,7 +601,7 @@ public class TokenizerSpockTest extends Specification {
 	out = m_t.getHex()
 	then:
 	// mgu.equals(exp, out)
-	mga.that(java.util.Arrays.equals(exp, out))
+	exp == out
 
 	// two hexs separated by newline
 	when:
@@ -610,7 +609,7 @@ public class TokenizerSpockTest extends Specification {
 	out = m_t.getHex()
 	then:
 	// mgu.equals(exp, out)
-	mga.that(java.util.Arrays.equals(exp, out))
+	exp == out
 
 	// no remaining strings
 	when:

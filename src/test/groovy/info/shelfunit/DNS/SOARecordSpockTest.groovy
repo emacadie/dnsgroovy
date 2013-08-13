@@ -44,7 +44,6 @@ import spock.lang.Specification
 public class SOARecordSpockTest extends Specification  {
 
     def mgu = new MyGroovyUtil()
-    def mga = new MyGroovyAssert()
 
 	private Name m_an, m_rn, m_host, m_admin, m_origin
 	private long m_ttl, m_serial, m_refresh, m_retry, m_expire, m_minimum
@@ -96,7 +95,7 @@ public class SOARecordSpockTest extends Specification  {
 	    SOARecord ar = new SOARecord()
 	    Record r = ar.getObject()
 		expect:
-		mga.that(r instanceof SOARecord)
+		r instanceof SOARecord
     }
 	
     def "test_10arg_init"() {
@@ -377,7 +376,7 @@ public class SOARecordSpockTest extends Specification  {
 	    String out = ar.rrToString()
 	    Options.unset("multiline")
 	    expect:
-	    mga.that(out.matches(re))
+	    out.matches(re)
 	}
 
 	protected void setup_rrToWire() throws TextParseException {
@@ -410,7 +409,7 @@ public class SOARecordSpockTest extends Specification  {
 	    DNSOutput o = new DNSOutput()
 	    ar.rrToWire(o, null, true)
 	    expect:
-	    mga.that(Arrays.equals(exp.toArray(new byte[exp.size]), o.toByteArray()))
+	    exp.toArray(new byte[exp.size]) == o.toByteArray()
 	}
     
     def "test_case_sensitive_rrToWire"() {
@@ -430,6 +429,6 @@ public class SOARecordSpockTest extends Specification  {
 	    DNSOutput o = new DNSOutput()
 	    ar.rrToWire(o, null, false)
 	    expect:
-	    mga.that(Arrays.equals(exp.toArray(new byte[exp.size]), o.toByteArray()))
+	    exp.toArray(new byte[exp.size]) == o.toByteArray()
 	} 
 }

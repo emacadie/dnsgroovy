@@ -45,7 +45,6 @@ import spock.lang.Specification
 public class SingleNameBaseSpockTest extends Specification {
 
     def mgu = new MyGroovyUtil()
-    def mga = new MyGroovyAssert()
 	/*
     private void assertEquals( byte[] exp, byte[] act )
     {
@@ -156,7 +155,8 @@ public class SingleNameBaseSpockTest extends Specification {
 	tc.rrToWire(dout, null, false)
 	
 	byte[] out = dout.toByteArray()
-	expect: mga.that(java.util.Arrays.equals(exp, out))
+	expect: 
+	exp == out
 
 	when:
 	// canonical (lowercase)
@@ -168,7 +168,7 @@ public class SingleNameBaseSpockTest extends Specification {
 	
 	out = dout.toByteArray()
 	then:
-	mga.that(java.util.Arrays.equals(exp, out))
+	exp == out
     }
 
 }
