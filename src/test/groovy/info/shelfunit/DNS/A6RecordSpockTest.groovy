@@ -44,7 +44,7 @@ import org.xbill.DNS.*
 
 public class A6RecordSpockTest extends Specification {
 
-    def mgu = new MyGroovyUtil()
+    // def mgu = new MyGroovyUtil()
     Name m_an, m_an2, m_rn
     InetAddress m_addr
     String m_addr_string, m_addr_string_canonical
@@ -52,8 +52,7 @@ public class A6RecordSpockTest extends Specification {
     int m_prefix_bits
     long m_ttl
 
-    protected void setup() throws TextParseException,
-				  UnknownHostException {
+    protected void setup() throws TextParseException, UnknownHostException {
 	m_an = Name.fromString("My.Absolute.Name.")
 	m_an2 = Name.fromString("My.Second.Absolute.Name.")
 	m_rn = Name.fromString("My.Relative.Name")
@@ -68,16 +67,15 @@ public class A6RecordSpockTest extends Specification {
     def "test_ctor_0arg"() {
 	when:
 	A6Record ar = new A6Record()
+
 	then:
-	
-	mgu.equals( ar.getName(), null)
-	mgu.equals( 0, ar.getType())
-	mgu.equals( 0, ar.getDClass())
-	mgu.equals( 0, ar.getTTL().intValue())
+	    ar.getName() == null
+	    0 == ar.getType()
+	    0 == ar.getDClass()
+	    0 == ar.getTTL().intValue()
     }
     
-    def "test_getObject"()
-    {
+    def "test_getObject"() {
 	A6Record ar = new A6Record()
 	Record r = ar.getObject()
 	expect: r instanceof A6Record
@@ -87,25 +85,25 @@ public class A6RecordSpockTest extends Specification {
 	when:
 	A6Record ar = new A6Record(m_an, DClass.IN, m_ttl, m_prefix_bits, m_addr, null)
 	then:
-	mgu.equals( m_an, ar.getName())
-	mgu.equals( Type.A6, ar.getType())
-	mgu.equals( DClass.IN, ar.getDClass())
-	mgu.equals( m_ttl, ar.getTTL())
-	mgu.equals( m_prefix_bits, ar.getPrefixBits())
-	mgu.equals( m_addr, ar.getSuffix())
-	mgu.equals( ar.getPrefix(), null)
+	    m_an == ar.getName()
+	    Type.A6 == ar.getType()
+	    DClass.IN ==  ar.getDClass()
+	    m_ttl == ar.getTTL()
+	    m_prefix_bits == ar.getPrefixBits()
+	    m_addr == ar.getSuffix()
+	    ar.getPrefix() == null
 
 	// with the prefix name
 	when:
 	ar = new A6Record(m_an, DClass.IN, m_ttl, m_prefix_bits, m_addr, m_an2)
 	then:
-	mgu.equals( m_an, ar.getName())
-	mgu.equals( Type.A6, ar.getType())
-	mgu.equals( DClass.IN, ar.getDClass())
-	mgu.equals( m_ttl, ar.getTTL())
-	mgu.equals( m_prefix_bits, ar.getPrefixBits())
-	mgu.equals( m_addr, ar.getSuffix())
-	mgu.equals( m_an2, ar.getPrefix())
+	    m_an == ar.getName()
+	    Type.A6 == ar.getType()
+	    DClass.IN == ar.getDClass()
+	    m_ttl == ar.getTTL()
+	    m_prefix_bits == ar.getPrefixBits()
+	    m_addr == ar.getSuffix()
+	    m_an2 == ar.getPrefix()
 
 	// a relative name
 	when: 
@@ -132,7 +130,6 @@ public class A6RecordSpockTest extends Specification {
 	then:
 	    thrown( IllegalArgumentException.class )
 	    // thrown( UnknownHostException.class )
-
     }
 
     def "test_rrFromWire"() throws CloneNotSupportedException,
@@ -148,9 +145,9 @@ public class A6RecordSpockTest extends Specification {
 	A6Record ar = new A6Record()
 	ar.rrFromWire(din)
 	then:
-	mgu.equals(0, ar.getPrefixBits())
-	mgu.equals(m_addr, ar.getSuffix())
-	mgu.equals(ar.getPrefix(), null)
+	    0 == ar.getPrefixBits()
+	    m_addr == ar.getSuffix()
+	    ar.getPrefix() == null
 
 	// record with 9 bit prefix (should result in 15 bytes of the address)
 	when:
@@ -163,15 +160,15 @@ public class A6RecordSpockTest extends Specification {
 	ar = new A6Record()
 	ar.rrFromWire(din)
 	then:
-	mgu.equals(9, ar.getPrefixBits())
+	    9 == ar.getPrefixBits()
 
 	when:
 	byte[] addr_bytes = (byte[])m_addr_bytes.clone()
 	addr_bytes[0] = 0
 	InetAddress exp = InetAddress.getByAddress(addr_bytes)
 	then:
-	mgu.equals(exp, ar.getSuffix())
-	mgu.equals(m_an2, ar.getPrefix())
+	    exp == ar.getSuffix()
+	    m_an2 == ar.getPrefix()
     }
     
     def "test_rdataFromString"() throws CloneNotSupportedException,
@@ -183,9 +180,9 @@ public class A6RecordSpockTest extends Specification {
 	A6Record ar = new A6Record()
 	ar.rdataFromString(t, null)
 	then:
-	mgu.equals(0, ar.getPrefixBits())
-	mgu.equals(m_addr, ar.getSuffix())
-	mgu.equals(ar.getPrefix(), null)
+	0 ==  ar.getPrefixBits()
+	m_addr ==  ar.getSuffix()
+	ar.getPrefix() ==  null
 
 	// record with 9 bit prefix.  In contrast to the rrFromWire method,
 	// rdataFromString expects the entire 128 bits to be represented
@@ -195,9 +192,9 @@ public class A6RecordSpockTest extends Specification {
 	ar = new A6Record()
 	ar.rdataFromString(t, null)
 	then:
-	mgu.equals(9, ar.getPrefixBits())
-	mgu.equals(m_addr, ar.getSuffix())
-	mgu.equals(m_an2, ar.getPrefix())
+	9 ==  ar.getPrefixBits()
+	m_addr ==  ar.getSuffix()
+	m_an2 ==  ar.getPrefix()
 
 	// record with invalid prefixBits
 	when:
@@ -219,7 +216,7 @@ public class A6RecordSpockTest extends Specification {
 	A6Record ar = new A6Record(m_an, DClass.IN, m_ttl, m_prefix_bits, m_addr, m_an2)
 	String exp = "" + m_prefix_bits + " " + m_addr_string_canonical + " " + m_an2
 	String out = ar.rrToString()
-	mgu.equals(exp, out)
+	exp ==  out
     }
     
     def "test_rrToWire"() {
@@ -247,7 +244,7 @@ public class A6RecordSpockTest extends Specification {
 	
 	dout = new DNSOutput()
 	ar.rrToWire(dout, null, false)
-	mgu.equals(exp, dout.toByteArray())
+	exp ==  dout.toByteArray()
     }
 
 }

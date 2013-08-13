@@ -44,9 +44,6 @@ import org.xbill.DNS.*
 
 public class AAAARecordSpockTest extends Specification {
 
-    def mgu = new MyGroovyUtil()
-    def mga = new MyGroovyAssert()
-
     def Name m_an, m_rn
     def InetAddress m_addr
     def String m_addr_string
@@ -65,29 +62,31 @@ public class AAAARecordSpockTest extends Specification {
     def "test_ctor_0arg"() throws UnknownHostException {
 	AAAARecord ar = new AAAARecord()
 	expect:
-	mgu.equals(null, ar.getName())
-	mgu.equals(0, ar.getType())
-	mgu.equals(0, ar.getDClass())
-	mgu.equals(0L, ar.getTTL())
-	mgu.equals(null, ar.getAddress())
+	null ==  ar.getName()
+	0 ==  ar.getType()
+	0 ==  ar.getDClass()
+	0L ==  ar.getTTL()
+	null ==  ar.getAddress()
     }
 
     def "test_getObject"() {
+        when:
 	AAAARecord ar = new AAAARecord()
 	Record r = ar.getObject()
-	expect:
-	mga.that(r instanceof AAAARecord)
+
+	then:
+	r instanceof AAAARecord
     }
     
     def "test_ctor_4arg"(){
 	when:
 	AAAARecord ar = new AAAARecord(m_an, DClass.IN, m_ttl, m_addr)
 	then:
-	mgu.equals(m_an, ar.getName())
-	mgu.equals(Type.AAAA, ar.getType())
-	mgu.equals(DClass.IN, ar.getDClass())
-	mgu.equals(m_ttl, ar.getTTL())
-	mgu.equals(m_addr, ar.getAddress())
+	m_an ==  ar.getName()
+	Type.AAAA ==  ar.getType()
+	DClass.IN ==  ar.getDClass()
+	m_ttl ==  ar.getTTL()
+	m_addr ==  ar.getAddress()
 
 	// a relative name
 	when:
@@ -113,7 +112,7 @@ TODO: FIX THIS
 
 	ar.rrFromWire(di)
 	then:
-	mgu.equals(m_addr, ar.getAddress())
+	m_addr ==  ar.getAddress()
     }
 */
     def "test_rdataFromString"() throws IOException {
@@ -122,7 +121,7 @@ TODO: FIX THIS
 	
 	ar.rdataFromString(t, null)
 
-	expect: mgu.equals(m_addr, ar.getAddress())
+	expect: m_addr ==  ar.getAddress()
 
 	// invalid address
 	Tokenizer t2 = new Tokenizer("193.160.232.1")
@@ -136,7 +135,7 @@ TODO: FIX THIS
     def "test_rrToString"() {
 	AAAARecord ar = new AAAARecord(m_an, DClass.IN, m_ttl, m_addr)
 	expect:
-	mgu.equals(m_addr_string, ar.rrToString())
+	m_addr_string ==  ar.rrToString()
     }
 
     def "test_rrToWire"() {
@@ -147,13 +146,13 @@ TODO: FIX THIS
 	when:
 	ar.rrToWire(dout, null, true)
 	then:
-	mga.that(Arrays.equals(m_addr_bytes, dout.toByteArray()))
+	m_addr_bytes == dout.toByteArray()
 
 	// case sensitive
 	DNSOutput dout2 = new DNSOutput()
 	when:
 	ar.rrToWire(dout2, null, false)
 	then:
-	mga.that(Arrays.equals(m_addr_bytes, dout2.toByteArray()))
+	m_addr_bytes == dout2.toByteArray()
     }
 }

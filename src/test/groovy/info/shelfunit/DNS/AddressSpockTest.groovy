@@ -55,7 +55,7 @@ public class AddressSpockTest extends Specification {
 	    println("In the method ------------------")
 	assertEquals( exp.length, act.length )
 	for( int i = 0; i < exp.length; ++i ) {
-	    expect: mgu.equals( "i=" + i, exp[i], act[i] )
+	    // expect:  "i=" + i, exp[i] ==  act[i] 
 	}
     }
 
@@ -86,41 +86,41 @@ public class AddressSpockTest extends Specification {
     
     def "test_toByteArray_IPv4_invalid"() {
 	expect:
-	mgu.equals(null, Address.toByteArray("A.B.C.D", Address.IPv4))
+	null == Address.toByteArray("A.B.C.D", Address.IPv4)
 
-	mgu.equals(null, Address.toByteArray("128...", Address.IPv4))
-	mgu.equals(null, Address.toByteArray("128.121", Address.IPv4))
-	mgu.equals(null, Address.toByteArray("128.111.8", Address.IPv4))
-	mgu.equals(null, Address.toByteArray("128.198.10.", Address.IPv4))
+	null == Address.toByteArray("128...",  Address.IPv4)
+	null == Address.toByteArray("128.121",  Address.IPv4)
+	null == Address.toByteArray("128.111.8" ,  Address.IPv4)
+	null == Address.toByteArray("128.198.10.",  Address.IPv4)
 
-	mgu.equals(null, Address.toByteArray("128.121.90..10", Address.IPv4))
-	mgu.equals(null, Address.toByteArray("128.121..90.10", Address.IPv4))
-	mgu.equals(null, Address.toByteArray("128..121.90.10", Address.IPv4))
-	mgu.equals(null, Address.toByteArray(".128.121.90.10", Address.IPv4))
+	null == Address.toByteArray("128.121.90..10",  Address.IPv4)
+	null == Address.toByteArray("128.121..90.10",  Address.IPv4)
+	null == Address.toByteArray("128..121.90.10",  Address.IPv4)
+	null == Address.toByteArray(".128.121.90.10",  Address.IPv4)
 
-	mgu.equals(null, Address.toByteArray("128.121.90.256", Address.IPv4))
-	mgu.equals(null, Address.toByteArray("128.121.256.10", Address.IPv4))
-	mgu.equals(null, Address.toByteArray("128.256.90.10", Address.IPv4))
-	mgu.equals(null, Address.toByteArray("256.121.90.10", Address.IPv4))
+	null == Address.toByteArray("128.121.90.256",  Address.IPv4)
+	null == Address.toByteArray("128.121.256.10",  Address.IPv4)
+	null == Address.toByteArray("128.256.90.10",  Address.IPv4)
+	null == Address.toByteArray("256.121.90.10",  Address.IPv4)
 
-	mgu.equals(null, Address.toByteArray("128.121.90.-1", Address.IPv4))
-	mgu.equals(null, Address.toByteArray("128.121.-1.10", Address.IPv4))
-	mgu.equals(null, Address.toByteArray("128.-1.90.10", Address.IPv4))
-	mgu.equals(null, Address.toByteArray("-1.121.90.10", Address.IPv4))
+	null == Address.toByteArray("128.121.90.-1",  Address.IPv4)
+	null == Address.toByteArray("128.121.-1.10",  Address.IPv4)
+	null == Address.toByteArray("128.-1.90.10",  Address.IPv4)
+	null == Address.toByteArray("-1.121.90.10",  Address.IPv4)
 
-	mgu.equals(null, Address.toByteArray("120.121.90.10.10", Address.IPv4))
+	null == Address.toByteArray("120.121.90.10.10",  Address.IPv4)
 
-	mgu.equals(null, Address.toByteArray("120.121.90.010", Address.IPv4))
-	mgu.equals(null, Address.toByteArray("120.121.090.10", Address.IPv4))
-	mgu.equals(null, Address.toByteArray("120.021.90.10", Address.IPv4))
-	mgu.equals(null, Address.toByteArray("020.121.90.10", Address.IPv4))
+	null == Address.toByteArray("120.121.90.010",  Address.IPv4)
+	null == Address.toByteArray("120.121.090.10",  Address.IPv4)
+	null == Address.toByteArray("120.021.90.10",  Address.IPv4)
+	null == Address.toByteArray("020.121.90.10",  Address.IPv4)
 
-	mgu.equals(null, Address.toByteArray("1120.121.90.10", Address.IPv4))
-	mgu.equals(null, Address.toByteArray("120.2121.90.10", Address.IPv4))
-	mgu.equals(null, Address.toByteArray("120.121.4190.10", Address.IPv4))
-	mgu.equals(null, Address.toByteArray("120.121.190.1000", Address.IPv4))
+	null == Address.toByteArray("1120.121.90.10",  Address.IPv4)
+	null == Address.toByteArray("120.2121.90.10",  Address.IPv4)
+	null == Address.toByteArray("120.121.4190.10",  Address.IPv4)
+	null == Address.toByteArray("120.121.190.1000",  Address.IPv4)
 
-	mgu.equals(null, Address.toByteArray("", Address.IPv4))
+	null == Address.toByteArray("",  Address.IPv4)
     }
     
     def "test_toByteArray_IPv6"() {
@@ -219,21 +219,21 @@ public class AddressSpockTest extends Specification {
     def "test_toByteArray_IPv6_invalid"() {
 	expect:
 	// not enough groups
-	mgu.equals(null, Address.toByteArray("2001:0db8:85a3:08d3:1319:8a2e:0370", Address.IPv6))
+	null == Address.toByteArray("2001:0db8:85a3:08d3:1319:8a2e:0370",  Address.IPv6)
 	// too many groups
-	mgu.equals(null, Address.toByteArray("2001:0db8:85a3:08d3:1319:8a2e:0370:193A:BCdE", Address.IPv6))
+	null == Address.toByteArray("2001:0db8:85a3:08d3:1319:8a2e:0370:193A:BCdE",  Address.IPv6)
 	// invalid letter
-	mgu.equals(null, Address.toByteArray("2001:0gb8:85a3:08d3:1319:8a2e:0370:9819", Address.IPv6))
-	mgu.equals(null, Address.toByteArray("lmno:0bb8:85a3:08d3:1319:8a2e:0370:9819", Address.IPv6))
-	mgu.equals(null, Address.toByteArray("11ab:0ab8:85a3:08d3:1319:8a2e:0370:qrst", Address.IPv6))
+	null == Address.toByteArray("2001:0gb8:85a3:08d3:1319:8a2e:0370:9819", Address.IPv6)
+	null == Address.toByteArray("lmno:0bb8:85a3:08d3:1319:8a2e:0370:9819",  Address.IPv6)
+	null == Address.toByteArray("11ab:0ab8:85a3:08d3:1319:8a2e:0370:qrst",  Address.IPv6)
 	// three consecutive colons
-	mgu.equals(null, Address.toByteArray("11ab:0ab8:85a3:08d3:::", Address.IPv6))
+	null == Address.toByteArray("11ab:0ab8:85a3:08d3:::",  Address.IPv6)
 	// IPv4 in the middle
-	mgu.equals(null, Address.toByteArray("2001:0ab8:192.168.0.1:1319:8a2e:0370:9819", Address.IPv6))
+	null == Address.toByteArray("2001:0ab8:192.168.0.1:1319:8a2e:0370:9819",  Address.IPv6)
 	// invalid IPv4
-	mgu.equals(null, Address.toByteArray("2001:0ab8:1212:AbAb:8a2e:345.12.22.1", Address.IPv6))
+	null == Address.toByteArray("2001:0ab8:1212:AbAb:8a2e:345.12.22.1", Address.IPv6)
 	// group with too many digits
-	mgu.equals(null, Address.toByteArray("2001:0ab8:85a3:128d3:1319:8a2e:0370:9819", Address.IPv6))
+	null == Address.toByteArray("2001:0ab8:85a3:128d3:1319:8a2e:0370:9819",  Address.IPv6)
     }
     
     def "test_toArray"() {
@@ -255,8 +255,8 @@ public class AddressSpockTest extends Specification {
     
     def "test_toArray_invalid"() {
 	expect:
-	mgu.equals(null, Address.toArray("128.121.1", Address.IPv4))
-	mgu.equals(null, Address.toArray(""))
+	null == Address.toArray("128.121.1",  Address.IPv4)
+	null == Address.toArray("")
     }
 
     def "test_isDottedQuad"() {
@@ -268,18 +268,18 @@ public class AddressSpockTest extends Specification {
     def "test_toDottedQuad"() {
 	when:
 	def byte[] b1 = [ (byte)128, (byte)176, (byte)201, (byte)1 ]
-	then: mgu.equals("128.176.201.1", Address.toDottedQuad( b1 ))
+	then: "128.176.201.1" ==  Address.toDottedQuad( b1 )
 
 	when:
 	def int[] i2 = [ 200, 1, 255, 128 ]
 	then: 
-	mgu.equals("200.1.255.128", Address.toDottedQuad( i2 ) )
+	"200.1.255.128" ==  Address.toDottedQuad( i2 ) 
     }
     
     def "test_addressLength"() {
 	expect:
-	mgu.equals(4, Address.addressLength(Address.IPv4))
-	mgu.equals(16, Address.addressLength(Address.IPv6))
+	4 ==  Address.addressLength(Address.IPv4)
+	16 ==  Address.addressLength(Address.IPv6)
 
        when:
 	    Address.addressLength(3)
@@ -289,13 +289,13 @@ public class AddressSpockTest extends Specification {
 
     def "test_getByName"() throws UnknownHostException {
 	InetAddress out = Address.getByName("128.145.198.231")
-	expect: mgu.equals("128.145.198.231", out.getHostAddress())
+	expect: "128.145.198.231" ==  out.getHostAddress()
 
 	when:
 	out = Address.getByName("serl.cs.colorado.edu")
 	then:
-	mgu.equals("epic.cs.colorado.edu", out.getCanonicalHostName())
-	mgu.equals("128.138.201.71", out.getHostAddress())
+	"epic.cs.colorado.edu" ==  out.getCanonicalHostName()
+	"128.138.201.71" ==  out.getHostAddress()
     }
     
     def "test_getByName_invalid"() throws UnknownHostException {
@@ -313,15 +313,15 @@ public class AddressSpockTest extends Specification {
     def "test_getAllByName"() throws UnknownHostException {
 	InetAddress[] out = Address.getAllByName("128.145.198.231")
 	expect:
-	mgu.equals(1, out.length)
-	mgu.equals("128.145.198.231", out[0].getHostAddress())
+	1 ==  out.length
+	"128.145.198.231" ==  out[0].getHostAddress()
 
 	when:
 	out = Address.getAllByName("serl.cs.colorado.edu")
 	then:
-	mgu.equals(1, out.length)
-	mgu.equals("epic.cs.colorado.edu", out[0].getCanonicalHostName())
-	mgu.equals("128.138.201.71", out[0].getHostAddress())
+	1 ==  out.length
+	"epic.cs.colorado.edu" ==  out[0].getCanonicalHostName()
+	"128.138.201.71" ==  out[0].getHostAddress()
 
 	when:
 	out = Address.getAllByName("cnn.com")
@@ -347,8 +347,8 @@ public class AddressSpockTest extends Specification {
     
     def "test_familyOf"() throws UnknownHostException {
 	expect:
-	mgu.equals(Address.IPv4, Address.familyOf(InetAddress.getByName("192.168.0.1")))
-	mgu.equals(Address.IPv6, Address.familyOf(InetAddress.getByName("1:2:3:4:5:6:7:8")))
+	Address.IPv4 ==  Address.familyOf(InetAddress.getByName("192.168.0.1"))
+	Address.IPv6 ==  Address.familyOf(InetAddress.getByName("1:2:3:4:5:6:7:8"))
 	when:
 	    Address.familyOf(null)
 	then:
@@ -357,7 +357,7 @@ public class AddressSpockTest extends Specification {
     
     def "test_getHostName"() throws UnknownHostException {
 	String out = Address.getHostName(InetAddress.getByName("128.138.207.163"))
-	expect: mgu.equals("www-serl.cs.colorado.edu.", out)
+	expect: "www-serl.cs.colorado.edu." ==  out
 
 	when:
 	    Address.getHostName(InetAddress.getByName("192.168.1.1"))
