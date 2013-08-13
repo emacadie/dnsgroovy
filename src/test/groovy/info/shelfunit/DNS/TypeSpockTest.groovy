@@ -39,15 +39,14 @@ import org.xbill.DNS.*
 import spock.lang.Specification
 
 public class TypeSpockTest extends Specification {
-    def mgu = new MyGroovyUtil()
-    def mga = new MyGroovyAssert()
+    
     def "test_string"() {
 	// a regular one
 	expect:
-	mgu.equals("CNAME", Type.string(Type.CNAME))
+	"CNAME" == Type.string(Type.CNAME)
 
 	// one that doesn't exist
-	mga.that(Type.string(256).startsWith("TYPE"))
+	Type.string(256).startsWith("TYPE")
 
 	when:
 	    Type.string(-1)
@@ -58,28 +57,28 @@ public class TypeSpockTest extends Specification {
     def "test_value"() {
 	expect:
 	// regular one
-	mgu.equals(Type.MAILB, Type.value("MAILB"))
+	Type.MAILB == Type.value("MAILB")
 
 	// one thats undefined but within range
-	mgu.equals(300, Type.value("TYPE300"))
+	300 == Type.value("TYPE300")
 
 	// something that unknown
-	mgu.equals(-1, Type.value("THIS IS DEFINITELY UNKNOWN"))
+	-1 == Type.value("THIS IS DEFINITELY UNKNOWN")
 
 	// empty string
-	mgu.equals(-1, Type.value(""))
+	-1 == Type.value("")
     }
 
     def "test_value_2arg"() {
 	expect:
-	mgu.equals(301, Type.value("301", true))
+	301 == Type.value("301", true)
     }
 
     def "test_isRR"() {
 	// println("Type.isRR(Type.IXFR): " + Type.isRR(Type.IXFR) )
 	expect:
-	mga.that(Type.isRR(Type.CNAME))
-	mga.that(!Type.isRR(Type.IXFR))
+	Type.isRR(Type.CNAME)
+	!Type.isRR(Type.IXFR)
     }
 
 }

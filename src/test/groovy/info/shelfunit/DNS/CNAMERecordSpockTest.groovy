@@ -40,16 +40,15 @@ import	junit.framework.TestCase
 import spock.lang.Specification
 
 public class CNAMERecordSpockTest extends Specification {
-    def mgu = new MyGroovyUtil()
     
     def "test_ctor_0arg"() {
 	when:
 	CNAMERecord d = new CNAMERecord()
 
 	then:
-	mgu.equals(d.getName(), null)
-	mgu.equals(d.getTarget(), null)
-	mgu.equals(d.getAlias(), null)
+	d.getName() == null
+	d.getTarget() == null
+	d.getAlias() == null
     }
 
     def "test_ctor_4arg"() throws TextParseException {
@@ -60,12 +59,12 @@ public class CNAMERecordSpockTest extends Specification {
 
 
 	then:
-	mgu.equals(n, d.getName())
-	mgu.equals(Type.CNAME, d.getType())
-	mgu.equals(DClass.IN, d.getDClass())
-	mgu.equals(0xABCDEL, d.getTTL())
-	mgu.equals(a, d.getTarget())
-	mgu.equals(a, d.getAlias())
+	n == d.getName()
+	Type.CNAME == d.getType()
+	DClass.IN == d.getDClass()
+	0xABCDEL == d.getTTL()
+	a == d.getTarget()
+	a == d.getAlias()
     }
 
 

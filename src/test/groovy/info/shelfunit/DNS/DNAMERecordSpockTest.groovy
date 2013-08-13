@@ -40,16 +40,13 @@ import spock.lang.Specification
 
 public class DNAMERecordSpockTest extends Specification {
 
-    def mga = new MyGroovyAssert()
-    def mgu = new MyGroovyUtil()
-
     def "test_ctor_0arg"() {
 	when:
 	DNAMERecord d = new DNAMERecord()
 	then:
-	mgu.equals(d.getName(), null)
-	mgu.equals(d.getTarget(), null)
-	mgu.equals(d.getAlias(), null)
+	d.getName() == null
+	d.getTarget() == null
+	d.getAlias() == null
     }
     
     def "test_ctor_4arg"() throws TextParseException {
@@ -59,18 +56,19 @@ public class DNAMERecordSpockTest extends Specification {
 
 	DNAMERecord d = new DNAMERecord(n, DClass.IN, 0xABCDEL, a)
 	then:
-	mgu.equals(n, d.getName())
-	mgu.equals(Type.DNAME, d.getType())
-	mgu.equals(DClass.IN, d.getDClass())
-	mgu.equals(0xABCDEL, d.getTTL())
-	mgu.equals(a, d.getTarget())
-	mgu.equals(a, d.getAlias())
+	n == d.getName()
+	Type.DNAME == d.getType()
+	DClass.IN == d.getDClass()
+	0xABCDEL == d.getTTL()
+	a == d.getTarget()
+	a == d.getAlias()
     }
 
     def "test_getObject"() {
 	DNAMERecord d = new DNAMERecord()
 	Record r = d.getObject()
-	expect: mga.that(r instanceof DNAMERecord)
+	expect: 
+	r instanceof DNAMERecord
     }
 
 }

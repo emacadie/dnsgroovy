@@ -41,20 +41,17 @@ import spock.lang.Specification
 import org.xbill.DNS.*
 
 public class DClassSpockTest extends Specification {
-    def mgu = new MyGroovyUtil()
-    def mga = new MyGroovyAssert()
-
 
     def "test_string"() {
 	expect:
 	// a regular one
-	mgu.equals("IN", DClass.string(DClass.IN))
+	"IN" == DClass.string(DClass.IN)
 
 	// one with an alias
-	mgu.equals("CH", DClass.string(DClass.CH))
+	"CH" == DClass.string(DClass.CH)
 
 	// one that doesn't exist
-	mga.that(DClass.string(20).startsWith("CLASS"))
+	DClass.string(20).startsWith("CLASS")
 
 	when:
 	    DClass.string(-1)
@@ -73,19 +70,19 @@ public class DClassSpockTest extends Specification {
     def "test_value"() {
 	expect:
 	// regular one
-	mgu.equals(DClass.NONE, DClass.value("NONE"))
+	DClass.NONE == DClass.value("NONE")
 
 	// one with alias
-	mgu.equals(DClass.HS, DClass.value("HS"))
-	mgu.equals(DClass.HS, DClass.value("HESIOD"))
+	DClass.HS == DClass.value("HS")
+	DClass.HS == DClass.value("HESIOD")
 
 	// one thats undefined but within range
-	mgu.equals(21, DClass.value("CLASS21"))
+	21 == DClass.value("CLASS21")
 
 	// something that unknown
-	mgu.equals(-1, DClass.value("THIS IS DEFINITELY UNKNOWN"))
+	-1 == DClass.value("THIS IS DEFINITELY UNKNOWN")
 
 	// empty string
-	mgu.equals(-1, DClass.value(""))
+	-1 == DClass.value("")
     }
 }

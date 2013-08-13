@@ -271,7 +271,7 @@ public class DNSOutputSpockTest extends Specification {
 	when:
 	m_do.restore()
 	then:
-	mgu.equals( 4, m_do.current() )
+	4 == m_do.current()
 
 	when:
 	    m_do.restore()

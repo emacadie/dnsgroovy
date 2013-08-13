@@ -41,8 +41,6 @@ import spock.lang.Specification
 
 public class DNSInputSpockTest extends Specification {
 
-    def mgu = new MyGroovyUtil()
-    def mga = new MyGroovyAssert()
     private byte[]	m_raw
     private DNSInput	m_di
 
@@ -59,22 +57,22 @@ public class DNSInputSpockTest extends Specification {
 
     def "test_initial_state"() {
 	expect:
-	mgu.equals( 0, m_di.current() )
-	mgu.equals( 10, m_di.remaining() )
+	 0 == m_di.current() 
+	 10 == m_di.remaining() 
     }
 
     def "test_jump1"() {
 	m_di.jump( 1 )
 	expect:
-	mgu.equals( 1, m_di.current() )
-	mgu.equals( 9, m_di.remaining() )
+	 1 == m_di.current() 
+	 9 == m_di.remaining() 
     }
     
     def "test_jump2"() {
 	m_di.jump( 9 )
 	expect:
-	mgu.equals( 9, m_di.current() )
-	mgu.equals( 1, m_di.remaining() )
+	 9 == m_di.current() 
+	 1 == m_di.remaining() 
     }
 
     def "test_jump_invalid"() {
@@ -87,22 +85,22 @@ public class DNSInputSpockTest extends Specification {
     def "test_setActive"() {
 	m_di.setActive( 5 )
 	expect:
-	mgu.equals( 0, m_di.current() )
-	mgu.equals( 5, m_di.remaining() )
+	 0 == m_di.current() 
+	 5 == m_di.remaining() 
     }
     
     def "test_setActive_boundary1"() {
 	m_di.setActive( 10 )
 	expect:
-	mgu.equals( 0, m_di.current() )
-	mgu.equals( 10, m_di.remaining() )
+	 0 == m_di.current() 
+	 10 == m_di.remaining() 
     }
 
     def "test_setActive_boundary2"() {
 	m_di.setActive( 0 )
 	expect:
-	mgu.equals( 0, m_di.current() )
-	mgu.equals( 0, m_di.remaining() )
+	 0 == m_di.current() 
+	 0 == m_di.remaining() 
     }
     
     def "test_setActive_invalid"() {
@@ -117,15 +115,15 @@ public class DNSInputSpockTest extends Specification {
 	// first without setting active:
 	m_di.clearActive()
 	then:
-	mgu.equals( 0, m_di.current() )
-	mgu.equals( 10, m_di.remaining() )
+	 0 == m_di.current() 
+	 10 == m_di.remaining() 
 
 	when:
 	m_di.setActive( 5 )
 	m_di.clearActive()
 	then:
-	mgu.equals( 0, m_di.current() )
-	mgu.equals( 10, m_di.remaining() )
+	 0 == m_di.current() 
+	 10 == m_di.remaining() 
     }
 
     def "test_restore_invalid"() {
@@ -139,36 +137,36 @@ public class DNSInputSpockTest extends Specification {
 	when:
 	m_di.jump( 4 )
 	then:
-	mgu.equals( 4, m_di.current() )
-	mgu.equals( 6, m_di.remaining() )
+	 4 == m_di.current() 
+	 6 == m_di.remaining() 
 	when:
 	m_di.save()
 	m_di.jump( 0 )
 	then:
-	mgu.equals( 0, m_di.current() )
-	mgu.equals( 10, m_di.remaining() )
+	 0 == m_di.current() 
+	 10 == m_di.remaining() 
 	when:
 	m_di.restore()
 	then:
-	mgu.equals( 4, m_di.current() )
-	mgu.equals( 6, m_di.remaining() )
+	 4 == m_di.current() 
+	 6 == m_di.remaining() 
     }
 
     def "test_readU8_basic"() throws WireParseException {
 	int v1 = m_di.readU8()
 	expect:
-	mgu.equals( 1, m_di.current() )
-	mgu.equals( 9, m_di.remaining() )
-	mgu.equals( 0, v1 )
+	 1 == m_di.current() 
+	 9 == m_di.remaining() 
+	 0 == v1 
     }
 
     def "test_readU8_maxval"() throws WireParseException {
 	m_di.jump( 9 )
 	int v1 = m_di.readU8()
 	expect:
-	mgu.equals( 10, m_di.current() )
-	mgu.equals( 0, m_di.remaining() )
-	mgu.equals( 255, v1 )
+	 10 == m_di.current() 
+	 0 == m_di.remaining() 
+	 255 == v1 
 
 	when:
 	    v1 = m_di.readU8()
@@ -179,22 +177,22 @@ public class DNSInputSpockTest extends Specification {
     def "test_readU16_basic"() throws WireParseException {
 	int v1 = m_di.readU16()
 	expect:
-	mgu.equals( 2, m_di.current() )
-	mgu.equals( 8, m_di.remaining() )
-	mgu.equals( 1, v1 )
+	 2 == m_di.current() 
+	 8 == m_di.remaining() 
+	 1 == v1 
 	when:
 	m_di.jump( 1 )
 	v1 = m_di.readU16()
-	then: mgu.equals( 258, v1 )
+	then:  258 == v1 
     }
 
     def "test_readU16_maxval"() throws WireParseException  {
 	m_di.jump(8)
 	int v = m_di.readU16()
 	expect:
-	mgu.equals( 10, m_di.current() )
-	mgu.equals( 0, m_di.remaining() )
-	mgu.equals( 0xFFFF, v )
+	 10 == m_di.current() 
+	 0 == m_di.remaining() 
+	 0xFFFF == v 
 	
 	when:
 	    m_di.jump( 9 )
@@ -206,18 +204,18 @@ public class DNSInputSpockTest extends Specification {
     def "test_readU32_basic"() throws WireParseException {
 	long v1 = m_di.readU32()
 	expect:
-	mgu.equals( 4, m_di.current() )
-	mgu.equals( 6, m_di.remaining() )
-	mgu.equals( 66051, v1.intValue() )
+	 4 == m_di.current() 
+	 6 == m_di.remaining() 
+	 66051 == v1.intValue() 
     }
 
     def "test_readU32_maxval"() throws WireParseException {
 	m_di.jump(6)
 	long v = m_di.readU32()
 	expect:
-	mgu.equals( 10, m_di.current() )
-	mgu.equals( 0, m_di.remaining() )
-	mgu.equals( 0xFFFFFFFFL, v )
+	 10 == m_di.current() 
+	 0 == m_di.remaining() 
+	 0xFFFFFFFFL == v 
 	
 	when:
 	    m_di.jump( 7 )
@@ -231,11 +229,11 @@ public class DNSInputSpockTest extends Specification {
 	m_di.jump( 1 )
 	byte[] out = m_di.readByteArray()
 	then:
-	mgu.equals( 10, m_di.current() )
-	mgu.equals( 0, m_di.remaining() )
-	mgu.equals( 9, out.length )
+	 10 == m_di.current() 
+	 0 == m_di.remaining() 
+	 9 == out.length 
         for ( i in 0..8 ) {
-	    mgu.equals( m_raw[i+1], out[i] )
+	     m_raw[i+1] == out[i] 
 	}
     }
     
@@ -244,26 +242,26 @@ public class DNSInputSpockTest extends Specification {
 	m_di.readU8()
 	byte[] out = m_di.readByteArray()
 	expect:
-	mgu.equals( 0, out.length )
+	 0 == out.length 
     }
 
     def "test_readByteArray_1arg"() throws WireParseException {
 	byte[] out = m_di.readByteArray( 2 )
 	expect:
-	mgu.equals( 2, m_di.current() )
-	mgu.equals( 8, m_di.remaining() )
-	mgu.equals( 2, out.length )
-	mgu.equals( 0.byteValue(), out[0] )
-	mgu.equals( 1.byteValue(), out[1] )
+	 2 == m_di.current() 
+	 8 == m_di.remaining() 
+	 2 == out.length 
+	 0.byteValue() == out[0] 
+	 1.byteValue() == out[1] 
     }
 
     def "test_readByteArray_1arg_boundary"() throws WireParseException {
 	byte[] out = m_di.readByteArray( 10 )
 	expect:
-	mgu.equals( 10, m_di.current() )
-	mgu.equals( 0, m_di.remaining() )
-	// mgu.equals( m_raw, out )
-	mga.that(Arrays.equals(m_raw, out))
+	 10 == m_di.current() 
+	 0 == m_di.remaining() 
+	//  m_raw == out 
+	m_raw == out
     }
 
     def "test_readByteArray_1arg_invalid"() {
@@ -280,10 +278,10 @@ public class DNSInputSpockTest extends Specification {
 	
 	m_di.readByteArray( data, 1, 4 )
 	expect:
-	mgu.equals( 8, m_di.current() )
-	mgu.equals( 0.byteValue(), data[0] )
+	 8 == m_di.current() 
+	 0.byteValue() == data[0] 
 	for ( i in 0..3 ) {
-	    mgu.equals( m_raw[i+4], data[i+1] )
+	     m_raw[i+4] == data[i+1] 
 	}
     }
     
@@ -294,8 +292,8 @@ public class DNSInputSpockTest extends Specification {
 	// println("2: " + 2.getClass().getName())
 
 	expect:
-	mgu.equals( 1, out.length )
-	mgu.equals( 3, m_di.current() )
-	mgu.equals( out[0], 2.byteValue() )
+	 1 == out.length 
+	 3 == m_di.current() 
+	 out[0] == 2.byteValue() 
     }
 }

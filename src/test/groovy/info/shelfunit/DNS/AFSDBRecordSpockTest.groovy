@@ -35,18 +35,18 @@
 // package org.xbill.DNS
 package info.shelfunit.DNS
 
-import	java.util.Arrays
-import	junit.framework.TestCase
+import java.util.Arrays
+import junit.framework.TestCase
 import spock.lang.Specification
 import org.xbill.DNS.*
 
 public class AFSDBRecordSpockTest extends Specification {
-    def mgu = new MyGroovyUtil()
 
     def "test_getObject"() {
 	AFSDBRecord d = new AFSDBRecord()
 	Record r = d.getObject()
-	expect: r instanceof AFSDBRecord
+	expect: 
+	    r instanceof AFSDBRecord
     }
 
     public void "test_ctor_5arg"() throws TextParseException {
@@ -57,12 +57,12 @@ public class AFSDBRecordSpockTest extends Specification {
 	AFSDBRecord d = new AFSDBRecord(n, DClass.IN, 0xABCDEL, 0xF1, m)
 	
 	then:
-	mgu.equals(n,  d.getName())
-	mgu.equals(Type.AFSDB, d.getType())
-	mgu.equals(DClass.IN, d.getDClass())
-	mgu.equals(0xABCDEL, d.getTTL())
-	mgu.equals(0xF1, d.getSubtype())
-	mgu.equals(m, d.getHost())
+	n ==  d.getName()
+	Type.AFSDB == d.getType()
+	DClass.IN == d.getDClass()
+	0xABCDEL == d.getTTL()
+	0xF1 == d.getSubtype()
+	m == d.getHost()
     }
 
 }

@@ -40,7 +40,6 @@ import spock.lang.Specification
 
 public class TTLSpockTest extends Specification {
 
-    def mgu = new MyGroovyUtil()
     def private final long S = 1
     def private final long M = 60*S
     def private final long H = 60*M
@@ -49,27 +48,27 @@ public class TTLSpockTest extends Specification {
 
     def "test_parseTTL"() {
 	expect:
-	mgu.equals(9876, TTL.parseTTL("9876").intValue())
+	9876 == TTL.parseTTL("9876").intValue()
 
-	mgu.equals(0, TTL.parseTTL("0S").intValue())
-	mgu.equals(0, TTL.parseTTL("0M").intValue())
-	mgu.equals(0, TTL.parseTTL("0H").intValue())
-	mgu.equals(0, TTL.parseTTL("0D").intValue())
-	mgu.equals(0L, TTL.parseTTL("0W"))
+	0 == TTL.parseTTL("0S").intValue()
+	0 == TTL.parseTTL("0M").intValue()
+	0 == TTL.parseTTL("0H").intValue()
+	0 == TTL.parseTTL("0D").intValue()
+	0L == TTL.parseTTL("0W")
 
-	mgu.equals(S, TTL.parseTTL("1s"))
-	mgu.equals(M, TTL.parseTTL("1m"))
-	mgu.equals(H, TTL.parseTTL("1h"))
-	mgu.equals(D, TTL.parseTTL("1d"))
-	mgu.equals(W, TTL.parseTTL("1w"))
+	S == TTL.parseTTL("1s")
+	M == TTL.parseTTL("1m")
+	H == TTL.parseTTL("1h")
+	D == TTL.parseTTL("1d")
+	W == TTL.parseTTL("1w")
 
-	mgu.equals(98*S, TTL.parseTTL("98S"))
-	mgu.equals(76*M, TTL.parseTTL("76M"))
-	mgu.equals(54*H, TTL.parseTTL("54H"))
-	mgu.equals(32*D, TTL.parseTTL("32D"))
-	mgu.equals(10*W, TTL.parseTTL("10W"))
+	98*S == TTL.parseTTL("98S")
+	76*M == TTL.parseTTL("76M")
+	54*H == TTL.parseTTL("54H")
+	32*D == TTL.parseTTL("32D")
+	10*W == TTL.parseTTL("10W")
 
-	mgu.equals(98*S+11*M+1234*H+2*D+W, TTL.parseTTL("98S11M1234H2D01W"))
+	98*S+11*M+1234*H+2*D+W == TTL.parseTTL("98S11M1234H2D01W")
     }
 
     def "test_parseTTL_invalid"() {
@@ -106,22 +105,22 @@ public class TTLSpockTest extends Specification {
 
     def "test_format"() {
 	expect:
-	mgu.equals("0S", TTL.format(0))
-	mgu.equals("1S", TTL.format(1))
-	mgu.equals("59S", TTL.format(59))
-	mgu.equals("1M", TTL.format(60))
-	mgu.equals("59M", TTL.format(59*M))
-	mgu.equals("1M33S", TTL.format(M+33))
-	mgu.equals("59M59S", TTL.format(59*M+59*S))
-	mgu.equals("1H", TTL.format(H))
-	mgu.equals("10H1M21S", TTL.format(10*H+M+21))
-	mgu.equals("23H59M59S", TTL.format(23*H+59*M+59))
-	mgu.equals("1D", TTL.format(D))
-	mgu.equals("4D18H45M30S", TTL.format(4*D+18*H+45*M+30))
-	mgu.equals("6D23H59M59S", TTL.format(6*D+23*H+59*M+59))
-	mgu.equals("1W", TTL.format(W))
-	mgu.equals("10W4D1H21M29S", TTL.format(10*W+4*D+H+21*M+29))
-	mgu.equals("3550W5D3H14M7S", TTL.format(0x7FFFFFFFL))
+	"0S" == TTL.format(0)
+	"1S" == TTL.format(1)
+	"59S" == TTL.format(59)
+	"1M" == TTL.format(60)
+	"59M" == TTL.format(59*M)
+	"1M33S" == TTL.format(M+33)
+	"59M59S" == TTL.format(59*M+59*S)
+	"1H" == TTL.format(H)
+	"10H1M21S" == TTL.format(10*H+M+21)
+	"23H59M59S" == TTL.format(23*H+59*M+59)
+	"1D" == TTL.format(D)
+	"4D18H45M30S" == TTL.format(4*D+18*H+45*M+30)
+	"6D23H59M59S" == TTL.format(6*D+23*H+59*M+59)
+	"1W" == TTL.format(W)
+	"10W4D1H21M29S" == TTL.format(10*W+4*D+H+21*M+29)
+	"3550W5D3H14M7S" == TTL.format(0x7FFFFFFFL)
     }
 
     def "test_format_invalid"() {

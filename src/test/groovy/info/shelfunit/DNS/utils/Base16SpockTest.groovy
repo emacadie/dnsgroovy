@@ -40,8 +40,6 @@ import spock.lang.Specification
 
 public class Base16SpockTest extends Specification {
 
-    def mgu = new MyGroovyUtil()
-
     /*
     public Base16Test( String name )
     {
@@ -51,49 +49,49 @@ public class Base16SpockTest extends Specification {
     def "test_toString_emptyArray"() {
 	String out = Base16.toString( new byte[ 0 ] )
 	expect:
-	mgu.equals( "", out )
+	"" == out
     }
 
     def "test_toString_singleByte1"() {
 	byte[] data = [ (byte)1 ]
 	String out = Base16.toString( data )
 	expect:
-	mgu.equals( "01", out )
+	"01" == out
     }
 
     def "test_toString_singleByte2"() {
 	byte[] data = [ (byte)16 ]
 	String out = Base16.toString( data )
 	expect:
-	mgu.equals( "10", out )
+	"10" == out
     }
 
     def "test_toString_singleByte3"() {
 	byte[] data = [ (byte)255 ]
 	String out = Base16.toString( data )
 	expect:
-	mgu.equals( "FF", out )
+	"FF" == out
     }
 
     def "test_toString_array1"() {
 	def byte[] data = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ] 
 	String out = Base16.toString( data )
 	expect:
-	mgu.equals( "0102030405060708090A0B0C0D0E0F", out )
+	"0102030405060708090A0B0C0D0E0F" == out
     }
 
     def "test_fromString_emptyString"() {
 	String data = ""
 	byte[] out = Base16.fromString( data )
 	expect:
-	mgu.equals( 0, out.length )
+	0 == out.length
     }
 
     def "test_fromString_invalidStringLength"() {
 	String data = "1"
 	byte[] out = Base16.fromString( data )
 	expect:
-	mgu.equals( null, out )
+	null == out
     }
 
     def "test_fromString_nonHexChars"() {
@@ -111,9 +109,9 @@ public class Base16SpockTest extends Specification {
 	byte[] out = Base16.fromString( data )
 	def byte[] exp = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ] 
 	then:
-	mgu.equals( exp.length, out.length )
+	exp.length == out.length
 	for ( int i = 0; i < exp.length; ++i ) {
-	    mgu.equals( exp[i], out[i] )
+	    expect: exp[i] == out[i]
 	}
     }
 }

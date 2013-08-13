@@ -39,14 +39,13 @@ import org.xbill.DNS.*
 import spock.lang.Specification
 
 public class MRRecordSpockTest extends Specification {
-    def mgu = new MyGroovyUtil()
 
     def "test_ctor_0arg"() {
 	when:
 	MRRecord d = new MRRecord()
 	then:
-	mgu.equals(d.getName(), null)
-	mgu.equals(d.getNewName(), null)
+	d.getName() == null
+	d.getNewName() == null
     }
     
     def "test_ctor_4arg"() throws TextParseException {
@@ -57,11 +56,11 @@ public class MRRecordSpockTest extends Specification {
 	MRRecord d = new MRRecord(n, DClass.IN, 0xABCDEL, a)
 
 	then:
-	mgu.equals(n, d.getName())
-	mgu.equals(Type.MR, d.getType())
-	mgu.equals(DClass.IN, d.getDClass())
-	mgu.equals(0xABCDEL, d.getTTL())
-	mgu.equals(a, d.getNewName())
+	n == d.getName()
+	Type.MR == d.getType()
+	DClass.IN == d.getDClass()
+	0xABCDEL == d.getTTL()
+	a == d.getNewName()
     }
 
     def "test_getObject"() {

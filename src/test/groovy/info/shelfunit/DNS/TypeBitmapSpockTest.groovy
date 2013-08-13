@@ -31,7 +31,6 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// 
 // package info.shelfunit.DNS
 package org.xbill.DNS
 
@@ -40,23 +39,22 @@ import info.shelfunit.DNS.*
 import spock.lang.Specification
 
 public class TypeBitmapSpockTest extends Specification {
-    def mgu = new MyGroovyUtil()
 
     def "test_empty"() {
       def int [] a_i = [] // as int
       TypeBitmap typeBitmap = new TypeBitmap(a_i)
-      expect: mgu.equals(typeBitmap.toString(), "")
+      expect: typeBitmap.toString() == ""
     }
     
     def "test_typeA"() {
       def int[] a_i = [ 1 ] 
       TypeBitmap typeBitmap = new TypeBitmap(a_i)
-      expect: mgu.equals(typeBitmap.toString(), "A")
+      expect: typeBitmap.toString() == "A"
     }
     
     def "test_typeNSandSOA"() {
       def int[] int_map = [ 2, 6 ]
       TypeBitmap typeBitmap = new TypeBitmap(int_map)
-      expect: mgu.equals(typeBitmap.toString(), "NS SOA")
+      expect: typeBitmap.toString() == "NS SOA"
     }
 }

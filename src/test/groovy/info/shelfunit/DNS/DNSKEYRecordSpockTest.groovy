@@ -44,23 +44,20 @@ import spock.lang.Specification
 
 public class DNSKEYRecordSpockTest extends Specification {
 
-    def mgu = new MyGroovyUtil()
-    def mga = new MyGroovyAssert()
-
     def "test_ctor_0arg"() throws UnknownHostException {
 	when:
 	DNSKEYRecord ar = new DNSKEYRecord()
 
 	then:
-	mgu.equals(ar.getName(), null)
-	mgu.equals(0, ar.getType())
-	mgu.equals(0, ar.getDClass())
-	mgu.equals(0, ar.getTTL().intValue())
-	mgu.equals(0, ar.getAlgorithm())
-	mgu.equals(0, ar.getFlags())
-	mgu.equals(0, ar.getFootprint())
-	mgu.equals(0, ar.getProtocol())
-	mgu.equals(ar.getKey(), null)
+	ar.getName() == null
+	0 == ar.getType()
+	0 == ar.getDClass()
+	0 == ar.getTTL().intValue()
+	0 == ar.getAlgorithm()
+	0 == ar.getFlags()
+	0 == ar.getFootprint()
+	0 == ar.getProtocol()
+	ar.getKey() == null
     }
     
     def "test_getObject"() {
@@ -68,7 +65,7 @@ public class DNSKEYRecordSpockTest extends Specification {
 	DNSKEYRecord ar = new DNSKEYRecord()
 	Record r = ar.getObject()
 	then:
-	mga.that(r instanceof DNSKEYRecord)
+	r instanceof DNSKEYRecord
     }
     
     def "test_ctor_7arg"() throws TextParseException {
@@ -80,14 +77,14 @@ public class DNSKEYRecordSpockTest extends Specification {
 	DNSKEYRecord kr = new DNSKEYRecord(n, DClass.IN, 0x24AC, 0x9832, 0x12, 0x67, key.toArray(new byte[key.size]))
 	
 	then:
-	mgu.equals(n, kr.getName())
-	mgu.equals(Type.DNSKEY, kr.getType())
-	mgu.equals(DClass.IN, kr.getDClass())
-	mgu.equals(0x24AC, kr.getTTL().intValue())
-	mgu.equals(0x9832, kr.getFlags())
-	mgu.equals(0x12, kr.getProtocol())
-	mgu.equals(0x67, kr.getAlgorithm())
-	mga.that(Arrays.equals(key.toArray(new byte[key.size]), kr.getKey()))
+	n == kr.getName()
+	Type.DNSKEY == kr.getType()
+	DClass.IN == kr.getDClass()
+	0x24AC == kr.getTTL().intValue()
+	0x9832 == kr.getFlags()
+	0x12 == kr.getProtocol()
+	0x67 == kr.getAlgorithm()
+	key.toArray(new byte[key.size]) == kr.getKey()
 
 	// a relative name
 	when:
@@ -106,10 +103,10 @@ public class DNSKEYRecordSpockTest extends Specification {
 	def b_a = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ].collect{ entry -> ( byte ) entry }
 
 	then:
-	mgu.equals(0xABCD, kr.getFlags())
-	mgu.equals(0x81, kr.getProtocol())
-	mgu.equals(DNSSEC.Algorithm.RSASHA1, kr.getAlgorithm())
-	mga.that(Arrays.equals(b_a.toArray(new byte[b_a.size]), kr.getKey()))
+	0xABCD == kr.getFlags()
+	0x81 == kr.getProtocol()
+	DNSSEC.Algorithm.RSASHA1 == kr.getAlgorithm()
+	b_a.toArray(new byte[b_a.size]) == kr.getKey()
 
 	// invalid algorithm
 

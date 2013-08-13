@@ -49,8 +49,6 @@ public class ARecordSpockTest extends Specification {
     def String m_addr_string
     def byte[] m_addr_bytes
     def long m_ttl
-    def mgu = new MyGroovyUtil()
-    def mga = new MyGroovyAssert()
 
     def setup() throws TextParseException, UnknownHostException {
 	m_an = Name.fromString("My.Absolute.Name.")
@@ -64,28 +62,29 @@ public class ARecordSpockTest extends Specification {
     def "test_ctor_0arg"() throws UnknownHostException {
 	ARecord ar = new ARecord()
 	expect:
-	mgu.equals(null, ar.getName())
-	mgu.equals(0, ar.getType())
-	mgu.equals(0, ar.getDClass())
-	mgu.equals(0, ar.getTTL().intValue())
-	// mgu.equals(InetAddress.getByName("0.0.0.0"), ar.getAddress())
+	null == ar.getName()
+	0 == ar.getType()
+	0 == ar.getDClass()
+	0 == ar.getTTL().intValue()
+	// InetAddress.getByName("0.0.0.0") == ar.getAddress()
     }
     
     def "test_getObject"() {
 	ARecord ar = new ARecord()
 	Record r = ar.getObject()
-        expect: mga.that(r instanceof ARecord)
+        expect: 
+        r instanceof ARecord
     }
     
     def "test_ctor_4arg"() {
 	when:
 	ARecord ar = new ARecord(m_an, DClass.IN, m_ttl, m_addr)
 	then:
-	mgu.equals(m_an, ar.getName())
-	mgu.equals(Type.A, ar.getType())
-	mgu.equals(DClass.IN, ar.getDClass())
-	mgu.equals(m_ttl, ar.getTTL())
-	mgu.equals(m_addr, ar.getAddress())
+	m_an == ar.getName()
+	Type.A == ar.getType()
+	DClass.IN == ar.getDClass()
+	m_ttl == ar.getTTL()
+	m_addr == ar.getAddress()
 
 	// a relative name
 	when:
@@ -110,7 +109,7 @@ public class ARecordSpockTest extends Specification {
 
 	// ar.rrFromWire(di)
 	
-	// mgu.equals(m_addr, ar.getAddress())
+	// m_addr == ar.getAddress()
     }
     */
 
@@ -120,7 +119,7 @@ public class ARecordSpockTest extends Specification {
 
 	ar.rdataFromString(t, null)
 
-	// mgu.equals(m_addr, ar.getAddress())
+	// m_addr == ar.getAddress()
 
 	// invalid address
 	t = new Tokenizer("193.160.232")
@@ -133,7 +132,7 @@ public class ARecordSpockTest extends Specification {
     
     def "test_rrToString"() {
 	ARecord ar = new ARecord(m_an, DClass.IN, m_ttl, m_addr)
-	expect: mgu.equals(m_addr_string, ar.rrToString())
+	expect: m_addr_string == ar.rrToString()
     }
     
     def "test_rrToWire"() {
@@ -143,12 +142,12 @@ public class ARecordSpockTest extends Specification {
 
 	ar.rrToWire(dout, null, true)
 	then:
-	mga.that(Arrays.equals(m_addr_bytes, dout.toByteArray()))
+	m_addr_bytes == dout.toByteArray()
 	when:
 	dout = new DNSOutput()
 	ar.rrToWire(dout, null, false)
 	then:
-	mga.that(Arrays.equals(m_addr_bytes, dout.toByteArray()))
+	m_addr_bytes == dout.toByteArray()
     }
 
 }

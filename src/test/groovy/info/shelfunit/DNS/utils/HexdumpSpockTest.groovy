@@ -42,8 +42,6 @@ import spock.lang.Specification
 
 public class HexdumpSpockTest extends Specification {
 
-    def mgu = new MyGroovyUtil()
-
     /*
     public HexdumpTest( String name )
     {
@@ -72,103 +70,120 @@ public class HexdumpSpockTest extends Specification {
 	String long_out = Hexdump.dump( desc, data, 0, data.length )
 	String short_out = Hexdump.dump( desc, data )
 
-	expect: mgu.equals( long_out, short_out )
+	expect: 
+	    long_out == short_out
     }
 
     def "test_0"() {
 	def byte [] data = [ 1, 0, 2 ] 
 	String out = Hexdump.dump( null, data, 1, 1 )
-	expect: mgu.equals( "1b:\t00 \n", out )
+	expect: 
+	    "1b:\t00 \n" == out 
     }
 
     def "test_1"() {
 	def byte[] data = [ 2, 1, 3 ] 
 	String out = Hexdump.dump( null, data, 1, 1 )
-	expect: mgu.equals( "1b:\t01 \n", out )
+	expect: 
+	    "1b:\t01 \n" == out
     }
 
     def "test_2"() {
 	def byte[] data = [ 1, 2, 3 ] 
 	String out = Hexdump.dump( null, data, 1, 1 )
-	expect: mgu.equals( "1b:\t02 \n", out )
+	expect: 
+	    "1b:\t02 \n" == out
     }
 
     def "test_3"() {
 	def byte[] data = [ 1, 3, 2 ] 
 	String out = Hexdump.dump( null, data, 1, 1 )
-	expect: mgu.equals( "1b:\t03 \n", out )
+	expect: 
+	"1b:\t03 \n" == out
     }
 
     def "test_4"() {
 	def byte[] data = [ 1, 4, 2 ] 
 	String out = Hexdump.dump( null, data, 1, 1 )
-	expect: mgu.equals( "1b:\t04 \n", out )
+	expect: 
+	    "1b:\t04 \n" == out
     }
 
     def "test_5"() {
 	def byte[] data = [ 1, 5, 2 ] 
 	String out = Hexdump.dump( null, data, 1, 1 )
-	expect: mgu.equals( "1b:\t05 \n", out )
+	expect: 
+	    "1b:\t05 \n" == out 
     }
 
     def "test_6"() {
 	def byte[] data = [ 1, 6, 2 ] 
 	String out = Hexdump.dump( null, data, 1, 1 )
-	expect: mgu.equals( "1b:\t06 \n", out )
+	expect: 
+	"1b:\t06 \n" == out
     }
 
     def "test_7"() {
 	def byte[] data = [ 1, 7, 2 ] 
 	String out = Hexdump.dump( null, data, 1, 1 )
-	expect: mgu.equals( "1b:\t07 \n", out )
+	expect: 
+	    "1b:\t07 \n" == out
     }
 
     def "test_8"() {
 	def byte[] data = [ 1, 8, 2 ] 
 	String out = Hexdump.dump( null, data, 1, 1 )
-	expect: mgu.equals( "1b:\t08 \n", out )
+	expect: 
+	    "1b:\t08 \n" == out
     }
 
     def "test_9"() {
 	def byte[] data = [ 1, 9, 2 ] 
 	String out = Hexdump.dump( null, data, 1, 1 )
-	expect: mgu.equals( "1b:\t09 \n", out )
+	expect: 
+	    "1b:\t09 \n" == out
     }
 
     def "test_10"() {
 	def byte[] data = [ 1, 10, 2 ] 
 	String out = Hexdump.dump( null, data, 1, 1 )
-	expect: mgu.equals( "1b:\t0A \n", out )
+	expect: 
+	    "1b:\t0A \n" == out
     }
 
     def "test_11"() {
 	def byte[] data = [ 1, 11, 2 ] 
 	String out = Hexdump.dump( null, data, 1, 1 )
-	expect: mgu.equals( "1b:\t0B \n", out )
+	expect: 
+	    "1b:\t0B \n" == out
     }
 
     def "test_12"() {
 	def byte[] data = [ 1, 12, 2 ] 
 	String out = Hexdump.dump( null, data, 1, 1 )
-	expect: mgu.equals( "1b:\t0C \n", out )
+	expect: 
+	    "1b:\t0C \n" == out
     }
 
     def "test_13"() {
 	def byte[] data = [ 1, 13, 2 ] 
 	String out = Hexdump.dump( null, data, 1, 1 )
-	expect: mgu.equals( "1b:\t0D \n", out )
+	expect: 
+	    "1b:\t0D \n" == out
     }
 
     def "test_14"() {
 	def byte[] data = [ 1, 14, 2 ] 
 	String out = Hexdump.dump( null, data, 1, 1 )
-	expect: mgu.equals( "1b:\t0E \n", out )
+	expect: 
+	    "1b:\t0E \n" == out
     }
 
     def "test_15"() {
 	def byte[] data = [ 1, 15, 2 ] 
 	String out = Hexdump.dump( null, data, 1, 1 )
-	expect: mgu.equals( "1b:\t0F \n", out )
+	expect: 
+	    "1b:\t0F \n" == out
     }
 
     // strictly for stupid code coverage...a useless test

@@ -46,9 +46,6 @@ import org.xbill.DNS.APLRecord.Element
 import org.xbill.DNS.*
 
 public class APLRecordSpockTest extends Specification {
-    
-    def mgu = new MyGroovyUtil()
-    def mga = new MyGroovyAssert()
 
 	InetAddress m_addr4
 	InetAddress m_addr6
@@ -71,10 +68,10 @@ public class APLRecordSpockTest extends Specification {
 	    setup_Element_init()
 	    Element el = new Element(true, m_addr4, 16)
 	    expect:
-	    mgu.equals(Address.IPv4, el.family)
-	    mgu.equals(true, el.negative)
-	    mgu.equals(m_addr4, el.address)
-	    mgu.equals(16, el.prefixLength)
+	    Address.IPv4 == el.family
+	    true == el.negative
+	    m_addr4 == el.address
+	    16 == el.prefixLength
 	}
 	
 	def "test_invalid_IPv4_setup_Element_init"() {
@@ -89,10 +86,10 @@ public class APLRecordSpockTest extends Specification {
 	    setup_Element_init()
 	    Element el = new Element(false, m_addr6, 74)
 	    expect:
-	    mgu.equals(Address.IPv6, el.family)
-	    mgu.equals(false, el.negative)
-	    mgu.equals(m_addr6, el.address)
-	    mgu.equals(74, el.prefixLength)
+	    Address.IPv6 == el.family
+	    false == el.negative
+	    m_addr6 == el.address
+	    74 == el.prefixLength
 	}
 	
 	def "test_invalid_IPv6_setup_Element_init"() {
@@ -129,11 +126,11 @@ public class APLRecordSpockTest extends Specification {
 	    setup_init()
 	    APLRecord ar = new APLRecord()
 	    expect:
-	    mgu.equals(null, ar.getName())
-	    mgu.equals(0, ar.getType())
-	    mgu.equals(0, ar.getDClass())
-	    mgu.equals(0, ar.getTTL().intValue())
-	    mgu.equals(null, ar.getElements())
+	    null == ar.getName()
+	    0 == ar.getType()
+	    0 == ar.getDClass()
+	    0 == ar.getTTL().intValue()
+	    null == ar.getElements()
 	}
 
     def "test_getObject_init"() {
@@ -141,25 +138,25 @@ public class APLRecordSpockTest extends Specification {
 	    APLRecord ar = new APLRecord()
 	    Record r = ar.getObject()
 	    expect:
-	    mga.that(r instanceof APLRecord)
+	    r instanceof APLRecord
     }
 
 	def "test_4arg_basic_init"() {
 	    setup_init()
 	    APLRecord ar = new APLRecord(m_an, DClass.IN, m_ttl, m_elements)
 	    expect:
-	    mgu.equals(m_an, ar.getName())
-	    mgu.equals(Type.APL, ar.getType())
-	    mgu.equals(DClass.IN, ar.getDClass())
-	    mgu.equals(m_ttl, ar.getTTL())
-	    mgu.equals(m_elements, ar.getElements())
+	    m_an == ar.getName()
+	    Type.APL == ar.getType()
+	    DClass.IN == ar.getDClass()
+	    m_ttl == ar.getTTL()
+	    m_elements == ar.getElements()
 	}
 	
 	def "test_4arg_empty_elements_init"() {
 	    setup_init()
 	    APLRecord ar = new APLRecord(m_an, DClass.IN, m_ttl, new ArrayList())
 	    expect:
-	    mgu.equals(new ArrayList(), ar.getElements())
+	    new ArrayList() == ar.getElements()
 	}
     
         def "test_4arg_relative_name_init"() {
@@ -203,7 +200,7 @@ public class APLRecordSpockTest extends Specification {
 	    ArrayList exp = new ArrayList()
 	    exp.add(new Element(true, m_addr4, 8))
 	    expect:
-	    mgu.equals(exp, ar.getElements())
+	    exp == ar.getElements()
 	}
 	
 	def "test_validIPv4_short_address_rrFromWire"() throws IOException {
@@ -221,7 +218,7 @@ public class APLRecordSpockTest extends Specification {
 	    ArrayList exp = new ArrayList()
 	    exp.add(new Element(true, a, 20))
 	    expect:
-	    mgu.equals(exp, ar.getElements())
+	    exp == ar.getElements()
 	}
 	
 	def "test_invalid_IPv4_prefix_rrFromWire"() throws IOException {
@@ -269,7 +266,7 @@ public class APLRecordSpockTest extends Specification {
 	    exp.add(new Element(true, m_addr4, 8))
 	    exp.add(new Element(false, m_addr4, 30))
 	    expect:
-	    mgu.equals(exp, ar.getElements())
+	    exp == ar.getElements()
 	}
 	
     def "test_validIPv6_rrFromWire"() throws IOException {
@@ -291,7 +288,7 @@ public class APLRecordSpockTest extends Specification {
 	    ArrayList exp = new ArrayList()
 	    exp.add(new Element(false, m_addr6, 115))
 	    expect:
-	    mgu.equals(exp, ar.getElements())
+	    exp == ar.getElements()
 	}
 
 	def "test_valid_nonIP_rrFromWire"() throws IOException {
@@ -304,19 +301,19 @@ public class APLRecordSpockTest extends Specification {
 	    
 	    List l = ar.getElements()
 	    expect:
-	    mgu.equals(1, l.size())
+	    1 == l.size()
 	    
 	    when:
 	    Element el = (Element)l.get(0)
 	    then:
-	    mgu.equals(3, el.family)
-	    mgu.equals(true, el.negative)
-	    mgu.equals(130, el.prefixLength)
+	    3 == el.family
+	    true == el.negative
+	    130 == el.prefixLength
 
 	    when:
 	    def b_a = [ 1, 2, 3, 4, 5 ].collect { entry -> (byte) entry }
 	    then:
-	    mga.that(Arrays.equals(b_a.toArray(new byte[b_a.size]), (byte[])el.address))
+	    b_a.toArray(new byte[b_a.size]) == (byte[])el.address
 	}
     
 	protected void setup_rdataFromString() throws TextParseException,
@@ -340,10 +337,10 @@ public class APLRecordSpockTest extends Specification {
 	    exp.add(new Element(false, m_addr4, 11))
 
 	    expect:
-	    mgu.equals(exp, ar.getElements())
+	    exp == ar.getElements()
 	    
 	    // make sure extra token is put back
-	    mgu.equals(Tokenizer.EOL, t.get().type)
+	    Tokenizer.EOL == t.get().type
 	}
 	
     def "test_valid_multi_rdataFromString"() throws IOException {
@@ -356,7 +353,7 @@ public class APLRecordSpockTest extends Specification {
 	    exp.add(new Element(false, m_addr4, 11))
 	    exp.add(new Element(true, m_addr6, 100))
 	    expect:
-	    mgu.equals(exp, ar.getElements())
+	    exp == ar.getElements()
 	}
 	
     def "test_validIPv6_rdataFromString"() throws IOException {
@@ -368,10 +365,10 @@ public class APLRecordSpockTest extends Specification {
 	    ArrayList exp = new ArrayList()
 	    exp.add(new Element(true, m_addr6, 36))
 	    expect:
-	    mgu.equals(exp, ar.getElements())
+	    exp == ar.getElements()
 	    
 	    // make sure extra token is put back
-	    mgu.equals(Tokenizer.EOL, t.get().type)
+	    Tokenizer.EOL == t.get().type
 	}
 	
     def "test_no_colon_rdataFromString"() throws IOException {
@@ -507,8 +504,7 @@ public class APLRecordSpockTest extends Specification {
 	
 	    APLRecord ar = new APLRecord(m_an, DClass.IN, m_ttl, m_elements)
 	    expect:
-	    mgu.equals("!1:" + m_addr4_string + "/12 2:" + m_addr6_string + "/64",
-			 ar.rrToString())
+	    "!1:" + m_addr4_string + "/12 2:" + m_addr6_string + "/64" == 			 ar.rrToString()
 	}
 
 	protected void setup_rrToWire() throws TextParseException, UnknownHostException {
@@ -538,7 +534,7 @@ public class APLRecordSpockTest extends Specification {
 	    
 	    ar.rrToWire(dout, null, true)
 	    expect:
-	    mga.that(Arrays.equals(new byte[0], dout.toByteArray()))
+	    new byte[0] == dout.toByteArray()
 	}
 	
 	def "test_basic_rrToWire"() {
@@ -562,7 +558,7 @@ public class APLRecordSpockTest extends Specification {
 	    
 	    ar.rrToWire(dout, null, true)
 	    expect:
-	    mga.that(Arrays.equals(exp.toArray(new byte[exp.size]), dout.toByteArray()))
+	    exp.toArray(new byte[exp.size]) == dout.toByteArray()
 	}
 	
 	def "test_non_IP_rrToWire"() throws IOException {
@@ -578,7 +574,7 @@ public class APLRecordSpockTest extends Specification {
 	    
 	    ar.rrToWire(dout, null, true)
 	    expect:
-	    mga.that(Arrays.equals(exp.toArray(new byte[exp.size]), dout.toByteArray()))
+	    exp.toArray(new byte[exp.size]) == dout.toByteArray()
 	}
 	
 	def "test_address_with_embedded_zero_rrToWire"() throws UnknownHostException {
@@ -595,7 +591,7 @@ public class APLRecordSpockTest extends Specification {
 	    
 	    ar.rrToWire(dout, null, true)
 	    expect:
-	    mga.that(Arrays.equals(exp.toArray(new byte[exp.size]), dout.toByteArray()))
+	    exp.toArray(new byte[exp.size]) == dout.toByteArray()
 	}
 	
 	def "test_short_address_rrToWire"() throws UnknownHostException {
@@ -612,7 +608,7 @@ public class APLRecordSpockTest extends Specification {
 	    
 	    ar.rrToWire(dout, null, true)
 	    expect:
-	    mga.that(Arrays.equals(exp.toArray(new byte[exp.size]), dout.toByteArray()))
+	    exp.toArray(new byte[exp.size]) == dout.toByteArray()
 	}
 	
 	def "test_wildcard_address_rrToWire"() throws UnknownHostException {
@@ -629,6 +625,6 @@ public class APLRecordSpockTest extends Specification {
 	    
 	    ar.rrToWire(dout, null, true)
 	    expect:
-	    mga.that(Arrays.equals(exp.toArray(new byte[exp.size]), dout.toByteArray()))
+	    exp.toArray(new byte[exp.size]) == dout.toByteArray()
 	}
 }

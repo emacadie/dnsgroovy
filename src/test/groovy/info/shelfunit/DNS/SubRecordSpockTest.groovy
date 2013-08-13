@@ -43,7 +43,6 @@ import java.net.UnknownHostException
 import java.util.Arrays
 import java.util.Date
 
-
 public class SubRecordSpockTest extends Record {
     public SubRecordSpockTest(){}
 

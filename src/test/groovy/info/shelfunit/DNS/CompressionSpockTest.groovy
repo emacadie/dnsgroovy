@@ -41,7 +41,6 @@ import org.xbill.DNS.*
 
 public class CompressionSpockTest extends Specification {
 
-    def mgu = new MyGroovyUtil()
 
     def setup(){
 	Options.set("verbosecompression")
@@ -54,14 +53,14 @@ public class CompressionSpockTest extends Specification {
 	when:
 	c.add(10, n)
 	then: 
-	mgu.equals(10, c.get(n))
+	10 == c.get(n)
 
 	Name n2 = Name.fromString("www.cnn.com.")
 
 	when:
 	c.add(10, n2)
 	then: 
-	mgu.equals(10, c.get(n2))
+	10 == c.get(n2)
     }
 
 }

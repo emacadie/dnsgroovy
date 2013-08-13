@@ -43,14 +43,7 @@ import spock.lang.Specification
 
 public class AddressSpockTest extends Specification {
     
-    def mgu = new MyGroovyUtil()
-    def mga = new MyGroovyAssert()
-	/*
-    private void assertBytesEquals( byte[] exp, byte[] act )
-    {
-	expect: mga.that(Arrays.equals(exp, act))
-    }
-*/
+
     private void assertEquals( int[] exp, int[] act ) {
 	    println("In the method ------------------")
 	assertEquals( exp.length, act.length )
@@ -71,17 +64,17 @@ public class AddressSpockTest extends Specification {
 	byte[] exp = [ (byte)198, (byte)121, (byte)10, (byte)234 ]
 	byte[] ret = Address.toByteArray("198.121.10.234", Address.IPv4)
 	expect:
-	mga.that(Arrays.equals(exp, ret))
+	exp == ret
 	 
 	when:
 	exp = [ 0, 0, 0, 0 ]
 	ret = Address.toByteArray("0.0.0.0", Address.IPv4)
-	then: mga.that(Arrays.equals(exp, ret))
+	then: exp == ret
 
 	when:
 	exp = [ (byte)0xFF, (byte)0xFF, (byte)0xFF, (byte)0xFF ]
 	ret = Address.toByteArray("255.255.255.255", Address.IPv4)
-	then: mga.that(Arrays.equals(exp, ret))
+	then: exp == ret
     }
     
     def "test_toByteArray_IPv4_invalid"() {
@@ -129,17 +122,17 @@ public class AddressSpockTest extends Specification {
 		       (byte)19, (byte)25, (byte)138, (byte)46, 
 		       (byte)3, (byte)112, (byte)115, (byte)52 ]
 	byte[] ret = Address.toByteArray("2001:0db8:85a3:08d3:1319:8a2e:0370:7334", Address.IPv6)
-	expect: mga.that(Arrays.equals(exp, ret))
+	expect: exp == ret
 	when: ret = Address.toByteArray("2001:db8:85a3:8d3:1319:8a2e:370:7334", Address.IPv6)
-	then: mga.that(Arrays.equals(exp, ret)) // assertEquals(exp, ret)
+	then: exp == ret // assertEquals(exp, ret)
 	when: ret = Address.toByteArray("2001:DB8:85A3:8D3:1319:8A2E:370:7334", Address.IPv6)
-	then: mga.that(Arrays.equals(exp, ret)) // assertEquals(exp, ret)
+	then: exp == ret // assertEquals(exp, ret)
 
 	when:
 	exp = [ 0, 0, 0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0, 0, 0 ]
 	ret = Address.toByteArray("0:0:0:0:0:0:0:0", Address.IPv6)
-	then: mga.that(Arrays.equals(exp, ret)) // assertEquals(exp, ret)
+	then: exp == ret // assertEquals(exp, ret)
 
 	when:
 	exp = [ (byte)0xFF, (byte)0xFF, (byte)0xFF, (byte)0xFF,
@@ -147,7 +140,7 @@ public class AddressSpockTest extends Specification {
 		(byte)0xFF, (byte)0xFF, (byte)0xFF, (byte)0xFF,
 		(byte)0xFF, (byte)0xFF, (byte)0xFF, (byte)0xFF ]
 	ret = Address.toByteArray("FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF", Address.IPv6)
-	then: mga.that(Arrays.equals(exp, ret)) // assertEquals(exp, ret)
+	then: exp == ret // assertEquals(exp, ret)
 
 	when:
 	exp = [ (byte)32, (byte)1, (byte)13, (byte)184,
@@ -155,11 +148,11 @@ public class AddressSpockTest extends Specification {
 		(byte)19, (byte)25, (byte)138, (byte)46, 
 		(byte)3, (byte)112, (byte)115, (byte)52 ]
 	ret = Address.toByteArray("2001:0db8:0000:08d3:1319:8a2e:0370:7334", Address.IPv6)
-	then: mga.that(Arrays.equals(exp, ret))// assertEquals(exp, ret)
+	then: exp == ret// assertEquals(exp, ret)
 
 	when:
 	ret = Address.toByteArray("2001:0db8::08d3:1319:8a2e:0370:7334", Address.IPv6)
-	then: mga.that(Arrays.equals(exp, ret)) // assertEquals(exp, ret)
+	then: exp == ret // assertEquals(exp, ret)
 
 	when:
 	exp = [ (byte)0, (byte)0, (byte)0, (byte)0,
@@ -167,10 +160,10 @@ public class AddressSpockTest extends Specification {
 		(byte)19, (byte)25, (byte)138, (byte)46, 
 		(byte)3, (byte)112, (byte)115, (byte)52 ]
 	ret = Address.toByteArray("0000:0000:85a3:08d3:1319:8a2e:0370:7334", Address.IPv6)
-	then: mga.that(Arrays.equals(exp, ret)) // assertEquals(exp, ret)
+	then: exp == ret // assertEquals(exp, ret)
 	when:
 	ret = Address.toByteArray("::85a3:08d3:1319:8a2e:0370:7334", Address.IPv6)
-	then: mga.that(Arrays.equals(exp, ret)) // assertEquals(exp, ret)
+	then: exp == ret // assertEquals(exp, ret)
 
 	when:
 	exp = [ (byte)32, (byte)1, (byte)13, (byte)184,
@@ -178,11 +171,11 @@ public class AddressSpockTest extends Specification {
 		(byte)19, (byte)25, (byte)138, (byte)46, 
 		(byte)0, (byte)0, (byte)0, (byte)0 ]
 	ret = Address.toByteArray("2001:0db8:85a3:08d3:1319:8a2e:0:0", Address.IPv6)
-	then: mga.that(Arrays.equals(exp, ret)) // assertEquals(exp, ret)
+	then: exp == ret // assertEquals(exp, ret)
 
 	when:
 	ret = Address.toByteArray("2001:0db8:85a3:08d3:1319:8a2e::", Address.IPv6)
-	then: mga.that(Arrays.equals(exp, ret)) // assertEquals(exp, ret)
+	then: exp == ret // assertEquals(exp, ret)
 
 	when:
 	exp = [ (byte)32, (byte)1, (byte)13, (byte)184,
@@ -190,13 +183,13 @@ public class AddressSpockTest extends Specification {
 		(byte)0, (byte)0, (byte)0, (byte)0, 
 		(byte)3, (byte)112, (byte)115, (byte)52 ]
 	ret = Address.toByteArray("2001:0db8:0000:0000:0000:0000:0370:7334", Address.IPv6)
-	then: mga.that(Arrays.equals(exp, ret)) // assertEquals(exp, ret)
+	then: exp == ret // assertEquals(exp, ret)
 	when: ret = Address.toByteArray("2001:0db8:0:0:0:0:0370:7334", Address.IPv6)
-	then: mga.that(Arrays.equals(exp, ret)) // assertEquals(exp, ret)
+	then: exp == ret // assertEquals(exp, ret)
 	when: ret = Address.toByteArray("2001:0db8::0:0370:7334", Address.IPv6)
-	then: mga.that(Arrays.equals(exp, ret)) // assertEquals(exp, ret)
+	then: exp == ret // assertEquals(exp, ret)
 	when: ret = Address.toByteArray("2001:db8::370:7334", Address.IPv6)
-	then: mga.that(Arrays.equals(exp, ret)) // assertEquals(exp, ret)
+	then: exp == ret // assertEquals(exp, ret)
 
 	when:
 	exp = [ (byte)32, (byte)1, (byte)13, (byte)184,
@@ -204,7 +197,7 @@ public class AddressSpockTest extends Specification {
 		(byte)19, (byte)25, (byte)138, (byte)46, 
 		(byte)0xC0, (byte)0xA8, (byte)0x59, (byte)0x09 ]
 	ret = Address.toByteArray("2001:0db8:85a3:08d3:1319:8a2e:192.168.89.9", Address.IPv6)
-	then: mga.that(Arrays.equals(exp, ret)) // assertEquals(exp, ret)
+	then: exp == ret // assertEquals(exp, ret)
 
 	when:
 	exp = [ (byte)0, (byte)0, (byte)0, (byte)0,
@@ -212,7 +205,7 @@ public class AddressSpockTest extends Specification {
 		(byte)0, (byte)0, (byte)0, (byte)0, 
 		(byte)0xC0, (byte)0xA8, (byte)0x59, (byte)0x09 ]
 	ret = Address.toByteArray("::192.168.89.9", Address.IPv6)
-	then: mga.that(Arrays.equals(exp, ret)) // assertEquals(exp, ret)
+	then: exp == ret // assertEquals(exp, ret)
 	    
     }
     
@@ -239,17 +232,17 @@ public class AddressSpockTest extends Specification {
     def "test_toArray"() {
 	int[] exp = [ 1, 2, 3, 4 ]
 	int[] ret = Address.toArray("1.2.3.4", Address.IPv4)
-	expect: mga.that(Arrays.equals(exp, ret))
+	expect: exp == ret
 	
 	when:
 	exp = [ 0, 0, 0, 0 ]
 	ret = Address.toArray("0.0.0.0", Address.IPv4)
-	then: mga.that(Arrays.equals(exp, ret))
+	then: exp == ret
 
 	when:
 	exp = [ 255, 255, 255, 255 ]
 	ret = Address.toArray("255.255.255.255", Address.IPv4)
-	then: mga.that(Arrays.equals(exp, ret))
+	then: exp == ret
 
     }
     
@@ -261,8 +254,8 @@ public class AddressSpockTest extends Specification {
 
     def "test_isDottedQuad"() {
 	expect:
-	mga.that(Address.isDottedQuad("1.2.3.4"))
-	mga.that(!Address.isDottedQuad("256.2.3.4"))
+	Address.isDottedQuad("1.2.3.4")
+	!Address.isDottedQuad("256.2.3.4")
     }
     
     def "test_toDottedQuad"() {
@@ -326,9 +319,9 @@ public class AddressSpockTest extends Specification {
 	when:
 	out = Address.getAllByName("cnn.com")
 	then:
-	mga.that(out.length > 1)
+	out.length > 1
 	out.each() {
-	    mga.that(it.getHostName().endsWith("cnn.com")) 
+	    expect: it.getHostName().endsWith("cnn.com") 
 	};
 	    
     }
