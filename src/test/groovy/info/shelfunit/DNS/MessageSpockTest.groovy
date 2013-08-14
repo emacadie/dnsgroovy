@@ -31,7 +31,7 @@
 // THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-//
+
 package info.shelfunit.DNS
 
 import org.xbill.DNS.*
@@ -43,16 +43,13 @@ import spock.lang.Specification
 
 public class MessageSpockTest extends Specification {
 
-    def mgu = new MyGroovyUtil()
-    def mga = new MyGroovyAssert()
-
 	def "test_0arg"() {
 	    Message m = new Message()
 	    expect:
-	    mga.that(Arrays.equals(new Record[0], m.getSectionArray(0)))
-	    mga.that(Arrays.equals(new Record[0], m.getSectionArray(1)))
-	    mga.that(Arrays.equals(new Record[0], m.getSectionArray(2)))
-	    mga.that(Arrays.equals(new Record[0], m.getSectionArray(3)))
+	    new Record[0] == m.getSectionArray(0)
+	    new Record[0] == m.getSectionArray(1)
+	    new Record[0] == m.getSectionArray(2)
+	    new Record[0] == m.getSectionArray(3)
 
 	    when:
 		m.getSectionArray(4)
@@ -61,20 +58,20 @@ public class MessageSpockTest extends Specification {
 	    when:
 	    Header h = m.getHeader()
 	    then:
-	    mgu.equals(0, h.getCount(0))
-	    mgu.equals(0, h.getCount(1))
-	    mgu.equals(0, h.getCount(2))
-	    mgu.equals(0, h.getCount(3))
+	    0 == h.getCount(0)
+	    0 == h.getCount(1)
+	    0 == h.getCount(2)
+	    0 == h.getCount(3)
 	}
 
 	def "test_1arg"() {
 	    Message m = new Message(10)
 	    expect:
-	    mgu.equals(new Header(10).toString(), m.getHeader().toString())
-	    mga.that(Arrays.equals(new Record[0], m.getSectionArray(0)))
-	    mga.that(Arrays.equals(new Record[0], m.getSectionArray(1)))
-	    mga.that(Arrays.equals(new Record[0], m.getSectionArray(2)))
-	    mga.that(Arrays.equals(new Record[0], m.getSectionArray(3)))
+	    new Header(10).toString() == m.getHeader().toString()
+	    new Record[0] == m.getSectionArray(0)
+	    new Record[0] == m.getSectionArray(1)
+	    new Record[0] == m.getSectionArray(2)
+	    new Record[0] == m.getSectionArray(3)
 
 	    when:
 		m.getSectionArray(4)
@@ -84,15 +81,13 @@ public class MessageSpockTest extends Specification {
 	    when:
 	    Header h = m.getHeader()
 	    then:
-	    mgu.equals(0, h.getCount(0))
-	    mgu.equals(0, h.getCount(1))
-	    mgu.equals(0, h.getCount(2))
-	    mgu.equals(0, h.getCount(3))
+	    0 == h.getCount(0)
+	    0 == h.getCount(1)
+	    0 == h.getCount(2)
+	    0 == h.getCount(3)
        }
 
-	def "test_newQuery"() throws TextParseException,
-					   UnknownHostException
-	{
+	def "test_newQuery"() throws TextParseException, UnknownHostException {
 	    Name n = Name.fromString("The.Name.")
 	    ARecord ar = new ARecord(n, DClass.IN, 1,
 				     InetAddress.getByName("192.168.101.110"))
@@ -101,20 +96,20 @@ public class MessageSpockTest extends Specification {
 	    def rec_array = [ ar ]
 	    // mga.that(Arrays.equals(new Record[]{ ar }, m.getSectionArray(0)))
 	    expect:
-	    mga.that(Arrays.equals(rec_array.toArray(new Record[rec_array.size]), m.getSectionArray(0)))
-	    mga.that(Arrays.equals(new Record[0], m.getSectionArray(1)))
-	    mga.that(Arrays.equals(new Record[0], m.getSectionArray(2)))
-	    mga.that(Arrays.equals(new Record[0], m.getSectionArray(3)))
+	    rec_array.toArray(new Record[rec_array.size]) == m.getSectionArray(0)
+	    new Record[0] == m.getSectionArray(1)
+	    new Record[0] == m.getSectionArray(2)
+	    new Record[0] == m.getSectionArray(3)
 
 	    when:
 	    Header h = m.getHeader()
 	    then:
-	    mgu.equals(1, h.getCount(0))
-	    mgu.equals(0, h.getCount(1))
-	    mgu.equals(0, h.getCount(2))
-	    mgu.equals(0, h.getCount(3))
-	    mgu.equals(Opcode.QUERY, h.getOpcode())
-	    mgu.equals(true, h.getFlag(Flags.RD))
+	    1 == h.getCount(0)
+	    0 == h.getCount(1)
+	    0 == h.getCount(2)
+	    0 == h.getCount(3)
+	    Opcode.QUERY == h.getOpcode()
+	    true == h.getFlag(Flags.RD)
 	}
 
 }

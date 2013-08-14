@@ -42,24 +42,22 @@ import spock.lang.Specification
 
 public class ReverseMapSpockTest extends Specification {
 
-    def mgu = new MyGroovyUtil()
-
     def "test_fromAddress_ipv4"() throws UnknownHostException, TextParseException {
 	when:
 	Name exp = Name.fromString("1.0.168.192.in-addr.arpa.")
 	String addr = "192.168.0.1"
 	then:
-	mgu.equals(exp, ReverseMap.fromAddress(addr))
-	mgu.equals(exp, ReverseMap.fromAddress(addr, Address.IPv4))
-	mgu.equals(exp, ReverseMap.fromAddress(InetAddress.getByName(addr)))
+	exp == ReverseMap.fromAddress(addr)
+	exp == ReverseMap.fromAddress(addr, Address.IPv4)
+	exp == ReverseMap.fromAddress(InetAddress.getByName(addr))
 	when:
 	def byte[] b_addr_1 = [ (byte)192, (byte)168, (byte)0, (byte)1 ]
 	then:
-	mgu.equals(exp, ReverseMap.fromAddress(b_addr_1))
+	exp == ReverseMap.fromAddress(b_addr_1)
 	when:
 	def int [] b_addr_2 = [ 192, 168, 0, 1 ]
 	then:
-	mgu.equals(exp, ReverseMap.fromAddress(b_addr_2))
+	exp == ReverseMap.fromAddress(b_addr_2)
     }
 
     def "test_fromAddress_ipv6"() throws UnknownHostException, TextParseException {
@@ -74,10 +72,10 @@ public class ReverseMapSpockTest extends Specification {
 			   19, 25, 138, 46, 3, 112, 115, 52 ]
 	
 	then:
-	mgu.equals(exp, ReverseMap.fromAddress(addr, Address.IPv6))
-	mgu.equals(exp, ReverseMap.fromAddress(InetAddress.getByName(addr)))
-	mgu.equals(exp, ReverseMap.fromAddress(dat))
-	mgu.equals(exp, ReverseMap.fromAddress(idat))
+	exp == ReverseMap.fromAddress(addr, Address.IPv6)
+	exp == ReverseMap.fromAddress(InetAddress.getByName(addr))
+	exp == ReverseMap.fromAddress(dat)
+	exp == ReverseMap.fromAddress(idat)
     }
 
     def "test_fromAddress_invalid"() {

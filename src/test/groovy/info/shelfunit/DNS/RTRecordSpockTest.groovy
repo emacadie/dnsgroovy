@@ -41,8 +41,6 @@ import spock.lang.Specification
 import java.lang.reflect.Method
 
 public class RTRecordSpockTest extends  Specification {
-
-    def mgu = new MyGroovyUtil()
 	
     def "test getObject"() {
 	RTRecord d = new RTRecord()
@@ -57,12 +55,12 @@ public class RTRecordSpockTest extends  Specification {
 	RTRecord d = new RTRecord(n, DClass.IN, 0xABCDEL, 0xF1, m)
 	
 	then:
-	mgu.equals( n, d.getName())
-	mgu.equals( Type.RT, d.getType())
-	mgu.equals( DClass.IN, d.getDClass())
-	mgu.equals( d.getTTL(), 0xABCDEL) 
-	mgu.equals( d.getPreference(), 0xF1) 
-	mgu.equals( m, d.getIntermediateHost())
+	 n == d.getName()
+	 Type.RT == d.getType()
+	 DClass.IN == d.getDClass()
+	 d.getTTL() == 0xABCDEL 
+	 d.getPreference() == 0xF1 
+	 m == d.getIntermediateHost()
 
     }
 

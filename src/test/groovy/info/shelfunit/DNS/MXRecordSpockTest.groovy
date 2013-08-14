@@ -41,13 +41,11 @@ import spock.lang.Specification
 
 public class MXRecordSpockTest extends Specification {
 
-    def mgu = new MyGroovyUtil()
-    def mga = new MyGroovyAssert()
-
     def "test_getObject"() {
 	MXRecord d = new MXRecord()
 	Record r = d.getObject()
-	expect: mga.that(r instanceof MXRecord)
+	expect: 
+	r instanceof MXRecord
     }
 
     def "test_ctor_5arg"() throws TextParseException {
@@ -58,13 +56,13 @@ public class MXRecordSpockTest extends Specification {
 	MXRecord d = new MXRecord(n, DClass.IN, 0xABCDEL, 0xF1, m)
 
 	then:
-	mgu.equals(n, d.getName())
-	mgu.equals(Type.MX, d.getType())
-	mgu.equals(DClass.IN, d.getDClass())
-	mgu.equals(0xABCDEL, d.getTTL())
-	mgu.equals(0xF1, d.getPriority())
-	mgu.equals(m, d.getTarget())
-	mgu.equals(m, d.getAdditionalName())
+	n == d.getName()
+	Type.MX == d.getType()
+	DClass.IN == d.getDClass()
+	0xABCDEL == d.getTTL()
+	0xF1 == d.getPriority()
+	m == d.getTarget()
+	m == d.getAdditionalName()
     }
     
     def "test_rrToWire"() throws TextParseException {
@@ -81,7 +79,7 @@ public class MXRecordSpockTest extends Specification {
 	def exp = [ 0x1F, 0x2B, 1, 'm', 1, 'o', 1, 'n', 0 ].collect { entry -> (byte) entry }
 	byte[] b_array = exp.toArray(new byte[exp.size()])
 	then:
-	mga.that(Arrays.equals(b_array, out))
+	b_array == out
 
 	// case sensitive
 	when:
@@ -90,7 +88,7 @@ public class MXRecordSpockTest extends Specification {
 	out = dout.toByteArray()
 	exp = [ 0x1F, 0x2B, 1, 'M', 1, 'O', 1, 'n', 0 ].collect { entry -> (byte) entry }
 	then:
-	mga.that(Arrays.equals(exp.toArray(new byte[exp.size()]), out))
+	exp.toArray(new byte[exp.size()]) == out
     }
 
 }

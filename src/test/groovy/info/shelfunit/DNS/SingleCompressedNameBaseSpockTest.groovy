@@ -43,31 +43,23 @@ import spock.lang.Specification
 
 public class SingleCompressedNameBaseSpockTest extends Specification {
 
-    def mgu = new MyGroovyUtil()
-
     /*
-    private void assertEquals( byte[] exp, byte[] act )
-    {
+    private void assertEquals( byte[] exp, byte[] act ) {
 	assertTrue(java.util.Arrays.equals(exp, act))
-    }
-*/
-    /*
-    private static class SCNBTestSpockClass extends SingleCompressedNameBase
-    {
+    } 
+    
+    private static class SCNBTestSpockClass extends SingleCompressedNameBase   {
 	public SCNBTestSpockClass(){}
 
-	public SCNBTestSpockClass(Name name, int type, int dclass, long ttl, Name singleName, String desc )
-	{
+	public SCNBTestSpockClass(Name name, int type, int dclass, long ttl, Name singleName, String desc ) {
 	    super(name, type, dclass, ttl, singleName, desc)
 	}
 	
-	public Name getSingleName()
-	{
+	public Name getSingleName()	{
 	    return super.getSingleName()
 	}
 
-	public Record getObject()
-	{
+	public Record getObject() {
 	    return null
 	}
     }
@@ -75,7 +67,7 @@ public class SingleCompressedNameBaseSpockTest extends Specification {
     def "test_ctor"() throws TextParseException {
 	SCNBTestSpockClass tc = new SCNBTestSpockClass()
 	expect:
-	mgu.equals(null, tc.getSingleName())
+	null == tc.getSingleName()
 
 	when:
 	Name n = Name.fromString("my.name.")
@@ -83,11 +75,11 @@ public class SingleCompressedNameBaseSpockTest extends Specification {
 
 	tc = new SCNBTestSpockClass(n, Type.A, DClass.IN, 100L, sn, "The Description")
 	then:
-	mgu.equals(n, tc.getName())
-	mgu.equals(Type.A, tc.getType())
-	mgu.equals(DClass.IN, tc.getDClass())
-	mgu.equals(100L, tc.getTTL())
-	mgu.equals(sn, tc.getSingleName())
+	n == tc.getName()
+	Type.A == tc.getType()
+	DClass.IN == tc.getDClass()
+	100L == tc.getTTL()
+	sn == tc.getSingleName()
     }
     
     def "test_rrToWire"() throws IOException, TextParseException {

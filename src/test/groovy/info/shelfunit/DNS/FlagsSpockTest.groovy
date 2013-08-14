@@ -40,16 +40,10 @@ import spock.lang.Specification
 
 public class FlagsSpockTest extends Specification {
 
-    def mgu = new MyGroovyUtil()
-    def mga = new MyGroovyAssert()
-
     def "test_string"() {
 	expect:
-	// a regular one
-	mgu.equals("aa", Flags.string(Flags.AA))
-
-	// one that doesn't exist
-	mga.that(Flags.string(12).startsWith("flag"))
+	"aa" == Flags.string(Flags.AA) // a regular one
+	Flags.string(12).startsWith("flag") // one that doesn't exist
 
 	when:
 	    Flags.string(-1)
@@ -65,16 +59,11 @@ public class FlagsSpockTest extends Specification {
 	
     def "test_value"() {
 	expect:
-	// regular one
-	mgu.equals(Flags.CD, Flags.value("cd").byteValue())
-	// one thats undefined but within range
-	mgu.equals(13, Flags.value("FLAG13"))
-	// one thats undefined but out of range
-	mgu.equals(-1, Flags.value("FLAG" + 0x10))
-	// something that unknown
-	mgu.equals(-1, Flags.value("THIS IS DEFINITELY UNKNOWN"))
-	// empty string
-	mgu.equals(-1, Flags.value(""))
+	Flags.CD == Flags.value("cd").byteValue() // regular one
+	13 == Flags.value("FLAG13") // one thats undefined but within range
+	-1 == Flags.value("FLAG" + 0x10) // one thats undefined but out of range
+	-1 == Flags.value("THIS IS DEFINITELY UNKNOWN") // something that unknown
+	-1 == Flags.value("") // empty string
     }
     
     def "test_isFlag"() {
@@ -84,22 +73,22 @@ public class FlagsSpockTest extends Specification {
 	    thrown( IllegalArgumentException.class )
 
 	expect:
-	mga.that(Flags.isFlag(0))
-	mga.that( !Flags.isFlag(1)) // opcode
-	mga.that( !Flags.isFlag(2))
-	mga.that( !Flags.isFlag(3))
-	mga.that( !Flags.isFlag(4))
-	mga.that(Flags.isFlag(5))
-	mga.that(Flags.isFlag(6))
-	mga.that(Flags.isFlag(7))
-	mga.that(Flags.isFlag(8))
-	mga.that(Flags.isFlag(9))
-	mga.that(Flags.isFlag(10))
-	mga.that(Flags.isFlag(11))
-	mga.that( !Flags.isFlag(12))
-	mga.that( !Flags.isFlag(13))
-	mga.that( !Flags.isFlag(14))
-	mga.that( !Flags.isFlag(14))
+	Flags.isFlag(0)
+	!Flags.isFlag(1) // opcode
+	!Flags.isFlag(2)
+	!Flags.isFlag(3)
+	!Flags.isFlag(4)
+	Flags.isFlag(5)
+	Flags.isFlag(6)
+	Flags.isFlag(7)
+	Flags.isFlag(8)
+	Flags.isFlag(9)
+	Flags.isFlag(10)
+	Flags.isFlag(11)
+	!Flags.isFlag(12)
+	!Flags.isFlag(13)
+	!Flags.isFlag(14)
+	!Flags.isFlag(14)
         when:
 	    Flags.isFlag(16)
 	then:

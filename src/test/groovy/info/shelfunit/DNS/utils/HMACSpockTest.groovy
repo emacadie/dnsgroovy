@@ -45,7 +45,6 @@ import spock.lang.Specification
 public class HMACSpockTest extends Specification {
 
     def mgu = new MyGroovyUtil()
-    def mga = new MyGroovyAssert()
 
     // //*
     // ORIG: private static class test_data
@@ -115,8 +114,7 @@ public class HMACSpockTest extends Specification {
 	tests[6].digest =        Base16.fromString("6f630fad67cda0ee1fb1f562db3aa53e")
     }
     /*
-    public HMACTest( String name )
-    {
+    public HMACTest( String name ) {
 	super(name)
     }
 */
@@ -164,7 +162,7 @@ public class HMACSpockTest extends Specification {
 	    HMAC h = new HMAC(md, tests[i].key)
 	    println("about to call do_test from digest_key")
 	    expect:
-	    mga.that( do_test(i, h) )
+	    do_test(i, h)
 	}
     }
 
@@ -174,7 +172,7 @@ public class HMACSpockTest extends Specification {
 	for ( int i = 0; i < tests.length; ++i ) {
 	    HMAC h = new HMAC("md5", tests[i].key)
 	    expect:
-	    mga.that(do_test(i, h))
+	    do_test(i, h)
 	}
     }
     //     */

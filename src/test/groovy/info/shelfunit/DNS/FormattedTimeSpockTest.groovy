@@ -31,7 +31,7 @@
 // THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-//
+
 package info.shelfunit.DNS
 
 import org.xbill.DNS.*
@@ -41,17 +41,15 @@ import java.util.Calendar
 import java.util.GregorianCalendar
 import java.util.TimeZone
 import spock.lang.Specification
-// import org.xbill.DNS.FormattedTime
 
 public class FormattedTimeSpockTest extends Specification {
-
-    def mgu = new MyGroovyUtil()
 
     def "test_format"() {
 	GregorianCalendar cal = new GregorianCalendar(TimeZone.getTimeZone("UTC"))
 	cal.set(2005, 2, 19, 4, 4, 5)
 	String out = FormattedTime.format(cal.getTime())
-	expect: mgu.equals("20050319040405", out)
+	expect: 
+	    "20050319040405" == out
     }
     
     def "test_parse"() throws TextParseException {
@@ -66,9 +64,9 @@ public class FormattedTimeSpockTest extends Specification {
 	GregorianCalendar cal2 = new GregorianCalendar(TimeZone.getTimeZone("UTC"))
 	cal2.setTimeInMillis(out.getTime())
 	cal2.set(Calendar.MILLISECOND, 0)
-	expect: mgu.equals(cal, cal2)
+	expect: 
+	    cal == cal2
     }
-
     
     def "test_parse_invalid"() {
 	when:

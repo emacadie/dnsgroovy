@@ -55,8 +55,6 @@ import spock.lang.Specification
 
 public class RRsetSpockTest extends Specification {
 
-    def mgu = new MyGroovyUtil()
-    def mga = new MyGroovyAssert()
     private RRset m_rs
     Name m_name, m_name2
     long m_ttl
@@ -68,22 +66,18 @@ public class RRsetSpockTest extends Specification {
 	m_name = Name.fromString("this.is.a.test.")
 	m_name2 = Name.fromString("this.is.another.test.")
 	m_ttl = 0xABCDL
-	m_a1 = new ARecord(m_name, DClass.IN, m_ttl,
-			   InetAddress.getByName("192.169.232.11"))
-	m_a2 = new ARecord(m_name, DClass.IN, m_ttl+1,
-			   InetAddress.getByName("192.169.232.12"))
+	m_a1 = new ARecord(m_name, DClass.IN, m_ttl, InetAddress.getByName("192.169.232.11"))
+	m_a2 = new ARecord(m_name, DClass.IN, m_ttl+1, InetAddress.getByName("192.169.232.12"))
 
 	m_s1 = new RRSIGRecord(m_name, DClass.IN, m_ttl, Type.A, 0xF, 0xABCDEL,
-			       new Date(), new Date(), 0xA, m_name,
-			       new byte[ 0 ])
+			       new Date(), new Date(), 0xA, m_name, new byte[ 0 ])
 	m_s2 = new RRSIGRecord(m_name, DClass.IN, m_ttl, Type.A, 0xF, 0xABCDEL,
-			       new Date(), new Date(), 0xA, m_name2,
-			       new byte[ 0 ])
+			       new Date(), new Date(), 0xA, m_name2, new byte[ 0 ])
     }
 
     def "test_ctor_0arg"() {
 	expect:
-	mgu.equals(0, m_rs.size())
+	0 == m_rs.size()
 
 	when: m_rs.getDClass()
 	then: thrown( IllegalStateException.class )
@@ -106,14 +100,14 @@ public class RRsetSpockTest extends Specification {
 	when:
 	Iterator itr = m_rs.rrs()
 	then:
-	mga.notNull(itr)
-	mga.that(!itr.hasNext())
+	itr != null
+	!itr.hasNext()
 
 	when:
 	itr = m_rs.sigs()
 	then:
-	mga.notNull(itr)
-	mga.that(!itr.hasNext())
+	itr != null
+	!itr.hasNext()
     }
 
     
@@ -122,107 +116,107 @@ public class RRsetSpockTest extends Specification {
 	when:
 	m_rs.addRR(m_a1)
 	then:
-	mgu.equals(1, m_rs.size())
-	mgu.equals(DClass.IN, m_rs.getDClass())
-	mgu.equals(m_a1, m_rs.first())
-	mgu.equals(m_name, m_rs.getName())
-	mgu.equals(m_ttl, m_rs.getTTL())
-	mgu.equals(Type.A, m_rs.getType())
+	1 == m_rs.size()
+	DClass.IN == m_rs.getDClass()
+	m_a1 == m_rs.first()
+	m_name == m_rs.getName()
+	m_ttl == m_rs.getTTL()
+	Type.A == m_rs.getType()
 
 	when:
 	// add it again, and make sure nothing changed
 	m_rs.addRR(m_a1)
 	then:
-	mgu.equals(1, m_rs.size())
-	mgu.equals(DClass.IN, m_rs.getDClass())
-	mgu.equals(m_a1, m_rs.first())
-	mgu.equals(m_name, m_rs.getName())
-	mgu.equals(m_ttl, m_rs.getTTL())
-	mgu.equals(Type.A, m_rs.getType())
+	1 == m_rs.size()
+	DClass.IN == m_rs.getDClass()
+	m_a1 == m_rs.first()
+	m_name == m_rs.getName()
+	m_ttl == m_rs.getTTL()
+	Type.A == m_rs.getType()
 
 	when:
 	m_rs.addRR(m_a2)
 	then:
-	mgu.equals(2, m_rs.size())
-	mgu.equals(DClass.IN, m_rs.getDClass())
+	2 == m_rs.size()
+	DClass.IN == m_rs.getDClass()
 	when:
 	Record r = m_rs.first()
 	then:
-	mgu.equals(m_a1, r)
-	mgu.equals(m_name, m_rs.getName())
-	mgu.equals(m_ttl, m_rs.getTTL())
-	mgu.equals(Type.A, m_rs.getType())
+	m_a1 == r
+	m_name == m_rs.getName()
+	m_ttl == m_rs.getTTL()
+	Type.A == m_rs.getType()
 
 	when:
 	Iterator itr = m_rs.rrs()
 	then:
-	mgu.equals(m_a1, itr.next())
-	mgu.equals(m_a2, itr.next())
+	m_a1 == itr.next()
+	m_a2 == itr.next()
 
 	when:
 	// make sure that it rotates
 	itr = m_rs.rrs()
 	then:
-	mgu.equals(m_a2, itr.next())
-	mgu.equals(m_a1, itr.next())
+	m_a2 == itr.next()
+	m_a1 == itr.next()
 
 	when:
 	itr = m_rs.rrs()
 	then:
-	mgu.equals(m_a1, itr.next())
-	mgu.equals(m_a2, itr.next())
+	m_a1 == itr.next()
+	m_a2 == itr.next()
 
 	when:
 	m_rs.deleteRR(m_a1)
 	then:
-	mgu.equals(1, m_rs.size())
-	mgu.equals(DClass.IN, m_rs.getDClass())
-	mgu.equals(m_a2, m_rs.first())
-	mgu.equals(m_name, m_rs.getName())
-	mgu.equals(m_ttl, m_rs.getTTL())
-	mgu.equals(Type.A, m_rs.getType())
+	1 == m_rs.size()
+	DClass.IN == m_rs.getDClass()
+	m_a2 == m_rs.first()
+	m_name == m_rs.getName()
+	m_ttl == m_rs.getTTL()
+	Type.A == m_rs.getType()
 
 	// the signature records
 	when:
 	m_rs.addRR(m_s1)
 	then:
-	mgu.equals(1, m_rs.size())
+	1 == m_rs.size()
 	when:
 	itr = m_rs.sigs()
 	then:
-	mgu.equals(m_s1, itr.next())
-	mga.that(!itr.hasNext())
+	m_s1 == itr.next()
+	!itr.hasNext()
 
 	when:
 	m_rs.addRR(m_s1)
 	itr = m_rs.sigs()
 	then:
-	mgu.equals(m_s1, itr.next())
-	mga.that(!itr.hasNext())
+	m_s1 == itr.next()
+	!itr.hasNext()
 
 	when:
 	m_rs.addRR(m_s2)
 	itr = m_rs.sigs()
 	then:
-	mgu.equals(m_s1, itr.next())
-	mgu.equals(m_s2, itr.next())
-	mga.that(!itr.hasNext())
+	m_s1 == itr.next()
+	m_s2 == itr.next()
+	!itr.hasNext()
 
 	when:
 	m_rs.deleteRR(m_s1)
 	itr = m_rs.sigs()
 	then:
-	mgu.equals(m_s2, itr.next())
-	mga.that(!itr.hasNext())
+	m_s2 == itr.next()
+	!itr.hasNext()
 
 	
 	// clear it all
 	when:
 	m_rs.clear()
 	then:
-	mgu.equals(0, m_rs.size())
-	mga.that(!m_rs.rrs().hasNext())
-	mga.that(!m_rs.sigs().hasNext())
+	0 == m_rs.size()
+	!m_rs.rrs().hasNext()
+	!m_rs.sigs().hasNext()
 
     } // end monster method
     
@@ -235,24 +229,24 @@ public class RRsetSpockTest extends Specification {
 
 	RRset rs2 = new RRset( m_rs )
 	expect:
-	mgu.equals(2, rs2.size())
-	mgu.equals(m_a1, rs2.first())
+	2 == rs2.size()
+	m_a1 == rs2.first()
 	
 	when:
 	Iterator itr = rs2.rrs()
 	then:
-	mgu.equals(m_a1, itr.next())
-	mgu.equals(m_a2, itr.next())
-	mga.that(!itr.hasNext())
+	m_a1 == itr.next()
+	m_a2 == itr.next()
+	!itr.hasNext()
 	
 	when:
 	itr = rs2.sigs()
 	then:
-	mga.that(itr.hasNext())
-	mgu.equals(m_s1, itr.next())
-	mga.that(itr.hasNext())
-	mgu.equals(m_s2, itr.next())
-	mga.that(!itr.hasNext())
+	itr.hasNext()
+	m_s1 == itr.next()
+	itr.hasNext()
+	m_s2 == itr.next()
+	!itr.hasNext()
     }
 
     def "test_toString"() {
@@ -264,10 +258,10 @@ public class RRsetSpockTest extends Specification {
 	String out = m_rs.toString()
 
 	expect:
-	mga.that(out.indexOf(m_name.toString()) != -1)
-	mga.that(out.indexOf(" IN A ") != -1)
-	mga.that(out.indexOf("[192.169.232.11]") != -1)
-	mga.that(out.indexOf("[192.169.232.12]") != -1)
+	out.indexOf(m_name.toString()) != -1
+	out.indexOf(" IN A ") != -1
+	out.indexOf("[192.169.232.11]") != -1
+	out.indexOf("[192.169.232.12]") != -1
     }
     
     def "test_addRR_invalidType"() throws TextParseException {
@@ -308,17 +302,17 @@ public class RRsetSpockTest extends Specification {
     def "test_TTLcalculation"() {
 	when:
 	m_rs.addRR(m_a2)
-	then: mgu.equals(m_a2.getTTL(), m_rs.getTTL())
+	then: m_a2.getTTL() == m_rs.getTTL()
 	when:
 	m_rs.addRR(m_a1)
-	then: mgu.equals(m_a1.getTTL(), m_rs.getTTL())
+	then: m_a1.getTTL() == m_rs.getTTL()
 
 	when:
 	Iterator itr = m_rs.rrs()
 	then:
 	while( itr.hasNext() ){
 	    Record r = (Record)itr.next()
-	    mgu.equals( m_a1.getTTL(), r.getTTL())
+	     m_a1.getTTL() == r.getTTL()
 	}
     }
 
@@ -330,18 +324,18 @@ public class RRsetSpockTest extends Specification {
 	when:
 	Iterator itr = m_rs.rrs()
 	then:
-	mga.that(itr.hasNext())
-	mgu.equals(m_a1, itr.next())
-	mga.that(itr.hasNext())
-	mgu.equals(m_a2, itr.next())
-	mga.that(!itr.hasNext())
+	itr.hasNext()
+	m_a1 == itr.next()
+	itr.hasNext()
+	m_a2 == itr.next()
+	!itr.hasNext()
 
 	when:
 	itr = m_rs.sigs()
 	then:
-	mga.that(itr.hasNext())
-	mgu.equals(m_s1, itr.next())
-	mga.that(!itr.hasNext())
+	itr.hasNext()
+	m_s1 == itr.next()
+	!itr.hasNext()
     }
 
     def "test_noncycling_iterator"() {
@@ -351,18 +345,18 @@ public class RRsetSpockTest extends Specification {
 	when:
 	Iterator itr = m_rs.rrs(false)
 	then:
-	mga.that(itr.hasNext())
-	mgu.equals(m_a1, itr.next())
-	mga.that(itr.hasNext())
-	mgu.equals(m_a2, itr.next())
+	itr.hasNext()
+	m_a1 == itr.next()
+	itr.hasNext()
+	m_a2 == itr.next()
 
 	when:
 	itr = m_rs.rrs(false)
 	then:
-	mga.that(itr.hasNext())
-	mgu.equals(m_a1, itr.next())
-	mga.that(itr.hasNext())
-	mgu.equals(m_a2, itr.next())
+	itr.hasNext()
+	m_a1 == itr.next()
+	itr.hasNext()
+	m_a2 == itr.next()
     }
 
 }

@@ -39,20 +39,17 @@ import org.xbill.DNS.*
 import spock.lang.Specification
 
 public class RcodeSpockTest extends Specification {
-
-    def mgu = new MyGroovyUtil()
-    def mga = new MyGroovyAssert()
 	
     def "test_string"() {
 	expect:
 	// a regular one
-	mgu.equals("NXDOMAIN", Rcode.string(Rcode.NXDOMAIN))
+	"NXDOMAIN" == Rcode.string(Rcode.NXDOMAIN)
 
 	// one with an alias
-	mgu.equals("NOTIMP", Rcode.string(Rcode.NOTIMP))
+	"NOTIMP" == Rcode.string(Rcode.NOTIMP)
 
 	// one that doesn't exist
-	mga.that(Rcode.string(20).startsWith("RESERVED"))
+	Rcode.string(20).startsWith("RESERVED")
 
 	when:
 	    Rcode.string(-1)
@@ -69,10 +66,10 @@ public class RcodeSpockTest extends Specification {
     def "test_TSIGstring"() {
 	expect:
 	// a regular one
-	mgu.equals("BADSIG", Rcode.TSIGstring(Rcode.BADSIG))
+	"BADSIG" == Rcode.TSIGstring(Rcode.BADSIG)
 
 	// one that doesn't exist
-	mga.that(Rcode.TSIGstring(20).startsWith("RESERVED"))
+	Rcode.TSIGstring(20).startsWith("RESERVED")
 
 	when:
 	    Rcode.TSIGstring(-1)
@@ -89,22 +86,22 @@ public class RcodeSpockTest extends Specification {
     def "test_value"() {
 	expect:
 	// regular one
-	mgu.equals(Rcode.FORMERR, Rcode.value("FORMERR"))
+	Rcode.FORMERR == Rcode.value("FORMERR")
 
 	// one with alias
-	mgu.equals(Rcode.NOTIMP, Rcode.value("NOTIMP"))
-	mgu.equals(Rcode.NOTIMP, Rcode.value("NOTIMPL"))
+	Rcode.NOTIMP == Rcode.value("NOTIMP")
+	Rcode.NOTIMP == Rcode.value("NOTIMPL")
 
 	// one thats undefined but within range
-	mgu.equals(35, Rcode.value("RESERVED35"))
+	35 == Rcode.value("RESERVED35")
 
 	// one thats undefined but out of range
-	mgu.equals(-1, Rcode.value("RESERVED" + 0x1000))
+	-1 == Rcode.value("RESERVED" + 0x1000)
 
 	// something that unknown
-	mgu.equals(-1, Rcode.value("THIS IS DEFINITELY UNKNOWN"))
+	-1 == Rcode.value("THIS IS DEFINITELY UNKNOWN")
 
 	// empty string
-	mgu.equals(-1, Rcode.value(""))
+	-1 == Rcode.value("")
     }
 }

@@ -32,7 +32,6 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// package info.shelfunit.DNS
 package org.xbill.DNS
 
 import org.xbill.DNS.*
@@ -44,19 +43,16 @@ import org.spockframework.util.Assert
 import info.shelfunit.DNS.MyGroovyUtil
 
 public class U16NameBaseSpockTest extends Specification {
-    def mgu = new MyGroovyUtil()
 
     /*
-    private void assertEquals( byte[] exp, byte[] act )
-    {
+    private void assertEquals( byte[] exp, byte[] act ) {
 	assertTrue(java.util.Arrays.equals(exp, act))
     }
 */
     private static class TestSpockClass extends U16NameBase {
 	public TestSpockClass(){}
 
-	public TestSpockClass(Name name, int type, int dclass, long ttl)
-	{
+	public TestSpockClass(Name name, int type, int dclass, long ttl) {
 	    super(name, type, dclass, ttl)
 	}
 	
@@ -85,14 +81,14 @@ public class U16NameBaseSpockTest extends Specification {
 	
 	then:
 	// tc.getName().equals(null)
-	mgu.equals(tc.getName(), null) 
-	mgu.equals(0, tc.getType())
-	mgu.equals(0, tc.getDClass())
+	tc.getName() == null 
+	0 == tc.getType()
+	0 == tc.getDClass()
 	// tc.getTTL returns java.lang.Long, 
 	// 0 is a java.lang.Integer
-	mgu.equals(tc.getTTL().intValue(), 0)
-        mgu.equals(0, tc.getU16Field())
-	mgu.equals(tc.getNameField(), null)
+	tc.getTTL().intValue() == 0
+        0 == tc.getU16Field()
+	tc.getNameField() == null
     }
     
     def "test_ctor_4arg"() throws TextParseException {
@@ -101,12 +97,12 @@ public class U16NameBaseSpockTest extends Specification {
 	TestSpockClass tc = new TestSpockClass(n, Type.MX, DClass.IN, 0xBCDA)
 	
 	then:
-	mgu.equals( n, tc.getName())
-	mgu.equals( Type.MX,  tc.getType())
-	mgu.equals( DClass.IN,  tc.getDClass())
-	mgu.equals( tc.getTTL().intValue(), 0xBCDA)
-	mgu.equals( 0,  tc.getU16Field())
-	mgu.equals( tc.getNameField(), null)
+	 n == tc.getName()
+	 Type.MX ==  tc.getType()
+	 DClass.IN ==  tc.getDClass()
+	 tc.getTTL().intValue() == 0xBCDA
+	 0 ==  tc.getU16Field()
+	 tc.getNameField() == null
     }
     
     def "test_ctor_8arg"() throws TextParseException {
@@ -119,12 +115,12 @@ public class U16NameBaseSpockTest extends Specification {
 	    0x1F2B, "u16 description",
 	    m, "name description")
 	then:
-	mgu.equals( n, tc.getName())
-	mgu.equals( Type.MX,  tc.getType())
-	mgu.equals( DClass.IN,  tc.getDClass())
-        mgu.equals( tc.getTTL(), 0xB12FL) 
-	mgu.equals( 0x1F2B,  tc.getU16Field())
-	mgu.equals( m,  tc.getNameField())
+	 n == tc.getName()
+	 Type.MX ==  tc.getType()
+	 DClass.IN ==  tc.getDClass()
+         tc.getTTL() == 0xB12FL 
+	 0x1F2B ==  tc.getU16Field()
+	 m ==  tc.getNameField()
 
 	// an invalid u16 value
 	when: 
@@ -154,8 +150,8 @@ public class U16NameBaseSpockTest extends Specification {
 
 	Name exp = Name.fromString("My.single.name.")
 	then:
-	mgu.equals( 0xBC1FL.intValue(), tc.getU16Field())
-	mgu.equals( exp, tc.getNameField())
+	 0xBC1FL.intValue() == tc.getU16Field()
+	 exp == tc.getNameField()
     }
     
     def "test_rdataFromString"() throws IOException {
@@ -166,8 +162,8 @@ public class U16NameBaseSpockTest extends Specification {
 	TestSpockClass tc = new TestSpockClass()
 	tc.rdataFromString(t, null)
 	then:
-	    mgu.equals( 0x19A2, tc.getU16Field())
-	    mgu.equals( exp, tc.getNameField())
+	     0x19A2 == tc.getU16Field()
+	     exp == tc.getNameField()
 
 	when:
 	t = new Tokenizer("10 My.Relative.Name")
@@ -189,7 +185,7 @@ public class U16NameBaseSpockTest extends Specification {
 	String out = tc.rrToString()
 	String exp = 0x1F2B + " My.Other.Name."
 	
-	expect: mgu.equals( exp, out)
+	expect:  exp == out
     }
     
     def "test_rrToWire"() throws IOException, TextParseException

@@ -39,16 +39,13 @@ import org.xbill.DNS.*
 import spock.lang.Specification
 
 public class OpcodeSpockTest extends Specification {
-    
-    def mgu = new MyGroovyUtil()
-    def mga = new MyGroovyAssert()
 
     def test_string() {
 	// a regular one
-	mgu.equals("IQUERY", Opcode.string(Opcode.IQUERY))
+	"IQUERY" == Opcode.string(Opcode.IQUERY)
 
 	// one that doesn't exist
-	mga.that(Opcode.string(6).startsWith("RESERVED"))
+	Opcode.string(6).startsWith("RESERVED")
 
 	when:
 	    Opcode.string(-1)
@@ -56,7 +53,6 @@ public class OpcodeSpockTest extends Specification {
 	then:
 	    thrown( IllegalArgumentException.class )
 
-	
 	//  (max is 0xF)
 	when:
 	    Opcode.string(0x10)
@@ -67,19 +63,19 @@ public class OpcodeSpockTest extends Specification {
     
     def "test_value"() {
 	// regular one
-	mgu.equals(Opcode.STATUS, Opcode.value("STATUS"))
+	Opcode.STATUS == Opcode.value("STATUS")
 
 	// one thats undefined but within range
-	mgu.equals(6, Opcode.value("RESERVED6"))
+	6 == Opcode.value("RESERVED6")
 
 	// one thats undefined but out of range
-	mgu.equals(-1, Opcode.value("RESERVED" + 0x10))
+	-1 == Opcode.value("RESERVED" + 0x10)
 
 	// something that unknown
-	mgu.equals(-1, Opcode.value("THIS IS DEFINITELY UNKNOWN"))
+	-1 == Opcode.value("THIS IS DEFINITELY UNKNOWN")
 
 	// empty string
-	mgu.equals(-1, Opcode.value(""))
+	-1 == Opcode.value("")
     }
 
 }

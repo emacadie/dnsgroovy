@@ -45,12 +45,8 @@ import spock.lang.Specification
 public class MnemonicSpockTest extends Specification {
     private Mnemonic m_mn
 
-    def mgu = new MyGroovyUtil()
-    def mga = new MyGroovyAssert()
-
     /*
-    public MnemonicTest( String name )
-    {
+    public MnemonicTest( String name ) {
 	super( name )
     }
 */    
@@ -60,40 +56,40 @@ public class MnemonicSpockTest extends Specification {
     
     def "test_toInteger"() {
 	Integer i = Mnemonic.toInteger(64)
-	expect: mgu.equals( new Integer(64), i )
+	expect:  new Integer(64) == i 
 	
 	when:
 	Integer i2 = Mnemonic.toInteger(64)
-	then: mgu.equals( i, i2 )
+	then:  i == i2 
 	// assertNotSame( i, i2 )
 	
 	when:
 	i = Mnemonic.toInteger(-1)
-	then: mgu.equals( new Integer(-1), i )
+	then:  new Integer(-1) == i 
 	
 	when:
 	i2 = Mnemonic.toInteger(-1)
-	then: mgu.equals( i, i2 )
+	then:  i == i2 
 	// assertNotSame( i, i2 )
 
 	
 	when:
 	i = Mnemonic.toInteger(0)
-	then: mgu.equals( new Integer(0), i )
+	then:  new Integer(0) == i 
 
 	
 	when:
 	i2 = Mnemonic.toInteger(0)
-	then: mgu.equals( i, i2 )
+	then:  i == i2 
 	// assertSame( i, i2 )
 	
 	when:
 	i = Mnemonic.toInteger(63)
-	then: mgu.equals( new Integer(63), i )
+	then:  new Integer(63) == i 
 	
 	when:
 	i2 = Mnemonic.toInteger(63)
-	then: mgu.equals( i, i2 )
+	then:  i == i2 
 	// assertSame( i, i2 )
     }
     
@@ -117,17 +113,17 @@ public class MnemonicSpockTest extends Specification {
 	m_mn.setNumericAllowed(true)
 	int val = m_mn.getValue("-2")
 	then:
-	mgu.equals( -1, val )
+	 -1 == val 
 	
 	when:
 	val = m_mn.getValue("0")
 	then:
-	mgu.equals( 0, val )
+	 0 == val 
        
 	when:
 	val = m_mn.getValue("" + Integer.MAX_VALUE)
 	then:
-	mgu.equals( Integer.MAX_VALUE, val )
+	 Integer.MAX_VALUE == val 
     }
     
     def "test_setMaximum"() {
@@ -147,19 +143,19 @@ public class MnemonicSpockTest extends Specification {
 	m_mn.setNumericAllowed(true)
 	
 	int val = m_mn.getValue("-2")
-	then: mgu.equals( -1, val )
+	then:  -1 == val 
 	
 	when:	
 	val = m_mn.getValue( "0" )
-	then: mgu.equals( 0, val )
+	then:  0 == val 
 	
 	when:
 	val = m_mn.getValue( "15" )
-	then: mgu.equals( 15, val )
+	then:  15 == val 
 	
 	when:
 	val = m_mn.getValue( "16" )
-	then: mgu.equals( -1, val )
+	then:  -1 == val 
     }
     
     def "test_setPrefix"() {
@@ -167,11 +163,11 @@ public class MnemonicSpockTest extends Specification {
 	m_mn.setPrefix(prefix)
 
 	String out = m_mn.getText(10)
-	expect: mgu.equals( prefix + "10", out )
+	expect:  prefix + "10" == out 
 	
 	when:
 	int i = m_mn.getValue( out )
-	then: mgu.equals( 10, i )
+	then:  10 == i 
     }
     
     def "test_basic_operation"() {
@@ -182,35 +178,35 @@ public class MnemonicSpockTest extends Specification {
 	m_mn.add( 30, "Thirty" )
 
 	String text = m_mn.getText(10)
-	expect: mgu.equals( "TEN", text )
+	expect:  "TEN" == text 
 	
 	when:
 	text = m_mn.getText(20)
-	then: mgu.equals( "TWENTY", text )
+	then:  "TWENTY" == text 
 	
 	when:	
 	text = m_mn.getText(30)
-	then: mgu.equals( "THIRTY", text )
+	then:  "THIRTY" == text 
 	
 	when:
 	text = m_mn.getText(40)
-	then: mgu.equals( "40", text )
+	then:  "40" == text 
 	
 	when:
 	int value = m_mn.getValue("tEn")
-	then: mgu.equals(10, value)
+	then: 10 == value
 	
 	when:
 	value = m_mn.getValue("twenty")
-	then: mgu.equals(20, value)
+	then: 20 == value
 	
 	when:
 	value = m_mn.getValue("VeiNTe")
-	then: mgu.equals(20, value)
+	then: 20 == value
 	
 	when:
 	value = m_mn.getValue("THIRTY")
-	then: mgu.equals(30, value)
+	then: 30 == value
     }
     
     public void test_basic_operation_lower()
@@ -222,28 +218,28 @@ public class MnemonicSpockTest extends Specification {
 	m_mn.add( 30, "Thirty" )
 
 	String text = m_mn.getText(10)
-	mgu.equals( "ten", text )
+	 "ten" == text 
 	
 	text = m_mn.getText(20)
-	mgu.equals( "twenty", text )
+	 "twenty" == text 
 	
 	text = m_mn.getText(30)
-	mgu.equals( "thirty", text )
+	 "thirty" == text 
 
 	text = m_mn.getText(40)
-	mgu.equals( "40", text )
+	 "40" == text 
 
 	int value = m_mn.getValue("tEn")
-	mgu.equals(10, value)
+	10 == value
 
 	value = m_mn.getValue("twenty")
-	mgu.equals(20, value)
+	20 == value
 
 	value = m_mn.getValue("VeiNTe")
-	mgu.equals(20, value)
+	20 == value
 
 	value = m_mn.getValue("THIRTY")
-	mgu.equals(30, value)
+	30 == value
     }
 
     def "test_basic_operation_sensitive"() {
@@ -254,49 +250,49 @@ public class MnemonicSpockTest extends Specification {
 	m_mn.add( 30, "Thirty" )
 
 	String text = m_mn.getText(10)
-	expect: mgu.equals( "Ten", text )
+	expect:  "Ten" == text 
 	
 	when:	
 	text = m_mn.getText(20)
-	then: mgu.equals( "Twenty", text )
+	then:  "Twenty" == text 
 	
 	when:	
 	text = m_mn.getText(30)
-	then: mgu.equals( "Thirty", text )
+	then:  "Thirty" == text 
 	
 	when:
 	text = m_mn.getText(40)
-	then: mgu.equals( "40", text )
+	then:  "40" == text 
 	
 	when:
 	int value = m_mn.getValue("Ten")
-	then: mgu.equals(10, value)
+	then: 10 == value
 	
 	when:
 	value = m_mn.getValue("twenty")
-	then: mgu.equals(-1, value)
+	then: -1 == value
 	
 	when:
 	value = m_mn.getValue("Twenty")
-	then: mgu.equals(20, value)
+	then: 20 == value
 	
 	when:
 	value = m_mn.getValue("VEINTE")
-	then: mgu.equals(-1, value)
+	then: -1 == value
 	
 	when:
 	value = m_mn.getValue("Veinte")
-	then: mgu.equals(20, value)
+	then: 20 == value
 	
 	when:
 	value = m_mn.getValue("Thirty")
-	then: mgu.equals(30, value)
+	then: 30 == value
     }
     
     def "test_invalid_numeric"() {
 	m_mn.setNumericAllowed(true)
 	int value = m_mn.getValue("Not-A-Number")
-	expect: mgu.equals(-1, value)
+	expect: -1 == value
     }
 
     def "test_addAll"() {
@@ -311,35 +307,35 @@ public class MnemonicSpockTest extends Specification {
 	m_mn.addAll( mn2 )
 
 	String text = m_mn.getText(10)
-	expect: mgu.equals( "TEN", text )
+	expect:  "TEN" == text 
 	
 	when:
 	text = m_mn.getText(20)
-	then: mgu.equals( "TWENTY", text )
+	then:  "TWENTY" == text 
 		
 	when:	
 	text = m_mn.getText(30)
-	then: mgu.equals( "THIRTY", text )
+	then:  "THIRTY" == text 
 	
 	when:
 	text = m_mn.getText(40)
-	then: mgu.equals( "40", text )
+	then:  "40" == text 
 	
 	when:
 	int value = m_mn.getValue("tEn")
-	then: mgu.equals(10, value)
+	then: 10 == value
 	
 	when:
 	value = m_mn.getValue("twenty")
-	then: mgu.equals(20, value)
+	then: 20 == value
 	
 	when:
 	value = m_mn.getValue("VeiNTe")
-	then: mgu.equals(20, value)
+	then: 20 == value
 	
 	when:
 	value = m_mn.getValue("THIRTY")
-	then: mgu.equals(30, value)
+	then: 30 == value
     }
 
 }

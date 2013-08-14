@@ -31,7 +31,7 @@
 // THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-//
+
 package info.shelfunit.DNS
 
 import org.xbill.DNS.*
@@ -42,23 +42,20 @@ import spock.lang.Specification
 
 public class HINFORecordSpockTest extends Specification {
 
-    def mgu = new MyGroovyUtil()
-    def mga = new MyGroovyAssert()
-
     def "test_ctor_0arg"() {
 	when:
 	HINFORecord dr = new HINFORecord()
 	then:
-	mgu.equals(null, dr.getName())
-	mgu.equals(0, dr.getType())
-	mgu.equals(0, dr.getDClass())
-	mgu.equals(0L, dr.getTTL())
+	null == dr.getName()
+	0 == dr.getType()
+	0 == dr.getDClass()
+	0L == dr.getTTL()
     }
     
     def "test_getObject"() {
 	HINFORecord dr = new HINFORecord()
 	Record r = dr.getObject()
-	expect: mga.that(r instanceof HINFORecord)
+	expect: r instanceof HINFORecord
     }
     
     def "test_ctor_5arg"() throws TextParseException {
@@ -71,12 +68,12 @@ public class HINFORecordSpockTest extends Specification {
 	HINFORecord dr = new HINFORecord(n, DClass.IN, ttl, cpu, os)
 
 	then:
-	mgu.equals(n, dr.getName())
-	mgu.equals(DClass.IN, dr.getDClass())
-	mgu.equals(Type.HINFO, dr.getType())
-	mgu.equals(ttl, dr.getTTL())
-	mgu.equals(cpu, dr.getCPU())
-	mgu.equals(os, dr.getOS())
+	n == dr.getName()
+	DClass.IN == dr.getDClass()
+	Type.HINFO == dr.getType()
+	ttl == dr.getTTL()
+	cpu == dr.getCPU()
+	os == dr.getOS()
     }
 
     def "test_ctor_5arg_invalid_CPU"() throws TextParseException {
@@ -99,7 +96,6 @@ public class HINFORecordSpockTest extends Specification {
 	
 	when:
 	    new HINFORecord(n, DClass.IN, ttl, cpu, os)
-	    
 	then:
 	    thrown(IllegalArgumentException.class)
     }
@@ -118,8 +114,8 @@ public class HINFORecordSpockTest extends Specification {
 	dr.rrFromWire(dnsin)
 
 	then:
-	mgu.equals(cpu, dr.getCPU())
-	mgu.equals(os, dr.getOS())
+	cpu == dr.getCPU()
+	os == dr.getOS()
     }
     
     def "test_rdataFromString"() throws IOException {
@@ -133,8 +129,8 @@ public class HINFORecordSpockTest extends Specification {
 	dr.rdataFromString(t, null)
 
 	then:
-	mgu.equals(cpu, dr.getCPU())
-	mgu.equals(os, dr.getOS())
+	cpu == dr.getCPU()
+	os == dr.getOS()
     }
 
     def "test_rdataFromString_invalid_CPU"() throws IOException {
@@ -171,7 +167,7 @@ public class HINFORecordSpockTest extends Specification {
 	String exp = "\"" + cpu + "\" \"" + os + "\""
 
 	HINFORecord dr = new HINFORecord(Name.fromString("The.Name."), DClass.IN, 0x123, cpu, os)
-	expect: mgu.equals(exp, dr.rrToString())
+	expect: exp == dr.rrToString()
     }
 
     def "test_rrToWire"() throws TextParseException {
@@ -191,6 +187,6 @@ public class HINFORecordSpockTest extends Specification {
 
 	// mga.that(Arrays.equals(raw.toArray(new byte[raw.size]), out.toByteArray()))
 	then:
-	mga.that(Arrays.equals(raw, out.toByteArray()))
+	raw == out.toByteArray()
     }
 }

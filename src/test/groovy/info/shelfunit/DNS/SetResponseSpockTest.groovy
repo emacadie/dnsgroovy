@@ -41,8 +41,6 @@ import spock.lang.Specification
 import info.shelfunit.DNS.*
 
 public class SetResponseSpockTest extends Specification {
-
-    def mgu = new MyGroovyUtil()
 	
     def "test_ctor_1arg"() {
 	final types = [ SetResponse.UNKNOWN,
@@ -56,14 +54,14 @@ public class SetResponseSpockTest extends Specification {
 	types.each() {
 	    nextType -> 
 	    SetResponse sr = new SetResponse(nextType)
-	    mgu.equals(null, sr.getNS())
-	    mgu.equals(nextType == SetResponse.UNKNOWN, sr.isUnknown())
-	    mgu.equals(nextType == SetResponse.NXDOMAIN, sr.isNXDOMAIN())
-	    mgu.equals(nextType == SetResponse.NXRRSET, sr.isNXRRSET())
-	    mgu.equals(nextType == SetResponse.DELEGATION, sr.isDelegation())
-	    mgu.equals(nextType == SetResponse.CNAME, sr.isCNAME())
-	    mgu.equals(nextType == SetResponse.DNAME, sr.isDNAME())
-	    mgu.equals(nextType == SetResponse.SUCCESSFUL, sr.isSuccessful())
+	    null == sr.getNS()
+	    (nextType == SetResponse.UNKNOWN) == sr.isUnknown()
+	    (nextType == SetResponse.NXDOMAIN) ==  sr.isNXDOMAIN()
+	    (nextType == SetResponse.NXRRSET) ==  sr.isNXRRSET()
+	    (nextType == SetResponse.DELEGATION) ==  sr.isDelegation()
+	    (nextType == SetResponse.CNAME) ==  sr.isCNAME()
+	    (nextType == SetResponse.DNAME) ==  sr.isDNAME()
+	    (nextType == SetResponse.SUCCESSFUL) ==  sr.isSuccessful()
 	}
 
     }
@@ -96,14 +94,14 @@ public class SetResponseSpockTest extends Specification {
 	    nextType -> 
 	    RRset rs = new RRset()
 	    SetResponse sr = new SetResponse(nextType, rs)
-	    mgu.equals(rs, sr.getNS()) // was: assertSame
-	    mgu.equals(nextType == SetResponse.UNKNOWN, sr.isUnknown())
-	    mgu.equals(nextType == SetResponse.NXDOMAIN, sr.isNXDOMAIN())
-	    mgu.equals(nextType == SetResponse.NXRRSET, sr.isNXRRSET())
-	    mgu.equals(nextType == SetResponse.DELEGATION, sr.isDelegation())
-	    mgu.equals(nextType == SetResponse.CNAME, sr.isCNAME())
-	    mgu.equals(nextType == SetResponse.DNAME, sr.isDNAME())
-	    mgu.equals(nextType == SetResponse.SUCCESSFUL, sr.isSuccessful())
+	    rs == sr.getNS() // was: assertSame
+	    (nextType == SetResponse.UNKNOWN) ==  sr.isUnknown()
+	    (nextType == SetResponse.NXDOMAIN) ==  sr.isNXDOMAIN()
+	    (nextType == SetResponse.NXRRSET) ==  sr.isNXRRSET()
+	    (nextType == SetResponse.DELEGATION) ==  sr.isDelegation()
+	    (nextType == SetResponse.CNAME) ==  sr.isCNAME()
+	    (nextType == SetResponse.DNAME) ==  sr.isDNAME()
+	    (nextType == SetResponse.SUCCESSFUL) ==  sr.isSuccessful()
 	}
     }
 	
@@ -130,17 +128,17 @@ public class SetResponseSpockTest extends Specification {
 	types.each() {
 	    nextType -> 
 	    SetResponse sr = SetResponse.ofType(nextType)
-	    mgu.equals(null, sr.getNS())
-	    mgu.equals(nextType == SetResponse.UNKNOWN, sr.isUnknown())
-	    mgu.equals(nextType == SetResponse.NXDOMAIN, sr.isNXDOMAIN())
-	    mgu.equals(nextType == SetResponse.NXRRSET, sr.isNXRRSET())
-	    mgu.equals(nextType == SetResponse.DELEGATION, sr.isDelegation())
-	    mgu.equals(nextType == SetResponse.CNAME, sr.isCNAME())
-	    mgu.equals(nextType == SetResponse.DNAME, sr.isDNAME())
-	    mgu.equals(nextType == SetResponse.SUCCESSFUL, sr.isSuccessful())
+	    null == sr.getNS()
+	    (nextType == SetResponse.UNKNOWN) ==  sr.isUnknown()
+	    (nextType == SetResponse.NXDOMAIN) ==  sr.isNXDOMAIN()
+	    (nextType == SetResponse.NXRRSET) ==  sr.isNXRRSET()
+	    (nextType == SetResponse.DELEGATION) ==  sr.isDelegation()
+	    (nextType == SetResponse.CNAME) ==  sr.isCNAME()
+	    (nextType == SetResponse.DNAME) ==  sr.isDNAME()
+	    (nextType == SetResponse.SUCCESSFUL) ==  sr.isSuccessful()
 
 	    SetResponse sr2 = SetResponse.ofType(nextType)
-	    !mgu.equals(sr, sr2) // was assertSame
+	    sr != sr2 // was assertSame
 	}
     }
 	
@@ -152,17 +150,17 @@ public class SetResponseSpockTest extends Specification {
 	types.each() {
 	    nextType ->
 	    SetResponse sr = SetResponse.ofType(nextType)
-	    mgu.equals(null, sr.getNS())
-	    mgu.equals(nextType == SetResponse.UNKNOWN, sr.isUnknown())
-	    mgu.equals(nextType == SetResponse.NXDOMAIN, sr.isNXDOMAIN())
-	    mgu.equals(nextType == SetResponse.NXRRSET, sr.isNXRRSET())
-	    mgu.equals(nextType == SetResponse.DELEGATION, sr.isDelegation())
-	    mgu.equals(nextType == SetResponse.CNAME, sr.isCNAME())
-	    mgu.equals(nextType == SetResponse.DNAME, sr.isDNAME())
-	    mgu.equals(nextType == SetResponse.SUCCESSFUL, sr.isSuccessful())
+	    null == sr.getNS()
+	    (nextType == SetResponse.UNKNOWN) ==  sr.isUnknown()
+	    (nextType == SetResponse.NXDOMAIN) ==  sr.isNXDOMAIN()
+	    (nextType == SetResponse.NXRRSET) ==  sr.isNXRRSET()
+	    (nextType == SetResponse.DELEGATION) ==  sr.isDelegation()
+	    (nextType == SetResponse.CNAME) ==  sr.isCNAME()
+	    (nextType == SetResponse.DNAME) ==  sr.isDNAME()
+	    (nextType == SetResponse.SUCCESSFUL) ==  sr.isSuccessful()
 
 	    SetResponse sr2 = SetResponse.ofType(nextType)
-	    mgu.equals(sr, sr2) // was assertSame
+	    sr == sr2 // was assertSame
 	}
     }
 	
@@ -235,7 +233,7 @@ public class SetResponseSpockTest extends Specification {
 	when:
 	SetResponse sr = new SetResponse(SetResponse.UNKNOWN, new RRset())
 	then:
-	mgu.equals(null, sr.answers())
+	null == sr.answers()
     }
     
     def "test_getCNAME"() throws TextParseException, UnknownHostException {
@@ -248,7 +246,7 @@ public class SetResponseSpockTest extends Specification {
 	rrs.addRR(cr)
 	SetResponse sr = new SetResponse(SetResponse.CNAME, rrs)
 	then:
-	mgu.equals(cr, sr.getCNAME())
+	cr == sr.getCNAME()
     }
     
     def "test_getDNAME"() throws TextParseException, UnknownHostException {
@@ -262,7 +260,7 @@ public class SetResponseSpockTest extends Specification {
 	SetResponse sr = new SetResponse(SetResponse.DNAME, rrs)
 
 	then:
-	mgu.equals(dr, sr.getDNAME())
+	dr == sr.getDNAME()
     }
 	
     def "test_toString"() throws TextParseException, UnknownHostException
@@ -306,7 +304,7 @@ This was commented out
 	    SetResponse sr = new SetResponse(nextType, rrs)
 	    // println("-- here is labels[ " + i + " ]: " + labels[i])
 	    // println("-- here is sr.toString():   " + sr.toString())
-	    mgu.equals(labels[i], sr.toString())
+	    labels[i] == sr.toString()
 	}
     }
 

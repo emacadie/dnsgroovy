@@ -31,7 +31,6 @@
 // THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-//
 package info.shelfunit.DNS
 
 import org.xbill.DNS.*
@@ -42,9 +41,6 @@ import spock.lang.Specification
 
 public class GPOSRecordSpockTest extends Specification {
 
-    def mgu = new MyGroovyUtil()
-    def mga = new MyGroovyAssert()
-
     private Name	m_n
     private long	m_ttl
     private double	m_lat, m_long, m_alt
@@ -52,20 +48,19 @@ public class GPOSRecordSpockTest extends Specification {
     def "test_ctor_0arg"() {
 	GPOSRecord gr = new GPOSRecord()
 	expect:
-	mgu.equals(null, gr.getName())
-	mgu.equals(0, gr.getType())
-	mgu.equals(0, gr.getDClass())
-	mgu.equals(0, gr.getTTL().intValue())
+	null == gr.getName()
+	0 == gr.getType()
+	0 == gr.getDClass()
+	0 == gr.getTTL().intValue()
     }
         
     def "test_getObject"() {
 	GPOSRecord gr = new GPOSRecord()
 	Record r = gr.getObject()
 	expect:
-	mga.that(r instanceof GPOSRecord)
+	r instanceof GPOSRecord
     }
     //////////////////////////////////////
-
 
     protected void setUpTest_Ctor_6arg_doubles() throws TextParseException {
 	m_n = Name.fromString("The.Name.")
@@ -80,16 +75,16 @@ public class GPOSRecordSpockTest extends Specification {
 	    GPOSRecord gr = new GPOSRecord(m_n, DClass.IN, m_ttl,
 					   m_long, m_lat, m_alt)
 	    expect:
-	    mgu.equals(m_n, gr.getName())
-	    mgu.equals(DClass.IN, gr.getDClass())
-	    mgu.equals(Type.GPOS, gr.getType())
-	    mgu.equals(m_ttl, gr.getTTL())
-	    mgu.equals(new Double(m_long), new Double(gr.getLongitude()))
-	    mgu.equals(new Double(m_lat), new Double(gr.getLatitude()))
-	    mgu.equals(new Double(m_alt), new Double(gr.getAltitude()))
-	    mgu.equals(new Double(m_long).toString(), gr.getLongitudeString())
-	    mgu.equals(new Double(m_lat).toString(), gr.getLatitudeString())
-	    mgu.equals(new Double(m_alt).toString(), gr.getAltitudeString())
+	    m_n == gr.getName()
+	    DClass.IN == gr.getDClass()
+	    Type.GPOS == gr.getType()
+	    m_ttl == gr.getTTL()
+	    new Double(m_long) == new Double(gr.getLongitude())
+	    new Double(m_lat) == new Double(gr.getLatitude())
+	    new Double(m_alt) == new Double(gr.getAltitude())
+	    new Double(m_long).toString() == gr.getLongitudeString()
+	    new Double(m_lat).toString() == gr.getLatitudeString()
+	    new Double(m_alt).toString() == gr.getAltitudeString()
 	}
     
     def "test_toosmall_longitude_Ctor_6arg_doubles"() throws TextParseException {
@@ -153,16 +148,16 @@ public class GPOSRecordSpockTest extends Specification {
 					   new Double(m_lat).toString(),
 					   new Double(m_alt).toString())
 	    expect:
-	    mgu.equals(m_n, gr.getName())
-	    mgu.equals(DClass.IN, gr.getDClass())
-	    mgu.equals(Type.GPOS, gr.getType())
-	    mgu.equals(m_ttl, gr.getTTL())
-	    mgu.equals(new Double(m_long), new Double(gr.getLongitude()))
-	    mgu.equals(new Double(m_lat), new Double(gr.getLatitude()))
-	    mgu.equals(new Double(m_alt), new Double(gr.getAltitude()))
-	    mgu.equals(new Double(m_long).toString(), gr.getLongitudeString())
-	    mgu.equals(new Double(m_lat).toString(), gr.getLatitudeString())
-	    mgu.equals(new Double(m_alt).toString(), gr.getAltitudeString())
+	    m_n == gr.getName()
+	    DClass.IN == gr.getDClass()
+	    Type.GPOS == gr.getType()
+	    m_ttl == gr.getTTL()
+	    new Double(m_long) == new Double(gr.getLongitude())
+	    new Double(m_lat) == new Double(gr.getLatitude())
+	    new Double(m_alt) == new Double(gr.getAltitude())
+	    new Double(m_long).toString() == gr.getLongitudeString()
+	    new Double(m_lat).toString() == gr.getLatitudeString()
+	    new Double(m_alt).toString() == gr.getAltitudeString()
 	}
     
     def "test_toosmall_longitude_setUp_Ctor_6arg_Strings"() throws TextParseException {
@@ -214,9 +209,9 @@ public class GPOSRecordSpockTest extends Specification {
 	    GPOSRecord gr = new GPOSRecord()
 	    gr.rrFromWire(dnsInput)
 	    expect:
-	    mgu.equals(new Double(-8.12), new Double(gr.getLongitude()))
-	    mgu.equals(new Double(123.07), new Double(gr.getLatitude()))
-	    mgu.equals(new Double(0.0), new Double(gr.getAltitude()))
+	    new Double(-8.12) == new Double(gr.getLongitude())
+	    new Double(123.07) == new Double(gr.getLatitude())
+	    new Double(0.0) == new Double(gr.getAltitude())
     }
     
     def "test_longitude_toosmall_Test_rrFromWire"() throws IOException {
@@ -276,9 +271,9 @@ public class GPOSRecordSpockTest extends Specification {
 	    GPOSRecord gr = new GPOSRecord()
 	    gr.rdataFromString(t, null)
 	    expect:
-	    mgu.equals(new Double(10.45), new Double(gr.getLongitude()))
-	    mgu.equals(new Double(171.121212), new Double(gr.getLatitude()))
-	    mgu.equals(new Double(1010787), new Double(gr.getAltitude()))
+	    new Double(10.45) == new Double(gr.getLongitude())
+	    new Double(171.121212) == new Double(gr.getLatitude())
+	    new Double(1010787) == new Double(gr.getAltitude())
 	}
 
     def "test_longitude_toosmall_rdataFromString"() throws IOException {
@@ -332,7 +327,7 @@ public class GPOSRecordSpockTest extends Specification {
 	GPOSRecord gr = new GPOSRecord(Name.fromString("The.Name."), DClass.IN, 0x123,
 				       10.45, 171.121212, 1010787)
 	expect:
-	mgu.equals(exp, gr.rrToString())
+	exp == gr.rrToString()
     }
 
     def "test_rrToWire"() throws TextParseException {
@@ -348,11 +343,11 @@ public class GPOSRecordSpockTest extends Specification {
 	byte[] bar = out.toByteArray()
 
 	expect:    
-	mgu.equals(exp.size, bar.length)
+	exp.size == bar.length
 	exp.eachWithIndex() { 
 	    next, idx -> 
 	    // println("next is $next, bar is " + bar[idx])
-	    mgu.equals(next, bar[idx]) 
+	    next == bar[idx] 
 	}
 
     }

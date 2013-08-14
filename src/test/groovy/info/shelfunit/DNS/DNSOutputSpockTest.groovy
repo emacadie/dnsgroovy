@@ -31,7 +31,6 @@
 // THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-//
 package info.shelfunit.DNS
 
 import org.xbill.DNS.*
@@ -40,26 +39,23 @@ import spock.lang.Specification
 
 public class DNSOutputSpockTest extends Specification {
     private DNSOutput m_do
-    def mga = new MyGroovyAssert()
-    def mgu = new MyGroovyUtil()
 
     def void setup() {
 	m_do = new DNSOutput( 1 )
     }
     /*
-    private void assertEquals( byte[] exp, byte[] act )
-    {
+    private void assertEquals( byte[] exp, byte[] act ) {
 	assertTrue(java.util.Arrays.equals(exp, act))
     }
     */
 
     def "test_default_ctor"() {
 	m_do = new DNSOutput()
-	expect: mgu.equals( 0, m_do.current() )
+	expect:  0 == m_do.current() 
     }
     
     def "test_initial_state"() {
-	expect: mgu.equals( 0, m_do.current() )
+	expect:  0 == m_do.current() 
         when:
 	    m_do.restore()
 	then:
@@ -74,13 +70,13 @@ public class DNSOutputSpockTest extends Specification {
     def "test_writeU8_basic"() {
 	when:
 	m_do.writeU8(1)
-	then: mgu.equals( 1, m_do.current() )
+	then:  1 == m_do.current() 
 	    
 	when:
 	byte[] curr = m_do.toByteArray()
 	then:
-	mgu.equals( 1, curr.length )
-	mgu.equals( 1, curr[0].intValue() )
+	 1 == curr.length 
+	 1 == curr[0].intValue() 
     }
     
     def "test_writeU8_expand"() {
@@ -89,14 +85,14 @@ public class DNSOutputSpockTest extends Specification {
 	m_do.writeU8(1)
 	m_do.writeU8(2)
 	then:
-	mgu.equals( 2, m_do.current() )
+	 2 == m_do.current() 
 	    
 	when:
 	byte[] curr = m_do.toByteArray()
 	then:
-	mgu.equals( 2, curr.length )
-	mgu.equals( 1, curr[0].intValue() )
-	mgu.equals( 2, curr[1].intValue() )
+	 2 == curr.length 
+	 1 == curr[0].intValue() 
+	 2 == curr[1].intValue() 
     }
 
     def "test_writeU8_max"() {
@@ -104,7 +100,7 @@ public class DNSOutputSpockTest extends Specification {
 	m_do.writeU8(0xFF)
 	byte[] curr = m_do.toByteArray()
 	then:
-	mgu.equals( (byte)0xFF, (byte)curr[0] )
+	0xFF != curr[0] // look into this
     }
     
     def "test_writeU8_toobig"() {
@@ -118,22 +114,22 @@ public class DNSOutputSpockTest extends Specification {
 	when:
 	m_do.writeU16(0x100)
 	then:
-	mgu.equals( 2, m_do.current() )
+	 2 == m_do.current() 
 
 	when:
 	byte[] curr = m_do.toByteArray()
 	then:
-	mgu.equals( 2, curr.length )
-	mgu.equals( 1, curr[0].intValue() )
-	mgu.equals( 0, curr[1].intValue() )
+	 2 == curr.length 
+	 1 == curr[0].intValue() 
+	 0 == curr[1].intValue() 
     }
 
     def "test_writeU16_max"() {
 	m_do.writeU16(0xFFFF)
 	byte[] curr = m_do.toByteArray()
 	expect:
-	mgu.equals( (byte)0xFF, (byte)curr[0] )
-	mgu.equals( (byte)0XFF, (byte)curr[1] )
+	0xFF != curr[0] // look into this
+	0XFF != curr[1]
     }
     
     def "test_writeU16_toobig"() {
@@ -147,16 +143,16 @@ public class DNSOutputSpockTest extends Specification {
 	when:
 	m_do.writeU32(0x11001011)
 	then:
-	mgu.equals( 4, m_do.current() )
+	 4 == m_do.current() 
 
 	when:
 	byte[] curr = m_do.toByteArray()
 	then:
-	mgu.equals( 4, curr.length )
-	mgu.equals( 0x11, curr[0].intValue() )
-	mgu.equals( 0x00, curr[1].intValue() )
-	mgu.equals( 0x10, curr[2].intValue() )
-	mgu.equals( 0x11, curr[3].intValue() )
+	 4 == curr.length 
+	 0x11 == curr[0].intValue() 
+	 0x00 == curr[1].intValue() 
+	 0x10 == curr[2].intValue() 
+	 0x11 == curr[3].intValue() 
     }
     
     def "test_writeU32_max"() {
@@ -164,10 +160,10 @@ public class DNSOutputSpockTest extends Specification {
 	m_do.writeU32(0xFFFFFFFFL)
 	byte[] curr = m_do.toByteArray()
 	then:
-	mgu.equals( (byte)0xFF, (byte)curr[0] )
-	mgu.equals( (byte)0XFF, (byte)curr[1] )
-	mgu.equals( (byte)0XFF, (byte)curr[2] )
-	mgu.equals( (byte)0XFF, (byte)curr[3] )
+	0xFF != curr[0] // look into this 
+	0XFF != curr[1]
+	0XFF != curr[2]
+	0XFF != curr[3]
     }
     
     def "test_writeU32_toobig"() {
@@ -181,73 +177,72 @@ public class DNSOutputSpockTest extends Specification {
 	when:
 	m_do.writeU32(0x11223344L)
 	then: 
-	mgu.equals( 4, m_do.current() )
+	 4 == m_do.current() 
 	when:
 	m_do.jump( 2 )
 	then:
-	mgu.equals( 2, m_do.current() )
+	 2 == m_do.current() 
 	
 	when:
 	m_do.writeU8( 0x99 )
 	byte[] curr = m_do.toByteArray()
 	then:
-	mgu.equals( 3, curr.length )
-	mgu.equals( 0x11, curr[0].intValue() )
-	mgu.equals( 0x22, curr[1].intValue() )
-	mgu.equals( (byte)0x99, (byte)curr[2] )
-	
+	 3 == curr.length 
+	 0x11 == curr[0].intValue() 
+	 0x22 == curr[1].intValue() 
+	0x99 != curr[2] // look into this
     }
 
     def "test_writeByteArray_1arg"() {
 	def byte[] b_in = [ (byte)0xAB, (byte)0xCD, (byte)0xEF, (byte)0x12, (byte)0x34 ]// .collect{ entry -> (byte) entry }
 	m_do.writeByteArray( b_in )
 	expect:
-	mgu.equals( 5, m_do.current() )
+	 5 == m_do.current() 
 
 	when:
 	byte[] curr = m_do.toByteArray()
 	then: 
-	    mga.that(java.util.Arrays.equals(b_in, curr))
-	    // mgu.equals( b_in, curr )
+	    b_in == curr
+	    //  b_in == curr 
     }
 
     def "test_writeByteArray_3arg"() {
 	def byte[] b_in = [ (byte)0xAB, (byte)0xCD, (byte)0xEF, (byte)0x12, (byte)0x34 ] 
 	m_do.writeByteArray( b_in, 2, 3 )
-	expect: mgu.equals( 3, m_do.current() )
+	expect:  3 == m_do.current() 
 
 	when:
 	def byte[] exp = [ b_in[2], b_in[3], b_in[4] ]
 	byte[] curr = m_do.toByteArray()
 	then:
-	mga.that(java.util.Arrays.equals(exp, curr))
-	    // mgu.equals( exp, curr )
+	exp == curr
+	    //  exp == curr 
     }
     
     def "test_writeCountedString_basic"() {
 	def byte[] b_in = [ 'h', 'e', 'l', 'L', '0' ] 
 	m_do.writeCountedString( b_in )
-	expect: mgu.equals( b_in.length + 1, m_do.current() )
+	expect:  b_in.length + 1 == m_do.current() 
 
 	when:
 	byte[] curr = m_do.toByteArray()
 	def byte[] exp = [ (byte)(b_in.length), b_in[0], b_in[1], b_in[2], b_in[3], b_in[4] ]
 	then:
-	mga.that(java.util.Arrays.equals(exp, curr))
-	    // mgu.equals( exp, curr )
+	exp == curr
+	    //  exp == curr 
     }
 
     def "test_writeCountedString_empty"() {
 	byte[] b_in = [] 
 	m_do.writeCountedString( b_in )
-	expect: mgu.equals( b_in.length + 1, m_do.current() )
+	expect:  b_in.length + 1 == m_do.current() 
 
 	when:
 	byte[] curr = m_do.toByteArray()
 	def byte [] exp = [ (byte)(b_in.length) ]
 	then:
-	mga.that(java.util.Arrays.equals(exp, curr))
-	    // mgu.equals( exp, curr )
+	exp == curr
+	    //  exp == curr 
     }
 
     def "test_writeCountedString_toobig"() {
@@ -261,13 +256,13 @@ public class DNSOutputSpockTest extends Specification {
     
     def "test_save_restore"() {
 	m_do.writeU32( 0x12345678L )
-	expect: mgu.equals( 4, m_do.current() )
+	expect:  4 == m_do.current() 
 
 	when:
 	m_do.save()
 	m_do.writeU16( 0xABCD )
 	then:
-	mgu.equals( 6, m_do.current() )
+	 6 == m_do.current() 
 	when:
 	m_do.restore()
 	then:

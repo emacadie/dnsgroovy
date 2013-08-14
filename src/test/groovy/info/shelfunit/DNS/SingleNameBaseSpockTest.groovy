@@ -43,42 +43,35 @@ import java.io.IOException
 import spock.lang.Specification
 
 public class SingleNameBaseSpockTest extends Specification {
-
-    def mgu = new MyGroovyUtil()
 	/*
-    private void assertEquals( byte[] exp, byte[] act )
-    {
+    private void assertEquals( byte[] exp, byte[] act ) {
 	assertTrue(java.util.Arrays.equals(exp, act))
     }
-	*/
-	/*
+	
     private static class TestSingleNameBaseClass extends SingleNameBase {
 	public TestClass(){}
 
-	public TestClass(Name name, int type, int dclass, long ttl)
-	{
+	public TestClass(Name name, int type, int dclass, long ttl) {
 	    super(name, type, dclass, ttl)
 	}
 	
-	public TestClass(Name name, int type, int dclass, long ttl, Name singleName, String desc )
-	{
+	public TestClass(Name name, int type, int dclass, long ttl, Name singleName, String desc ) 	{
 	    super(name, type, dclass, ttl, singleName, desc)
 	}
 	
-	public Name getSingleName()
-	{
+	public Name getSingleName() {
 	    return super.getSingleName()
 	}
 
-	public Record getObject()
-	{
+	public Record getObject() {
 	    return null
 	}
     }
 */
     def "test_ctor"() throws TextParseException {
 	TestSingleNameBaseClass tc = new TestSingleNameBaseClass()
-	expect: mgu.equals( null,tc.getSingleName())
+	expect: 
+	null == tc.getSingleName()
 
 	when:
 	Name n = Name.fromString("my.name.")
@@ -86,20 +79,20 @@ public class SingleNameBaseSpockTest extends Specification {
 
 	tc = new TestSingleNameBaseClass(n, Type.A, DClass.IN, 100L)
 	then:
-	mgu.equals(n, tc.getName()) // this was assertsame
-	mgu.equals(Type.A, tc.getType())
-	mgu.equals(DClass.IN, tc.getDClass())
-	mgu.equals(100L, tc.getTTL())
+	n == tc.getName() // this was assertsame
+	Type.A == tc.getType()
+	DClass.IN == tc.getDClass()
+	100L == tc.getTTL()
 
 	when:
 	tc = new TestSingleNameBaseClass(n, Type.A, DClass.IN, 100L, sn, "The Description")
 	
 	then:
-	mgu.equals(n, tc.getName())
-	mgu.equals(Type.A, tc.getType())
-	mgu.equals(DClass.IN, tc.getDClass())
-	mgu.equals(100L, tc.getTTL())
-	mgu.equals(sn, tc.getSingleName())
+	n == tc.getName()
+	Type.A == tc.getType()
+	DClass.IN == tc.getDClass()
+	100L == tc.getTTL()
+	sn == tc.getSingleName()
     }
     
     def "test_rrFromWire"() throws IOException {
@@ -110,7 +103,7 @@ public class SingleNameBaseSpockTest extends Specification {
 	tc.rrFromWire(dnsin)
 
 	Name exp = Name.fromString("my.single.name.")
-	expect: mgu.equals(exp, tc.getSingleName())
+	expect: exp == tc.getSingleName()
     }
     
     def "test_rdataFromString"() throws IOException {
@@ -119,7 +112,7 @@ public class SingleNameBaseSpockTest extends Specification {
 	Tokenizer t = new Tokenizer("my.single.name.")
 	TestSingleNameBaseClass tc = new TestSingleNameBaseClass()
 	tc.rdataFromString(t, null)
-	expect: mgu.equals(exp, tc.getSingleName())
+	expect: exp == tc.getSingleName()
 
 	Tokenizer t2 = new Tokenizer("my.relative.name")
 	TestSingleNameBaseClass tc2 = new TestSingleNameBaseClass()
@@ -135,12 +128,12 @@ public class SingleNameBaseSpockTest extends Specification {
 	Tokenizer t = new Tokenizer("my.single.name.")
 	TestSingleNameBaseClass tc = new TestSingleNameBaseClass()
 	tc.rdataFromString(t, null)
-	expect: mgu.equals(exp, tc.getSingleName())
+	expect: exp == tc.getSingleName()
 
 	when:
 	String out = tc.rrToString()
 	then:
-	mgu.equals(out, exp.toString())
+	out == exp.toString()
     }
 
     def "test_rrToWire"() throws IOException, TextParseException {

@@ -44,26 +44,20 @@ import org.xbill.DNS.utils.Base64
 import info.shelfunit.DNS.*
 
 public class KEYBaseSpockTest extends Specification {
-    def mgu = new MyGroovyUtil()
-    def mga = new MyGroovyAssert()
     /*
-    private static class KBSTestClass extends KEYBase
-    {
+    private static class KBSTestClass extends KEYBase {
 	public KBSTestClass(){}
 
 	public KBSTestClass(Name name, int type, int dclass, long ttl,
-			 int flags, int proto, int alg, byte[] key )
-	{
+			 int flags, int proto, int alg, byte[] key ) {
 	    super(name, type, dclass, ttl, flags, proto, alg, key)
 	}
 	
-	public Record getObject()
-	{
+	public Record getObject() {
 	    return null
 	}
 
-	void rdataFromString(Tokenizer st, Name origin) throws IOException
-	{
+	void rdataFromString(Tokenizer st, Name origin) throws IOException {
 	}
     }
     */
@@ -71,10 +65,10 @@ public class KEYBaseSpockTest extends Specification {
     def "test_ctor"() throws TextParseException {
 	KBSTestClass tc = new KBSTestClass()
 	expect:
-	mgu.equals(0, tc.getFlags())
-	mgu.equals(0, tc.getProtocol())
-	mgu.equals(0, tc.getAlgorithm())
-	mgu.equals( null,tc.getKey())
+	0 == tc.getFlags()
+	0 == tc.getProtocol()
+	0 == tc.getAlgorithm()
+	null == tc.getKey()
 
 	when:
 	Name n = Name.fromString("my.name.")
@@ -84,14 +78,14 @@ public class KEYBaseSpockTest extends Specification {
 	tc = new KBSTestClass(n, Type.KEY, DClass.IN, 100L, 0xFF, 0xF, 0xE, key)
 
 	then:
-	mgu.equals(n, tc.getName())
-	mgu.equals(Type.KEY, tc.getType())
-	mgu.equals(DClass.IN, tc.getDClass())
-	mgu.equals(100L, tc.getTTL())
-	mgu.equals(0xFF, tc.getFlags())
-	mgu.equals(0xF, tc.getProtocol())
-	mgu.equals(0xE, tc.getAlgorithm())
-	mga.that(Arrays.equals(key, tc.getKey()))
+	n == tc.getName()
+	Type.KEY == tc.getType()
+	DClass.IN == tc.getDClass()
+	100L == tc.getTTL()
+	0xFF == tc.getFlags()
+	0xF == tc.getProtocol()
+	0xE == tc.getAlgorithm()
+	key == tc.getKey()
     }
 
     def "test_rrFromWire"() throws IOException {
@@ -101,14 +95,14 @@ public class KEYBaseSpockTest extends Specification {
 	KBSTestClass tc = new KBSTestClass()
 	tc.rrFromWire(dnsin)
 	expect:
-	mgu.equals(0xABCD, tc.getFlags())
-	mgu.equals(0xEF, tc.getProtocol())
-	mgu.equals(0x19, tc.getAlgorithm())
+	0xABCD == tc.getFlags()
+	0xEF == tc.getProtocol()
+	0x19 == tc.getAlgorithm()
 
 	when:
 	def byte[] b_a = [ 1, 2, 3, 4, 5 ]
 	then:
-	mga.that(Arrays.equals(b_a, tc.getKey()))
+	b_a == tc.getKey()
 
 	when:
 	raw = [ (byte)0xBA, (byte)0xDA, (byte)0xFF, (byte)0x28 ] 
@@ -117,10 +111,10 @@ public class KEYBaseSpockTest extends Specification {
 	tc = new KBSTestClass()
 	tc.rrFromWire(dnsin)
 	then:
-	mgu.equals(0xBADA, tc.getFlags())
-	mgu.equals(0xFF, tc.getProtocol())
-	mgu.equals(0x28, tc.getAlgorithm())
-	mgu.equals( null,tc.getKey())
+	0xBADA == tc.getFlags()
+	0xFF == tc.getProtocol()
+	0x28 == tc.getAlgorithm()
+	null ==tc.getKey()
     }
     
     def "test_rrToString"() throws IOException, TextParseException {
@@ -132,19 +126,19 @@ public class KEYBaseSpockTest extends Specification {
 
 	String out = tc.rrToString()
 	expect:
-	mgu.equals("255 15 14", out)
+	"255 15 14" == out
 
 	when:
 	tc = new KBSTestClass(n, Type.KEY, DClass.IN, 100L, 0xFF, 0xF, 0xE, key)
 	out = tc.rrToString()
 	then:
-	mgu.equals("255 15 14 " + Base64.toString(key), out)
+	("255 15 14 " + Base64.toString(key)) == out
 
 	when:
 	Options.set("multiline")
 	out = tc.rrToString()
 	then:
-	mgu.equals("255 15 14 (\n\t" + Base64.toString(key) + " ) ; key_tag = 18509", out)
+	("255 15 14 (\n\t" + Base64.toString(key) + " ) ; key_tag = 18509") == out
 	cleanup:
 	Options.unset("multiline")
     }
@@ -159,8 +153,8 @@ public class KEYBaseSpockTest extends Specification {
 	int foot = tc.getFootprint()
 	// second-to-last and third-to-last bytes of key for RSAMD5
 	expect:
-	mgu.equals(0xD0E, foot)
-	mgu.equals(foot, tc.getFootprint())
+	0xD0E == foot
+	foot == tc.getFootprint()
 
 	when:
 	// key with an odd number of bytes
@@ -172,14 +166,14 @@ public class KEYBaseSpockTest extends Specification {
 	// 1BFCE + 1 = 1BFCF & FFFF = BFCF
 	foot = tc.getFootprint()
 	then:
-	mgu.equals(0xBFCF, foot)
-	mgu.equals(foot, tc.getFootprint())
+	0xBFCF == foot
+	foot == tc.getFootprint()
 
 	// empty
 	when:
 	tc = new KBSTestClass()
 	then:
-	mgu.equals(0, tc.getFootprint())
+	0 == tc.getFootprint()
     }
 
     def "test_rrToWire"() throws IOException, TextParseException {
@@ -196,14 +190,14 @@ public class KEYBaseSpockTest extends Specification {
 	// canonical
 	tc.rrToWire(o, null, true)
 	expect:
-	mga.that(Arrays.equals(exp, o.toByteArray()))
+	exp == o.toByteArray()
 
 	when:
 	// not canonical
 	o = new DNSOutput()
 	tc.rrToWire(o, null, false)
 	then:
-	mga.that(Arrays.equals(exp, o.toByteArray()))
+	exp == o.toByteArray()
     }
 
 }

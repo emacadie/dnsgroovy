@@ -31,7 +31,7 @@
 // THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-//
+
 package	info.shelfunit.DNS
 
 import org.xbill.DNS.*
@@ -39,14 +39,13 @@ import spock.lang.Specification
 
 public class MDRecordSpockTest extends Specification {
 
-    def mgu = new MyGroovyUtil()
 	
     def "test_ctor_0arg"() {
 	MDRecord d = new MDRecord()
 	expect:
-	mgu.equals(d.getName(), null)
-	mgu.equals(d.getAdditionalName(), null)
-	mgu.equals(d.getMailAgent(), null)
+	d.getName() == null
+	d.getAdditionalName() == null
+	d.getMailAgent() == null
     }
     
     def "test_ctor_4arg"() throws TextParseException {
@@ -56,12 +55,12 @@ public class MDRecordSpockTest extends Specification {
 	MDRecord d = new MDRecord(n, DClass.IN, 0xABCDEL, a)
 
 	then:
-	mgu.equals(n, d.getName())
-	mgu.equals(Type.MD, d.getType())
-	mgu.equals(DClass.IN, d.getDClass())
-	mgu.equals(0xABCDEL, d.getTTL())
-	mgu.equals(a, d.getAdditionalName())
-	mgu.equals(a, d.getMailAgent())
+	n == d.getName()
+	Type.MD == d.getType()
+	DClass.IN == d.getDClass()
+	0xABCDEL == d.getTTL()
+	a == d.getAdditionalName()
+	a == d.getMailAgent()
     }
 
     def "test_getObject"() {

@@ -39,15 +39,12 @@ import spock.lang.Specification
 
 public class NSAP_PTRRecordSpockTest extends Specification {
 
-    def mgu = new MyGroovyUtil()
-	
-
     def "test_ctor_0arg"() {
 	when:
 	NSAP_PTRRecord d = new NSAP_PTRRecord()
 	then:
-	mgu.equals( d.getName(), null)
-	mgu.equals( d.getTarget(), null)
+	 d.getName() == null
+	 d.getTarget() == null
     }
 
     def "test_ctor_4arg"() throws TextParseException {
@@ -58,11 +55,11 @@ public class NSAP_PTRRecordSpockTest extends Specification {
 	NSAP_PTRRecord d = new NSAP_PTRRecord(n, DClass.IN, 0xABCDEL, a)
 	
 	then:
-	mgu.equals( n, d.getName())
-	mgu.equals( Type.NSAP_PTR, d.getType())
-	mgu.equals( DClass.IN, d.getDClass())
-	mgu.equals( 0xABCDEL, d.getTTL())
-	mgu.equals( a, d.getTarget())
+	 n == d.getName()
+	 Type.NSAP_PTR == d.getType()
+	 DClass.IN == d.getDClass()
+	 0xABCDEL == d.getTTL()
+	 a == d.getTarget()
     }
 
     def "test_getObject"() {

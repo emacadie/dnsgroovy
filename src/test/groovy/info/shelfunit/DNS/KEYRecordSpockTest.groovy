@@ -31,7 +31,7 @@
 // THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-//
+
 package info.shelfunit.DNS
 
 import org.xbill.DNS.*
@@ -44,29 +44,26 @@ import spock.lang.Specification
 
 public class KEYRecordSpockTest extends Specification {
 
-    def mgu = new MyGroovyUtil()
-    def mga = new MyGroovyAssert()
-
     def "test_ctor_0arg"() throws UnknownHostException {
 	KEYRecord ar = new KEYRecord()
 
 	expect:
-	mgu.equals(null, ar.getName())
-	mgu.equals(0, ar.getType())
-	mgu.equals(0, ar.getDClass())
-	mgu.equals(0, ar.getTTL().intValue())
-	mgu.equals(0, ar.getAlgorithm())
-	mgu.equals(0, ar.getFlags())
-	mgu.equals(0, ar.getFootprint())
-	mgu.equals(0, ar.getProtocol())
-	mgu.equals(null, ar.getKey())
+	null == ar.getName()
+	0 == ar.getType()
+	0 == ar.getDClass()
+	0 == ar.getTTL().intValue()
+	0 == ar.getAlgorithm()
+	0 == ar.getFlags()
+	0 == ar.getFootprint()
+	0 == ar.getProtocol()
+	null == ar.getKey()
     }
     
     def "test_getObject"() {
 	KEYRecord ar = new KEYRecord()
 	Record r = ar.getObject()
 	expect:
-	mga.that(r instanceof KEYRecord)
+	r instanceof KEYRecord
     }
 
     def "test_ctor_7arg"() throws TextParseException {
@@ -77,14 +74,14 @@ public class KEYRecordSpockTest extends Specification {
 	KEYRecord kr = new KEYRecord(n, DClass.IN, 0x24AC, 0x9832, 0x12, 0x67, key_array)
 	
 	    expect:
-	mgu.equals(n, kr.getName())
-	mgu.equals(Type.KEY, kr.getType())
-	mgu.equals(DClass.IN, kr.getDClass())
-	mgu.equals(0x24AC, kr.getTTL().intValue())
-	mgu.equals(0x9832, kr.getFlags())
-	mgu.equals(0x12, kr.getProtocol())
-	mgu.equals(0x67, kr.getAlgorithm())
-	mga.that(Arrays.equals(key_array, kr.getKey()))
+	n == kr.getName()
+	Type.KEY == kr.getType()
+	DClass.IN == kr.getDClass()
+	0x24AC == kr.getTTL().intValue()
+	0x9832 == kr.getFlags()
+	0x12 == kr.getProtocol()
+	0x67 == kr.getAlgorithm()
+	key_array == kr.getKey()
 
 	// a relative name
 	when:
@@ -95,10 +92,9 @@ public class KEYRecordSpockTest extends Specification {
     
     def "test_Protocol_string"() {
 	expect:
-	// a regular one
-	mgu.equals("DNSSEC", KEYRecord.Protocol.string(KEYRecord.Protocol.DNSSEC))
+	"DNSSEC" == KEYRecord.Protocol.string(KEYRecord.Protocol.DNSSEC) // a regular one
 	// a unassigned value within range
-	mgu.equals("254", KEYRecord.Protocol.string(0xFE))
+	"254" == KEYRecord.Protocol.string(0xFE)
 	// too low
 	when:
 	    KEYRecord.Protocol.string(-1)
@@ -114,41 +110,31 @@ public class KEYRecordSpockTest extends Specification {
     def "test_Protocol_value"() {
 	expect:
 	// a regular one
-	mgu.equals(KEYRecord.Protocol.IPSEC, KEYRecord.Protocol.value("IPSEC"))
+	KEYRecord.Protocol.IPSEC == KEYRecord.Protocol.value("IPSEC")
 	// a unassigned value within range
-	mgu.equals(254, KEYRecord.Protocol.value("254"))
+	254 == KEYRecord.Protocol.value("254")
 	// too low
-	mgu.equals(-1, KEYRecord.Protocol.value("-2"))
+	-1 == KEYRecord.Protocol.value("-2")
 	// too high
-	mgu.equals(-1, KEYRecord.Protocol.value("256"))
+	-1 == KEYRecord.Protocol.value("256")
     }
 
     def "test_Flags_value"() {
 	expect:
 	// numeric
-
-	// lower bound
-	mgu.equals(-1, KEYRecord.Flags.value("-2"))
-	mgu.equals(0, KEYRecord.Flags.value("0"))
-	// in the middle
-	mgu.equals(0xAB35, KEYRecord.Flags.value(0xAB35+""))
-	// upper bound
-	mgu.equals(0xFFFF, KEYRecord.Flags.value(0xFFFF+""))
-	mgu.equals(-1, KEYRecord.Flags.value(0x10000+""))
-
+	-1 == KEYRecord.Flags.value("-2") // lower bound
+	0 == KEYRecord.Flags.value("0")
+	0xAB35 == KEYRecord.Flags.value(0xAB35+"") // in the middle
+	0xFFFF == KEYRecord.Flags.value(0xFFFF+"") // upper bound
+	-1 == KEYRecord.Flags.value(0x10000+"")
 	// textual
-	
-	// single
-	mgu.equals(KEYRecord.Flags.EXTEND, KEYRecord.Flags.value("EXTEND"))
+	KEYRecord.Flags.EXTEND == KEYRecord.Flags.value("EXTEND") // single
 	// single invalid
-	mgu.equals(-1, KEYRecord.Flags.value("NOT_A_VALID_NAME"))
+	-1 == KEYRecord.Flags.value("NOT_A_VALID_NAME")
 	// multiple
-	mgu.equals(KEYRecord.Flags.NOAUTH|KEYRecord.Flags.FLAG10|KEYRecord.Flags.ZONE,
-		     KEYRecord.Flags.value("NOAUTH|ZONE|FLAG10"))
-	// multiple invalid
-	mgu.equals(-1, KEYRecord.Flags.value("NOAUTH|INVALID_NAME|FLAG10"))
-	// pathological
-	mgu.equals(0, KEYRecord.Flags.value("|"))
+	(KEYRecord.Flags.NOAUTH|KEYRecord.Flags.FLAG10|KEYRecord.Flags.ZONE) == KEYRecord.Flags.value("NOAUTH|ZONE|FLAG10")
+	-1 == KEYRecord.Flags.value("NOAUTH|INVALID_NAME|FLAG10") // multiple invalid
+	0 == KEYRecord.Flags.value("|") // pathological
     }
     
     def "test_rdataFromString"() throws IOException, TextParseException {
@@ -159,12 +145,10 @@ public class KEYRecordSpockTest extends Specification {
 	def tempArray = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ].collect { entry -> (byte) entry }
 
 	expect:
-	mgu.equals(KEYRecord.Flags.NOAUTH|KEYRecord.Flags.FLAG10|KEYRecord.Flags.ZONE,
-		     kr.getFlags())
-	mgu.equals(KEYRecord.Protocol.EMAIL, kr.getProtocol())
-	mgu.equals(DNSSEC.Algorithm.RSASHA1, kr.getAlgorithm())
-	
-	mga.that(Arrays.equals( tempArray.toArray(new byte[tempArray.size]), kr.getKey()))
+	(KEYRecord.Flags.NOAUTH|KEYRecord.Flags.FLAG10|KEYRecord.Flags.ZONE) == kr.getFlags()
+	KEYRecord.Protocol.EMAIL == kr.getProtocol()
+	DNSSEC.Algorithm.RSASHA1 == kr.getAlgorithm()
+	tempArray.toArray(new byte[tempArray.size]) == kr.getKey()
 
 	when:
 	// basic w/o key
@@ -173,10 +157,10 @@ public class KEYRecordSpockTest extends Specification {
 	    // kr2.rdataFromString(st2, null)
 	
 	then:
-	// mgu.equals(KEYRecord.Flags.NOAUTH|KEYRecord.Flags.FLAG10|KEYRecord.Flags.NOKEY, kr2.getFlags())
-	// mgu.equals(KEYRecord.Protocol.TLS, kr2.getProtocol())
-	// mgu.equals(DNSSEC.Algorithm.ECC, kr2.getAlgorithm())
-	mgu.equals(null, kr2.getKey())
+	// KEYRecord.Flags.NOAUTH|KEYRecord.Flags.FLAG10|KEYRecord.Flags.NOKEY == kr2.getFlags()
+	// KEYRecord.Protocol.TLS == kr2.getProtocol()
+	// DNSSEC.Algorithm.ECC == kr2.getAlgorithm()
+	null == kr2.getKey()
 
 	// invalid flags
 	def kr3 = new KEYRecord()

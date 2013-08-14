@@ -17,13 +17,10 @@ public class DNSSECWithProviderSpockTest extends Specification {
   private static final String KEY_ALGORITHM = "RSA"
   int algorithm = Algorithm.RSASHA1
   byte[] toSign = "The quick brown fox jumped over the lazy dog.".getBytes()
-  def mga = new MyGroovyAssert()
-
 
   public void setup() { }
 
-  public void tearDown() {
-  }
+  public void tearDown() { }
 
   def "testSignSoftware"() throws Exception {
 
@@ -35,7 +32,8 @@ public class DNSSECWithProviderSpockTest extends Specification {
     signer.initSign(keyPair.getPrivate())
     signer.update(toSign)
     byte[] signature = signer.sign()
-    expect: mga.notNull(signature)
+    expect: 
+    signature != null
 
     // verify the signature
     when:
@@ -44,7 +42,7 @@ public class DNSSECWithProviderSpockTest extends Specification {
     verifier.update(toSign)
     boolean verify = verifier.verify(signature)
     then:
-    mga.that(verify)
+    verify
 
   }
 }

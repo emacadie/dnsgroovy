@@ -44,7 +44,6 @@ import org.xbill.DNS.*
 
 public class A6RecordSpockTest extends Specification {
 
-    // def mgu = new MyGroovyUtil()
     Name m_an, m_an2, m_rn
     InetAddress m_addr
     String m_addr_string, m_addr_string_canonical

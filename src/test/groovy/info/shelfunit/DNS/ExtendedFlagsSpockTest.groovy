@@ -40,16 +40,10 @@ import spock.lang.Specification
 
 public class ExtendedFlagsSpockTest extends Specification {
 
-    def mgu = new MyGroovyUtil()
-    def mga = new MyGroovyAssert()
-
     def "test_string"() {
 	expect:
-	// a regular one
-	mgu.equals("do", ExtendedFlags.string(ExtendedFlags.DO))
-
-	// one that doesn't exist
-	mga.that(ExtendedFlags.string(1).startsWith("flag"))
+	"do" == ExtendedFlags.string(ExtendedFlags.DO) // a regular one
+	ExtendedFlags.string(1).startsWith("flag") // one that doesn't exist
 
 	when:
 	    ExtendedFlags.string(-1)
@@ -60,26 +54,16 @@ public class ExtendedFlagsSpockTest extends Specification {
 	try {
 	    ExtendedFlags.string(0x10000)
 	    fail("IllegalArgumentException not thrown")
-	}
-	catch( IllegalArgumentException e ){
-	}
+	} catch( IllegalArgumentException e ){ }
     }
 
     def "test_value"() {
 	expect:
-	// regular one
-	mgu.equals(ExtendedFlags.DO, ExtendedFlags.value("do"))
-
-	// one thats undefined but within range
-	mgu.equals(16, ExtendedFlags.value("FLAG16"))
-
-	// one thats undefined but out of range
-	mgu.equals(-1, ExtendedFlags.value("FLAG" + 0x10000))
-
-	// something that unknown
-	mgu.equals(-1, ExtendedFlags.value("THIS IS DEFINITELY UNKNOWN"))
-
-	// empty string
-	mgu.equals(-1, ExtendedFlags.value(""))
+	ExtendedFlags.DO == ExtendedFlags.value("do") // regular one
+	16 == ExtendedFlags.value("FLAG16") // one thats undefined but within range
+	-1 == ExtendedFlags.value("FLAG" + 0x10000) // one thats undefined but out of range
+	-1 == ExtendedFlags.value("THIS IS DEFINITELY UNKNOWN") // something that unknown
+	-1 == ExtendedFlags.value("") // empty string
     }
 }
+

@@ -45,7 +45,6 @@ import spock.lang.Specification
 
 public class TokenizerSpockTest extends Specification {
 
-    def mgu = new MyGroovyUtil()
     private Tokenizer m_t
 
     def setup() {
@@ -58,183 +57,183 @@ public class TokenizerSpockTest extends Specification {
 
 	Tokenizer.Token tt = m_t.get(true, true)
 	expect:
-	mgu.equals(Tokenizer.IDENTIFIER, tt.type)
+	Tokenizer.IDENTIFIER == tt.type
 	tt.isString()
 	!tt.isEOL()
-	mgu.equals("AnIdentifier", tt.value)
+	"AnIdentifier" == tt.value
 	    
 	when:
 	tt = m_t.get(true, true)
 	then:
-        mgu.equals(Tokenizer.WHITESPACE, tt.type)
+        Tokenizer.WHITESPACE == tt.type
 	!tt.isString()
 	!tt.isEOL()
-	mgu.equals(null, tt.value)
+	null == tt.value
 	
 	when:
 	tt = m_t.get(true, true)
 	then:
-	mgu.equals(Tokenizer.QUOTED_STRING, tt.type)
+	Tokenizer.QUOTED_STRING == tt.type
 	tt.isString()
 	!tt.isEOL()
-	mgu.equals("a quoted \\\" string", tt.value)
+	"a quoted \\\" string" == tt.value
 
 	when:
 	tt = m_t.get(true, true)
 	then:
-	mgu.equals(Tokenizer.EOL, tt.type)
+	Tokenizer.EOL == tt.type
 	!tt.isString()
 	tt.isEOL()
-	mgu.equals(null, tt.value)
+	null == tt.value
 
 	    /*
 	when:
 	tt = m_t.get(true, true)
 	then:
-	mgu.equals(Tokenizer.COMMENT, tt.type)
+	Tokenizer.COMMENT == tt.type
 	!tt.isString()
 	!tt.isEOL()
-	mgu.equals(" this is \"my\"\t(comment)", tt.value)
+	" this is \"my\"\t(comment)" == tt.value
 	    */
 
 	when:
 	tt = m_t.get(true, true)
 	then:
-	    // mgu.equals(Tokenizer.EOL, tt.type)
+	    // Tokenizer.EOL == tt.type
 	!tt.isString()
 	    // tt.isEOL()
-	mgu.equals(null, tt.value)
+	null == tt.value
 
 	when:
 	tt = m_t.get(true, true)
 	then:
-	mgu.equals(Tokenizer.IDENTIFIER, tt.type)
+	Tokenizer.IDENTIFIER == tt.type
 	tt.isString()
 	!tt.isEOL()
-	    // mgu.equals("anotherIdentifier", tt.value)
+	    // "anotherIdentifier" == tt.value
 
 	when:
 	tt = m_t.get(true, true)
 	then:
-	mgu.equals(Tokenizer.WHITESPACE, tt.type)
+	Tokenizer.WHITESPACE == tt.type
 	
 	when:
 	tt = m_t.get(true, true)
 	then:
-	mgu.equals(Tokenizer.IDENTIFIER, tt.type)
+	Tokenizer.IDENTIFIER == tt.type
 	tt.isString()
 	!tt.isEOL()
-	    // mgu.equals("amultilineIdentifier", tt.value)
+	    // "amultilineIdentifier" == tt.value
 
 	when:
 	tt = m_t.get(true, true)
 	then:
-	mgu.equals(Tokenizer.WHITESPACE, tt.type)
+	Tokenizer.WHITESPACE == tt.type
 	    /*	
 	when:
 	tt = m_t.get(true, true)
 	then:
-	mgu.equals(Tokenizer.EOF, tt.type)
+	Tokenizer.EOF == tt.type
 	!tt.isString()
 	tt.isEOL()
-	mgu.equals(null, tt.value)
+	null == tt.value
 	
 	// should be able to do this repeatedly
 	when:
 	tt = m_t.get(true, true)
 	then:
-	mgu.equals(Tokenizer.EOF, tt.type)
+	Tokenizer.EOF == tt.type
 	!tt.isString()
 	tt.isEOL()
-	mgu.equals(null, tt.value)
+	null == tt.value
 */
 	when:
 	m_t = new Tokenizer("onlyOneIdentifier")
 	tt = m_t.get()
 	then:
-	mgu.equals(Tokenizer.IDENTIFIER, tt.type)
-	mgu.equals("onlyOneIdentifier", tt.value)
+	Tokenizer.IDENTIFIER == tt.type
+	"onlyOneIdentifier" == tt.value
 
 	when:
 	m_t = new Tokenizer("identifier ")
 	tt = m_t.get()
 	then:
-	mgu.equals("identifier", tt.value)
+	"identifier" == tt.value
 	when:
 	tt = m_t.get()
 	then:
-	mgu.equals(Tokenizer.EOF, tt.type)
+	Tokenizer.EOF == tt.type
 
 	// some ungets
 	when:
 	m_t = new Tokenizer("identifier \nidentifier2 junk comment")
 	tt = m_t.get(true, true)
 	then:
-	mgu.equals(Tokenizer.IDENTIFIER, tt.type)
-	mgu.equals("identifier", tt.value)
+	Tokenizer.IDENTIFIER == tt.type
+	"identifier" == tt.value
 
 	when:
 	m_t.unget()
 	tt = m_t.get(true, true)
 	then:
-	mgu.equals(Tokenizer.IDENTIFIER, tt.type)
-	mgu.equals("identifier", tt.value)
+	Tokenizer.IDENTIFIER == tt.type
+	"identifier" == tt.value
 
 	when:
 	tt = m_t.get(true, true)
 	then:
-	mgu.equals(Tokenizer.WHITESPACE, tt.type)
+	Tokenizer.WHITESPACE == tt.type
 	
 	when:
 	m_t.unget()
 	tt = m_t.get(true, true)
 	then:
-	mgu.equals(Tokenizer.WHITESPACE, tt.type)
+	Tokenizer.WHITESPACE == tt.type
 	
 	when:
 	tt = m_t.get(true, true)
 	then:
-	mgu.equals(Tokenizer.EOL, tt.type)
+	Tokenizer.EOL == tt.type
 	
 	when:
 	m_t.unget()
 	tt = m_t.get(true, true)
 	then:
-        mgu.equals(Tokenizer.EOL, tt.type)
+        Tokenizer.EOL == tt.type
 	
 	when:
 	tt = m_t.get(true, true)
 	then:
-	mgu.equals(Tokenizer.IDENTIFIER, tt.type)
-	mgu.equals("identifier2", tt.value)
+	Tokenizer.IDENTIFIER == tt.type
+	"identifier2" == tt.value
 
 	    /*
 	when:
 	tt = m_t.get(true, true)
 	then:
-	mgu.equals(Tokenizer.COMMENT, tt.type)
-	mgu.equals(" junk comment", tt.value)
+	Tokenizer.COMMENT == tt.type
+	" junk comment" == tt.value
 	    
 	when:
 	m_t.unget()
 	tt = m_t.get(true, true)
 	then:
-	mgu.equals(Tokenizer.COMMENT, tt.type)
-	mgu.equals(" junk comment", tt.value)
+	Tokenizer.COMMENT == tt.type
+	" junk comment" == tt.value
 
 	when:
 	tt = m_t.get(true, true)
 	then:
-	mgu.equals(Tokenizer.EOF, tt.type)
+	Tokenizer.EOF == tt.type
 	    */
 	    
 	when:
 	m_t = new Tokenizer("identifier ( junk  comment\n )")
 	tt = m_t.get()
 	then:
-	mgu.equals(Tokenizer.IDENTIFIER, tt.type)
-	mgu.equals(Tokenizer.IDENTIFIER, m_t.get().type)
-	    // mgu.equals(Tokenizer.EOF, m_t.get().type)
+	Tokenizer.IDENTIFIER == tt.type
+	Tokenizer.IDENTIFIER == m_t.get().type
+	    // Tokenizer.EOF == m_t.get().type
 	
     }
     // end monster method
@@ -281,21 +280,21 @@ public class TokenizerSpockTest extends Specification {
 
 	    Tokenizer.Token tt = m_t.get()
 	    expect:
-	    mgu.equals(Tokenizer.IDENTIFIER, tt.type)
-	    mgu.equals("file", tt.value)
+	    Tokenizer.IDENTIFIER == tt.type
+	    "file" == tt.value
 
 	    when: tt = m_t.get()
-	    then: mgu.equals(Tokenizer.EOL, tt.type)
+	    then: Tokenizer.EOL == tt.type
 
 	    when: tt = m_t.get()
 	    then:
-	    mgu.equals(Tokenizer.IDENTIFIER, tt.type)
-	    mgu.equals("input", tt.value)
+	    Tokenizer.IDENTIFIER == tt.type
+	    "input" == tt.value
 
 	    when: tt = m_t.get(false, true)
 	    then:
-	    mgu.equals(Tokenizer.COMMENT, tt.type)
-	    mgu.equals(" test", tt.value)
+	    Tokenizer.COMMENT == tt.type
+	    " test" == tt.value
 
 	    m_t.close()
 	} finally {
@@ -307,7 +306,7 @@ public class TokenizerSpockTest extends Specification {
 	m_t = new Tokenizer("; this whole thing is a comment\n")
 	Tokenizer.Token tt = m_t.get()
 
-	expect: mgu.equals(Tokenizer.EOL, tt.type)
+	expect: Tokenizer.EOL == tt.type
     }
     
     def "test_unwanted_ungotten_whitespace"() throws IOException {
@@ -316,7 +315,7 @@ public class TokenizerSpockTest extends Specification {
 	Tokenizer.Token tt = m_t.get(true, true)
 	m_t.unget()
 	tt = m_t.get()
-	then: mgu.equals(Tokenizer.EOF, tt.type)
+	then: Tokenizer.EOF == tt.type
     }
     
     def "test_unwanted_ungotten_comment"() throws IOException {
@@ -325,18 +324,18 @@ public class TokenizerSpockTest extends Specification {
 	Tokenizer.Token tt = m_t.get(true, true)
 	m_t.unget()
 	tt = m_t.get()
-	then: mgu.equals(Tokenizer.EOF, tt.type)
+	then: Tokenizer.EOF == tt.type
     }
     
     def "test_empty_string"() throws IOException {
 	m_t = new Tokenizer("")
 	Tokenizer.Token tt = m_t.get()
-	expect: mgu.equals(Tokenizer.EOF, tt.type)
+	expect: Tokenizer.EOF == tt.type
 
 	when:
 	m_t = new Tokenizer(" ")
 	tt = m_t.get()
-        then: mgu.equals(Tokenizer.EOF, tt.type)
+        then: Tokenizer.EOF == tt.type
     }
     
     def "test_multiple_ungets"() throws IOException {
@@ -353,12 +352,12 @@ public class TokenizerSpockTest extends Specification {
     def "test_getString"() throws IOException {
 	m_t = new Tokenizer("just_an_identifier")
 	String out = m_t.getString()
-        expect: mgu.equals("just_an_identifier", out)
+        expect: "just_an_identifier" == out
 	    
         when:
 	m_t = new Tokenizer("\"just a string\"")
 	out = m_t.getString()
-        then: mgu.equals("just a string", out)
+        then: "just a string" == out
 	
 	when:
 	    m_t = new Tokenizer("; just a comment")
@@ -370,7 +369,7 @@ public class TokenizerSpockTest extends Specification {
     def "test_getIdentifier"() throws IOException {
 	m_t = new Tokenizer("just_an_identifier")
 	String out = m_t.getIdentifier()
-	expect: mgu.equals("just_an_identifier", out)
+	expect: "just_an_identifier" == out
 
 	when:
 	    m_t = new Tokenizer("\"just a string\"")
@@ -382,7 +381,7 @@ public class TokenizerSpockTest extends Specification {
     def "test_getLong"() throws IOException {
 	m_t = new Tokenizer((Integer.MAX_VALUE+1L) + "")
 	long out = m_t.getLong()
-	expect: mgu.equals((Integer.MAX_VALUE+1L), out)
+	expect: (Integer.MAX_VALUE+1L) == out
 	
 	when:
 	    m_t = new Tokenizer("-10")
@@ -400,7 +399,7 @@ public class TokenizerSpockTest extends Specification {
     def "test_getUInt32"() throws IOException {
 	m_t = new Tokenizer(0xABCDEF12L + "")
 	long out = m_t.getUInt32()
-	expect: mgu.equals(0xABCDEF12L, out)
+	expect: 0xABCDEF12L == out
 
 	when:
 	    m_t = new Tokenizer(0x100000000L + "")
@@ -418,7 +417,7 @@ public class TokenizerSpockTest extends Specification {
     def "test_getUInt16"() throws IOException {
 	m_t = new Tokenizer(0xABCDL + "")
 	int out = m_t.getUInt16()
-	mgu.equals(0xABCDL, out)
+	0xABCDL == out
 	
 	when:
 	    m_t = new Tokenizer(0x10000 + "")
@@ -436,7 +435,7 @@ public class TokenizerSpockTest extends Specification {
     def "test_getUInt8"() throws IOException {
 	m_t = new Tokenizer(0xCDL + "")
 	int out = m_t.getUInt8()
-	mgu.equals(0xCDL, out)
+	0xCDL == out
 
 	when:
 	m_t = new Tokenizer(0x100 + "")
@@ -454,15 +453,15 @@ public class TokenizerSpockTest extends Specification {
     def "test_getTTL"() throws IOException {
 	when:
 	m_t = new Tokenizer("59S")
-	then: mgu.equals(59, m_t.getTTL().intValue())
+	then: 59 == m_t.getTTL().intValue()
 
 	when:
 	m_t = new Tokenizer(TTL.MAX_VALUE + "")
-	then: mgu.equals(TTL.MAX_VALUE, m_t.getTTL())
+	then: TTL.MAX_VALUE == m_t.getTTL()
 
 	when:
 	m_t = new Tokenizer((TTL.MAX_VALUE+1L) + "")
-	then: mgu.equals(TTL.MAX_VALUE, m_t.getTTL())
+	then: TTL.MAX_VALUE == m_t.getTTL()
 
 	when:
 	m_t = new Tokenizer("Junk")
@@ -474,15 +473,15 @@ public class TokenizerSpockTest extends Specification {
     def "test_getTTLLike"() throws IOException {
 	when:
 	m_t = new Tokenizer("59S")
-	then: mgu.equals(59, m_t.getTTLLike().intValue())
+	then: 59 == m_t.getTTLLike().intValue()
 
 	when:
 	m_t = new Tokenizer(TTL.MAX_VALUE + "")
-	then: mgu.equals(TTL.MAX_VALUE, m_t.getTTLLike())
+	then: TTL.MAX_VALUE == m_t.getTTLLike()
 
 	when:
 	m_t = new Tokenizer((TTL.MAX_VALUE+1L) + "")
-	then: mgu.equals(TTL.MAX_VALUE+1L, m_t.getTTLLike())
+	then: TTL.MAX_VALUE+1L == m_t.getTTLLike()
 	
 	when:
 	m_t = new Tokenizer("Junk")
@@ -496,7 +495,7 @@ public class TokenizerSpockTest extends Specification {
 	m_t = new Tokenizer("junk")
 	Name exp = Name.fromString("junk.")
 	Name out = m_t.getName(root)
-	expect: mgu.equals(exp, out)
+	expect: exp == out
 
 	Name rel = Name.fromString("you.dig")
 
@@ -564,7 +563,7 @@ public class TokenizerSpockTest extends Specification {
 	when:
 	m_t = new Tokenizer("\n")
 	then: 
-	mgu.equals(null,  m_t.getBase64() )
+	null ==  m_t.getBase64() 
 
 	when:
 	m_t = new Tokenizer("\n")
@@ -592,7 +591,7 @@ public class TokenizerSpockTest extends Specification {
 	byte [] exp = exp_raw.toArray(new byte[exp_raw.size])
 	m_t = new Tokenizer("0102030405060708090A0B0C0D0E0F")
 	byte[] out = m_t.getHex()
-	expect: // mgu.equals(exp, out)
+	expect: // exp == out
 	exp == out
 	
 	when:
@@ -600,7 +599,7 @@ public class TokenizerSpockTest extends Specification {
 	m_t = new Tokenizer("0102030 405 060708090A0B0C      0D0E0F")
 	out = m_t.getHex()
 	then:
-	// mgu.equals(exp, out)
+	// exp == out
 	exp == out
 
 	// two hexs separated by newline
@@ -608,14 +607,14 @@ public class TokenizerSpockTest extends Specification {
 	m_t = new Tokenizer("0102030405060708090A0B0C0D0E0F\n01AB3FE")
 	out = m_t.getHex()
 	then:
-	// mgu.equals(exp, out)
+	// exp == out
 	exp == out
 
 	// no remaining strings
 	when:
 	m_t = new Tokenizer("\n")
 	then:
-	mgu.equals(null,  m_t.getHex() )
+	null ==  m_t.getHex() 
 
 	when:
 	m_t = new Tokenizer("\n")

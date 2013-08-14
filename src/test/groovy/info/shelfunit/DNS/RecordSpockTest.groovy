@@ -48,28 +48,21 @@ import info.shelfunit.DNS.*
 
 public class RecordSpockTest extends Specification {
 
-    def mgu = new MyGroovyUtil()
-    def mga = new MyGroovyAssert()
-
     /*
-    private static class SubRecord extends Record
-    {
+    private static class SubRecord extends Record {
 	public SubRecord(){}
 
-	public SubRecord(Name name, int type, int dclass, long ttl)
-	{
+	public SubRecord(Name name, int type, int dclass, long ttl) {
 	    super(name, type, dclass, ttl)
 	}
 
-	public Record getObject()
-	{
+	public Record getObject() {
 	    return null
 	}
 
 	public void rrFromWire(DNSInput dnsin) throws IOException {}
 
-	public String rrToString()
-	{
+	public String rrToString() {
 	    return "{SubRecord: rrToString}"
 	}
 
@@ -78,25 +71,21 @@ public class RecordSpockTest extends Specification {
 	public void rrToWire(DNSOutput out, Compression c, boolean canonical) {}
 
 	// makes it callable by test code
-	public static byte[] byteArrayFromString(String instring) throws TextParseException
-	{
+	public static byte[] byteArrayFromString(String instring) throws TextParseException {
 	    return Record.byteArrayFromString(instring)
 	}
 
 	// make it callable by test code
-	public static String byteArrayToString(byte[] inbytes, boolean quote)
-	{
+	public static String byteArrayToString(byte[] inbytes, boolean quote) {
 	    return Record.byteArrayToString(inbytes, quote)
 	}
 
 	// make it callable by test code
-	public static String unknownToString(byte[] inbytes)
-	{
+	public static String unknownToString(byte[] inbytes) {
 	    return Record.unknownToString(inbytes)
 	}
 
-	public Object clone() throws CloneNotSupportedException
-	{
+	public Object clone() throws CloneNotSupportedException {
 	    throw new CloneNotSupportedException()
 	}
     }
@@ -104,10 +93,10 @@ public class RecordSpockTest extends Specification {
     def "test_ctor_0arg"() {
 	SubRecordSpockTest sr = new SubRecordSpockTest()
 	expect:
-	mgu.equals( null, sr.getName())
-	mgu.equals(0, sr.getType())
-	mgu.equals(0, sr.getTTL().intValue())
-	mgu.equals(0, sr.getDClass())
+	 null == sr.getName()
+	0 == sr.getType()
+	0 == sr.getTTL().intValue()
+	0 == sr.getDClass()
     }
     
     def "test_ctor_4arg"() throws TextParseException {
@@ -118,10 +107,10 @@ public class RecordSpockTest extends Specification {
 
 	SubRecordSpockTest r = new SubRecordSpockTest(n, t, d, ttl)
 	expect:
-	mgu.equals(n, r.getName())
-	mgu.equals(t, r.getType())
-	mgu.equals(d, r.getDClass())
-	mgu.equals(ttl, r.getTTL())
+	n == r.getName()
+	t == r.getType()
+	d == r.getDClass()
+	ttl == r.getTTL()
     }
     
     def "test_ctor_4arg_invalid"() throws TextParseException {
@@ -157,11 +146,11 @@ public class RecordSpockTest extends Specification {
 	Record rec = Record.newRecord(n, t, d)
 
 	expect:
-	mga.that(rec instanceof EmptyRecord)
-	mgu.equals(n, rec.getName())
-	mgu.equals(t, rec.getType())
-	mgu.equals(d, rec.getDClass())
-	mgu.equals(0, rec.getTTL().intValue())
+	rec instanceof EmptyRecord
+	n == rec.getName()
+	t == rec.getType()
+	d == rec.getDClass()
+	0 == rec.getTTL().intValue()
 
 	when:
 	    Record.newRecord(r, t, d)
@@ -178,11 +167,11 @@ public class RecordSpockTest extends Specification {
 	Record rec = Record.newRecord(n, t, d, ttl)
 
 	expect:
-	mga.that(rec instanceof EmptyRecord)
-	mgu.equals(n, rec.getName())
-	mgu.equals(t, rec.getType())
-	mgu.equals(d, rec.getDClass())
-	mgu.equals(ttl, rec.getTTL().intValue())
+	rec instanceof EmptyRecord
+	n == rec.getName()
+	t == rec.getType()
+	d == rec.getDClass()
+	ttl == rec.getTTL().intValue()
 
 	when:
 	    Record.newRecord(r, t, d, ttl)
@@ -200,12 +189,12 @@ public class RecordSpockTest extends Specification {
 	Record rec = Record.newRecord(n, t, d, ttl, data)
 
 	expect:
-	mga.that(rec instanceof ARecord)
-	mgu.equals(n, rec.getName())
-	mgu.equals(t, rec.getType())
-	mgu.equals(d, rec.getDClass())
-	mgu.equals(ttl, rec.getTTL().intValue())
-	mgu.equals(exp, ((ARecord)rec).getAddress())
+	rec instanceof ARecord
+	n == rec.getName()
+	t == rec.getType()
+	d == rec.getDClass()
+	ttl == rec.getTTL().intValue()
+	exp == ((ARecord)rec).getAddress()
     }
     
     def "test_newRecord_6arg"() throws TextParseException,
@@ -220,31 +209,31 @@ public class RecordSpockTest extends Specification {
 	Record rec = Record.newRecord(n, t, d, ttl, 0, null)
 
 	expect:
-	mga.that(rec instanceof EmptyRecord)
-	mgu.equals(n, rec.getName())
-	mgu.equals(t, rec.getType())
-	mgu.equals(d, rec.getDClass())
-	mgu.equals(ttl, rec.getTTL().intValue())
+	rec instanceof EmptyRecord
+	n == rec.getName()
+	t == rec.getType()
+	d == rec.getDClass()
+	ttl == rec.getTTL().intValue()
 
 	when:
 	rec = Record.newRecord(n, t, d, ttl, data.length, data)
 	then:
-	mga.that(rec instanceof ARecord)
-	mgu.equals(n, rec.getName())
-	mgu.equals(t, rec.getType())
-	mgu.equals(d, rec.getDClass())
-	mgu.equals(ttl, rec.getTTL().intValue())
-	mgu.equals(exp, ((ARecord)rec).getAddress())
+	rec instanceof ARecord
+	n == rec.getName()
+	t == rec.getType()
+	d == rec.getDClass()
+	ttl == rec.getTTL().intValue()
+	exp == ((ARecord)rec).getAddress()
 	
 	when:
 	rec = Record.newRecord(n, Type.NIMLOC, d, ttl, data.length, data)
 	then:
-	mga.that(rec instanceof UNKRecord)
-	mgu.equals(n, rec.getName())
-	mgu.equals(Type.NIMLOC, rec.getType())
-	mgu.equals(d, rec.getDClass())
-	mgu.equals(ttl, rec.getTTL().intValue())
-	mga.that(Arrays.equals(data, ((UNKRecord)rec).getData()))
+	rec instanceof UNKRecord
+	n == rec.getName()
+	Type.NIMLOC == rec.getType()
+	d == rec.getDClass()
+	ttl == rec.getTTL().intValue()
+	data == ((UNKRecord)rec).getData()
     }
     
     def "test_newRecord_6arg_invalid"() throws TextParseException {
@@ -256,14 +245,14 @@ public class RecordSpockTest extends Specification {
 	def byte[] data = [ (byte)123, (byte)232, (byte)0, (byte)255 ] 
 
 	expect:
-	mgu.equals( null, Record.newRecord(n, t, d, ttl, 0, new byte[ 0 ]))
-	mgu.equals( null, Record.newRecord(n, t, d, ttl, 1, new byte[ 0 ]))
-	mgu.equals( null, Record.newRecord(n, t, d, ttl, data.length+1, data))
+	 null == Record.newRecord(n, t, d, ttl, 0, new byte[ 0 ])
+	 null == Record.newRecord(n, t, d, ttl, 1, new byte[ 0 ])
+	 null == Record.newRecord(n, t, d, ttl, data.length+1, data)
 
 	when:
 	def byte[] b1 = [ data[0], data[1], data[2], data[3], 0 ]
 	then:
-	mgu.equals( null, Record.newRecord(n, t, d, ttl, 5, b1 ))
+	 null == Record.newRecord(n, t, d, ttl, 5, b1 )
 
 	when:
 	    Record.newRecord(r, t, d, ttl, 0, null)
@@ -292,41 +281,41 @@ public class RecordSpockTest extends Specification {
 	Record rec = Record.fromWire(dnsin, Section.ANSWER, false)
 
 	expect:
-	mga.that(rec instanceof ARecord)
-	mgu.equals(n, rec.getName())
-	mgu.equals(t, rec.getType())
-	mgu.equals(d, rec.getDClass())
-	mgu.equals(ttl, rec.getTTL().intValue())
-	mgu.equals(exp, ((ARecord)rec).getAddress())
+	rec instanceof ARecord
+	n == rec.getName()
+	t == rec.getType()
+	d == rec.getDClass()
+	ttl == rec.getTTL().intValue()
+	exp == ((ARecord)rec).getAddress()
 
 	when:
 	dnsin = new DNSInput(out.toByteArray())
 	rec = Record.fromWire(dnsin, Section.QUESTION, false)
 	then:
-	mga.that(rec instanceof EmptyRecord)
-	mgu.equals(n, rec.getName())
-	mgu.equals(t, rec.getType())
-	mgu.equals(d, rec.getDClass())
-	mgu.equals(0, rec.getTTL().intValue())
+	rec instanceof EmptyRecord
+	n == rec.getName()
+	t == rec.getType()
+	d == rec.getDClass()
+	0 == rec.getTTL().intValue()
 
 	when:
 	dnsin = new DNSInput(out.toByteArray())
 	rec = Record.fromWire(dnsin, Section.QUESTION)
 	then:
-	mga.that(rec instanceof EmptyRecord)
-	mgu.equals(n, rec.getName())
-	mgu.equals(t, rec.getType())
-	mgu.equals(d, rec.getDClass())
-	mgu.equals(0, rec.getTTL().intValue())
+	rec instanceof EmptyRecord
+	n == rec.getName()
+	t == rec.getType()
+	d == rec.getDClass()
+	0 == rec.getTTL().intValue()
 
 	when:
 	rec = Record.fromWire(out.toByteArray(), Section.QUESTION)
 	then:
-	mga.that(rec instanceof EmptyRecord)
-	mgu.equals(n, rec.getName())
-	mgu.equals(t, rec.getType())
-	mgu.equals(d, rec.getDClass())
-	mgu.equals(0, rec.getTTL().intValue())
+	rec instanceof EmptyRecord
+	n == rec.getName()
+	t == rec.getType()
+	d == rec.getDClass()
+	0 == rec.getTTL().intValue()
 
 	when:
 	out = new DNSOutput()
@@ -340,11 +329,11 @@ public class RecordSpockTest extends Specification {
 
 	rec = Record.fromWire(dnsin, Section.ANSWER, true)
 	then:
-	mga.that(rec instanceof EmptyRecord)
-	mgu.equals(n, rec.getName())
-	mgu.equals(t, rec.getType())
-	mgu.equals(d, rec.getDClass())
-	mgu.equals(ttl, rec.getTTL().intValue())
+	rec instanceof EmptyRecord
+	n == rec.getName()
+	t == rec.getType()
+	d == rec.getDClass()
+	ttl == rec.getTTL().intValue()
 
     }
     
@@ -374,13 +363,13 @@ public class RecordSpockTest extends Specification {
 
 	byte[] after = out.toByteArray()
 	expect:    
-	mga.that(Arrays.equals(exp, after))
+	exp == after
 
 	// an equivalent call
 	when:
 	after = rec.toWire(Section.ANSWER)
 	then:    
-	mga.that(Arrays.equals(exp, after))
+	exp == after
 
 	// a QUESTION entry
 	when:
@@ -394,7 +383,7 @@ public class RecordSpockTest extends Specification {
 	rec.toWire(out, Section.QUESTION, null)
 	after = out.toByteArray()
 	then:    
-	mga.that(Arrays.equals(exp, after))
+	exp == after
 
     }
     
@@ -419,7 +408,7 @@ public class RecordSpockTest extends Specification {
 
 	byte[] after = rec.toWireCanonical()
 	expect:
-	mga.that(Arrays.equals(exp, after))
+	exp == after
     }
     
     def "test_rdataToWireCanonical"() throws IOException, TextParseException, UnknownHostException {
@@ -437,12 +426,12 @@ public class RecordSpockTest extends Specification {
 	byte[] exp = out.toByteArray()
 
 	Record rec = Record.newRecord(n, t, d, ttl, data.length, data)
-	expect: mga.that(rec instanceof NSRecord)
+	expect: rec instanceof NSRecord
 
 	when:
 	byte[] after = rec.rdataToWireCanonical()
 	then:
-	mga.that(Arrays.equals(exp, after))
+	exp == after
     }
 
     def "test_rdataToString"() throws IOException, TextParseException, UnknownHostException {
@@ -457,8 +446,8 @@ public class RecordSpockTest extends Specification {
 
 	Record rec = Record.newRecord(n, t, d, ttl, data.length, data)
 	expect:
-	mga.that(rec instanceof NSRecord)
-	mgu.equals(rec.rrToString(), rec.rdataToString())
+	rec instanceof NSRecord
+	rec.rrToString() == rec.rdataToString()
     }
 
     def "test_toString"() throws TextParseException {
@@ -475,39 +464,39 @@ public class RecordSpockTest extends Specification {
 	String out = rec.toString()
 	    
 	expect:
-	mga.that(out.indexOf(n.toString()) != -1)
-	mga.that(out.indexOf(n2.toString()) != -1)
-	mga.that(out.indexOf("NS") != -1)
-	mga.that(out.indexOf("IN") != -1)
-	mga.that(out.indexOf(ttl+"") != -1)
+	out.indexOf(n.toString()) != -1
+	out.indexOf(n2.toString()) != -1
+	out.indexOf("NS") != -1
+	out.indexOf("IN") != -1
+	out.indexOf(ttl+"") != -1
 	
 	when:
 	Options.set("BINDTTL")
 
 	out = rec.toString()
 	then:
-	mga.that(out.indexOf(n.toString()) != -1)
-	mga.that(out.indexOf(n2.toString()) != -1)
-	mga.that(out.indexOf("NS") != -1)
-	mga.that(out.indexOf("IN") != -1)
-	mga.that(out.indexOf(TTL.format(ttl)) != -1)
+	out.indexOf(n.toString()) != -1
+	out.indexOf(n2.toString()) != -1
+	out.indexOf("NS") != -1
+	out.indexOf("IN") != -1
+	out.indexOf(TTL.format(ttl)) != -1
 
 	when:
 	Options.set("noPrintIN")
 	out = rec.toString()
 	then:
-	mga.that(out.indexOf(n.toString()) != -1)
-	mga.that(out.indexOf(n2.toString()) != -1)
-	mga.that(out.indexOf("NS") != -1)
-	mga.that(out.indexOf("IN") == -1)
-	mga.that(out.indexOf(TTL.format(ttl)) != -1)
+	out.indexOf(n.toString()) != -1
+	out.indexOf(n2.toString()) != -1
+	out.indexOf("NS") != -1
+	out.indexOf("IN") == -1
+	out.indexOf(TTL.format(ttl)) != -1
     }
     
     def "test_byteArrayFromString"() throws TextParseException {
 	String stringin = "the 98 \" \' quick 0xAB brown"
 	byte[] out = SubRecordSpockTest.byteArrayFromString(stringin)
 	expect:
-	mga.that(Arrays.equals(stringin.getBytes(), out))
+	stringin.getBytes() == out
 
 	when:
 	stringin = " \\031Aa\\\\\"\\\\~\\127\\255"
@@ -523,7 +512,7 @@ public class RecordSpockTest extends Specification {
 			   (byte)0xFF ] 
 	out = SubRecordSpockTest.byteArrayFromString(stringin)
         then:
-	    mga.that(Arrays.equals(exp, out))
+	    exp == out
     }
 
     def "test_byteArrayFromString_invalid"() {
@@ -559,7 +548,7 @@ public class RecordSpockTest extends Specification {
 	def byte[] bytesin = [ ' ', 0x1F, 'A', 'a', '"', '\\', 0x7E, 0x7F, (byte)0xFF ] 
 	String exp = "\" \\031Aa\\\"\\\\~\\127\\255\""
 	expect:
-	mgu.equals(exp, SubRecordSpockTest.byteArrayToString(bytesin, true))
+	exp == SubRecordSpockTest.byteArrayToString(bytesin, true)
     }
 
     def "test_unknownToString"() {
@@ -567,8 +556,8 @@ public class RecordSpockTest extends Specification {
 			    (byte)0xBC, (byte)0xDE, (byte)0xFF ] 
 	String out = SubRecordSpockTest.unknownToString(data)
 	expect:
-	mga.that(out.indexOf("" + data.length) != -1)
-	mga.that(out.indexOf("123456789ABCDEFF") != -1)
+	out.indexOf("" + data.length) != -1
+	out.indexOf("123456789ABCDEFF") != -1
     }
 
     def "test_fromString"() throws IOException, TextParseException {
@@ -584,24 +573,24 @@ public class RecordSpockTest extends Specification {
 	Tokenizer st = new Tokenizer(sa)
 	Record rec = Record.fromString(n, t, d, ttl, st, n2)
 	expect:
-	mga.that(rec instanceof ARecord)
-	mgu.equals(n, rec.getName())
-	mgu.equals(t, rec.getType())
-	mgu.equals(d, rec.getDClass())
-	mgu.equals(ttl, rec.getTTL().intValue())
-	mgu.equals(addr, ((ARecord)rec).getAddress())
+	rec instanceof ARecord
+	n == rec.getName()
+	t == rec.getType()
+	d == rec.getDClass()
+	ttl == rec.getTTL().intValue()
+	addr == ((ARecord)rec).getAddress()
 
 	when:
 	String unkData = SubRecordSpockTest.unknownToString(b)
 	st = new Tokenizer(unkData)
 	rec = Record.fromString(n, t, d, ttl, st, n2)
 	then:
-	mga.that(rec instanceof ARecord)
-	mgu.equals(n, rec.getName())
-	mgu.equals(t, rec.getType())
-	mgu.equals(d, rec.getDClass())
-	mgu.equals(ttl, rec.getTTL().intValue())
-	mgu.equals(addr, ((ARecord)rec).getAddress())
+	rec instanceof ARecord
+	n == rec.getName()
+	t == rec.getType()
+	d == rec.getDClass()
+	ttl == rec.getTTL().intValue()
+	addr == ((ARecord)rec).getAddress()
     }
 
     def "test_fromString_invalid"() throws IOException, TextParseException {
@@ -639,13 +628,13 @@ public class RecordSpockTest extends Specification {
 
 	Record r = Record.newRecord(n, Type.A, DClass.IN, 0)
 	expect:
-	mgu.equals(Type.A, r.getRRsetType())
+	Type.A == r.getRRsetType()
 
 	when:
 	r = new RRSIGRecord(n, DClass.IN, 0, Type.A, 1, 0, new Date(),
 			    new Date(), 10, n, new byte[ 0 ])
 	then:
-	mgu.equals(Type.A, r.getRRsetType())
+	Type.A == r.getRRsetType()
     }
 
     def "test_sameRRset"() throws TextParseException {
@@ -656,16 +645,16 @@ public class RecordSpockTest extends Specification {
 	Record r2 = new RRSIGRecord(n, DClass.IN, 0, Type.A, 1, 0, new Date(),
 				    new Date(), 10, n, b1 )
         expect:
-	mga.that(r1.sameRRset(r2))
-	mga.that(r2.sameRRset(r1))
+	r1.sameRRset(r2)
+	r2.sameRRset(r1)
 
 	when:
 	r1 = Record.newRecord(n, Type.A, DClass.HS, 0)
 	r2 = new RRSIGRecord(n, DClass.IN, 0, Type.A, 1, 0, new Date(),
 			     new Date(), 10, n, b1 )
 	then:
-	    mga.that(!r1.sameRRset(r2))
-	    mga.that(!r2.sameRRset(r1))
+	    !r1.sameRRset(r2)
+	    !r2.sameRRset(r1)
 
 	when:
 	def r5 = Record.newRecord(n, Type.A, DClass.IN, 0)
@@ -673,8 +662,8 @@ public class RecordSpockTest extends Specification {
 			     new Date(), 10, n, b1 )
 	
 	then:
-	mga.that(!r5.sameRRset(r6))
-	mga.that(!r6.sameRRset(r5))
+	!r5.sameRRset(r6)
+	!r6.sameRRset(r5)
     }
 
     def "test_equals"() throws TextParseException {
@@ -685,44 +674,44 @@ public class RecordSpockTest extends Specification {
 	when:
 	Record r1 = Record.newRecord(n, Type.A, DClass.IN, 0)
 	then: 
-	mga.that(!r1.equals(null))
-	mga.that(!r1.equals(new Object()))
+	!r1.equals(null)
+	!r1.equals(new Object())
 
 	when:
 	Record r2 = Record.newRecord(n, Type.A, DClass.IN, 0)
 	then:
-	mgu.equals(r1, r2)
-	mgu.equals(r2, r1)
+	r1 == r2
+	r2 == r1
 
 	when:
 	r2 = Record.newRecord(n2, Type.A, DClass.IN, 0)
 	then: 
-	mgu.equals(r1, r2)
-	mgu.equals(r2, r1)
+	r1 == r2
+	r2 == r1
 
 	when:
 	r2 = Record.newRecord(n2, Type.A, DClass.IN, 0xABCDE)
 	then: 
-	mgu.equals(r1, r2)
-	mgu.equals(r2, r1)
+	r1 == r2
+	r2 == r1
 
 	when:
 	r2 = Record.newRecord(m, Type.A, DClass.IN, 0xABCDE)
 	then: 
-	mga.that(!r1.equals(r2))
-	mga.that(!r2.equals(r1))
+	!r1.equals(r2)
+	!r2.equals(r1)
 
 	when:
 	r2 = Record.newRecord(n2, Type.MX, DClass.IN, 0xABCDE)
 	then: 
-	mga.that(!r1.equals(r2))
-	mga.that(!r2.equals(r1))
+	!r1.equals(r2)
+	!r2.equals(r1)
 
 	when:
 	r2 = Record.newRecord(n2, Type.A, DClass.CHAOS, 0xABCDE)
 	then: 
-	mga.that(!r1.equals(r2))
-	mga.that(!r2.equals(r1))
+	!r1.equals(r2)
+	!r2.equals(r1)
 
 	when:
 	def byte[] d1 = [ 23, 12, 9, (byte)129 ]
@@ -731,14 +720,14 @@ public class RecordSpockTest extends Specification {
 	r1 = Record.newRecord(n, Type.A, DClass.IN, 0xABCDE9, d1)
 	r2 = Record.newRecord(n, Type.A, DClass.IN, 0xABCDE9, d1)
 	then: 
-	mgu.equals(r1, r2)
-	mgu.equals(r2, r1)
+	r1 == r2
+	r2 == r1
 
 	when:
 	r2 = Record.newRecord(n, Type.A, DClass.IN, 0xABCDE9, d2)
 	then: 
-	mga.that(!r1.equals(r2))
-	mga.that(!r2.equals(r1))
+	!r1.equals(r2)
+	!r2.equals(r1)
     }
     
     def "test_hashCode"() throws TextParseException {
@@ -752,37 +741,37 @@ public class RecordSpockTest extends Specification {
 
 	// same record has same hash code
 	Record r2 = Record.newRecord(n, Type.A, DClass.IN, 0xABCDE9, d1)
-	expect: mgu.equals(r1.hashCode(), r2.hashCode())
+	expect: r1.hashCode() == r2.hashCode()
 
 	// case of names should not matter
 	when:
 	r2 = Record.newRecord(n2, Type.A, DClass.IN, 0xABCDE9, d1)
         then:
-	mgu.equals(r1.hashCode(), r2.hashCode())
+	r1.hashCode() == r2.hashCode()
 
 	// different names
 	when:
 	r2 = Record.newRecord(m, Type.A, DClass.IN, 0xABCDE9, d1)
         then:
-	mga.that(r1.hashCode() != r2.hashCode())
+	r1.hashCode() != r2.hashCode()
 
 	// different class
 	when:
 	r2 = Record.newRecord(n, Type.A, DClass.CHAOS, 0xABCDE9, d1)
         then:
-	mga.that(r1.hashCode() != r2.hashCode())
+	r1.hashCode() != r2.hashCode()
 
 	// different TTL does not matter
 	when:
 	r2 = Record.newRecord(n, Type.A, DClass.IN, 0xABCDE, d1)
         then:
-	mgu.equals(r1.hashCode(), r2.hashCode())
+	r1.hashCode() == r2.hashCode()
 
 	// different data
 	when:
 	r2 = Record.newRecord(n, Type.A, DClass.IN, 0xABCDE9, d2)
         then:
-	mga.that(r1.hashCode() != r2.hashCode())
+	r1.hashCode() != r2.hashCode()
     }
 
     def "test_cloneRecord"() throws TextParseException {
@@ -793,7 +782,7 @@ public class RecordSpockTest extends Specification {
 	Record r2 = r.cloneRecord()
 	expect:
 	    // assertNotSame(r, r2)
-	mgu.equals(r, r2)
+	r == r2
 
 	when:
 	    r = new SubRecordSpockTest(n, Type.A, DClass.IN, 0xABCDE9)
@@ -811,11 +800,11 @@ public class RecordSpockTest extends Specification {
 
 	Record r1 = r.withName(m)
 	expect:
-	mgu.equals(m, r1.getName())
-	mgu.equals(Type.A, r1.getType())
-	mgu.equals(DClass.IN, r1.getDClass())
-	mgu.equals(0xABCDE9, r1.getTTL().intValue())
-	mgu.equals(((ARecord)r).getAddress(), ((ARecord)r1).getAddress())
+	m == r1.getName()
+	Type.A == r1.getType()
+	DClass.IN == r1.getDClass()
+	0xABCDE9 == r1.getTTL().intValue()
+	((ARecord)r).getAddress() == ((ARecord)r1).getAddress()
 
 	when:
 	    r.withName(rel)
@@ -829,11 +818,11 @@ public class RecordSpockTest extends Specification {
 
 	Record r1 = r.withDClass(DClass.HESIOD, 0x9876)
 	expect:
-	mgu.equals(n, r1.getName())
-	mgu.equals(Type.A, r1.getType())
-	mgu.equals(DClass.HESIOD, r1.getDClass())
-	mgu.equals(0x9876, r1.getTTL().intValue())
-	mgu.equals(((ARecord)r).getAddress(), ((ARecord)r1).getAddress())
+	n == r1.getName()
+	Type.A == r1.getType()
+	DClass.HESIOD == r1.getDClass()
+	0x9876 == r1.getTTL().intValue()
+	((ARecord)r).getAddress() == ((ARecord)r1).getAddress()
     }
 
     def "test_setTTL"() throws TextParseException, UnknownHostException {
@@ -842,16 +831,16 @@ public class RecordSpockTest extends Specification {
 	InetAddress exp = InetAddress.getByName("23.12.9.129")
 	Record r = Record.newRecord(n, Type.A, DClass.IN, 0xABCDE9, d)
 	expect:
-	mgu.equals(0xABCDE9, r.getTTL().intValue())
+	0xABCDE9 == r.getTTL().intValue()
 
 	when:
 	r.setTTL(0x9876)
 	then:
-	mgu.equals(n, r.getName())
-	mgu.equals(Type.A, r.getType())
-	mgu.equals(DClass.IN, r.getDClass())
-	mgu.equals(0x9876, r.getTTL().intValue())
-	mgu.equals(exp, ((ARecord)r).getAddress())
+	n == r.getName()
+	Type.A == r.getType()
+	DClass.IN == r.getDClass()
+	0x9876 == r.getTTL().intValue()
+	exp == ((ARecord)r).getAddress()
     }
 
     def "test_compareTo"() throws TextParseException {
@@ -864,44 +853,44 @@ public class RecordSpockTest extends Specification {
 	Record r2 = Record.newRecord(n, Type.A, DClass.IN, 0xABCDE9, d)
 
 	expect:
-	mgu.equals(0, r1.compareTo(r1))
-	mgu.equals(0, r1.compareTo(r2))
-	mgu.equals(0, r2.compareTo(r1))
+	0 == r1.compareTo(r1)
+	0 == r1.compareTo(r2)
+	0 == r2.compareTo(r1)
 
 	// name comparison should be canonical
 	when:
 	r2 = Record.newRecord(n2, Type.A, DClass.IN, 0xABCDE9, d)
 	then:
-	mgu.equals(0, r1.compareTo(r2))
-	mgu.equals(0, r2.compareTo(r1))
+	0 == r1.compareTo(r2)
+	0 == r2.compareTo(r1)
 
 	// different name
 	when:
 	r2 = Record.newRecord(m, Type.A, DClass.IN, 0xABCDE9, d)
 	then:
-	mgu.equals(n.compareTo(m), r1.compareTo(r2))
-	mgu.equals(m.compareTo(n), r2.compareTo(r1))
+	n.compareTo(m) == r1.compareTo(r2)
+	m.compareTo(n) == r2.compareTo(r1)
 
 	// different DClass
 	when:
 	r2 = Record.newRecord(n, Type.A, DClass.CHAOS, 0xABCDE9, d)
 	then:
-	mgu.equals(DClass.IN-DClass.CHAOS, r1.compareTo(r2))
-	mgu.equals(DClass.CHAOS-DClass.IN, r2.compareTo(r1))
+	DClass.IN-DClass.CHAOS == r1.compareTo(r2)
+	DClass.CHAOS-DClass.IN == r2.compareTo(r1)
 
 	// different Type
 	when:
 	r2 = Record.newRecord(n, Type.NS, DClass.IN, 0xABCDE9, m.toWire())
 	then:
-	mgu.equals(Type.A-Type.NS, r1.compareTo(r2))
-	mgu.equals(Type.NS-Type.A, r2.compareTo(r1))
+	Type.A-Type.NS == r1.compareTo(r2)
+	Type.NS-Type.A == r2.compareTo(r1)
 
 	// different data (same length)
 	when:
 	r2 = Record.newRecord(n, Type.A, DClass.IN, 0xABCDE9, d2)
 	then:
-	mgu.equals(1, r1.compareTo(r2))
-	mgu.equals(-1, r2.compareTo(r1))
+	1 == r1.compareTo(r2)
+	-1 == r2.compareTo(r1)
 
 	// different data (one a prefix of the other)
 	when:
@@ -909,15 +898,15 @@ public class RecordSpockTest extends Specification {
 	r1 = Record.newRecord(n, Type.NS, DClass.IN, 0xABCDE9, n.toWire())
 	r2 = Record.newRecord(n, Type.NS, DClass.IN, 0xABCDE9, m.toWire())
 	then:
-	mgu.equals(-1, r1.compareTo(r2))
-	mgu.equals(1, r2.compareTo(r1))
+	-1 == r1.compareTo(r2)
+	1 == r2.compareTo(r1)
     }
 
     def "test_getAdditionalName"() throws TextParseException {
 	Name n = Name.fromString("My.N.")
 	Record r = new SubRecordSpockTest(n, Type.A, DClass.IN, 0xABCDE9)
 	expect:
-	mgu.equals( null, r.getAdditionalName())
+	 null == r.getAdditionalName()
     }
     
     def "test_checkU8"() {
@@ -925,9 +914,9 @@ public class RecordSpockTest extends Specification {
 	then: thrown( IllegalArgumentException.class )
 
 	expect:
-	mgu.equals(0, Record.checkU8("field", 0))
-	mgu.equals(0x9D, Record.checkU8("field", 0x9D))
-	mgu.equals(0xFF, Record.checkU8("field", 0xFF))
+	0 == Record.checkU8("field", 0)
+	0x9D == Record.checkU8("field", 0x9D)
+	0xFF == Record.checkU8("field", 0xFF)
 
 	when: Record.checkU8("field", 0x100)
 	then: thrown( IllegalArgumentException.class )
@@ -938,9 +927,9 @@ public class RecordSpockTest extends Specification {
 	then: thrown( IllegalArgumentException.class )
 
 	expect:
-	mgu.equals(0, Record.checkU16("field", 0))
-	mgu.equals(0x9DA1, Record.checkU16("field", 0x9DA1))
-	mgu.equals(0xFFFF, Record.checkU16("field", 0xFFFF))
+	0 == Record.checkU16("field", 0)
+	0x9DA1 == Record.checkU16("field", 0x9DA1)
+	0xFFFF == Record.checkU16("field", 0xFFFF)
 
 	when: Record.checkU16("field", 0x10000) 
 	then: thrown( IllegalArgumentException.class )
@@ -951,9 +940,9 @@ public class RecordSpockTest extends Specification {
 	then: thrown( IllegalArgumentException.class )
 
 	expect:
-	mgu.equals(0, Record.checkU32("field", 0).intValue())
-	mgu.equals(0x9DA1F02DL, Record.checkU32("field", 0x9DA1F02DL))
-	mgu.equals(0xFFFFFFFFL, Record.checkU32("field", 0xFFFFFFFFL))
+	0 == Record.checkU32("field", 0).intValue()
+	0x9DA1F02DL == Record.checkU32("field", 0x9DA1F02DL)
+	0xFFFFFFFFL == Record.checkU32("field", 0xFFFFFFFFL)
 
 	when: Record.checkU32("field", 0x100000000L)
 	then: thrown( IllegalArgumentException.class )
@@ -963,7 +952,7 @@ public class RecordSpockTest extends Specification {
 	Name n = Name.fromString("My.N.")
 	Name m = Name.fromString("My.m")
 
-	expect: mgu.equals(n, Record.checkName("field", n))
+	expect: n == Record.checkName("field", n)
 
 	when:
 	    Record.checkName("field", m)

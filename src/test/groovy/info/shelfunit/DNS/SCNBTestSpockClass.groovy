@@ -45,8 +45,7 @@ public class  SCNBTestSpockClass extends SingleCompressedNameBase {
 
     public SCNBTestSpockClass(){}
 
-    public SCNBTestSpockClass(Name name, int type, int dclass, long ttl, Name singleName, String desc )
-    {
+    public SCNBTestSpockClass(Name name, int type, int dclass, long ttl, Name singleName, String desc ) {
 	super(name, type, dclass, ttl, singleName, desc)
     }
     

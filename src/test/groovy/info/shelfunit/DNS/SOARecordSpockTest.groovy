@@ -43,8 +43,6 @@ import spock.lang.Specification
 
 public class SOARecordSpockTest extends Specification  {
 
-    def mgu = new MyGroovyUtil()
-
 	private Name m_an, m_rn, m_host, m_admin, m_origin
 	private long m_ttl, m_serial, m_refresh, m_retry, m_expire, m_minimum
     private final static Random m_random = new Random()
@@ -56,7 +54,6 @@ public class SOARecordSpockTest extends Specification  {
     private static long randomU32() {
 	return m_random.nextLong() >>> 32
     }
-
 
     protected void setup_init() throws TextParseException,
 				      UnknownHostException {
@@ -73,21 +70,20 @@ public class SOARecordSpockTest extends Specification  {
     }
 	
     def "test_0arg_init"() throws UnknownHostException {
-	
 	    setup_init()
 	    SOARecord ar = new SOARecord()
 		expect:
-	    mgu.equals(null, ar.getName())
-	    mgu.equals(0, ar.getType())
-	    mgu.equals(0, ar.getDClass())
-	    mgu.equals(0, ar.getTTL().intValue())
-	    mgu.equals(null, ar.getHost())
-	    mgu.equals(null, ar.getAdmin())
-	    mgu.equals(0, ar.getSerial().intValue())
-	    mgu.equals(0, ar.getRefresh().intValue())
-	    mgu.equals(0, ar.getRetry().intValue())
-	    mgu.equals(0, ar.getExpire().intValue())
-	    mgu.equals(0, ar.getMinimum().intValue())
+	    null == ar.getName()
+	    0 == ar.getType()
+	    0 == ar.getDClass()
+	    0 == ar.getTTL().intValue()
+	    null == ar.getHost()
+	    null == ar.getAdmin()
+	    0 == ar.getSerial().intValue()
+	    0 == ar.getRefresh().intValue()
+	    0 == ar.getRetry().intValue()
+	    0 == ar.getExpire().intValue()
+	    0 == ar.getMinimum().intValue()
 	}
     
     def "test_getObject_init"() {
@@ -104,17 +100,17 @@ public class SOARecordSpockTest extends Specification  {
 					 m_host, m_admin, m_serial, m_refresh,
 					 m_retry, m_expire, m_minimum)
 	    expect:
-	    mgu.equals(m_an, ar.getName())
-	    mgu.equals(Type.SOA, ar.getType())
-	    mgu.equals(DClass.IN, ar.getDClass())
-	    mgu.equals(m_ttl, ar.getTTL())
-	    mgu.equals(m_host, ar.getHost())
-	    mgu.equals(m_admin, ar.getAdmin())
-	    mgu.equals(m_serial, ar.getSerial())
-	    mgu.equals(m_refresh, ar.getRefresh())
-	    mgu.equals(m_retry, ar.getRetry())
-	    mgu.equals(m_expire, ar.getExpire())
-	    mgu.equals(m_minimum, ar.getMinimum())
+	    m_an == ar.getName()
+	    Type.SOA == ar.getType()
+	    DClass.IN == ar.getDClass()
+	    m_ttl == ar.getTTL()
+	    m_host == ar.getHost()
+	    m_admin == ar.getAdmin()
+	    m_serial == ar.getSerial()
+	    m_refresh == ar.getRefresh()
+	    m_retry == ar.getRetry()
+	    m_expire == ar.getExpire()
+	    m_minimum == ar.getMinimum()
 	}
     
     def "test_10arg_relative_name_init"() {
@@ -273,13 +269,13 @@ public class SOARecordSpockTest extends Specification  {
 	    
 	    ar.rrFromWire(di)
 		expect:
-	    mgu.equals(m_host, ar.getHost())
-	    mgu.equals(m_admin, ar.getAdmin())
-	    mgu.equals(m_serial, ar.getSerial())
-	    mgu.equals(m_refresh, ar.getRefresh())
-	    mgu.equals(m_retry, ar.getRetry())
-	    mgu.equals(m_expire, ar.getExpire())
-	    mgu.equals(m_minimum, ar.getMinimum())
+	    m_host == ar.getHost()
+	    m_admin == ar.getAdmin()
+	    m_serial == ar.getSerial()
+	    m_refresh == ar.getRefresh()
+	    m_retry == ar.getRetry()
+	    m_expire == ar.getExpire()
+	    m_minimum == ar.getMinimum()
 	}
     
     protected void setup_rdataFromString() throws TextParseException,
@@ -307,13 +303,13 @@ public class SOARecordSpockTest extends Specification  {
 	    ar.rdataFromString(t, m_origin)
 	    
 	    expect:
-	    mgu.equals(m_host, ar.getHost())
-	    mgu.equals(m_admin, ar.getAdmin())
-	    mgu.equals(m_serial, ar.getSerial())
-	    mgu.equals(m_refresh, ar.getRefresh())
-	    mgu.equals(m_retry, ar.getRetry())
-	    mgu.equals(m_expire, ar.getExpire())
-	    mgu.equals(m_minimum, ar.getMinimum())
+	    m_host == ar.getHost()
+	    m_admin == ar.getAdmin()
+	    m_serial == ar.getSerial()
+	    m_refresh == ar.getRefresh()
+	    m_retry == ar.getRetry()
+	    m_expire == ar.getExpire()
+	    m_minimum == ar.getMinimum()
 	}
 
 	def "test_relative_name_setup_rdataFromString"() throws IOException {
@@ -357,7 +353,7 @@ public class SOARecordSpockTest extends Specification  {
 	    String exp = m_host.toString() + " " + m_admin.toString() + " " + m_serial + " " +
 		m_refresh + " " + m_retry + " " + m_expire + " " + m_minimum
 	    expect:
-	    mgu.equals(exp, out)
+	    exp == out
 	}
 
     def "test_multiLine_rrToString"() {

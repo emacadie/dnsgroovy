@@ -38,17 +38,15 @@ import org.xbill.DNS.*
 import spock.lang.Specification
 
 public class NSRecordSpockTest extends Specification {
-
-    def mgu = new MyGroovyUtil()
 	
     def "test_ctor_0arg"() {
 	when:
 	NSRecord d = new NSRecord()
 
 	then:
-	mgu.equals( d.getName(), null)
-	mgu.equals( d.getTarget(), null)
-	mgu.equals( d.getAdditionalName(), null)
+	 d.getName() == null
+	 d.getTarget() == null
+	 d.getAdditionalName() == null
     }
 
     def "test_ctor_4arg"() throws TextParseException {
@@ -59,12 +57,12 @@ public class NSRecordSpockTest extends Specification {
 	NSRecord d = new NSRecord(n, DClass.IN, 0xABCDEL, a)
 
 	then:
-	mgu.equals( n, d.getName())
-	mgu.equals( Type.NS, d.getType())
-	mgu.equals( DClass.IN, d.getDClass())
-	mgu.equals( 0xABCDEL, d.getTTL())
-	mgu.equals( a, d.getTarget())
-	mgu.equals( a, d.getAdditionalName())
+	 n == d.getName()
+	 Type.NS == d.getType()
+	 DClass.IN == d.getDClass()
+	 0xABCDEL == d.getTTL()
+	 a == d.getTarget()
+	 a == d.getAdditionalName()
     }
 
     def "test_getObject"() {

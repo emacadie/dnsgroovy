@@ -47,8 +47,6 @@ import org.xbill.DNS.Flags
 
 public class HeaderSpockTest extends Specification {
     private Header m_h
-    def mgu = new MyGroovyUtil()
-    def mga = new MyGroovyAssert()
 
     def setup() {
 	m_h = new Header(0xABCD) // 43981
@@ -56,35 +54,35 @@ public class HeaderSpockTest extends Specification {
     
     def "test_fixture_state"() {
 	expect:
-	mgu.equals(0xABCD, m_h.getID())
+	0xABCD == m_h.getID()
 
 	when:
 	boolean[] flags = m_h.getFlags()
 	then:
-	flags.each() { nextFlag -> mga.that(!nextFlag) } 
-	mgu.equals(0, m_h.getRcode())
-	mgu.equals(0, m_h.getOpcode())
-	mgu.equals(0, m_h.getCount(0))
-	mgu.equals(0, m_h.getCount(1))
-	mgu.equals(0, m_h.getCount(2))
-	mgu.equals(0, m_h.getCount(3))
+	flags.each() { nextFlag -> !nextFlag }
+	0 == m_h.getRcode()
+	0 == m_h.getOpcode()
+	0 == m_h.getCount(0)
+	0 == m_h.getCount(1)
+	0 == m_h.getCount(2)
+	0 == m_h.getCount(3)
     }
     
     def "test_ctor_0arg"() {
 	m_h = new Header()
 	expect:
-	mga.that(0 <= m_h.getID() && m_h.getID() < 0xFFFF)
+	(0 <= m_h.getID()) && (m_h.getID() < 0xFFFF)
 	
 	when:
 	boolean[] flags = m_h.getFlags()
 	then:
-	flags.each() { nextFlag -> mga.that(!nextFlag) }
-	mgu.equals(0, m_h.getRcode())
-	mgu.equals(0, m_h.getOpcode())
-	mgu.equals(0, m_h.getCount(0))
-	mgu.equals(0, m_h.getCount(1))
-	mgu.equals(0, m_h.getCount(2))
-	mgu.equals(0, m_h.getCount(3))
+	flags.each() { nextFlag -> !nextFlag }
+	0 == m_h.getRcode()
+	0 == m_h.getOpcode()
+	0 == m_h.getCount(0)
+	0 == m_h.getCount(1)
+	0 == m_h.getCount(2)
+	0 == m_h.getCount(3)
     }
     
     def "test_ctor_DNSInput"() throws IOException {
@@ -100,21 +98,21 @@ public class HeaderSpockTest extends Specification {
 	boolean[] flags = m_h.getFlags()
 
 	then:
-	mgu.equals(0x12AB, m_h.getID())
-	mga.that(flags[0])
-	mgu.equals(1, m_h.getOpcode())
-	mga.that(flags[5])
-	mga.that(flags[6])
-	mga.that(flags[7])
-	mga.that(flags[8])
-	mga.that(!flags[9])
-	mga.that(flags[10])
-	mga.that(flags[11])
-	mgu.equals(0xD, m_h.getRcode())
-	mgu.equals(0x651C, m_h.getCount(0))
-	mgu.equals(0x10F0, m_h.getCount(1))
-	mgu.equals(0x98BA, m_h.getCount(2))
-	mgu.equals(0x7190, m_h.getCount(3))
+	0x12AB == m_h.getID()
+	flags[0]
+	1 == m_h.getOpcode()
+	flags[5]
+	flags[6]
+	flags[7]
+	flags[8]
+	!flags[9]
+	flags[10]
+	flags[11]
+	0xD == m_h.getRcode()
+	0x651C == m_h.getCount(0)
+	0x10F0 == m_h.getCount(1)
+	0x98BA == m_h.getCount(2)
+	0x7190 == m_h.getCount(3)
     }
     
     def "test_toWire"() throws IOException  {
@@ -133,15 +131,15 @@ public class HeaderSpockTest extends Specification {
 	when:
 	byte[] out = dout.toByteArray()
 	then:
-	mgu.equals(12, out.length)
+	12 == out.length
 	out.eachWithIndex() {
 	    nextOut, i ->
-	    mgu.equals(raw[i], nextOut)
+	    raw[i] == nextOut
 	}
 	
 	when:
 	m_h.setOpcode(0xA) // 1010
-	then: mgu.equals(0xA, m_h.getOpcode())
+	then: 0xA == m_h.getOpcode()
 
 	when:
 	m_h.setRcode(0x7)  // 0111
@@ -153,10 +151,10 @@ public class HeaderSpockTest extends Specification {
 
 	out = m_h.toWire()
         then:
-	mgu.equals(12, out.length)
+	12 == out.length
 	out.eachWithIndex() {
 	    nextOut, i ->
-	    mgu.equals(raw[i], nextOut)
+	    raw[i] == nextOut
 	}
     }
 
@@ -164,26 +162,26 @@ public class HeaderSpockTest extends Specification {
 	m_h.setFlag(0)
 	m_h.setFlag(5)
 	expect:
-	mga.that(m_h.getFlag(0))
-	mga.that(m_h.getFlags()[0])
-	mga.that(m_h.getFlag(5))
-	mga.that(m_h.getFlags()[5])
+	m_h.getFlag(0)
+	m_h.getFlags()[0]
+	m_h.getFlag(5)
+	m_h.getFlags()[5]
 	 
 	when:
 	m_h.unsetFlag(0)
 	then:
-	mga.that(!m_h.getFlag(0))
-	mga.that(!m_h.getFlags()[0])
-	mga.that(m_h.getFlag(5))
-	mga.that(m_h.getFlags()[5])
+	!m_h.getFlag(0)
+	!m_h.getFlags()[0]
+	m_h.getFlag(5)
+	m_h.getFlags()[5]
 
 	when:
 	m_h.unsetFlag(5)
 	then:
-	mga.that(!m_h.getFlag(0))
-	mga.that(!m_h.getFlags()[0])
-	mga.that(!m_h.getFlag(5))
-	mga.that(!m_h.getFlags()[5])
+	!m_h.getFlag(0)
+	!m_h.getFlags()[0]
+	!m_h.getFlag(5)
+	!m_h.getFlags()[5]
 	  
 	when:
 	boolean[] flags = m_h.getFlags()
@@ -191,7 +189,7 @@ public class HeaderSpockTest extends Specification {
 	flags.eachWithIndex() {
 	    nextFlag, i ->
 	    if ( !( ( i > 0 && i < 5 ) || i > 11 ) ) {
-		mga.that(!nextFlag)
+		!nextFlag
 	    }
 	} 
     }
@@ -218,20 +216,19 @@ public class HeaderSpockTest extends Specification {
     }
     
     def "test_ID"() {
-	expect: mgu.equals(0xABCD, m_h.getID())
+	expect: 0xABCD == m_h.getID()
 
         when:
 	m_h = new Header()
 	int id = m_h.getID()
-
 	then:
-	mgu.equals(id, m_h.getID())
-	mga.that(id >= 0 && id < 0xffff)
+	id == m_h.getID()
+	(id >= 0) && (id < 0xffff)
 
 	when:
 	m_h.setID(0xDCBA)
 	then:
-	mgu.equals(0xDCBA, m_h.getID())
+	0xDCBA == m_h.getID()
     }
 
     def "test_setID_invalid"() {
@@ -247,17 +244,17 @@ public class HeaderSpockTest extends Specification {
     
     def "test_Rcode"() {
 	expect:
-	mgu.equals(0, m_h.getRcode())
+	0 == m_h.getRcode()
 
 	when:
 	m_h.setRcode(0xA) // 1010
 	then:
-	mgu.equals(0xA, m_h.getRcode())
+	0xA == m_h.getRcode()
 	for ( i in 0..12 ) {
 	    if ( ( i > 0 && i < 5 ) || i > 11 ){
 		continue
 	    }
-	    mga.that(!m_h.getFlag(i))
+	    !m_h.getFlag(i)
 	}
     }
     
@@ -275,18 +272,17 @@ public class HeaderSpockTest extends Specification {
     
     def "test_Opcode"() {
 	expect:
-	mgu.equals(0, m_h.getOpcode())
+	0 == m_h.getOpcode()
 
 	when:
 	m_h.setOpcode(0xE) // 1110
 	then:
-	mgu.equals(0xE, m_h.getOpcode())
-
-	mga.that(!m_h.getFlag(0))
+	0xE == m_h.getOpcode()
+	!m_h.getFlag(0)
 	for ( i in 5..11 ) {
-	    mga.that(!m_h.getFlag(i))
+	    !m_h.getFlag(i)
 	}
-	mgu.equals(0, m_h.getRcode())
+	0 == m_h.getRcode()
     }
     
     def "test_setOpcode_invalid"() {
@@ -304,16 +300,16 @@ public class HeaderSpockTest extends Specification {
 	when:
 	m_h.setCount(2, 0x1E)
 	then:
-	mgu.equals(0, m_h.getCount(0))
-	mgu.equals(0, m_h.getCount(1))
-	mgu.equals(0x1E, m_h.getCount(2))
-	mgu.equals(0, m_h.getCount(3))
+	0 == m_h.getCount(0)
+	0 == m_h.getCount(1)
+	0x1E == m_h.getCount(2)
+	0 == m_h.getCount(3)
 
 	when: m_h.incCount(0)
-	then: mgu.equals(1, m_h.getCount(0))
+	then: 1 == m_h.getCount(0)
 
 	when: m_h.decCount(2)
-	then: mgu.equals(0x1E-1, m_h.getCount(2))
+	then: 0x1E-1 == m_h.getCount(2)
     }
     
     def "test_setCount_invalid"() {
@@ -361,17 +357,17 @@ public class HeaderSpockTest extends Specification {
 	String text = m_h.toString()
 	    
 	then:
-	mga.that( text.indexOf("id: 43981") != -1)
-	mga.that( text.indexOf("opcode: STATUS") != -1)
-	mga.that( text.indexOf("status: NXDOMAIN") != -1)
-	mga.that( text.indexOf(" qr ") != -1)
-	mga.that( text.indexOf(" rd ") != -1)
-	mga.that( text.indexOf(" ra ") != -1)
-	mga.that( text.indexOf(" cd ") != -1)
-	mga.that( text.indexOf("qd: 0 ") != -1)
-	mga.that( text.indexOf("an: 255 ") != -1)
-	mga.that( text.indexOf("au: 10 ") != -1)
-	mga.that( text.indexOf("ad: 0 ") != -1)
+	text.indexOf("id: 43981") != -1
+	text.indexOf("opcode: STATUS") != -1
+	text.indexOf("status: NXDOMAIN") != -1
+	text.indexOf(" qr ") != -1
+	text.indexOf(" rd ") != -1
+	text.indexOf(" ra ") != -1
+	text.indexOf(" cd ") != -1
+	text.indexOf("qd: 0 ") != -1
+	text.indexOf("an: 255 ") != -1
+	text.indexOf("au: 10 ") != -1
+	text.indexOf("ad: 0 ") != -1
 	
     }
     
@@ -389,16 +385,16 @@ public class HeaderSpockTest extends Specification {
 	Header h2 = (Header)m_h.clone()
 
 	then:
-	!mgu.equals(m_h, h2)
-	mgu.equals(m_h.getID(), h2.getID())
+	m_h != h2
+	m_h.getID() == h2.getID()
 	for ( i in 0..16 ) {
 	    if ( ( i > 0 && i < 5 ) || i > 11 ) {
 		continue
 	    }
-	    mgu.equals(m_h.getFlag(i), h2.getFlag(i))
+	    m_h.getFlag(i) == h2.getFlag(i)
 	}
 	for ( i in 0..3 ) {
-	    mgu.equals(m_h.getCount(i), h2.getCount(i))
+	    m_h.getCount(i) == h2.getCount(i)
 	}
     }
 

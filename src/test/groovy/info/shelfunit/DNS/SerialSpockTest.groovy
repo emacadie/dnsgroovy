@@ -40,8 +40,6 @@ import spock.lang.Specification
 
 public class SerialSpockTest extends Specification {
 
-    def mgu = new MyGroovyUtil()
-
     def "test_compare_NegativeArg1"() {
 	long arg1 = -1
 	long arg2 = 1
@@ -99,7 +97,7 @@ public class SerialSpockTest extends Specification {
 	long arg2 = 10
 	int ret = Serial.compare( arg1, arg2 )
 	expect: 
-	mgu.equals( ret, 0 )
+	 ret == 0 
     }
     
     def "test_compare_boundary"() {
@@ -108,11 +106,11 @@ public class SerialSpockTest extends Specification {
 	long arg2 = 0
 	int ret = Serial.compare( arg1, arg2 )
 	then:
-	    mgu.equals( -1, ret )
+	     -1 == ret 
 	when:
 	ret = Serial.compare( arg2, arg1 )
 	then:
-	    mgu.equals( 1, ret )
+	     1 == ret 
     }
     
     def "test_increment_NegativeArg"() {
@@ -142,7 +140,7 @@ public class SerialSpockTest extends Specification {
 	long arg = 10
 	long ret = Serial.increment( arg )
 	expect:
-	mgu.equals( arg+1, ret )
+	 arg+1 == ret 
     }
 
 }
