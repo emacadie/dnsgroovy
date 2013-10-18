@@ -22,19 +22,9 @@ public class JNameD {
   }
 
   public JNameD(String conffile) throws IOException, ZoneTransferException {
-    FileInputStream fs;
-    InputStreamReader isr;
-    BufferedReader br;
+
     def ports = [] // List ports = new ArrayList();
     def addresses = [] // List addresses = new ArrayList();
-    try {
-      fs = new FileInputStream(conffile);
-      isr = new InputStreamReader(fs);
-      br = new BufferedReader(isr);
-    } catch (Exception e) {
-      System.out.println("Cannot open " + conffile);
-      return;
-    }
 
     def props = new Properties()
     new File(conffile).withInputStream { 
@@ -54,27 +44,23 @@ public class JNameD {
       ports.add(Integer.valueOf(config.port));
       addresses.add(Address.getByAddress(config.address));
 
-      if (ports.size() == 0) { 
+      if (ports.size == 0) { 
 	ports.add(new Integer(53));
       }
-      if (addresses.size() == 0) { 
+      if (addresses.size == 0) { 
 	addresses.add(Address.getByAddress("0.0.0.0"));
       }
-      Iterator iaddr = addresses.iterator();
-      while (iaddr.hasNext()) {
-	InetAddress addr = (InetAddress) iaddr.next();
-	Iterator iport = ports.iterator();
-	while (iport.hasNext()) {
-	  int port = ((Integer)iport.next()).intValue();
+      
+      addresses.each { addr ->
+	ports.each { nport ->
+	  int port = ((Integer) nport).intValue();
 	  addUDP(addr, port);
 	  addTCP(addr, port);
 	  System.out.println("JNameD: listening on " + addrport(addr, port));
 	}
       }
       System.out.println("JNameD: running");
-    } finally {
-      fs.close();
-    }
+    } finally { }
   }
 
   public void addPrimaryZone(String zname, String zonefile) throws IOException {
@@ -576,4 +562,4 @@ public class JNameD {
     }
   }
 
-}// was line 641, 607 (before prop)
+} // was line 641, 607 (before prop)
