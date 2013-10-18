@@ -22,16 +22,25 @@ public class JNameD {
   }
 
   public JNameD(String conffile) throws IOException, ZoneTransferException {
+    FileInputStream fs;
+    InputStreamReader isr;
+    BufferedReader br;
+    def ports = [] // List ports = new ArrayList();
+    def addresses = [] // List addresses = new ArrayList();
+    try {
+      fs = new FileInputStream(conffile);
+      isr = new InputStreamReader(fs);
+      br = new BufferedReader(isr);
+    } catch (Exception e) {
+      System.out.println("Cannot open " + conffile);
+      return;
+    }
+
     def props = new Properties()
     new File(conffile).withInputStream { 
       stream -> props.load(stream) 
     }
     def config = new ConfigSlurper().parse(props)
-    
-    // def ports = [] // 
-    List ports = new ArrayList();
-    def addresses = [] // List addresses = new ArrayList();
-
     try {
       caches = new HashMap();
       znames = new HashMap();
@@ -39,21 +48,19 @@ public class JNameD {
 
       // addPrimaryZone(config.primary_zone, config.primary_masterfile);
       // addSecondaryZone(config.secondary_zone, config.secondary_ip_address);
-      // Cache cache = new Cache(config.cache)
+      // Cache cache = new Cache(config.cache);
       // caches.put(new Integer(DClass.IN), cache);
       // addTSIG(config.key_algorithm, config.key_name, config.key_base64_encoded_secret)
-      System.out.println("config.port: " + config.port);
-      ports.add(Integer.valueOf(config.port);
-      System.out.println("config.address: " + config.address);
+      ports.add(Integer.valueOf(config.port));
       addresses.add(Address.getByAddress(config.address));
-      if (ports.getSize() == 0) { 
+
+      if (ports.size() == 0) { 
 	ports.add(new Integer(53));
       }
-      if (addresses.getSize() == 0) { 
+      if (addresses.size() == 0) { 
 	addresses.add(Address.getByAddress("0.0.0.0"));
       }
       Iterator iaddr = addresses.iterator();
-		// addresses.each {  addr ->
       while (iaddr.hasNext()) {
 	InetAddress addr = (InetAddress) iaddr.next();
 	Iterator iport = ports.iterator();
@@ -65,8 +72,10 @@ public class JNameD {
 	}
       }
       System.out.println("JNameD: running");
-    } finally { }
-  } // line 108
+    } finally {
+      fs.close();
+    }
+  }
 
   public void addPrimaryZone(String zname, String zonefile) throws IOException {
     println("Calling addPrimaryZone with args zname == ${zname} and zonefile ==  ${zonefile}")
@@ -567,4 +576,4 @@ public class JNameD {
     }
   }
 
-} // was line 641, 607 (before prop)
+}// was line 641, 607 (before prop)
