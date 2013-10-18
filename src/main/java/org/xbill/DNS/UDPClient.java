@@ -42,13 +42,11 @@ final class UDPClient extends Client {
     
     private boolean bound = false;
     
-    public
-    UDPClient(long endTime) throws IOException {
+    public UDPClient(long endTime) throws IOException {
         super(DatagramChannel.open(), endTime);
     }
     
-    private void
-    bind_random(InetSocketAddress addr) throws IOException
+    private void bind_random(InetSocketAddress addr) throws IOException
     {
         if (prng_initializing) {
             try {
@@ -75,14 +73,12 @@ final class UDPClient extends Client {
                 channel.socket().bind(temp);
                 bound = true;
                 return;
-            }
-            catch (SocketException e) {
+            } catch (SocketException e) {
             }
         }
     }
     
-    void
-    bind(SocketAddress addr) throws IOException {
+    void bind(SocketAddress addr) throws IOException {
         if (addr == null ||
             (addr instanceof InetSocketAddress &&
              ((InetSocketAddress)addr).getPort() == 0))
@@ -99,31 +95,27 @@ final class UDPClient extends Client {
         }
     }
     
-    void
-    connect(SocketAddress addr) throws IOException {
+    void connect(SocketAddress addr) throws IOException {
         if (!bound)
             bind(null);
         DatagramChannel channel = (DatagramChannel) key.channel();
         channel.connect(addr);
     }
     
-    void
-    send(byte [] data) throws IOException {
+    void send(byte [] data) throws IOException {
         DatagramChannel channel = (DatagramChannel) key.channel();
         verboseLog("UDP write", data);
         channel.write(ByteBuffer.wrap(data));
     }
     
-    byte []
-    recv(int max) throws IOException {
+    byte [] recv(int max) throws IOException {
         DatagramChannel channel = (DatagramChannel) key.channel();
         byte [] temp = new byte[max];
         key.interestOps(SelectionKey.OP_READ);
         try {
             while (!key.isReadable())
                 blockUntil(key, endTime);
-        }
-        finally {
+        } finally {
             if (key.isValid())
                 key.interestOps(0);
         }
@@ -148,18 +140,16 @@ final class UDPClient extends Client {
             client.connect(remote);
             client.send(data);
             return client.recv(max);
-        }
-        finally {
+        } finally {
             client.cleanup();
         }
     }
     
-    static byte []
-    sendrecv(SocketAddress addr, byte [] data, int max, long endTime)
+    static byte [] sendrecv(SocketAddress addr, byte [] data, int max, long endTime)
     throws IOException
     {
         return sendrecv(null, addr, data, max, endTime);
     }
     
-}
+} // line 164
 

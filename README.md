@@ -32,3 +32,7 @@ assertFalse(XX.YY) becomes mga.that(!XX.YY)
 assertNotSame(m_h, h2) becomes !mgu.equals(m_h, h2)    
 assertSame(x, y) becomes mgu.equals(x, y)    
 
+A few more gradle commands:
+gradle runGroovy -PmainClass=org.JNameD   
+With jnamed.conf in root of github
+gradle runGroovy -PmainClass=org.JNameD -PmainArgs=jnamed.conf   

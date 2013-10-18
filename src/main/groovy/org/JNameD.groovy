@@ -60,13 +60,16 @@ public class JNameD {
 	} else if (keyword.equals("secondary")) { 
 	  addSecondaryZone(st.nextToken(), st.nextToken());
 	} else if (keyword.equals("cache")) {
-	  Cache cache = new Cache(st.nextToken());
+	  String nt = st.nextToken()
+	  println("cache is ${nt}")
+	  Cache cache = new Cache(nt);
 	  caches.put(new Integer(DClass.IN), cache);
 	} else if (keyword.equals("key")) {
 	  String s1 = st.nextToken();
 	  String s2 = st.nextToken();
+	  String s3 = st.nextToken();
 	  if (st.hasMoreTokens()) { 
-	    addTSIG(s1, s2, st.nextToken());
+	    addTSIG(s1, s2, s3);
 	  } else { 
 	    addTSIG("hmac-md5", s1, s2);
 	  }
@@ -105,6 +108,7 @@ public class JNameD {
   }
 
   public void addPrimaryZone(String zname, String zonefile) throws IOException {
+    println("Calling addPrimaryZone with args zname == ${zname} and zonefile ==  ${zonefile}")
     Name origin = null;
     if (zname != null) { 
       origin = Name.fromString(zname, Name.root); 
@@ -114,6 +118,7 @@ public class JNameD {
   }
 
   public void addSecondaryZone(String zone, String remote) throws IOException, ZoneTransferException  {
+    println("Calling addSecondaryZone with args zone == ${zone} and remote ==  ${remote}")
     Name zname = Name.fromString(zone, Name.root);
     Zone newzone = new Zone(zname, DClass.IN, remote);
     znames.put(zname, newzone);
@@ -522,8 +527,7 @@ public class JNameD {
 	t.start();
       }
     } catch (IOException e) {
-      System.out.println("serveTCP(" + addrport(addr, port) + "): " +
-			 e);
+      System.out.println("serveTCP(" + addrport(addr, port) + "): " + e);
     }
   }
 
@@ -602,4 +606,4 @@ public class JNameD {
     }
   }
 
-}// was line 641
+}// was line 641, 607 (before prop)

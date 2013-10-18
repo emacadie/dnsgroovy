@@ -28,8 +28,7 @@ public class ExtendedResolver implements Resolver {
         Throwable thrown;
         ResolverListener listener;
     
-        public
-        Resolution(ExtendedResolver eres, Message query) {
+        public Resolution(ExtendedResolver eres, Message query) {
             List l = eres.resolvers;
             resolvers = (Resolver []) l.toArray (new Resolver[l.size()]);
             if (eres.loadBalance) {
@@ -58,14 +57,12 @@ public class ExtendedResolver implements Resolver {
         }
     
         /* Asynchronously sends a message. */
-        public void
-        send(int n) {
+        public void send(int n) {
             sent[n]++;
             outstanding++;
             try {
                 inprogress[n] = resolvers[n].sendAsync(query, this);
-            }
-            catch (Throwable t) {
+            } catch (Throwable t) {
                 synchronized (this) {
                     thrown = t;
                     done = true;
@@ -78,8 +75,7 @@ public class ExtendedResolver implements Resolver {
         }
     
         /* Start a synchronous resolution */
-        public Message
-        start() throws IOException {
+        public Message start() throws IOException {
             try {
                 /*
                  * First, try sending synchronously.  If this works,
@@ -93,8 +89,7 @@ public class ExtendedResolver implements Resolver {
                 outstanding++;
                 inprogress[0] = new Object();
                 return resolvers[0].send(query);
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 /*
                  * This will either cause more queries to be sent
                  * asynchronously or will set the 'done' flag.
@@ -129,8 +124,7 @@ public class ExtendedResolver implements Resolver {
         }
     
         /* Start an asynchronous resolution */
-        public void
-        startAsync(ResolverListener listener) {
+        public void startAsync(ResolverListener listener) {
             this.listener = listener;
             send(0);
         }
@@ -139,8 +133,7 @@ public class ExtendedResolver implements Resolver {
          * Receive a response.  If the resolution hasn't been completed,
          * either wake up the blocking thread or call the callback.
          */
-        public void
-        receiveMessage(Object id, Message m) {
+        public void receiveMessage(Object id, Message m) {
             if (Options.check("verbose"))
                 System.err.println("ExtendedResolver: " +
                            "received message");
@@ -161,8 +154,7 @@ public class ExtendedResolver implements Resolver {
          * Receive an exception.  If the resolution has been completed,
          * do nothing.  Otherwise make progress.
          */
-        public void
-        handleException(Object id, Exception e) {
+        public void handleException(Object id, Exception e) {
             if (Options.check("verbose"))
                 System.err.println("ExtendedResolver: got " + e);
             synchronized (this) {
@@ -238,8 +230,7 @@ public class ExtendedResolver implements Resolver {
     private int lbStart = 0;
     private int retries = 3;
     
-    private void
-    init() {
+    private void init() {
         resolvers = new ArrayList();
     }
     
@@ -251,8 +242,7 @@ public class ExtendedResolver implements Resolver {
      * @see ResolverConfig
      * @exception UnknownHostException Failure occured initializing SimpleResolvers
      */
-    public
-    ExtendedResolver() throws UnknownHostException {
+    public ExtendedResolver() throws UnknownHostException {
         init();
         String [] servers = ResolverConfig.getCurrentConfig().servers();
         if (servers != null) {
@@ -261,9 +251,7 @@ public class ExtendedResolver implements Resolver {
                 r.setTimeout(quantum);
                 resolvers.add(r);
             }
-        }
-        else
-            resolvers.add(new SimpleResolver());
+        } else { resolvers.add(new SimpleResolver()); }
     }
     
     /**
@@ -273,8 +261,7 @@ public class ExtendedResolver implements Resolver {
      * @see SimpleResolver
      * @exception UnknownHostException Failure occured initializing SimpleResolvers
      */
-    public
-    ExtendedResolver(String [] servers) throws UnknownHostException {
+    public ExtendedResolver(String [] servers) throws UnknownHostException {
         init();
         for (int i = 0; i < servers.length; i++) {
             Resolver r = new SimpleResolver(servers[i]);
@@ -289,58 +276,49 @@ public class ExtendedResolver implements Resolver {
      * @see SimpleResolver
      * @exception UnknownHostException Failure occured initializing SimpleResolvers
      */
-    public
-    ExtendedResolver(Resolver [] res) throws UnknownHostException {
+    public ExtendedResolver(Resolver [] res) throws UnknownHostException {
         init();
         for (int i = 0; i < res.length; i++)
             resolvers.add(res[i]);
     }
     
-    public void
-    setPort(int port) {
+    public void setPort(int port) {
         for (int i = 0; i < resolvers.size(); i++)
             ((Resolver)resolvers.get(i)).setPort(port);
     }
     
-    public void
-    setTCP(boolean flag) {
+    public void setTCP(boolean flag) {
         for (int i = 0; i < resolvers.size(); i++)
             ((Resolver)resolvers.get(i)).setTCP(flag);
     }
     
-    public void
-    setIgnoreTruncation(boolean flag) {
+    public void setIgnoreTruncation(boolean flag) {
         for (int i = 0; i < resolvers.size(); i++)
             ((Resolver)resolvers.get(i)).setIgnoreTruncation(flag);
     }
     
-    public void
-    setEDNS(int level) {
+    public void setEDNS(int level) {
         for (int i = 0; i < resolvers.size(); i++)
             ((Resolver)resolvers.get(i)).setEDNS(level);
     }
     
-    public void
-    setEDNS(int level, int payloadSize, int flags, List options) {
+    public void setEDNS(int level, int payloadSize, int flags, List options) {
         for (int i = 0; i < resolvers.size(); i++)
             ((Resolver)resolvers.get(i)).setEDNS(level, payloadSize,
                                  flags, options);
     }
     
-    public void
-    setTSIGKey(TSIG key) {
+    public void setTSIGKey(TSIG key) {
         for (int i = 0; i < resolvers.size(); i++)
             ((Resolver)resolvers.get(i)).setTSIGKey(key);
     }
     
-    public void
-    setTimeout(int secs, int msecs) {
+    public void setTimeout(int secs, int msecs) {
         for (int i = 0; i < resolvers.size(); i++)
             ((Resolver)resolvers.get(i)).setTimeout(secs, msecs);
     }
     
-    public void
-    setTimeout(int secs) {
+    public void setTimeout(int secs) {
         setTimeout(secs, 0);
     }
     
@@ -352,8 +330,7 @@ public class ExtendedResolver implements Resolver {
      * @return The response.
      * @throws IOException An error occurred while sending or receiving.
      */
-    public Message
-    send(Message query) throws IOException {
+    public Message send(Message query) throws IOException {
         Resolution res = new Resolution(this, query);
         return res.start();
     }
@@ -368,36 +345,31 @@ public class ExtendedResolver implements Resolver {
      * @param listener The object containing the callbacks.
      * @return An identifier, which is also a parameter in the callback
      */
-    public Object
-    sendAsync(final Message query, final ResolverListener listener) {
+    public Object sendAsync(final Message query, final ResolverListener listener) {
         Resolution res = new Resolution(this, query);
         res.startAsync(listener);
         return res;
     }
     
     /** Returns the nth resolver used by this ExtendedResolver */
-    public Resolver
-    getResolver(int n) {
+    public Resolver getResolver(int n) {
         if (n < resolvers.size())
             return (Resolver)resolvers.get(n);
         return null;
     }
     
     /** Returns all resolvers used by this ExtendedResolver */
-    public Resolver []
-    getResolvers() {
+    public Resolver [] getResolvers() {
         return (Resolver []) resolvers.toArray(new Resolver[resolvers.size()]);
     }
     
     /** Adds a new resolver to be used by this ExtendedResolver */
-    public void
-    addResolver(Resolver r) {
+    public void addResolver(Resolver r) {
         resolvers.add(r);
     }
     
     /** Deletes a resolver used by this ExtendedResolver */
-    public void
-    deleteResolver(Resolver r) {
+    public void deleteResolver(Resolver r) {
         resolvers.remove(r);
     }
     
@@ -405,16 +377,14 @@ public class ExtendedResolver implements Resolver {
      * @param flag If true, servers will be tried in round-robin order.  If false,
      * servers will always be queried in the same order.
      */
-    public void
-    setLoadBalance(boolean flag) {
+    public void setLoadBalance(boolean flag) {
         loadBalance = flag;
     }
     
     /** Sets the number of retries sent to each server per query */
-    public void
-    setRetries(int retries) {
+    public void setRetries(int retries) {
         this.retries = retries;
     }
     
-}
+} // line 419
 

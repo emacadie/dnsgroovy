@@ -27,7 +27,8 @@ allprojects {
     testRuntime 'ch.qos.logback:logback-core:1.0.+'
     testRuntime 'ch.qos.logback:logback-classic:1.0.+'
 
-     compile 'org.codehaus.groovy:groovy-all:2.1.0'
+    compile 'org.codehaus.groovy:groovy-all:2.1.0'
+    compile 'org.codehaus.gpars:gpars:1.1.0'
   }
 
   tasks.withType(Compile) { Compile compile ->
@@ -86,8 +87,12 @@ task runGroovy(type: JavaExec) {
      systemProperty 'sysProp', 'notUsed'
      jvmArgs '-client'
      // We can pass arguments to the main() method
-     // of gradle.sample.SampleApp.
-     args 'www.yahoo.com'
+     // of gradle.sample.SampleApp 
+     if ( rootProject.hasProperty( "mainArgs" ) ) {
+       args = mainArgs.tokenize() // args wants a List, so split by spaces if need be
+     } else {
+       args 'www.yahoo.com'
+     }
 }
 
 
