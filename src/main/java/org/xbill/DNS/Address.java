@@ -17,11 +17,9 @@ public final class Address {
     public static final int IPv4 = 1;
     public static final int IPv6 = 2;
     
-    private
-    Address() {}
+    private Address() {}
     
-    private static byte []
-    parseV4(String s) {
+    private static byte [] parseV4(String s) {
         int numDigits;
         int currentOctet;
         byte [] values = new byte[4];
@@ -69,8 +67,7 @@ public final class Address {
         return values;
     }
     
-    private static byte []
-    parseV6(String s) {
+    private static byte [] parseV6(String s) {
         int range = -1;
         byte [] data = new byte[16];
     
@@ -137,8 +134,7 @@ public final class Address {
                     return null;
                 data[j++] = (byte)(x >>> 8);
                 data[j++] = (byte)(x & 0xFF);
-            }
-            catch (NumberFormatException e) {
+            } catch (NumberFormatException e) {
                 return null;
             }
         }
@@ -162,8 +158,7 @@ public final class Address {
      * @param family The address family.
      * @return The address
      */
-    public static int []
-    toArray(String s, int family) {
+    public static int [] toArray(String s, int family) {
         byte [] byteArray = toByteArray(s, family);
         if (byteArray == null)
             return null;
@@ -178,8 +173,7 @@ public final class Address {
      * @param s The address, in text format.
      * @return The address
      */
-    public static int []
-    toArray(String s) {
+    public static int [] toArray(String s) {
         return toArray(s, IPv4);
     }
     
@@ -189,8 +183,7 @@ public final class Address {
      * @param family The address family.
      * @return The address
      */
-    public static byte []
-    toByteArray(String s, int family) {
+    public static byte [] toByteArray(String s, int family) {
         if (family == IPv4)
             return parseV4(s);
         else if (family == IPv6)
@@ -204,8 +197,7 @@ public final class Address {
      * @param s The string
      * @return Whether the string contains a valid IP address
      */
-    public static boolean
-    isDottedQuad(String s) {
+    public static boolean isDottedQuad(String s) {
         byte [] address = Address.toByteArray(s, IPv4);
         return (address != null);
     }
@@ -215,8 +207,7 @@ public final class Address {
      * @param addr The array
      * @return The string representation
      */
-    public static String
-    toDottedQuad(byte [] addr) {
+    public static String toDottedQuad(byte [] addr) {
         return ((addr[0] & 0xFF) + "." + (addr[1] & 0xFF) + "." +
             (addr[2] & 0xFF) + "." + (addr[3] & 0xFF));
     }
@@ -226,26 +217,22 @@ public final class Address {
      * @param addr The array
      * @return The string representation
      */
-    public static String
-    toDottedQuad(int [] addr) {
+    public static String toDottedQuad(int [] addr) {
         return (addr[0] + "." + addr[1] + "." + addr[2] + "." + addr[3]);
     }
     
-    private static Record []
-    lookupHostName(String name) throws UnknownHostException {
+    private static Record [] lookupHostName(String name) throws UnknownHostException {
         try {
             Record [] records = new Lookup(name).run();
             if (records == null)
                 throw new UnknownHostException("unknown host");
             return records;
-        }
-        catch (TextParseException e) {
+        } catch (TextParseException e) {
             throw new UnknownHostException("invalid name");
         }
     }
     
-    private static InetAddress
-    addrFromRecord(String name, Record r) throws UnknownHostException {
+    private static InetAddress addrFromRecord(String name, Record r) throws UnknownHostException {
         ARecord a = (ARecord) r;
         return InetAddress.getByAddress(name, a.getAddress().getAddress());
     }
@@ -256,8 +243,7 @@ public final class Address {
      * @return The first matching IP address
      * @exception UnknownHostException The hostname does not have any addresses
      */
-    public static InetAddress
-    getByName(String name) throws UnknownHostException {
+    public static InetAddress getByName(String name) throws UnknownHostException {
         try {
             return getByAddress(name);
         } catch (UnknownHostException e) {
@@ -272,8 +258,7 @@ public final class Address {
      * @return All matching IP addresses
      * @exception UnknownHostException The hostname does not have any addresses
      */
-    public static InetAddress []
-    getAllByName(String name) throws UnknownHostException {
+    public static InetAddress [] getAllByName(String name) throws UnknownHostException {
         try {
             InetAddress addr = getByAddress(name);
             return new InetAddress[] {addr};
@@ -293,8 +278,7 @@ public final class Address {
      * @return The IP addresses
      * @exception UnknownHostException The address is not a valid IP address.
      */
-    public static InetAddress
-    getByAddress(String addr) throws UnknownHostException {
+    public static InetAddress getByAddress(String addr) throws UnknownHostException {
         byte [] bytes;
         bytes = toByteArray(addr, IPv4);
         if (bytes != null)
@@ -314,8 +298,7 @@ public final class Address {
      * @exception UnknownHostException The address is not a valid IP address in
      * the specified address family.
      */
-    public static InetAddress
-    getByAddress(String addr, int family) throws UnknownHostException {
+    public static InetAddress getByAddress(String addr, int family) throws UnknownHostException {
         if (family != IPv4 && family != IPv6)
             throw new IllegalArgumentException("unknown address family");
         byte [] bytes;
@@ -331,8 +314,7 @@ public final class Address {
      * @return The associated host name
      * @exception UnknownHostException There is no hostname for the address
      */
-    public static String
-    getHostName(InetAddress addr) throws UnknownHostException {
+    public static String getHostName(InetAddress addr) throws UnknownHostException {
         Name name = ReverseMap.fromAddress(addr);
         Record [] records = new Lookup(name, Type.PTR).run();
         if (records == null)
@@ -346,8 +328,7 @@ public final class Address {
      * @param address The supplied address.
      * @return The family, either IPv4 or IPv6.
      */
-    public static int
-    familyOf(InetAddress address) {
+    public static int familyOf(InetAddress address) {
         if (address instanceof Inet4Address)
             return IPv4;
         if (address instanceof Inet6Address)
@@ -360,8 +341,7 @@ public final class Address {
      * @param family The address family, either IPv4 or IPv6.
      * @return The length of addresses in that family.
      */
-    public static int
-    addressLength(int family) {
+    public static int addressLength(int family) {
         if (family == IPv4)
             return 4;
         if (family == IPv6)
@@ -375,9 +355,7 @@ public final class Address {
      * @param address The source address
      * @param maskLength The number of bits to truncate the address to.
      */
-    public static InetAddress
-    truncate(InetAddress address, int maskLength)
-    {
+    public static InetAddress truncate(InetAddress address, int maskLength) {
         int family = familyOf(address);
         int maxMaskLength = addressLength(family) * 8;
         if (maskLength < 0 || maskLength > maxMaskLength)
@@ -399,5 +377,5 @@ public final class Address {
         }
     }
     
-}
+} // line 402
 

@@ -36,3 +36,4 @@ A few more gradle commands:
 gradle runGroovy -PmainClass=org.JNameD   
 With jnamed.conf in root of github
 gradle runGroovy -PmainClass=org.JNameD -PmainArgs=jnamed.conf   
+gradle runGroovy -PmainClass=org.JNameD -PmainArgs=jnamed.properties   

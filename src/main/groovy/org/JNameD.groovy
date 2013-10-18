@@ -22,75 +22,38 @@ public class JNameD {
   }
 
   public JNameD(String conffile) throws IOException, ZoneTransferException {
-    FileInputStream fs;
-    InputStreamReader isr;
-    BufferedReader br;
-    List ports = new ArrayList();
-    List addresses = new ArrayList();
-    try {
-      fs = new FileInputStream(conffile);
-      isr = new InputStreamReader(fs);
-      br = new BufferedReader(isr);
-    } catch (Exception e) {
-      System.out.println("Cannot open " + conffile);
-      return;
+    def props = new Properties()
+    new File(conffile).withInputStream { 
+      stream -> props.load(stream) 
     }
+    def config = new ConfigSlurper().parse(props)
+    
+    // def ports = [] // 
+    List ports = new ArrayList();
+    def addresses = [] // List addresses = new ArrayList();
 
     try {
       caches = new HashMap();
       znames = new HashMap();
       TSIGs = new HashMap();
 
-      String line = null;
-      while ((line = br.readLine()) != null) {
-	StringTokenizer st = new StringTokenizer(line);
-	if (!st.hasMoreTokens()) { 
-	  continue;
-	}
-	String keyword = st.nextToken();
-	if (!st.hasMoreTokens()) {
-	  System.out.println("Invalid line: " + line);
-	  continue;
-	}
-	if (keyword.charAt(0) == '#') { 
-	  continue;
-	}
-	if (keyword.equals("primary")) { 
-	  addPrimaryZone(st.nextToken(), st.nextToken());
-	} else if (keyword.equals("secondary")) { 
-	  addSecondaryZone(st.nextToken(), st.nextToken());
-	} else if (keyword.equals("cache")) {
-	  String nt = st.nextToken()
-	  println("cache is ${nt}")
-	  Cache cache = new Cache(nt);
-	  caches.put(new Integer(DClass.IN), cache);
-	} else if (keyword.equals("key")) {
-	  String s1 = st.nextToken();
-	  String s2 = st.nextToken();
-	  String s3 = st.nextToken();
-	  if (st.hasMoreTokens()) { 
-	    addTSIG(s1, s2, s3);
-	  } else { 
-	    addTSIG("hmac-md5", s1, s2);
-	  }
-	} else if (keyword.equals("port")) {
-	  ports.add(Integer.valueOf(st.nextToken()));
-	} else if (keyword.equals("address")) {
-	  String addr = st.nextToken();
-	  addresses.add(Address.getByAddress(addr));
-	} else {
-	  System.out.println("unknown keyword: " + keyword);
-	}
-	
-      }
-
-      if (ports.size() == 0) { 
+      // addPrimaryZone(config.primary_zone, config.primary_masterfile);
+      // addSecondaryZone(config.secondary_zone, config.secondary_ip_address);
+      // Cache cache = new Cache(config.cache)
+      // caches.put(new Integer(DClass.IN), cache);
+      // addTSIG(config.key_algorithm, config.key_name, config.key_base64_encoded_secret)
+      System.out.println("config.port: " + config.port);
+      ports.add(Integer.valueOf(config.port);
+      System.out.println("config.address: " + config.address);
+      addresses.add(Address.getByAddress(config.address));
+      if (ports.getSize() == 0) { 
 	ports.add(new Integer(53));
       }
-      if (addresses.size() == 0) { 
+      if (addresses.getSize() == 0) { 
 	addresses.add(Address.getByAddress("0.0.0.0"));
       }
       Iterator iaddr = addresses.iterator();
+		// addresses.each {  addr ->
       while (iaddr.hasNext()) {
 	InetAddress addr = (InetAddress) iaddr.next();
 	Iterator iport = ports.iterator();
@@ -102,10 +65,8 @@ public class JNameD {
 	}
       }
       System.out.println("JNameD: running");
-    } finally {
-      fs.close();
-    }
-  }
+    } finally { }
+  } // line 108
 
   public void addPrimaryZone(String zname, String zonefile) throws IOException {
     println("Calling addPrimaryZone with args zname == ${zname} and zonefile ==  ${zonefile}")
@@ -606,4 +567,4 @@ public class JNameD {
     }
   }
 
-}// was line 641, 607 (before prop)
+} // was line 641, 607 (before prop)
