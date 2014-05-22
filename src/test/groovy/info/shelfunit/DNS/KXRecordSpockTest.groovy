@@ -36,8 +36,8 @@ package info.shelfunit.DNS
 
 import org.xbill.DNS.*
 
-import	java.util.Arrays
-import	junit.framework.TestCase
+import java.util.Arrays
+import junit.framework.TestCase
 import spock.lang.Specification
 
 public class KXRecordSpockTest extends Specification {

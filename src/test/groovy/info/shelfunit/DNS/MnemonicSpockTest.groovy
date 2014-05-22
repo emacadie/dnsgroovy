@@ -32,10 +32,9 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// package info.shelfunit.DNS
-package org.xbill.DNS
+package info.shelfunit.DNS
 
-import org.xbill.DNS.*
+import org.xbill.DNS.Mnemonic
 import info.shelfunit.DNS.*
 
 // Mnemonic has package-level access.
@@ -43,7 +42,8 @@ import info.shelfunit.DNS.*
 import spock.lang.Specification
 
 public class MnemonicSpockTest extends Specification {
-    private Mnemonic m_mn
+
+    private m_mn
 
     /*
     public MnemonicTest( String name ) {
@@ -51,7 +51,7 @@ public class MnemonicSpockTest extends Specification {
     }
 */    
     def setup() {
-	m_mn = new Mnemonic(MnemonicSpockTest.class.getName() + " UPPER", Mnemonic.CASE_UPPER)
+	m_mn = new Mnemonic( "MnemonicSpockTest UPPER", 2 ) // Mnemonic.CASE_UPPER)
     }
     
     def "test_toInteger"() {
@@ -211,39 +211,39 @@ public class MnemonicSpockTest extends Specification {
     
     public void test_basic_operation_lower()
     {
-	m_mn = new Mnemonic(MnemonicTest.class.getName() + " LOWER", Mnemonic.CASE_LOWER)
-	m_mn.add( 10, "Ten" )
-	m_mn.add( 20, "Twenty" )
-	m_mn.addAlias( 20, "Veinte" )
-	m_mn.add( 30, "Thirty" )
+	def m_mn3 = new Mnemonic(MnemonicTest.class.getName() + " LOWER", Mnemonic.CASE_LOWER)
+	m_mn3.add( 10, "Ten" )
+	m_mn3.add( 20, "Twenty" )
+	m_mn3.addAlias( 20, "Veinte" )
+	m_mn3.add( 30, "Thirty" )
 
-	String text = m_mn.getText(10)
+	String text = m_mn3.getText(10)
 	 "ten" == text 
 	
-	text = m_mn.getText(20)
+	text = m_mn3.getText(20)
 	 "twenty" == text 
 	
-	text = m_mn.getText(30)
+	text = m_mn3.getText(30)
 	 "thirty" == text 
 
-	text = m_mn.getText(40)
+	text = m_mn3.getText(40)
 	 "40" == text 
 
-	int value = m_mn.getValue("tEn")
+	int value = m_mn3.getValue("tEn")
 	10 == value
 
-	value = m_mn.getValue("twenty")
+	value = m_mn3.getValue("twenty")
 	20 == value
 
-	value = m_mn.getValue("VeiNTe")
+	value = m_mn3.getValue("VeiNTe")
 	20 == value
 
-	value = m_mn.getValue("THIRTY")
+	value = m_mn3.getValue("THIRTY")
 	30 == value
     }
 
     def "test_basic_operation_sensitive"() {
-	m_mn = new Mnemonic(MnemonicTest.class.getName() + " SENSITIVE", Mnemonic.CASE_SENSITIVE)
+	m_mn = new Mnemonic( "MnemonicTest SENSITIVE", Mnemonic.CASE_SENSITIVE)
 	m_mn.add( 10, "Ten" )
 	m_mn.add( 20, "Twenty" )
 	m_mn.addAlias( 20, "Veinte" )
@@ -299,7 +299,7 @@ public class MnemonicSpockTest extends Specification {
 	m_mn.add( 10, "Ten" )
 	m_mn.add( 20, "Twenty" )
 
-	Mnemonic mn2 = new Mnemonic("second test Mnemonic", Mnemonic.CASE_UPPER)
+	def mn2 = new Mnemonic("second test Mnemonic", Mnemonic.CASE_UPPER)
 	mn2.add( 20, "Twenty" )
 	mn2.addAlias( 20, "Veinte" )
 	mn2.add( 30, "Thirty" )

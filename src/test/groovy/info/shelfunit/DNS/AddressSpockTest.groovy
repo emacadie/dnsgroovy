@@ -34,7 +34,7 @@
 //
 package info.shelfunit.DNS
  
-import org.xbill.DNS.*
+import org.xbill.DNS.Address
 
 import java.net.InetAddress
 import java.net.UnknownHostException
@@ -288,7 +288,7 @@ public class AddressSpockTest extends Specification {
 	out = Address.getByName("serl.cs.colorado.edu")
 	then:
 	"epic.cs.colorado.edu" ==  out.getCanonicalHostName()
-	"128.138.201.71" ==  out.getHostAddress()
+	"128.138.72.229" ==  out.getHostAddress()
     }
     
     def "test_getByName_invalid"() throws UnknownHostException {
@@ -314,7 +314,7 @@ public class AddressSpockTest extends Specification {
 	then:
 	1 ==  out.length
 	"epic.cs.colorado.edu" ==  out[0].getCanonicalHostName()
-	"128.138.201.71" ==  out[0].getHostAddress()
+	"128.138.72.229"  ==  out[0].getHostAddress()
 
 	when:
 	out = Address.getAllByName("cnn.com")

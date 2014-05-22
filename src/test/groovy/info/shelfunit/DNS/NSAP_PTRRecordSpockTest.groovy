@@ -34,7 +34,12 @@
 //
 package info.shelfunit.DNS
 
-import org.xbill.DNS.*
+import org.xbill.DNS.DClass
+import org.xbill.DNS.NSAP_PTRRecord
+import org.xbill.DNS.Name
+import org.xbill.DNS.Record
+import org.xbill.DNS.TextParseException
+import org.xbill.DNS.Type
 import spock.lang.Specification
 
 public class NSAP_PTRRecordSpockTest extends Specification {

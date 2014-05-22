@@ -32,15 +32,23 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-package org.xbill.DNS
-
-import info.shelfunit.DNS.*
+// package org.xbill.DNS
+package info.shelfunit.DNS
 
 import java.io.IOException
 import java.util.Arrays
 import spock.lang.Specification
+
+import org.xbill.DNS.Compression
+import org.xbill.DNS.DNAMERecord
+import org.xbill.DNS.DClass
+import org.xbill.DNS.DNSInput
+import org.xbill.DNS.DNSOutput
 import org.xbill.DNS.Name
+import org.xbill.DNS.NameTooLongException
+import org.xbill.DNS.Options
 import org.xbill.DNS.TextParseException
+import org.xbill.DNS.WireParseException
 
 public class NameSpockTest extends Specification {
 

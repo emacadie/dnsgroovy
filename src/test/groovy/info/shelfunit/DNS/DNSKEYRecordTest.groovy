@@ -34,13 +34,21 @@
 //
 package info.shelfunit.DNS
 
-import	org.xbill.DNS.*
+import org.xbill.DNS.DClass
+import org.xbill.DNS.DNSKEYRecord
+import org.xbill.DNS.DNSSEC
+import org.xbill.DNS.Name
+import org.xbill.DNS.Record
+import org.xbill.DNS.RelativeNameException
+import org.xbill.DNS.TextParseException
+import org.xbill.DNS.Tokenizer
+import org.xbill.DNS.Type
 
-import	java.io.IOException;
-import	java.net.InetAddress;
-import	java.net.UnknownHostException;
-import	java.util.Arrays;
-import	junit.framework.TestCase;
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.Arrays;
+import junit.framework.TestCase;
 
 public class DNSKEYRecordTest extends TestCase
 {

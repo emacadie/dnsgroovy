@@ -34,7 +34,8 @@
 //
 package info.shelfunit.DNS
 
-import org.xbill.DNS.*
+import org.xbill.DNS.DNSInput
+import org.xbill.DNS.WireParseException
 
 import java.util.Arrays
 import spock.lang.Specification

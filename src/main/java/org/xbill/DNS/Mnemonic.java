@@ -45,8 +45,7 @@ class Mnemonic {
      * or leave them unchanged.
      * throwing exceptions.
      */
-    public
-    Mnemonic(String description, int wordcase) {
+    public Mnemonic(String description, int wordcase) {
         this.description = description;
         this.wordcase = wordcase;
         strings = new HashMap();
@@ -55,8 +54,7 @@ class Mnemonic {
     }
     
     /** Sets the maximum numeric value */
-    public void
-    setMaximum(int max) {
+    public void setMaximum(int max) {
         this.max = max;
     }
     
@@ -64,24 +62,21 @@ class Mnemonic {
      * Sets the prefix to use when converting to and from values that don't
      * have mnemonics.
      */
-    public void
-    setPrefix(String prefix) {
+    public void setPrefix(String prefix) {
         this.prefix = sanitize(prefix);
     }
     
     /**
      * Sets whether numeric values stored in strings are acceptable.
      */
-    public void
-    setNumericAllowed(boolean numeric) {
+    public void setNumericAllowed(boolean numeric) {
         this.numericok = numeric;
     }
     
     /**
      * Converts an int into a possibly cached Integer.
      */
-    public static Integer
-    toInteger(int val) {
+    public static Integer toInteger(int val) {
         if (val >= 0 && val < cachedInts.length)
             return (cachedInts[val]);
         return new Integer(val);
@@ -90,8 +85,7 @@ class Mnemonic {
     /**
      * Checks that a numeric value is within the range [0..max]
      */
-    public void
-    check(int val) {
+    public void check(int val) {
         if (val < 0 || val > max) {
             throw new IllegalArgumentException(description + " " + val +
                                "is out of range");
@@ -99,8 +93,7 @@ class Mnemonic {
     }
     
     /* Converts a String to the correct case. */
-    private String
-    sanitize(String str) {
+    private String sanitize(String str) {
         if (wordcase == CASE_UPPER)
             return str.toUpperCase();
         else if (wordcase == CASE_LOWER)
@@ -114,8 +107,7 @@ class Mnemonic {
             int val = Integer.parseInt(s);
             if (val >= 0 && val <= max)
                 return val;
-        }
-        catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
         }
         return -1;
     }
@@ -125,8 +117,7 @@ class Mnemonic {
      * @param val The numeric value
      * @param string The text string
      */
-    public void
-    add(int val, String str) {
+    public void add(int val, String str) {
         check(val);
         Integer value = toInteger(val);
         str = sanitize(str);
@@ -140,8 +131,7 @@ class Mnemonic {
      * @param val The numeric value
      * @param string The text string
      */
-    public void
-    addAlias(int val, String str) {
+    public void addAlias(int val, String str) {
         check(val);
         Integer value = toInteger(val);
         str = sanitize(str);
@@ -155,8 +145,7 @@ class Mnemonic {
      * @throws IllegalArgumentException The wordcases of the Mnemonics do not
      * match.
      */
-    public void
-    addAll(Mnemonic source) {
+    public void addAll(Mnemonic source) {
         if (wordcase != source.wordcase)
             throw new IllegalArgumentException(source.description +
                                ": wordcases do not match");
@@ -169,8 +158,7 @@ class Mnemonic {
      * @param val The numeric value
      * @return The corresponding text mnemonic.
      */
-    public String
-    getText(int val) {
+    public String getText(int val) {
         check(val);
         String str = (String) values.get(toInteger(val));
         if (str != null)
@@ -186,8 +174,7 @@ class Mnemonic {
      * @param str The text mnemonic
      * @return The corresponding numeric value, or -1 if there is none
      */
-    public int
-    getValue(String str) {
+    public int getValue(String str) {
         str = sanitize(str);
         Integer value = (Integer) strings.get(str);
         if (value != null) {
@@ -207,5 +194,5 @@ class Mnemonic {
         return -1;
     }
     
-}
+} // line 210
 
