@@ -34,9 +34,14 @@
 //
 package info.shelfunit.DNS
 
-import	org.xbill.DNS.*
+import org.xbill.DNS.DClass
+import org.xbill.DNS.DNAMERecord
+import org.xbill.DNS.Name
+import org.xbill.DNS.Record
+import org.xbill.DNS.TextParseException
+import org.xbill.DNS.Type
 
-import	junit.framework.TestCase;
+import junit.framework.TestCase;
 
 public class DNAMERecordTest extends TestCase
 {

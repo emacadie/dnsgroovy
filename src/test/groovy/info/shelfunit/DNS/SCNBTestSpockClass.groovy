@@ -32,11 +32,11 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// package info.shelfunit.DNS
 package org.xbill.DNS
 
-import info.shelfunit.DNS.*
-import org.xbill.DNS.*
+import org.xbill.DNS.Name
+import org.xbill.DNS.Record
+import org.xbill.DNS.SingleCompressedNameBase
 
 import java.io.IOException
 import spock.lang.Specification

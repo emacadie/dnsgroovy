@@ -34,8 +34,7 @@
 //
 package info.shelfunit.DNS.utils
 
-import info.shelfunit.DNS.*
-import org.xbill.DNS.utils.*
+import org.xbill.DNS.utils.Base64
 
 import spock.lang.Specification
 

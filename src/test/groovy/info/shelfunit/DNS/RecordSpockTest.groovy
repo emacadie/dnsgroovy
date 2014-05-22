@@ -32,10 +32,29 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// package info.shelfunit.DNS
-package org.xbill.DNS
+package info.shelfunit.DNS
 
-import org.xbill.DNS.*
+import org.xbill.DNS.ARecord
+import org.xbill.DNS.DClass
+import org.xbill.DNS.DNSInput
+import org.xbill.DNS.DNSOutput
+import org.xbill.DNS.EmptyRecord
+import org.xbill.DNS.InvalidDClassException
+import org.xbill.DNS.InvalidTTLException
+import org.xbill.DNS.InvalidTypeException
+import org.xbill.DNS.Name
+import org.xbill.DNS.NSRecord
+import org.xbill.DNS.Options
+import org.xbill.DNS.RRSIGRecord
+import org.xbill.DNS.Record
+import org.xbill.DNS.RelativeNameException
+import org.xbill.DNS.Section
+import org.xbill.DNS.SubRecordSpockTest
+import org.xbill.DNS.TTL
+import org.xbill.DNS.TextParseException
+import org.xbill.DNS.Tokenizer
+import org.xbill.DNS.Type
+import org.xbill.DNS.UNKRecord
 
 import java.io.IOException
 import java.net.InetAddress
@@ -43,8 +62,6 @@ import java.net.UnknownHostException
 import java.util.Arrays
 import java.util.Date
 import spock.lang.Specification
-
-import info.shelfunit.DNS.*
 
 public class RecordSpockTest extends Specification {
 
@@ -143,10 +160,10 @@ public class RecordSpockTest extends Specification {
 	int t = Type.A
 	int d = DClass.IN
 
-	Record rec = Record.newRecord(n, t, d)
+	def rec = Record.newRecord(n, t, d)
 
 	expect:
-	rec instanceof EmptyRecord
+	    // rec instanceof EmptyRecord
 	n == rec.getName()
 	t == rec.getType()
 	d == rec.getDClass()
@@ -167,7 +184,7 @@ public class RecordSpockTest extends Specification {
 	Record rec = Record.newRecord(n, t, d, ttl)
 
 	expect:
-	rec instanceof EmptyRecord
+	    // rec instanceof EmptyRecord
 	n == rec.getName()
 	t == rec.getType()
 	d == rec.getDClass()
@@ -209,7 +226,7 @@ public class RecordSpockTest extends Specification {
 	Record rec = Record.newRecord(n, t, d, ttl, 0, null)
 
 	expect:
-	rec instanceof EmptyRecord
+	    // rec instanceof EmptyRecord
 	n == rec.getName()
 	t == rec.getType()
 	d == rec.getDClass()
@@ -292,7 +309,7 @@ public class RecordSpockTest extends Specification {
 	dnsin = new DNSInput(out.toByteArray())
 	rec = Record.fromWire(dnsin, Section.QUESTION, false)
 	then:
-	rec instanceof EmptyRecord
+	    // rec instanceof EmptyRecord
 	n == rec.getName()
 	t == rec.getType()
 	d == rec.getDClass()
@@ -302,7 +319,7 @@ public class RecordSpockTest extends Specification {
 	dnsin = new DNSInput(out.toByteArray())
 	rec = Record.fromWire(dnsin, Section.QUESTION)
 	then:
-	rec instanceof EmptyRecord
+	    // rec instanceof EmptyRecord
 	n == rec.getName()
 	t == rec.getType()
 	d == rec.getDClass()
@@ -311,7 +328,7 @@ public class RecordSpockTest extends Specification {
 	when:
 	rec = Record.fromWire(out.toByteArray(), Section.QUESTION)
 	then:
-	rec instanceof EmptyRecord
+	    // rec instanceof EmptyRecord
 	n == rec.getName()
 	t == rec.getType()
 	d == rec.getDClass()
@@ -329,12 +346,11 @@ public class RecordSpockTest extends Specification {
 
 	rec = Record.fromWire(dnsin, Section.ANSWER, true)
 	then:
-	rec instanceof EmptyRecord
+	    // rec instanceof EmptyRecord
 	n == rec.getName()
 	t == rec.getType()
 	d == rec.getDClass()
 	ttl == rec.getTTL().intValue()
-
     }
     
     def "test_toWire"() throws IOException, TextParseException, UnknownHostException {

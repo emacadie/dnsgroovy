@@ -35,7 +35,6 @@
 package info.shelfunit.DNS
 
 import org.xbill.DNS.Mnemonic
-import info.shelfunit.DNS.*
 
 // Mnemonic has package-level access.
 

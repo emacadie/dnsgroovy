@@ -34,8 +34,7 @@
 //
 package info.shelfunit.DNS.utils
 
-import org.xbill.DNS.utils.*
-import info.shelfunit.DNS.*
+import org.xbill.DNS.utils.Base16
 import spock.lang.Specification
 
 public class Base16SpockTest extends Specification {

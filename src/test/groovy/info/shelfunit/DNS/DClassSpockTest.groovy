@@ -35,10 +35,8 @@
 
 package info.shelfunit.DNS
 
-import info.shelfunit.DNS.*
-
 import spock.lang.Specification
-import org.xbill.DNS.*
+import org.xbill.DNS.DClass
 
 public class DClassSpockTest extends Specification {
 

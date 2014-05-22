@@ -34,9 +34,9 @@
 //
 package info.shelfunit.DNS.utils
 
-import info.shelfunit.DNS.*
-
-import org.xbill.DNS.utils.*
+import info.shelfunit.DNS.MyGroovyUtil
+import org.xbill.DNS.utils.Base16
+import org.xbill.DNS.utils.HMAC
 
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException

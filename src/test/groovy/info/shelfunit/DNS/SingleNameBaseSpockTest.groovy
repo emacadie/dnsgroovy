@@ -32,12 +32,17 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// package info.shelfunit.DNS
-package org.xbill.DNS
+package info.shelfunit.DNS
 
-import org.xbill.DNS.*
-
-import info.shelfunit.DNS.*
+import org.xbill.DNS.DClass
+import org.xbill.DNS.DNSInput
+import org.xbill.DNS.DNSOutput
+import org.xbill.DNS.Name
+import org.xbill.DNS.RelativeNameException
+import org.xbill.DNS.TestSingleNameBaseClass
+import org.xbill.DNS.TextParseException
+import org.xbill.DNS.Tokenizer
+import org.xbill.DNS.Type
 
 import java.io.IOException
 import spock.lang.Specification
@@ -69,7 +74,8 @@ public class SingleNameBaseSpockTest extends Specification {
     }
 */
     def "test_ctor"() throws TextParseException {
-	TestSingleNameBaseClass tc = new TestSingleNameBaseClass()
+	// TestSingleNameBaseClass tc = new TestSingleNameBaseClass()
+	def  tc = new TestSingleNameBaseClass()
 	expect: 
 	null == tc.getSingleName()
 
@@ -126,7 +132,7 @@ public class SingleNameBaseSpockTest extends Specification {
 	Name exp = Name.fromString("my.single.name.")
 
 	Tokenizer t = new Tokenizer("my.single.name.")
-	TestSingleNameBaseClass tc = new TestSingleNameBaseClass()
+	def tc = new TestSingleNameBaseClass()
 	tc.rdataFromString(t, null)
 	expect: exp == tc.getSingleName()
 
@@ -141,7 +147,7 @@ public class SingleNameBaseSpockTest extends Specification {
 	Name sn = Name.fromString("My.Single.Name.")
 
 	// non-canonical (case sensitive)
-	TestSingleNameBaseClass tc = new TestSingleNameBaseClass(n, Type.A, DClass.IN, 100L, sn, "The Description")
+	def tc = new TestSingleNameBaseClass(n, Type.A, DClass.IN, 100L, sn, "The Description")
 	def byte[] exp = [ 2, 'M', 'y', 6, 'S', 'i', 'n', 'g', 'l', 'e', 4, 'N', 'a', 'm', 'e', 0 ] 
 
 	DNSOutput dout = new DNSOutput()

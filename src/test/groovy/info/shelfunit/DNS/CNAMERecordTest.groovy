@@ -31,10 +31,15 @@
 // THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-//
+
 package	info.shelfunit.DNS;
 
-import org.xbill.DNS.*
+import org.xbill.DNS.CNAMERecord
+import org.xbill.DNS.DClass
+import org.xbill.DNS.Name
+import org.xbill.DNS.Record
+import org.xbill.DNS.TextParseException
+import org.xbill.DNS.Type
 
 import	junit.framework.TestCase;
 

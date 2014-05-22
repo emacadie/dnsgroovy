@@ -32,13 +32,21 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-package	org.xbill.DNS;
+package	info.shelfunit.DNS
 
 import java.net.InetAddress
 import java.net.UnknownHostException
 import java.util.Arrays
 import spock.lang.Specification
-import info.shelfunit.DNS.*
+
+import org.xbill.DNS.ARecord
+import org.xbill.DNS.CNAMERecord
+import org.xbill.DNS.DClass
+import org.xbill.DNS.DNAMERecord
+import org.xbill.DNS.Name
+import org.xbill.DNS.RRset
+import org.xbill.DNS.SetResponse
+import org.xbill.DNS.TextParseException
 
 public class SetResponseSpockTest extends Specification {
 	
