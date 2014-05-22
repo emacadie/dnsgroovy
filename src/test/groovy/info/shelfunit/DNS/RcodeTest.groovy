@@ -31,10 +31,10 @@
 // THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-//
+
 package info.shelfunit.DNS
 
-import org.xbill.DNS.*
+import org.xbill.DNS.Rcode
 
 import junit.framework.TestCase;
 
@@ -54,8 +54,7 @@ public class RcodeTest extends TestCase
 	try {
 	    Rcode.string(-1);
 	    fail("IllegalArgumentException not thrown");
-	}
-	catch( IllegalArgumentException e ){
+	} catch( IllegalArgumentException e ){
 	}
 	
 	//  (max is 0xFFF)

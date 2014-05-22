@@ -33,7 +33,16 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package info.shelfunit.DNS
 
-import org.xbill.DNS.*
+import org.xbill.DNS.DClass
+import org.xbill.DNS.DNSInput
+import org.xbill.DNS.DNSOutput
+import org.xbill.DNS.GPOSRecord
+import org.xbill.DNS.Name
+import org.xbill.DNS.Record
+import org.xbill.DNS.TextParseException
+import org.xbill.DNS.Tokenizer
+import org.xbill.DNS.Type
+import org.xbill.DNS.WireParseException
 
 import java.io.IOException
 import java.util.Arrays

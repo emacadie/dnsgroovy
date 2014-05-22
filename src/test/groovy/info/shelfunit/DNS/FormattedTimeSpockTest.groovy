@@ -34,7 +34,8 @@
 
 package info.shelfunit.DNS
 
-import org.xbill.DNS.*
+import org.xbill.DNS.FormattedTime
+import org.xbill.DNS.TextParseException
 
 import java.util.Date
 import java.util.Calendar

@@ -1,7 +1,5 @@
 package info.shelfunit.DNS
 
-import org.xbill.DNS.*
-
 import java.security.KeyPair
 import java.security.KeyPairGenerator
 import java.security.Security
@@ -9,6 +7,7 @@ import java.security.Signature
 
 import spock.lang.Specification
 
+import org.xbill.DNS.DNSSEC
 import org.xbill.DNS.DNSSEC.Algorithm
 
 // import com.chrysalisits.crypto.LunaJCAProvider

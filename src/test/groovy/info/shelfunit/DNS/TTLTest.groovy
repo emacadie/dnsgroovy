@@ -34,7 +34,8 @@
 //
 package info.shelfunit.DNS
 
-import org.xbill.DNS.*
+import org.xbill.DNS.InvalidTTLException
+import org.xbill.DNS.TTL
 
 import	junit.framework.TestCase;
 
