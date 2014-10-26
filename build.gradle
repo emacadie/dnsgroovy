@@ -31,7 +31,7 @@ allprojects {
     compile 'org.codehaus.gpars:gpars:1.1.0'
   }
 
-  tasks.withType(Compile) { Compile compile ->
+  tasks.withType(JavaCompile) { JavaCompile compile ->
     compile.options.debug = true
     compile.options.compilerArgs = [
       '-Xlint:deprecation',
