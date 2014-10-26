@@ -7,7 +7,7 @@ import org.xbill.DNS.*;
 public class lookup {
 
 // public static void printAnswer(String name, Lookup lookup) {
-def printAnswer(String name, Lookup lookup) {
+  def printAnswer(String name, Lookup lookup) {
 	System.out.print(name + ":");
 	int result = lookup.getResult();
 	if (result != Lookup.SUCCESSFUL) { 
@@ -35,25 +35,25 @@ def printAnswer(String name, Lookup lookup) {
 }
 
 // # public static void main(String [] args) throws Exception {
-def public static void main(String [] args) throws Exception {
-  println( "starting lookup" )
-	int type = Type.A;
-	println("here is type: " + type)
-	int start = 0;
-	if (args.length > 2 && args[0].equals("-t")) {
-		type = Type.value(args[1]);
-		if (type < 0) { 
-		  throw new IllegalArgumentException("invalid type");
-		}
+  def static void main(String [] args) throws Exception {
+    println( "starting lookup" )
+    int type = Type.A;
+    println("here is type: " + type)
+    int start = 0;
+    if ( args.length > 2 && args[ 0 ].equals( "-t" ) ) {
+      type = Type.value( args[ 1 ] );
+      if ( type < 0 ) { 
+	throw new IllegalArgumentException("invalid type");
+      }
 			
-		start = 2;
-	}
-	for (int i = start; i < args.length; i++) {
-		Lookup l = new Lookup(args[i], type);
-		l.run();
-		printAnswer(args[i], l);
-	}
-	println("At the end of main" )
-}
+      start = 2;
+    }
+    for (int i = start; i < args.length; i++) {
+      Lookup l = new Lookup( args[ i ], type );
+      l.run();
+      printAnswer( args[ i ], l );
+    }
+    println("At the end of main" )
+  }
 
 }
